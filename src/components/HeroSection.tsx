@@ -41,11 +41,11 @@ const HeroSection = () => {
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8 fade-in-up-delay-3">
           <Button className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-4 text-lg font-semibold group">
-            <span>{t('heroButtonPrimary')}</span>
+            <span>{t('ctaPrimary')}</span>
             <ArrowRight className="ltr:ml-2 rtl:mr-2 h-5 w-5 transition-transform group-hover:ltr:translate-x-1 group-hover:rtl:-translate-x-1" />
           </Button>
           <Button variant="outline" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground px-8 py-4 text-lg">
-            <span>{t('heroButtonSecondary')}</span>
+            <span>{t('ctaSecondary')}</span>
           </Button>
         </div>
         

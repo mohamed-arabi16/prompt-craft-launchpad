@@ -14,7 +14,7 @@ export default function LanguageSwitcher() {
       className="flex items-center gap-2 border-primary/30 text-primary hover:bg-primary hover:text-primary-foreground"
     >
       <Globe className="h-4 w-4" />
-      <span>{currentLanguage === 'ar' ? 'العربية' : 'English'}</span>
+      <span>{currentLanguage === 'en' ? 'العربية' : 'English'}</span>
     </Button>
   );
 }
