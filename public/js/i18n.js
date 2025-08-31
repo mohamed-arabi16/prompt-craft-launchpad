@@ -58,7 +58,7 @@ class LanguageManager {
     document.body.className = document.body.className.replace(/lang-\w+/g, '');
     document.body.classList.add(`lang-${this.currentLanguage}`);
     
-    // Update all text content
+    // Update all text content with improved selectors
     Object.keys(this.translations).forEach(key => {
       const elements = document.querySelectorAll(`[data-i18n="${key}"]`);
       elements.forEach(el => {
@@ -70,15 +70,27 @@ class LanguageManager {
       });
     });
 
-    // Update language switcher button
-    const languageSwitcherBtn = document.querySelector('[data-language-switcher]');
-    if (languageSwitcherBtn && this.translations.languageSwitcher) {
-      languageSwitcherBtn.textContent = this.translations.languageSwitcher;
-    }
+    // Force update all React components by triggering a more comprehensive re-render
+    const reactRoots = document.querySelectorAll('[data-reactroot], #root');
+    reactRoots.forEach(root => {
+      // Add a small delay to ensure React state updates properly
+      setTimeout(() => {
+        const event = new CustomEvent('forceTranslationUpdate', {
+          detail: { 
+            language: this.currentLanguage,
+            translations: this.translations 
+          }
+        });
+        root.dispatchEvent(event);
+      }, 50);
+    });
 
     // Trigger custom event for React components
     window.dispatchEvent(new CustomEvent('languageChanged', { 
-      detail: { language: this.currentLanguage } 
+      detail: { 
+        language: this.currentLanguage,
+        translations: this.translations
+      } 
     }));
   }
 

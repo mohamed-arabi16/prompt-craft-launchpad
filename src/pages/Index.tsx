@@ -123,24 +123,20 @@ const Index = () => {
       
       {/* Footer */}
       <footer className="bg-background border-t border-border py-12">
-        <div className="container mx-auto px-6">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="mb-4 md:mb-0">
-              <p className="text-muted-foreground" data-i18n="footerCopyright">
-                © 2024 AI Prompt Academy. All rights reserved.
-              </p>
-            </div>
-            <div className="flex gap-6">
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors" data-i18n="footerPrivacy">
-                Privacy Policy
-              </a>
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors" data-i18n="footerTerms">
-                Terms & Conditions
-              </a>
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors" data-i18n="footerContact">
-                Contact Us
-              </a>
-            </div>
+        <div className="container mx-auto px-4 text-center">
+          <p className="text-foreground/80 text-lg font-medium">
+            <span data-i18n="footer.copyright">© 2024 AI Academy. All rights reserved.</span>
+          </p>
+          <div className="mt-6 flex justify-center space-x-8">
+            <a href="#" className="text-foreground/60 hover:text-primary transition-colors text-base font-medium">
+              <span data-i18n="footer.privacy">Privacy Policy</span>
+            </a>
+            <a href="#" className="text-foreground/60 hover:text-primary transition-colors text-base font-medium">
+              <span data-i18n="footer.terms">Terms of Service</span>
+            </a>
+            <a href="#" className="text-foreground/60 hover:text-primary transition-colors text-base font-medium">
+              <span data-i18n="footer.contact">Contact</span>
+            </a>
           </div>
         </div>
       </footer>

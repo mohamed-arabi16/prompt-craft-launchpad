@@ -56,10 +56,10 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
-				// High-Contrast Black/Lime Theme
-				'electric-lime': {
-					DEFAULT: 'hsl(var(--electric-lime))',
-					foreground: 'hsl(var(--electric-lime-foreground))'
+				// High-Contrast Black/Navy Theme
+				'navy-blue': {
+					DEFAULT: 'hsl(var(--navy-blue))',
+					foreground: 'hsl(var(--navy-blue-foreground))'
 				}
 			},
 			borderRadius: {
@@ -121,8 +121,8 @@ export default {
 				'gradient-shift': 'gradient-shift 8s ease-in-out infinite'
 			},
 			backgroundImage: {
-				'gradient-hero': 'linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--electric-lime) / 0.1) 50%, hsl(var(--background)) 100%)',
-				'gradient-lime': 'linear-gradient(135deg, hsl(var(--electric-lime)) 0%, hsl(var(--electric-lime) / 0.8) 100%)'
+				'gradient-hero': 'linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--navy-blue) / 0.1) 50%, hsl(var(--background)) 100%)',
+				'gradient-navy': 'linear-gradient(135deg, hsl(var(--navy-blue)) 0%, hsl(var(--navy-blue) / 0.8) 100%)'
 			}
 		}
 	},
