@@ -1,6 +1,6 @@
 const translations = {
   // Navigation
-  languageSwitcher: "العربية",
+  languageSwitcher: "English",
   
   // Hero Section
   heroTitle: "Master AI Across Text, Images & Code",
