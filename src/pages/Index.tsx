@@ -57,72 +57,70 @@ const Index = () => {
       }
     };
 
-    updateMetaTags();
-    window.addEventListener('languageChanged', updateMetaTags);
+    const updateStructuredData = () => {
+      // Remove existing structured data script if present
+      const existingScript = document.querySelector('script[type="application/ld+json"]');
+      if (existingScript) {
+        existingScript.remove();
+      }
 
-    // Add comprehensive structured data for rich snippets
-    const structuredData = {
-      "@context": "https://schema.org",
-      "@type": "Course",
-      "name": "5-Day AI Prompt Engineering Intensive Course",
-      "description": "Master advanced AI prompt engineering techniques in just 5 days. Learn from industry experts and transform your career with cutting-edge AI skills.",
-      "provider": {
-        "@type": "Organization",
-        "name": "AI Prompt Academy",
-        "url": "https://aipromptacademy.com",
-        "logo": "https://aipromptacademy.com/logo.png"
-      },
-      "courseCode": "AIPE-101",
-      "educationalLevel": "Intermediate",
-      "teaches": [
-        "AI Prompt Engineering",
-        "Chain-of-Thought Prompting", 
-        "Few-Shot Learning",
-        "Prompt Optimization",
-        "Advanced AI Techniques",
-        "Creative Writing Prompts",
-        "Technical Documentation",
-        "Data Analysis Prompts",
-        "Code Generation"
-      ],
-      "timeRequired": "P5D",
-      "totalTime": "PT14H",
-      "coursePrerequisites": "Basic understanding of AI concepts",
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.9",
-        "reviewCount": "1247",
-        "bestRating": "5"
-      },
-      "offers": {
-        "@type": "Offer",
-        "price": "497",
-        "priceCurrency": "USD",
-        "availability": "https://schema.org/InStock",
-        "priceValidUntil": "2024-12-31",
-        "url": "https://aipromptacademy.com/enroll"
-      },
-      "hasCourseInstance": {
-        "@type": "CourseInstance",
-        "courseMode": "online",
-        "instructor": {
-          "@type": "Person",
-          "name": "AI Prompt Academy Instructors"
-        }
+      if (window.translations) {
+        const structuredData = {
+          "@context": "https://schema.org",
+          "@type": "Course",
+          "name": window.translations.structuredDataName,
+          "description": window.translations.structuredDataDescription,
+          "provider": {
+            "@type": "Organization",
+            "name": window.translations.structuredDataProviderName,
+            "url": "https://aipromptacademy.com",
+            "logo": "https://aipromptacademy.com/logo.png"
+          },
+          "courseCode": "AIPE-101",
+          "educationalLevel": "Intermediate",
+          "teaches": window.translations.structuredDataTeaches,
+          "timeRequired": "P5D",
+          "totalTime": "PT14H",
+          "coursePrerequisites": window.translations.structuredDataPrerequisites,
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.9",
+            "reviewCount": "1247",
+            "bestRating": "5"
+          },
+          "offers": {
+            "@type": "Offer",
+            "price": "497",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "priceValidUntil": "2024-12-31",
+            "url": "https://aipromptacademy.com/enroll"
+          },
+          "hasCourseInstance": {
+            "@type": "CourseInstance",
+            "courseMode": "online",
+            "instructor": {
+              "@type": "Person",
+              "name": window.translations.structuredDataInstructorName
+            }
+          }
+        };
+
+        // Add structured data script to head
+        const script = document.createElement('script');
+        script.type = 'application/ld+json';
+        script.textContent = JSON.stringify(structuredData);
+        document.head.appendChild(script);
       }
     };
 
-    // Remove existing structured data script if present
-    const existingScript = document.querySelector('script[type="application/ld+json"]');
-    if (existingScript) {
-      existingScript.remove();
-    }
+    const handleLanguageChange = () => {
+      updateMetaTags();
+      updateStructuredData();
+    };
 
-    // Add structured data script to head
-    const script = document.createElement('script');
-    script.type = 'application/ld+json';
-    script.textContent = JSON.stringify(structuredData);
-    document.head.appendChild(script);
+    handleLanguageChange(); // Initial call
+    window.addEventListener('languageChanged', handleLanguageChange);
 
     // Intersection Observer for fade-in animations
     const observerCallback = (entries: IntersectionObserverEntry[]) => {
@@ -167,17 +165,17 @@ const Index = () => {
       <footer className="bg-background border-t border-border py-12">
         <div className="container mx-auto px-4 text-center">
           <p className="text-foreground/80 text-lg font-medium">
-            <span data-i18n="footerCopyright">© 2024 AI Academy. All rights reserved.</span>
+            <span data-i18n="footerCopyright">© 2024 AI Prompt Academy. All rights reserved.</span>
           </p>
           <div className="mt-6 flex justify-center space-x-8">
             <a href="#" className="text-foreground/60 hover:text-primary transition-colors text-base font-medium">
               <span data-i18n="footerPrivacy">Privacy Policy</span>
             </a>
             <a href="#" className="text-foreground/60 hover:text-primary transition-colors text-base font-medium">
-              <span data-i18n="footerTerms">Terms of Service</span>
+              <span data-i18n="footerTerms">Terms & Conditions</span>
             </a>
             <a href="#" className="text-foreground/60 hover:text-primary transition-colors text-base font-medium">
-              <span data-i18n="footerContact">Contact</span>
+              <span data-i18n="footerContact">Contact Us</span>
             </a>
           </div>
         </div>

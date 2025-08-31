@@ -70,6 +70,33 @@ class LanguageManager {
       });
     });
 
+    // Handle custom attribute for initials
+    const avatarElements = document.querySelectorAll('[data-i18n-initials-from]');
+    avatarElements.forEach(el => {
+      const key = el.getAttribute('data-i18n-initials-from');
+      if (key && this.translations[key]) {
+        const name = this.translations[key];
+        const initials = name.split(' ').map((n) => n[0]).join('');
+        el.textContent = initials;
+      }
+    });
+
+    // Handle list rendering
+    const listElements = document.querySelectorAll('[data-i18n-list]');
+    listElements.forEach(el => {
+      const key = el.getAttribute('data-i18n-list');
+      if (key && this.translations[key] && Array.isArray(this.translations[key])) {
+        el.innerHTML = ''; // Clear existing content
+        this.translations[key].forEach(item => {
+          const li = document.createElement('li');
+          // This is a simplified version, might need more robust styling/structure
+          li.className = 'flex items-start gap-2';
+          li.innerHTML = `<div class="h-1.5 w-1.5 bg-primary rounded-full mt-2 flex-shrink-0"></div><span class="text-muted-foreground">${item}</span>`;
+          el.appendChild(li);
+        });
+      }
+    });
+
     // Force update all React components by triggering a more comprehensive re-render
     const reactRoots = document.querySelectorAll('[data-reactroot], #root');
     reactRoots.forEach(root => {
