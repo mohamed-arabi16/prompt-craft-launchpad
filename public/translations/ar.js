@@ -1,6 +1,6 @@
 const translations = {
   // Navigation
-  languageSwitcher: "English",
+  languageSwitcher: "العربية",
   
   // Hero Section
   heroTitle: "إتقان الذكاء الاصطناعي عبر النص والصور والأكواد",
