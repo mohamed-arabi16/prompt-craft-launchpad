@@ -72,10 +72,20 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
   
-  /* RTL Support */
-  [dir="rtl"] {
-    text-align: right;
-  }
+/* RTL Support */
+[dir="rtl"] {
+  text-align: right;
+}
+
+/* Arabic Text Line Height Fix */
+[dir="rtl"] .hero-description,
+[dir="rtl"] .text-xl {
+  line-height: 1.8;
+}
+
+[dir="rtl"] .hero-title {
+  line-height: 1.4;
+}
   
   [dir="rtl"] .slide-in-right {
     animation: slideInLeftRTL 0.6s ease-out forwards;

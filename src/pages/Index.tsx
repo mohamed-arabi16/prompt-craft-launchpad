@@ -11,13 +11,54 @@ import CTASection from "@/components/CTASection";
 const Index = () => {
   // SEO and animations setup
   useEffect(() => {
-    // Update document title and meta description for SEO
-    document.title = "5-Day AI Prompt Engineering Course - Master AI in 5 Days";
-    
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute('content', 'Transform your AI skills with our intensive 5-day prompt engineering course. Learn advanced techniques from industry experts. Join 10,000+ students.');
-    }
+    // Update meta tags based on current language
+    const updateMetaTags = () => {
+      const currentLang = localStorage.getItem('language') || 'ar';
+      const isArabic = currentLang === 'ar';
+      
+      if (window.translations) {
+        document.title = window.translations.metaTitle || (isArabic 
+          ? "دورة هندسة أوامر الذكاء الاصطناعي - 5 أيام | AI Prompt Engineering Course"
+          : "5-Day AI Prompt Engineering Course | Master AI Across Text, Images & Code");
+        
+        const metaDescription = document.querySelector('meta[name="description"]');
+        if (metaDescription) {
+          metaDescription.setAttribute('content', window.translations.metaDescription || (isArabic 
+            ? 'تعلم هندسة أوامر الذكاء الاصطناعي المتقدمة في 5 أيام. حوّل مسيرتك المهنية مع التدريب المتخصص'
+            : 'Learn advanced AI prompt engineering in 5 days. Transform from simple prompting to strategic problem formulation'));
+        }
+
+        const metaKeywords = document.querySelector('meta[name="keywords"]');
+        if (metaKeywords) {
+          metaKeywords.setAttribute('content', window.translations.metaKeywords || (isArabic 
+            ? 'هندسة أوامر الذكاء الاصطناعي, دورة الذكاء الاصطناعي, تحسين الأوامر, تدريب الذكاء الاصطناعي'
+            : 'AI prompt engineering, artificial intelligence course, prompt optimization, ChatGPT training'));
+        }
+
+        const ogTitle = document.querySelector('meta[property="og:title"]');
+        if (ogTitle) {
+          ogTitle.setAttribute('content', window.translations.metaOgTitle || window.translations.metaTitle);
+        }
+
+        const ogDescription = document.querySelector('meta[property="og:description"]');
+        if (ogDescription) {
+          ogDescription.setAttribute('content', window.translations.metaOgDescription || window.translations.metaDescription);
+        }
+
+        const twitterTitle = document.querySelector('meta[name="twitter:title"]');
+        if (twitterTitle) {
+          twitterTitle.setAttribute('content', window.translations.metaTwitterTitle || window.translations.metaTitle);
+        }
+
+        const twitterDescription = document.querySelector('meta[name="twitter:description"]');
+        if (twitterDescription) {
+          twitterDescription.setAttribute('content', window.translations.metaTwitterDescription || window.translations.metaDescription);
+        }
+      }
+    };
+
+    updateMetaTags();
+    window.addEventListener('languageChanged', updateMetaTags);
 
     // Add comprehensive structured data for rich snippets
     const structuredData = {
@@ -103,6 +144,7 @@ const Index = () => {
 
     return () => {
       observer.disconnect();
+      window.removeEventListener('languageChanged', updateMetaTags);
       // Clean up structured data script on unmount
       const script = document.querySelector('script[type="application/ld+json"]');
       if (script) {
@@ -125,17 +167,17 @@ const Index = () => {
       <footer className="bg-background border-t border-border py-12">
         <div className="container mx-auto px-4 text-center">
           <p className="text-foreground/80 text-lg font-medium">
-            <span data-i18n="footer.copyright">© 2024 AI Academy. All rights reserved.</span>
+            <span data-i18n="footerCopyright">© 2024 AI Academy. All rights reserved.</span>
           </p>
           <div className="mt-6 flex justify-center space-x-8">
             <a href="#" className="text-foreground/60 hover:text-primary transition-colors text-base font-medium">
-              <span data-i18n="footer.privacy">Privacy Policy</span>
+              <span data-i18n="footerPrivacy">Privacy Policy</span>
             </a>
             <a href="#" className="text-foreground/60 hover:text-primary transition-colors text-base font-medium">
-              <span data-i18n="footer.terms">Terms of Service</span>
+              <span data-i18n="footerTerms">Terms of Service</span>
             </a>
             <a href="#" className="text-foreground/60 hover:text-primary transition-colors text-base font-medium">
-              <span data-i18n="footer.contact">Contact</span>
+              <span data-i18n="footerContact">Contact</span>
             </a>
           </div>
         </div>

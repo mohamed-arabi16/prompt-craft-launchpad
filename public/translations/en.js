@@ -76,10 +76,19 @@ const translations = {
   downloadSyllabus: "Download Syllabus",
   
   // Pricing
-  originalPrice: "Original Price: $497",
-  currentPrice: "$297",
+  originalPrice: "Usually $997 - Save 50%",
+  currentPrice: "$497",
   limitedOffer: "Limited Time Offer",
-  moneyBackGuarantee: "30-Day Money Back Guarantee",
+  moneyBackGuarantee: "30-day money-back guarantee • Instant access • Join 10,000+ satisfied students",
+  
+  // Meta Tags
+  metaTitle: "5-Day AI Prompt Engineering Course | Master AI Across Text, Images & Code",
+  metaDescription: "Learn advanced AI prompt engineering in 5 days. Transform from simple prompting to strategic problem formulation with ChatGPT, Midjourney, and Lovable",
+  metaKeywords: "AI prompt engineering, artificial intelligence course, prompt optimization, ChatGPT training, Midjourney mastery, Lovable development",
+  metaOgTitle: "Master AI Prompt Engineering in 5 Days | Transform Your Career",
+  metaOgDescription: "Learn advanced AI prompt engineering in 5 days. Transform from simple prompting to strategic problem formulation",
+  metaTwitterTitle: "5-Day AI Prompt Engineering Course",
+  metaTwitterDescription: "Learn advanced AI prompt engineering in 5 days. Transform from simple prompting to strategic problem formulation",
   
   // Program Features
   programFeature1: "5-Day Intensive Program",
