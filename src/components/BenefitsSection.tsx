@@ -4,46 +4,46 @@ import { Brain, Zap, Target, Trophy, Users, Rocket } from "lucide-react";
 const benefits = [
   {
     icon: Brain,
-    title: "Master AI Reasoning",
-    description: "Learn to craft prompts that unlock sophisticated reasoning capabilities in AI models"
+    title: "Master Text, Image, and Code Generation",
+    description: "Learn to create content, visuals, and applications across three powerful AI platforms in one comprehensive course."
   },
   {
     icon: Zap,
-    title: "Instant Results",
-    description: "See immediate improvements in AI output quality from day one of the course"
+    title: "Move Beyond Simple Prompts to Strategic Design",
+    description: "Develop sophisticated problem formulation skills that transform how you collaborate with AI systems."
   },
   {
     icon: Target,
-    title: "Precision Prompting",
-    description: "Develop the skills to get exactly the output you need, every time"
+    title: "Build a Portfolio Across Multiple AI Platforms",
+    description: "Create impressive projects using ChatGPT, Midjourney, and Lovable to showcase your diverse AI capabilities."
   },
   {
     icon: Trophy,
-    title: "Industry Recognition",
-    description: "Gain credentials that are valued by leading tech companies worldwide"
+    title: "Learn the Cognitive Architecture Approach",
+    description: "Master the mental frameworks that top AI practitioners use to consistently achieve professional-grade results."
   },
   {
     icon: Users,
-    title: "Expert Community",
-    description: "Join a network of AI professionals and continue learning together"
+    title: "From User to AI Creative Director",
+    description: "Transition from basic AI usage to directing AI as your creative partner, co-engineer, and problem-solving ally."
   },
   {
     icon: Rocket,
-    title: "Career Acceleration",
-    description: "Open new opportunities in the rapidly growing AI and tech industry"
+    title: "Future-Proof Your Career",
+    description: "Gain expertise in the three most important AI tools for content creation, design, and development in today's market."
   }
 ];
 
 const BenefitsSection = () => {
   return (
-    <section className="py-20 bg-white">
+    <section className="py-20 bg-background">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16 fade-in-up">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-            Why Choose Our Course?
+          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6" data-i18n="benefitsTitle">
+            Why This Course?
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Transform your career with cutting-edge AI prompt engineering skills that top companies demand
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto" data-i18n="benefitsSubtitle">
+            Master three distinct AI platforms with one comprehensive methodology
           </p>
         </div>
 
@@ -56,15 +56,15 @@ const BenefitsSection = () => {
                 className="course-card fade-in-up group"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <div className="flex items-center justify-center w-16 h-16 bg-gradient-ai rounded-2xl mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <IconComponent className="h-8 w-8 text-white" />
+                <div className="flex items-center justify-center w-16 h-16 bg-primary rounded-2xl mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <IconComponent className="h-8 w-8 text-primary-foreground" />
                 </div>
                 
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                <h3 className="text-xl font-semibold text-foreground mb-3">
                   {benefit.title}
                 </h3>
                 
-                <p className="text-gray-600 leading-relaxed">
+                <p className="text-muted-foreground leading-relaxed">
                   {benefit.description}
                 </p>
               </div>

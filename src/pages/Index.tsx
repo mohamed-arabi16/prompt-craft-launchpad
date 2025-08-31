@@ -2,6 +2,7 @@
 import { useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
+import CoursePhilosophy from "@/components/CoursePhilosophy";
 import CourseBreakdown from "@/components/CourseBreakdown";
 import BenefitsSection from "@/components/BenefitsSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
@@ -86,7 +87,7 @@ const Index = () => {
     const observerCallback = (entries: IntersectionObserverEntry[]) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('animate-fade-in');
+          entry.target.classList.add('fade-in-up');
         }
       });
     };
@@ -114,6 +115,7 @@ const Index = () => {
     <div className="min-h-screen pt-20">
       <Navbar />
       <HeroSection />
+      <CoursePhilosophy />
       <CourseBreakdown />
       <BenefitsSection />
       <TestimonialsSection />

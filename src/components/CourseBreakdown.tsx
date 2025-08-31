@@ -15,111 +15,111 @@ interface DayContent {
 const courseData: DayContent[] = [
   {
     day: 1,
-    title: "Foundation & Fundamentals",
-    description: "Build a solid understanding of AI prompt engineering principles and core concepts.",
+    title: "The Foundational Science of Prompting",
+    description: "Master the engineering mindset and core components that transform basic prompts into sophisticated communication systems.",
     topics: [
-      "Introduction to Prompt Engineering",
-      "Understanding AI Model Behavior", 
-      "Basic Prompt Structure & Syntax",
-      "Common Pitfalls and How to Avoid Them",
-      "Setting Up Your AI Workspace",
-      "Ethics in AI Prompt Engineering"
+      "The Engineer's Mindset: From Prompts to Communication",
+      "Anatomy of a Perfect Prompt",
+      "The 6 Core Components (Directive, Role, Context, Format, Constraints, Examples)",
+      "Building Systematic Prompt Architecture",
+      "Cognitive Load Management in AI Interaction",
+      "Establishing Communication Protocols"
     ],
     techniques: [
-      "Direct Prompting",
-      "Context Setting",
-      "Role Assignment", 
-      "Clear Instructions",
-      "Prompt Templates",
-      "Basic Iteration Methods"
+      "Component-Based Prompt Construction",
+      "Systematic Prompt Architecture",
+      "Cognitive Framework Development",
+      "Communication Protocol Design",
+      "Prompt Template Engineering",
+      "Foundational Iteration Methods"
     ],
     duration: "2.5 hours"
   },
   {
     day: 2,
-    title: "Advanced Techniques & Strategies",
-    description: "Master sophisticated prompting methods for complex problem-solving.",
+    title: "Advanced Reasoning & Human-in-the-Loop Techniques",
+    description: "Develop sophisticated dialogue patterns and transparent reasoning systems for complex problem-solving.",
     topics: [
-      "Chain-of-Thought Prompting",
-      "Few-Shot Learning Principles",
-      "Prompt Decomposition Strategies",
-      "Self-Critique and Reflection Methods",
-      "Meta-Prompting Techniques",
-      "Advanced Context Management"
+      "The Art of Dialogue and Iteration",
+      "Chain-of-Thought (CoT) for Transparent Reasoning",
+      "Designing Human-in-the-Loop Approval Flows",
+      "Meta-Cognitive Prompting Strategies",
+      "Iterative Refinement Protocols",
+      "Quality Gate Implementation"
     ],
     techniques: [
-      "Reasoning Chains",
-      "Example-Based Learning",
-      "Step-by-Step Breakdown",
-      "Quality Assessment",
-      "Iterative Refinement",
-      "Context Switching"
+      "Multi-Turn Dialogue Management",
+      "Transparent Reasoning Chains",
+      "Human-AI Collaboration Workflows",
+      "Iterative Improvement Cycles",
+      "Quality Assessment Frameworks",
+      "Approval Flow Design"
     ],
     duration: "3 hours"
   },
   {
     day: 3,
-    title: "Specialized Applications",
-    description: "Apply prompt engineering to specific domains and use cases.",
+    title: "Mastering Conversational & Creative AI: ChatGPT",
+    description: "Leverage ChatGPT's conversational model for productivity and consistent AI persona development.",
     topics: [
-      "Creative Writing & Content Generation",
-      "Technical Documentation & APIs",
-      "Data Analysis & Visualization Prompts",
-      "Code Generation & Debugging",
-      "Research & Information Synthesis",
-      "Marketing & Business Applications"
+      "Leveraging the multi-turn conversational model",
+      "Core Productivity Use Cases",
+      "Crafting a Consistent AI Persona",
+      "Zero-Shot vs. Few-Shot Prompting",
+      "Context Window Management",
+      "Advanced ChatGPT Techniques"
     ],
     techniques: [
-      "Genre-Specific Prompting",
-      "Template Creation",
-      "Analytical Frameworks",
-      "Programming Assistance",
-      "Information Architecture",
-      "Multi-Modal Prompting"
+      "Conversational Flow Design",
+      "Persona Engineering",
+      "Context Optimization",
+      "Shot Strategy Selection",
+      "Memory Management",
+      "Productivity Automation"
     ],
     duration: "2.5 hours"
   },
   {
     day: 4,
-    title: "Optimization & Refinement",
-    description: "Learn to iterate and improve your prompts for maximum effectiveness.",
+    title: "The Generative Artist's Studio: Midjourney",
+    description: "Transform visual concepts into precise prompts and master advanced image generation control.",
     topics: [
-      "Prompt Testing & Evaluation Methods",
-      "A/B Testing Strategies",
-      "Performance Metrics & KPIs",
-      "Iterative Improvement Workflows",
-      "Quality Assurance Frameworks",
-      "Prompt Version Control"
+      "The Cinematographer's Brief: Translating Vision to Words",
+      "Mastering Technical Parameters (--ar, --s, --no)",
+      "Advanced Control with Image, Style (--sref), and Character (--cref) References",
+      "Prompt Weight and Structure Optimization",
+      "Style Consistency and Brand Development",
+      "Commercial Application Strategies"
     ],
     techniques: [
-      "Systematic Testing",
-      "Metric Definition",
-      "Comparative Analysis",
-      "Continuous Refinement",
-      "Error Analysis",
-      "Performance Benchmarking"
+      "Visual Concept Translation",
+      "Parameter Optimization",
+      "Reference-Based Generation",
+      "Style Control Methods",
+      "Brand Consistency Frameworks",
+      "Commercial Workflow Design"
     ],
     duration: "3 hours"
   },
   {
     day: 5,
-    title: "Real-World Implementation",
-    description: "Put your skills into practice with hands-on projects and deployment strategies.",
+    title: "The AI Co-Engineer: Lovable",
+    description: "Build functional applications through collaborative AI engineering and shared cognitive frameworks.",
     topics: [
-      "End-to-End Project Development",
-      "Integration with Business Systems",
-      "Scaling Best Practices",
-      "Team Collaboration Strategies",
-      "Future Trends & Emerging Technologies",
-      "Building Your AI Prompt Portfolio"
+      "The 'AI Co-Engineer' Workflow: From Idea to Functional App",
+      "The 5 Laws of Lovable Prompting (Concise, Logical, Explicit, Adaptive, Reflective)",
+      "Building a Shared Cognitive Framework for complex projects",
+      "Iterative Development with AI Partners",
+      "Code Quality and Architecture Guidance",
+      "Project Management with AI Collaboration"
     ],
     techniques: [
-      "Project Planning & Management",
-      "System Integration",
-      "Workflow Optimization",
-      "Trend Analysis",
-      "Portfolio Development",
-      "Continuous Learning Strategies"
+      "Collaborative Development Workflows",
+      "Systematic Prompt Laws Application",
+      "Shared Framework Construction",
+      "AI-Human Pair Programming",
+      "Architectural Decision Making",
+      "Agile AI Collaboration"
     ],
     duration: "3.5 hours"
   }
@@ -133,14 +133,14 @@ const CourseBreakdown = () => {
   };
 
   return (
-    <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
+    <section className="py-20 bg-gradient-to-b from-muted/20 to-background">
       <div className="max-w-6xl mx-auto px-6">
         <div className="text-center mb-16 fade-in-up">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-            Your 5-Day Learning Journey
+          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6" data-i18n="courseBreakdownTitle">
+            Your 5-Day Transformation
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Each day builds upon the previous, creating a comprehensive foundation in AI prompt engineering
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto" data-i18n="courseBreakdownSubtitle">
+            Master three distinct AI platforms through our proven methodology
           </p>
         </div>
 
@@ -152,29 +152,29 @@ const CourseBreakdown = () => {
               style={{ animationDelay: `${dayData.day * 0.1}s` }}
             >
               {/* Day Header - Always Visible */}
-              <div 
-                className="p-6 cursor-pointer flex items-center justify-between hover:bg-gray-50 transition-colors"
+                <div 
+                className="p-6 cursor-pointer flex items-center justify-between hover:bg-muted/50 transition-colors"
                 onClick={() => toggleDay(dayData.day)}
               >
                 <div className="flex items-center gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 bg-gradient-ai rounded-lg flex items-center justify-center text-white font-bold text-lg">
+                  <div className="flex-shrink-0 w-12 h-12 bg-primary rounded-lg flex items-center justify-center text-primary-foreground font-bold text-lg">
                     {dayData.day}
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-1">
+                    <h3 className="text-xl font-semibold text-foreground mb-1">
                       Day {dayData.day}: {dayData.title}
                     </h3>
-                    <p className="text-gray-600">{dayData.description}</p>
+                    <p className="text-muted-foreground">{dayData.description}</p>
                   </div>
                 </div>
                 
                 <div className="flex items-center gap-4">
-                  <div className="hidden sm:flex items-center gap-2 text-sm text-gray-500">
+                  <div className="hidden sm:flex items-center gap-2 text-sm text-muted-foreground">
                     <Clock className="h-4 w-4" />
                     <span>{dayData.duration}</span>
                   </div>
                   <ChevronDown 
-                    className={`h-5 w-5 text-gray-400 transition-transform duration-200 ${
+                    className={`h-5 w-5 text-muted-foreground transition-transform duration-200 ${
                       expandedDay === dayData.day ? 'rotate-180' : ''
                     }`}
                   />
@@ -189,12 +189,12 @@ const CourseBreakdown = () => {
                     : 'max-h-0 opacity-0 collapsed'
                 }`}
               >
-                <div className="px-6 pb-6 border-t border-gray-100">
+                <div className="px-6 pb-6 border-t border-border">
                   <div className="grid md:grid-cols-2 gap-6 mt-4">
                     {/* Topics */}
                     <div className="space-y-3">
                       <div className="flex items-center gap-2">
-                        <Target className="h-5 w-5 text-purple-600" />
+                        <Target className="h-5 w-5 text-primary" />
                         <h4 className="label">
                           <span className="static-label">Key Topics:</span>
                         </h4>
@@ -202,8 +202,8 @@ const CourseBreakdown = () => {
                       <ul className="space-y-2">
                         {dayData.topics.map((topic, index) => (
                           <li key={index} className="flex items-start gap-2 fade-in-up" style={{ animationDelay: `${index * 0.1}s` }}>
-                            <div className="h-1.5 w-1.5 bg-purple-400 rounded-full mt-2 flex-shrink-0"></div>
-                            <span className="content editable-content">{topic}</span>
+                            <div className="h-1.5 w-1.5 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+                            <span className="content editable-content text-muted-foreground">{topic}</span>
                           </li>
                         ))}
                       </ul>
@@ -212,7 +212,7 @@ const CourseBreakdown = () => {
                     {/* Techniques */}
                     <div className="space-y-3">
                       <div className="flex items-center gap-2">
-                        <Calendar className="h-5 w-5 text-blue-600" />
+                        <Calendar className="h-5 w-5 text-primary" />
                         <h4 className="label">
                           <span className="static-label">Techniques Covered:</span>
                         </h4>
@@ -220,8 +220,8 @@ const CourseBreakdown = () => {
                       <ul className="space-y-2">
                         {dayData.techniques.map((technique, index) => (
                           <li key={index} className="flex items-start gap-2 fade-in-up" style={{ animationDelay: `${(index + dayData.topics.length) * 0.1}s` }}>
-                            <div className="h-1.5 w-1.5 bg-blue-400 rounded-full mt-2 flex-shrink-0"></div>
-                            <span className="content editable-content">{technique}</span>
+                            <div className="h-1.5 w-1.5 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+                            <span className="content editable-content text-muted-foreground">{technique}</span>
                           </li>
                         ))}
                       </ul>
@@ -229,10 +229,10 @@ const CourseBreakdown = () => {
                   </div>
 
                   {/* Download Button */}
-                  <div className="mt-6 pt-4 border-t border-gray-100">
+                  <div className="mt-6 pt-4 border-t border-border">
                     <Button 
                       variant="outline" 
-                      className="group hover:bg-purple-50 hover:border-purple-200 transition-all duration-300 hover:scale-105 hover:shadow-lg pulse-glow"
+                      className="group hover:bg-primary/10 hover:border-primary transition-all duration-300 hover:scale-105 hover:shadow-lg"
                       onClick={(e) => {
                         e.stopPropagation();
                         // Placeholder link - would connect to actual PDF download

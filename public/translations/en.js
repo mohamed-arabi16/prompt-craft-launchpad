@@ -3,54 +3,67 @@ const translations = {
   languageSwitcher: "العربية",
   
   // Hero Section
-  heroTitle: "Master AI Prompt Engineering",
-  heroSubtitle: "5-Day Intensive Program",
-  heroDescription: "Transform your AI interactions with advanced prompting techniques. Learn from industry experts and unlock the full potential of AI tools in just 5 days.",
+  heroTitle: "Master AI Across Text, Images & Code",
+  heroSubtitle: "5-Day Prompt Engineering Methodology",
+  heroDescription: "Transform from simple prompting to strategic problem formulation. Master ChatGPT, Midjourney, and Lovable through sophisticated cognitive architecture and collaborative AI workflows.",
   ctaPrimary: "Start Learning Today",
   ctaSecondary: "View Course Outline",
   
   // Hero Features
-  feature1: "5 Interactive Days",
-  feature2: "Expert Instruction",
-  feature3: "Practical Projects",
+  feature1: "3 AI Platforms",
+  feature2: "Expert Methodology",
+  feature3: "Portfolio Projects",
+  
+  // Course Philosophy
+  coursePhilosophyTitle: "Beyond Prompting: A New Paradigm",
+  coursePhilosophyDescription: "This course teaches you to act as a creative director, dialogue partner, and co-engineer with AI. Move beyond simple commands to develop sophisticated, collaborative workflows that unlock the full potential of ChatGPT, Midjourney, and Lovable through strategic problem formulation and cognitive architecture.",
   
   // Course Breakdown
-  courseBreakdownTitle: "Course Curriculum",
-  courseBreakdownSubtitle: "A comprehensive 5-day journey to master AI prompt engineering",
+  courseBreakdownTitle: "Your 5-Day Transformation",
+  courseBreakdownSubtitle: "Master three distinct AI platforms through our proven methodology",
   
   // Day Content
-  day1Title: "Foundation & Fundamentals",
-  day1Description: "Begin your journey with essential concepts of AI prompt engineering and understanding how language models work.",
-  day2Title: "Advanced Prompting Techniques",
-  day2Description: "Learn advanced techniques for crafting effective prompts and optimizing AI responses for precise results.",
-  day3Title: "Context Engineering & Role Assignment",
-  day3Description: "Discover how to use context and role assignment to improve AI performance in specific tasks.",
-  day4Title: "Practical Applications & Projects",
-  day4Description: "Apply your knowledge in hands-on projects and real-world case studies.",
-  day5Title: "Advanced Strategies & Optimization",
-  day5Description: "Master advanced strategies and optimization techniques to get the most out of AI tools.",
+  day1Title: "The Foundational Science of Prompting",
+  day1Description: "Master the engineering mindset and core components that transform basic prompts into sophisticated communication systems.",
+  day1Topics: ["The Engineer's Mindset: From Prompts to Communication", "Anatomy of a Perfect Prompt", "The 6 Core Components (Directive, Role, Context, Format, Constraints, Examples)"],
+  
+  day2Title: "Advanced Reasoning & Human-in-the-Loop Techniques",
+  day2Description: "Develop sophisticated dialogue patterns and transparent reasoning systems for complex problem-solving.",
+  day2Topics: ["The Art of Dialogue and Iteration", "Chain-of-Thought (CoT) for Transparent Reasoning", "Designing Human-in-the-Loop Approval Flows"],
+  
+  day3Title: "Mastering Conversational & Creative AI: ChatGPT",
+  day3Description: "Leverage ChatGPT's conversational model for productivity and consistent AI persona development.",
+  day3Topics: ["Leveraging the multi-turn conversational model", "Core Productivity Use Cases", "Crafting a Consistent AI Persona", "Zero-Shot vs. Few-Shot Prompting"],
+  
+  day4Title: "The Generative Artist's Studio: Midjourney",
+  day4Description: "Transform visual concepts into precise prompts and master advanced image generation control.",
+  day4Topics: ["The Cinematographer's Brief: Translating Vision to Words", "Mastering Technical Parameters (--ar, --s, --no)", "Advanced Control with Image, Style (--sref), and Character (--cref) References"],
+  
+  day5Title: "The AI Co-Engineer: Lovable",
+  day5Description: "Build functional applications through collaborative AI engineering and shared cognitive frameworks.",
+  day5Topics: ["The 'AI Co-Engineer' Workflow: From Idea to Functional App", "The 5 Laws of Lovable Prompting (Concise, Logical, Explicit, Adaptive, Reflective)", "Building a Shared Cognitive Framework for complex projects"],
   
   // Benefits Section
-  benefitsTitle: "Why Choose Our Course?",
-  benefitsSubtitle: "Transform your career with cutting-edge AI prompt engineering skills",
+  benefitsTitle: "Why This Course?",
+  benefitsSubtitle: "Master three distinct AI platforms with one comprehensive methodology",
   
-  benefit1Title: "Boost Productivity",
-  benefit1Description: "Learn how to increase your productivity by up to 300% using advanced AI techniques.",
+  benefit1Title: "Master Text, Image, and Code Generation",
+  benefit1Description: "Learn to create content, visuals, and applications across three powerful AI platforms in one comprehensive course.",
   
-  benefit2Title: "Immediately Applicable Skills",
-  benefit2Description: "Gain practical skills you can apply in your work from day one after completing the course.",
+  benefit2Title: "Move Beyond Simple Prompts to Strategic Design",
+  benefit2Description: "Develop sophisticated problem formulation skills that transform how you collaborate with AI systems.",
   
-  benefit3Title: "Certified Expertise",
-  benefit3Description: "Receive a certified credential that enhances your professional profile and opens new opportunities.",
+  benefit3Title: "Build a Portfolio Across Multiple AI Platforms",
+  benefit3Description: "Create impressive projects using ChatGPT, Midjourney, and Lovable to showcase your diverse AI capabilities.",
   
-  benefit4Title: "Expert Community",
-  benefit4Description: "Join an exclusive community of AI experts and connect with peers from various industries.",
+  benefit4Title: "Learn the Cognitive Architecture Approach",
+  benefit4Description: "Master the mental frameworks that top AI practitioners use to consistently achieve professional-grade results.",
   
-  benefit5Title: "Lifetime Support",
-  benefit5Description: "Get ongoing support and lifetime access to updated content and additional resources.",
+  benefit5Title: "From User to AI Creative Director",
+  benefit5Description: "Transition from basic AI usage to directing AI as your creative partner, co-engineer, and problem-solving ally.",
   
-  benefit6Title: "Hands-on Projects",
-  benefit6Description: "Apply your knowledge through practical projects that help you build a strong AI portfolio.",
+  benefit6Title: "Future-Proof Your Career",
+  benefit6Description: "Gain expertise in the three most important AI tools for content creation, design, and development in today's market.",
   
   // Testimonials
   testimonialsTitle: "What Our Students Say",
