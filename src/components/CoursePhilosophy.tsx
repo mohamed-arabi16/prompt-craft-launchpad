@@ -26,24 +26,24 @@ const CoursePhilosophy = () => {
             <div className="w-20 h-20 bg-gradient-to-br from-primary to-primary/80 rounded-2xl flex items-center justify-center mx-auto mb-6 hover:scale-110 transition-transform duration-300">
               <MessageSquare className="w-10 h-10 text-primary-foreground" />
             </div>
-            <h3 className="text-xl font-semibold mb-3 text-foreground">Creative Director</h3>
-            <p className="text-muted-foreground">Direct AI as your creative partner for content and visual generation</p>
+            <h3 className="text-xl font-semibold mb-3 text-foreground" data-i18n="philosophyFeature1Title">Creative Director</h3>
+            <p className="text-muted-foreground" data-i18n="philosophyFeature1Description">Direct AI as your creative partner for content and visual generation</p>
           </div>
 
           <div className="text-center fade-in-up" style={{ animationDelay: '0.2s' }}>
             <div className="w-20 h-20 bg-gradient-to-br from-primary to-primary/80 rounded-2xl flex items-center justify-center mx-auto mb-6 hover:scale-110 transition-transform duration-300">
               <Brain className="w-10 h-10 text-primary-foreground" />
             </div>
-            <h3 className="text-xl font-semibold mb-3 text-foreground">Dialogue Partner</h3>
-            <p className="text-muted-foreground">Engage in sophisticated reasoning and problem-solving conversations</p>
+            <h3 className="text-xl font-semibold mb-3 text-foreground" data-i18n="philosophyFeature2Title">Dialogue Partner</h3>
+            <p className="text-muted-foreground" data-i18n="philosophyFeature2Description">Engage in sophisticated reasoning and problem-solving conversations</p>
           </div>
 
           <div className="text-center fade-in-up" style={{ animationDelay: '0.3s' }}>
             <div className="w-20 h-20 bg-gradient-to-br from-primary to-primary/80 rounded-2xl flex items-center justify-center mx-auto mb-6 hover:scale-110 transition-transform duration-300">
               <Code2 className="w-10 h-10 text-primary-foreground" />
             </div>
-            <h3 className="text-xl font-semibold mb-3 text-foreground">Co-Engineer</h3>
-            <p className="text-muted-foreground">Collaborate with AI to build functional applications and solutions</p>
+            <h3 className="text-xl font-semibold mb-3 text-foreground" data-i18n="philosophyFeature3Title">Co-Engineer</h3>
+            <p className="text-muted-foreground" data-i18n="philosophyFeature3Description">Collaborate with AI to build functional applications and solutions</p>
           </div>
         </div>
       </div>

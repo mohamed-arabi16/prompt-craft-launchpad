@@ -1,38 +1,6 @@
+import { Brain, Zap, Target, Trophy, Users, Rocket, LucideIcon } from "lucide-react";
 
-import { Brain, Zap, Target, Trophy, Users, Rocket } from "lucide-react";
-
-const benefits = [
-  {
-    icon: Brain,
-    title: "Master Text, Image, and Code Generation",
-    description: "Learn to create content, visuals, and applications across three powerful AI platforms in one comprehensive course."
-  },
-  {
-    icon: Zap,
-    title: "Move Beyond Simple Prompts to Strategic Design",
-    description: "Develop sophisticated problem formulation skills that transform how you collaborate with AI systems."
-  },
-  {
-    icon: Target,
-    title: "Build a Portfolio Across Multiple AI Platforms",
-    description: "Create impressive projects using ChatGPT, Midjourney, and Lovable to showcase your diverse AI capabilities."
-  },
-  {
-    icon: Trophy,
-    title: "Learn the Cognitive Architecture Approach",
-    description: "Master the mental frameworks that top AI practitioners use to consistently achieve professional-grade results."
-  },
-  {
-    icon: Users,
-    title: "From User to AI Creative Director",
-    description: "Transition from basic AI usage to directing AI as your creative partner, co-engineer, and problem-solving ally."
-  },
-  {
-    icon: Rocket,
-    title: "Future-Proof Your Career",
-    description: "Gain expertise in the three most important AI tools for content creation, design, and development in today's market."
-  }
-];
+const benefitIcons: LucideIcon[] = [Brain, Zap, Target, Trophy, Users, Rocket];
 
 const BenefitsSection = () => {
   return (
@@ -48,10 +16,10 @@ const BenefitsSection = () => {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {benefits.map((benefit, index) => {
-            const IconComponent = benefit.icon;
+          {benefitIcons.map((IconComponent, index) => {
+            const num = index + 1;
             return (
-              <div 
+              <div
                 key={index}
                 className="course-card fade-in-up group"
                 style={{ animationDelay: `${index * 0.1}s` }}
@@ -60,12 +28,12 @@ const BenefitsSection = () => {
                   <IconComponent className="h-8 w-8 text-primary-foreground" />
                 </div>
                 
-                <h3 className="text-xl font-semibold text-foreground mb-3">
-                  {benefit.title}
+                <h3 className="text-xl font-semibold text-foreground mb-3" data-i18n={`benefit${num}Title`}>
+                  {/* This text will be replaced by i18n.js */}
                 </h3>
                 
-                <p className="text-muted-foreground leading-relaxed">
-                  {benefit.description}
+                <p className="text-muted-foreground leading-relaxed" data-i18n={`benefit${num}Description`}>
+                  {/* This text will be replaced by i18n.js */}
                 </p>
               </div>
             );

@@ -1,6 +1,7 @@
 const translations = {
   // Navigation
   languageSwitcher: "English",
+  brandName: "AI Prompt Academy",
   
   // Hero Section
   heroTitle: "Master AI Across Text, Images & Code",
@@ -17,6 +18,12 @@ const translations = {
   // Course Philosophy
   coursePhilosophyTitle: "Beyond Prompting: A New Paradigm",
   coursePhilosophyDescription: "This course teaches you to act as a creative director, dialogue partner, and co-engineer with AI. Move beyond simple commands to develop sophisticated, collaborative workflows that unlock the full potential of ChatGPT, Midjourney, and Lovable through strategic problem formulation and cognitive architecture.",
+  philosophyFeature1Title: "Creative Director",
+  philosophyFeature1Description: "Direct AI as your creative partner for content and visual generation",
+  philosophyFeature2Title: "Dialogue Partner",
+  philosophyFeature2Description: "Engage in sophisticated reasoning and problem-solving conversations",
+  philosophyFeature3Title: "Co-Engineer",
+  philosophyFeature3Description: "Collaborate with AI to build functional applications and solutions",
   
   // Course Breakdown
   courseBreakdownTitle: "Your 5-Day Transformation",
@@ -25,23 +32,33 @@ const translations = {
   // Day Content
   day1Title: "The Foundational Science of Prompting",
   day1Description: "Master the engineering mindset and core components that transform basic prompts into sophisticated communication systems.",
-  day1Topics: ["The Engineer's Mindset: From Prompts to Communication", "Anatomy of a Perfect Prompt", "The 6 Core Components (Directive, Role, Context, Format, Constraints, Examples)"],
+  day1Topics: ["The Engineer's Mindset: From Prompts to Communication", "Anatomy of a Perfect Prompt", "The 6 Core Components (Directive, Role, Context, Format, Constraints, Examples)", "Building Systematic Prompt Architecture", "Cognitive Load Management in AI Interaction", "Establishing Communication Protocols"],
+  day1Techniques: ["Component-Based Prompt Construction", "Systematic Prompt Architecture", "Cognitive Framework Development", "Communication Protocol Design", "Prompt Template Engineering", "Foundational Iteration Methods"],
+  day1Duration: "2.5 hours",
   
   day2Title: "Advanced Reasoning & Human-in-the-Loop Techniques",
   day2Description: "Develop sophisticated dialogue patterns and transparent reasoning systems for complex problem-solving.",
-  day2Topics: ["The Art of Dialogue and Iteration", "Chain-of-Thought (CoT) for Transparent Reasoning", "Designing Human-in-the-Loop Approval Flows"],
-  
+  day2Topics: ["The Art of Dialogue and Iteration", "Chain-of-Thought (CoT) for Transparent Reasoning", "Designing Human-in-the-Loop Approval Flows", "Meta-Cognitive Prompting Strategies", "Iterative Refinement Protocols", "Quality Gate Implementation"],
+  day2Techniques: ["Multi-Turn Dialogue Management", "Transparent Reasoning Chains", "Human-AI Collaboration Workflows", "Iterative Improvement Cycles", "Quality Assessment Frameworks", "Approval Flow Design"],
+  day2Duration: "3 hours",
+
   day3Title: "Mastering Conversational & Creative AI: ChatGPT",
   day3Description: "Leverage ChatGPT's conversational model for productivity and consistent AI persona development.",
-  day3Topics: ["Leveraging the multi-turn conversational model", "Core Productivity Use Cases", "Crafting a Consistent AI Persona", "Zero-Shot vs. Few-Shot Prompting"],
+  day3Topics: ["Leveraging the multi-turn conversational model", "Core Productivity Use Cases", "Crafting a Consistent AI Persona", "Zero-Shot vs. Few-Shot Prompting", "Context Window Management", "Advanced ChatGPT Techniques"],
+  day3Techniques: ["Conversational Flow Design", "Persona Engineering", "Context Optimization", "Shot Strategy Selection", "Memory Management", "Productivity Automation"],
+  day3Duration: "2.5 hours",
   
   day4Title: "The Generative Artist's Studio: Midjourney",
   day4Description: "Transform visual concepts into precise prompts and master advanced image generation control.",
-  day4Topics: ["The Cinematographer's Brief: Translating Vision to Words", "Mastering Technical Parameters (--ar, --s, --no)", "Advanced Control with Image, Style (--sref), and Character (--cref) References"],
-  
+  day4Topics: ["The Cinematographer's Brief: Translating Vision to Words", "Mastering Technical Parameters (--ar, --s, --no)", "Advanced Control with Image, Style (--sref), and Character (--cref) References", "Prompt Weight and Structure Optimization", "Style Consistency and Brand Development", "Commercial Application Strategies"],
+  day4Techniques: ["Visual Concept Translation", "Parameter Optimization", "Reference-Based Generation", "Style Control Methods", "Brand Consistency Frameworks", "Commercial Workflow Design"],
+  day4Duration: "3 hours",
+
   day5Title: "The AI Co-Engineer: Lovable",
   day5Description: "Build functional applications through collaborative AI engineering and shared cognitive frameworks.",
-  day5Topics: ["The 'AI Co-Engineer' Workflow: From Idea to Functional App", "The 5 Laws of Lovable Prompting (Concise, Logical, Explicit, Adaptive, Reflective)", "Building a Shared Cognitive Framework for complex projects"],
+  day5Topics: ["The 'AI Co-Engineer' Workflow: From Idea to Functional App", "The 5 Laws of Lovable Prompting (Concise, Logical, Explicit, Adaptive, Reflective)", "Building a Shared Cognitive Framework for complex projects", "Iterative Development with AI Partners", "Code Quality and Architecture Guidance", "Project Management with AI Collaboration"],
+  day5Techniques: ["Collaborative Development Workflows", "Systematic Prompt Laws Application", "Shared Framework Construction", "AI-Human Pair Programming", "Architectural Decision Making", "Agile AI Collaboration"],
+  day5Duration: "3.5 hours",
   
   // Benefits Section
   benefitsTitle: "Why This Course?",
@@ -68,7 +85,16 @@ const translations = {
   // Testimonials
   testimonialsTitle: "What Our Students Say",
   testimonialsSubtitle: "Join thousands of professionals who have transformed their careers with us",
-  
+  testimonial1Name: "Sarah Chen",
+  testimonial1Role: "AI Engineer at Google",
+  testimonial1Content: "This course completely transformed how I interact with AI models. The techniques I learned have made me 10x more effective in my daily work.",
+  testimonial2Name: "Michael Rodriguez",
+  testimonial2Role: "Product Manager at Microsoft",
+  testimonial2Content: "The practical approach and real-world examples made complex concepts easy to understand. I'm now the go-to person for AI prompting in my team.",
+  testimonial3Name: "Emily Johnson",
+  testimonial3Role: "Data Scientist at Amazon",
+  testimonial3Content: "Five days that changed my career trajectory. The course content is comprehensive yet accessible, perfect for both beginners and experienced professionals.",
+
   // CTA Section
   ctaTitle: "Start Your AI Journey Today",
   ctaDescription: "Don't wait - the AI revolution is happening now. Secure your spot in our next cohort and transform your career in just 5 days.",
@@ -90,6 +116,14 @@ const translations = {
   metaTwitterTitle: "5-Day AI Prompt Engineering Course",
   metaTwitterDescription: "Learn advanced AI prompt engineering in 5 days. Transform from simple prompting to strategic problem formulation",
   
+  // Structured Data (for SEO)
+  structuredDataName: "5-Day AI Prompt Engineering Intensive Course",
+  structuredDataDescription: "Master advanced AI prompt engineering techniques in just 5 days. Learn from industry experts and transform your career with cutting-edge AI skills.",
+  structuredDataProviderName: "AI Prompt Academy",
+  structuredDataTeaches: ["AI Prompt Engineering", "Chain-of-Thought Prompting", "Few-Shot Learning", "Prompt Optimization", "Advanced AI Techniques", "Creative Writing Prompts", "Technical Documentation", "Data Analysis Prompts", "Code Generation"],
+  structuredDataPrerequisites: "Basic understanding of AI concepts",
+  structuredDataInstructorName: "AI Prompt Academy Instructors",
+
   // Program Features
   programFeature1: "5-Day Intensive Program",
   programFeature2: "Expert Instruction",
@@ -102,7 +136,12 @@ const translations = {
   duration: "Duration",
   topics: "Key Topics", 
   techniques: "Techniques Covered",
-  
+  dayLabel: "Day",
+  keyTopicsLabel: "Key Topics:",
+  techniquesCoveredLabel: "Techniques Covered:",
+  downloadDayLabel: "Download Day",
+  summaryPdfLabel: "Summary (PDF)",
+
   // Footer
   footerCopyright: "© 2024 AI Prompt Academy. All rights reserved.",
   footerPrivacy: "Privacy Policy",
