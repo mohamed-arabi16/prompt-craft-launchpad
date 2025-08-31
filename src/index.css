@@ -7,50 +7,51 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Modern Dark Theme Base */
+    --background: 220 13% 9%;
+    --foreground: 220 9% 95%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 220 13% 12%;
+    --card-foreground: 220 9% 95%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 220 13% 12%;
+    --popover-foreground: 220 9% 95%;
 
-    /* AI Theme Primary - Purple to Blue Gradient */
-    --primary: 258 89% 66%;
-    --primary-foreground: 210 40% 98%;
+    /* Modern AI Theme Colors */
+    --primary: 260 60% 55%;
+    --primary-foreground: 220 9% 95%;
 
-    /* AI Secondary - Electric Blue */
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Sophisticated Secondary */
+    --secondary: 220 13% 18%;
+    --secondary-foreground: 220 9% 95%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 220 13% 15%;
+    --muted-foreground: 220 9% 65%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 220 13% 18%;
+    --accent-foreground: 220 9% 95%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 220 9% 95%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 220 13% 20%;
+    --input: 220 13% 15%;
+    --ring: 260 60% 55%;
 
     --radius: 0.75rem;
 
-    /* AI Course Specific Colors */
-    --ai-primary: 258 89% 66%; /* Purple */
-    --ai-secondary: 217 91% 60%; /* Blue */
-    --ai-accent: 280 100% 70%; /* Magenta */
-    --ai-dark: 240 10% 3.9%; /* Near Black */
-    --ai-light: 220 14% 96%; /* Light Gray */
+    /* Enhanced AI Course Colors */
+    --ai-primary: 260 60% 55%; /* Sophisticated Purple */
+    --ai-secondary: 200 70% 50%; /* Modern Electric Blue */
+    --ai-accent: 280 80% 60%; /* Refined Magenta */
+    --ai-dark: 220 13% 9%; /* Deep Charcoal */
+    --ai-light: 220 9% 95%; /* Light Text */
     --ai-success: 142 71% 45%; /* Green */
     
-    /* Gradients */
+    /* Modern Dark Gradients */
     --gradient-ai: linear-gradient(135deg, hsl(var(--ai-primary)) 0%, hsl(var(--ai-secondary)) 100%);
-    --gradient-hero: linear-gradient(135deg, hsl(var(--ai-primary)) 0%, hsl(var(--ai-secondary)) 50%, hsl(var(--ai-accent)) 100%);
-    --gradient-card: linear-gradient(145deg, hsl(var(--ai-light)) 0%, hsl(0 0% 100%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(var(--ai-primary) / 0.8) 0%, hsl(var(--ai-secondary) / 0.8) 50%, hsl(var(--ai-accent) / 0.6) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(var(--card)) 0%, hsl(220 13% 14%) 100%);
   }
 
   .dark {
@@ -98,22 +99,22 @@
     background: var(--gradient-card);
   }
 
-  /* Premium Button Variants */
+  /* Modern Premium Button Variants */
   .btn-ai-primary {
-    @apply bg-gradient-to-r from-purple-600 via-blue-600 to-purple-700 text-white font-semibold px-8 py-4 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-purple-500/25;
+    @apply bg-gradient-to-r from-primary via-ai-secondary to-primary text-primary-foreground font-semibold px-8 py-4 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-primary/25;
   }
   
   .btn-ai-secondary {
-    @apply border-2 border-purple-600 text-purple-600 font-semibold px-8 py-4 rounded-xl transition-all duration-300 hover:bg-purple-600 hover:text-white hover:scale-105;
+    @apply border-2 border-primary text-primary font-semibold px-8 py-4 rounded-xl transition-all duration-300 hover:bg-primary hover:text-primary-foreground hover:scale-105;
   }
 
-  /* Interactive Card Styles */
+  /* Modern Dark Card Styles */
   .course-card {
-    @apply bg-white rounded-2xl p-6 shadow-lg border border-gray-100 transition-all duration-300 hover:shadow-2xl hover:scale-[1.02] hover:border-purple-200;
+    @apply bg-card rounded-2xl p-6 shadow-lg border border-border transition-all duration-300 hover:shadow-2xl hover:scale-[1.02] hover:border-primary/30;
   }
   
   .day-card {
-    @apply bg-gradient-to-br from-gray-50 to-white rounded-xl border border-gray-200 transition-all duration-300 hover:shadow-lg cursor-pointer;
+    @apply bg-gradient-to-br from-card to-muted rounded-xl border border-border transition-all duration-300 hover:shadow-lg cursor-pointer hover:border-primary/40;
   }
 
   /* Enhanced Accordion Animations */
@@ -147,11 +148,13 @@
     animation: pulseGlow 2s ease-in-out infinite;
   }
 
-  /* Animation Classes */
+  /* Fixed Animation Classes */
   .fade-in-up {
     opacity: 0;
     transform: translateY(30px);
     animation: fadeInUp 0.6s ease-out forwards;
+    animation-fill-mode: forwards;
+    will-change: opacity, transform;
   }
   
   .fade-in-up-delay-1 {
@@ -174,17 +177,21 @@
     animation-delay: 0.5s;
   }
 
-  /* Slide In Animations */
+  /* Fixed Slide In Animations */
   .slide-in-right {
     opacity: 0;
     transform: translateX(50px);
     animation: slideInRight 0.6s ease-out forwards;
+    animation-fill-mode: forwards;
+    will-change: opacity, transform;
   }
   
   .slide-in-left {
     opacity: 0;
     transform: translateX(-50px);
     animation: slideInLeft 0.6s ease-out forwards;
+    animation-fill-mode: forwards;
+    will-change: opacity, transform;
   }
 
   /* Visual Edits Compatibility - Separate labels from content */
