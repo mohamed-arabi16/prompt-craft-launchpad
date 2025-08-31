@@ -1,17 +1,20 @@
 import { Brain, Zap, Target, Trophy, Users, Rocket, LucideIcon } from "lucide-react";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const benefitIcons: LucideIcon[] = [Brain, Zap, Target, Trophy, Users, Rocket];
 
 const BenefitsSection = () => {
+  const { t } = useTranslation();
+  
   return (
     <section className="py-20 bg-background">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16 fade-in-up">
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6" data-i18n="benefitsTitle">
-            Why This Course?
+          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+            {t('benefitsTitle')}
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto" data-i18n="benefitsSubtitle">
-            Master three distinct AI platforms with one comprehensive methodology
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+            {t('benefitsSubtitle')}
           </p>
         </div>
 
@@ -28,12 +31,12 @@ const BenefitsSection = () => {
                   <IconComponent className="h-8 w-8 text-primary-foreground" />
                 </div>
                 
-                <h3 className="text-xl font-semibold text-foreground mb-3" data-i18n={`benefit${num}Title`}>
-                  {/* This text will be replaced by i18n.js */}
+                <h3 className="text-xl font-semibold text-foreground mb-3">
+                  {t(`benefit${num}Title`)}
                 </h3>
                 
-                <p className="text-muted-foreground leading-relaxed" data-i18n={`benefit${num}Description`}>
-                  {/* This text will be replaced by i18n.js */}
+                <p className="text-muted-foreground leading-relaxed">
+                  {t(`benefit${num}Description`)}
                 </p>
               </div>
             );

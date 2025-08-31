@@ -7,8 +7,11 @@ import CourseBreakdown from "@/components/CourseBreakdown";
 import BenefitsSection from "@/components/BenefitsSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import CTASection from "@/components/CTASection";
+import Footer from "@/components/Footer";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const Index = () => {
+  const { t } = useTranslation();
   // SEO and animations setup
   useEffect(() => {
     // Update meta tags based on current language
@@ -161,25 +164,7 @@ const Index = () => {
       <TestimonialsSection />
       <CTASection />
       
-      {/* Footer */}
-      <footer className="bg-background border-t border-border py-12">
-        <div className="container mx-auto px-4 text-center">
-          <p className="text-foreground/80 text-lg font-medium">
-            <span data-i18n="footerCopyright">© 2024 AI Prompt Academy. All rights reserved.</span>
-          </p>
-          <div className="mt-6 flex justify-center space-x-8">
-            <a href="#" className="text-foreground/60 hover:text-primary transition-colors text-base font-medium">
-              <span data-i18n="footerPrivacy">Privacy Policy</span>
-            </a>
-            <a href="#" className="text-foreground/60 hover:text-primary transition-colors text-base font-medium">
-              <span data-i18n="footerTerms">Terms & Conditions</span>
-            </a>
-            <a href="#" className="text-foreground/60 hover:text-primary transition-colors text-base font-medium">
-              <span data-i18n="footerContact">Contact Us</span>
-            </a>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };

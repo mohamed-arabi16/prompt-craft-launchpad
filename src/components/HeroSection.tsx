@@ -1,8 +1,11 @@
 
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles, Brain, Zap } from "lucide-react";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const HeroSection = () => {
+  const { t } = useTranslation();
+  
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
       {/* Animated Gradient Background */}
@@ -24,26 +27,25 @@ const HeroSection = () => {
         <div className="mb-6 fade-in-up-delay-1">
           <span className="inline-flex items-center px-4 py-2 bg-card backdrop-blur-sm rounded-full text-foreground text-sm font-medium border border-primary/20">
             <Sparkles className="h-4 w-4 ltr:mr-2 rtl:ml-2" />
-            <span data-i18n="heroSubtitle">5-Day Intensive Program</span>
+            <span>5-Day Intensive Program</span>
           </span>
         </div>
         
-        <h1 className="text-5xl md:text-7xl font-bold text-foreground mb-6 leading-tight fade-in-up-delay-2" data-i18n="heroTitle">
-          Master AI Prompt Engineering
+        <h1 className="text-5xl md:text-7xl font-bold text-foreground mb-6 leading-tight fade-in-up-delay-2 hero-title">
+          {t('heroTitle')}
         </h1>
         
-        <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed fade-in-up-delay-3" data-i18n="heroDescription">
-          Transform your AI interactions with advanced prompting techniques. 
-          Learn from industry experts and unlock the full potential of AI tools in just 5 days.
+        <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed fade-in-up-delay-3 hero-subtitle">
+          {t('heroSubtitle')}
         </p>
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8 fade-in-up-delay-3">
           <Button className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-4 text-lg font-semibold group">
-            <span data-i18n="ctaPrimary">Start Learning Today</span>
+            <span>{t('heroButtonPrimary')}</span>
             <ArrowRight className="ltr:ml-2 rtl:mr-2 h-5 w-5 transition-transform group-hover:ltr:translate-x-1 group-hover:rtl:-translate-x-1" />
           </Button>
           <Button variant="outline" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground px-8 py-4 text-lg">
-            <span data-i18n="ctaSecondary">View Course Outline</span>
+            <span>{t('heroButtonSecondary')}</span>
           </Button>
         </div>
         
