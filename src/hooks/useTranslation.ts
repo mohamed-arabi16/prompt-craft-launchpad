@@ -6,18 +6,14 @@ type Translations = Record<string, string | string[]>;
 
 // Translation data
 const translationsData: Record<Language, () => Promise<Translations>> = {
-  ar: () => fetch('/translations/ar.json').then(r => r.json()).catch(() =>
-    fetch('/translations/ar.js').then(r => r.text()).then(text => {
+  ar: () => fetch('/translations/ar.js').then(r => r.text()).then(text => {
+      const match = text.match(/const translations = ({[\s\S]*?});/);
+      return match ? eval(`(${match[1]})`) : {};
+    }),
+  en: () => fetch('/translations/en.js').then(r => r.text()).then(text => {
       const match = text.match(/const translations = ({[\s\S]*?});/);
       return match ? eval(`(${match[1]})`) : {};
     })
-  ),
-  en: () => fetch('/translations/en.json').then(r => r.json()).catch(() =>
-    fetch('/translations/en.js').then(r => r.text()).then(text => {
-      const match = text.match(/const translations = ({[\s\S]*?});/);
-      return match ? eval(`(${match[1]})`) : {};
-    })
-  )
 };
 
 export const useTranslation = () => {
