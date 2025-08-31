@@ -19,6 +19,9 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				'cairo': ['Cairo', 'sans-serif'],
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -53,14 +56,10 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
-				// AI Course Theme Colors
-				ai: {
-					primary: 'hsl(var(--ai-primary))',
-					secondary: 'hsl(var(--ai-secondary))',
-					accent: 'hsl(var(--ai-accent))',
-					dark: 'hsl(var(--ai-dark))',
-					light: 'hsl(var(--ai-light))',
-					success: 'hsl(var(--ai-success))',
+				// High-Contrast Black/Lime Theme
+				'electric-lime': {
+					DEFAULT: 'hsl(var(--electric-lime))',
+					foreground: 'hsl(var(--electric-lime-foreground))'
 				}
 			},
 			borderRadius: {
@@ -122,8 +121,8 @@ export default {
 				'gradient-shift': 'gradient-shift 8s ease-in-out infinite'
 			},
 			backgroundImage: {
-				'gradient-ai': 'linear-gradient(135deg, hsl(var(--ai-primary)) 0%, hsl(var(--ai-secondary)) 100%)',
-				'gradient-hero': 'linear-gradient(135deg, hsl(var(--ai-primary)) 0%, hsl(var(--ai-secondary)) 50%, hsl(var(--ai-accent)) 100%)'
+				'gradient-hero': 'linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--electric-lime) / 0.1) 50%, hsl(var(--background)) 100%)',
+				'gradient-lime': 'linear-gradient(135deg, hsl(var(--electric-lime)) 0%, hsl(var(--electric-lime) / 0.8) 100%)'
 			}
 		}
 	},

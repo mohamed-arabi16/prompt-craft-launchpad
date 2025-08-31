@@ -1,5 +1,6 @@
 
 import { useEffect } from "react";
+import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import CourseBreakdown from "@/components/CourseBreakdown";
 import BenefitsSection from "@/components/BenefitsSection";
@@ -110,55 +111,34 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="min-h-screen">
-      {/* SEO: H1 tag is in HeroSection component */}
+    <div className="min-h-screen pt-20">
+      <Navbar />
       <HeroSection />
-      
-      {/* SEO: H2 tags are in each section component for proper heading hierarchy */}
       <CourseBreakdown />
       <BenefitsSection />
       <TestimonialsSection />
       <CTASection />
       
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="grid md:grid-cols-4 gap-8">
-            <div>
-              <h3 className="text-xl font-bold mb-4">AI Prompt Academy</h3>
-              <p className="text-gray-400">
-                Empowering professionals with cutting-edge AI skills for the future of work.
+      <footer className="bg-background border-t border-border py-12">
+        <div className="container mx-auto px-6">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <div className="mb-4 md:mb-0">
+              <p className="text-muted-foreground" data-i18n="footerCopyright">
+                © 2024 AI Prompt Academy. All rights reserved.
               </p>
             </div>
-            <div>
-              <h4 className="font-semibold mb-4">Course</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li><a href="#syllabus" className="hover:text-white transition-colors">Syllabus</a></li>
-                <li><a href="#instructors" className="hover:text-white transition-colors">Instructors</a></li>
-                <li><a href="#pricing" className="hover:text-white transition-colors">Pricing</a></li>
-                <li><a href="#faq" className="hover:text-white transition-colors">FAQ</a></li>
-              </ul>
+            <div className="flex gap-6">
+              <a href="#" className="text-muted-foreground hover:text-primary transition-colors" data-i18n="footerPrivacy">
+                Privacy Policy
+              </a>
+              <a href="#" className="text-muted-foreground hover:text-primary transition-colors" data-i18n="footerTerms">
+                Terms & Conditions
+              </a>
+              <a href="#" className="text-muted-foreground hover:text-primary transition-colors" data-i18n="footerContact">
+                Contact Us
+              </a>
             </div>
-            <div>
-              <h4 className="font-semibold mb-4">Support</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li><a href="#contact" className="hover:text-white transition-colors">Contact Us</a></li>
-                <li><a href="#help" className="hover:text-white transition-colors">Help Center</a></li>
-                <li><a href="#community" className="hover:text-white transition-colors">Community</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4">Legal</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li><a href="#privacy" className="hover:text-white transition-colors">Privacy Policy</a></li>
-                <li><a href="#terms" className="hover:text-white transition-colors">Terms of Service</a></li>
-                <li><a href="#refund" className="hover:text-white transition-colors">Refund Policy</a></li>
-              </ul>
-            </div>
-          </div>
-          
-          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2024 AI Prompt Academy. All rights reserved.</p>
           </div>
         </div>
       </footer>

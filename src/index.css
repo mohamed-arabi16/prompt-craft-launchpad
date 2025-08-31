@@ -7,73 +7,59 @@
 
 @layer base {
   :root {
-    /* Modern Dark Theme Base */
-    --background: 220 13% 9%;
-    --foreground: 220 9% 95%;
-
-    --card: 220 13% 12%;
-    --card-foreground: 220 9% 95%;
-
-    --popover: 220 13% 12%;
-    --popover-foreground: 220 9% 95%;
-
-    /* Modern AI Theme Colors */
-    --primary: 260 60% 55%;
-    --primary-foreground: 220 9% 95%;
-
-    /* Sophisticated Secondary */
-    --secondary: 220 13% 18%;
-    --secondary-foreground: 220 9% 95%;
-
-    --muted: 220 13% 15%;
-    --muted-foreground: 220 9% 65%;
-
-    --accent: 220 13% 18%;
-    --accent-foreground: 220 9% 95%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 220 9% 95%;
-
-    --border: 220 13% 20%;
-    --input: 220 13% 15%;
-    --ring: 260 60% 55%;
-
+    /* High-Contrast Black/Lime Green Theme */
+    --background: 0 0% 0%;           /* Pure Black */
+    --foreground: 0 0% 100%;         /* Pure White */
+    --card: 0 0% 5%;                 /* Near Black for cards */
+    --card-foreground: 0 0% 100%;    /* Pure White */
+    --popover: 0 0% 3%;              /* Very Dark for popovers */
+    --popover-foreground: 0 0% 100%; /* Pure White */
+    --primary: 84 100% 55%;          /* Electric Lime Green */
+    --primary-foreground: 0 0% 0%;   /* Black text on lime */
+    --secondary: 0 0% 15%;           /* Dark Gray */
+    --secondary-foreground: 0 0% 100%; /* White text */
+    --muted: 0 0% 10%;               /* Very Dark Gray */
+    --muted-foreground: 0 0% 70%;    /* Light Gray text */
+    --accent: 84 100% 55%;           /* Electric Lime Green */
+    --accent-foreground: 0 0% 0%;    /* Black text on lime */
+    --destructive: 0 84% 60%;        /* Red */
+    --destructive-foreground: 0 0% 100%; /* White text */
+    --border: 0 0% 20%;              /* Dark borders */
+    --input: 0 0% 10%;               /* Dark inputs */
+    --ring: 84 100% 55%;             /* Lime focus ring */
     --radius: 0.75rem;
 
-    /* Enhanced AI Course Colors */
-    --ai-primary: 260 60% 55%; /* Sophisticated Purple */
-    --ai-secondary: 200 70% 50%; /* Modern Electric Blue */
-    --ai-accent: 280 80% 60%; /* Refined Magenta */
-    --ai-dark: 220 13% 9%; /* Deep Charcoal */
-    --ai-light: 220 9% 95%; /* Light Text */
-    --ai-success: 142 71% 45%; /* Green */
+    /* Electric Lime */
+    --electric-lime: 84 100% 55%;        /* #39FF14 */
+    --electric-lime-foreground: 0 0% 0%; /* Black text on lime */
     
-    /* Modern Dark Gradients */
-    --gradient-ai: linear-gradient(135deg, hsl(var(--ai-primary)) 0%, hsl(var(--ai-secondary)) 100%);
-    --gradient-hero: linear-gradient(135deg, hsl(var(--ai-primary) / 0.8) 0%, hsl(var(--ai-secondary) / 0.8) 50%, hsl(var(--ai-accent) / 0.6) 100%);
-    --gradient-card: linear-gradient(145deg, hsl(var(--card)) 0%, hsl(220 13% 14%) 100%);
+    /* Modern Black/Lime Gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--electric-lime) / 0.1) 50%, hsl(var(--background)) 100%);
+    --gradient-lime: linear-gradient(135deg, hsl(var(--electric-lime)) 0%, hsl(var(--electric-lime) / 0.8) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(var(--card)) 0%, hsl(0 0% 8%) 100%);
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    /* Same as root for consistent black theme */
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
+    --card: 0 0% 5%;
+    --card-foreground: 0 0% 100%;
+    --popover: 0 0% 3%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 84 100% 55%;
+    --primary-foreground: 0 0% 0%;
+    --secondary: 0 0% 15%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 0 0% 10%;
+    --muted-foreground: 0 0% 70%;
+    --accent: 84 100% 55%;
+    --accent-foreground: 0 0% 0%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 20%;
+    --input: 0 0% 10%;
+    --ring: 84 100% 55%;
   }
 }
 
@@ -82,8 +68,28 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-cairo;
     font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  /* RTL Support */
+  [dir="rtl"] {
+    text-align: right;
+  }
+  
+  [dir="rtl"] .slide-in-right {
+    animation: slideInLeftRTL 0.6s ease-out forwards;
+  }
+  
+  @keyframes slideInLeftRTL {
+    from { 
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+    to { 
+      transform: translateX(0);
+      opacity: 1;
+    }
   }
 }
 
