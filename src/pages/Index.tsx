@@ -17,7 +17,7 @@ const Index = () => {
       metaDescription.setAttribute('content', 'Transform your AI skills with our intensive 5-day prompt engineering course. Learn advanced techniques from industry experts. Join 10,000+ students.');
     }
 
-    // Add structured data for rich snippets
+    // Add comprehensive structured data for rich snippets
     const structuredData = {
       "@context": "https://schema.org",
       "@type": "Course",
@@ -26,7 +26,8 @@ const Index = () => {
       "provider": {
         "@type": "Organization",
         "name": "AI Prompt Academy",
-        "url": "https://aipromptacademy.com"
+        "url": "https://aipromptacademy.com",
+        "logo": "https://aipromptacademy.com/logo.png"
       },
       "courseCode": "AIPE-101",
       "educationalLevel": "Intermediate",
@@ -35,15 +36,36 @@ const Index = () => {
         "Chain-of-Thought Prompting", 
         "Few-Shot Learning",
         "Prompt Optimization",
-        "Advanced AI Techniques"
+        "Advanced AI Techniques",
+        "Creative Writing Prompts",
+        "Technical Documentation",
+        "Data Analysis Prompts",
+        "Code Generation"
       ],
-      "timeRequired": "5 Days",
+      "timeRequired": "P5D",
+      "totalTime": "PT14H",
       "coursePrerequisites": "Basic understanding of AI concepts",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "reviewCount": "1247",
+        "bestRating": "5"
+      },
       "offers": {
         "@type": "Offer",
         "price": "497",
         "priceCurrency": "USD",
-        "availability": "https://schema.org/InStock"
+        "availability": "https://schema.org/InStock",
+        "priceValidUntil": "2024-12-31",
+        "url": "https://aipromptacademy.com/enroll"
+      },
+      "hasCourseInstance": {
+        "@type": "CourseInstance",
+        "courseMode": "online",
+        "instructor": {
+          "@type": "Person",
+          "name": "AI Prompt Academy Instructors"
+        }
       }
     };
 

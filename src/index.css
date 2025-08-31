@@ -116,6 +116,37 @@
     @apply bg-gradient-to-br from-gray-50 to-white rounded-xl border border-gray-200 transition-all duration-300 hover:shadow-lg cursor-pointer;
   }
 
+  /* Enhanced Accordion Animations */
+  .accordion-content {
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .accordion-content.expanded {
+    animation: accordionExpand 0.3s ease-out;
+  }
+  
+  .accordion-content.collapsed {
+    animation: accordionCollapse 0.3s ease-out;
+  }
+
+  /* Floating Elements */
+  .floating-element {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  .floating-element-delay-1 {
+    animation-delay: 1s;
+  }
+  
+  .floating-element-delay-2 {
+    animation-delay: 2s;
+  }
+
+  /* Pulse Animation for CTAs */
+  .pulse-glow {
+    animation: pulseGlow 2s ease-in-out infinite;
+  }
+
   /* Animation Classes */
   .fade-in-up {
     opacity: 0;
@@ -134,6 +165,44 @@
   .fade-in-up-delay-3 {
     animation-delay: 0.3s;
   }
+  
+  .fade-in-up-delay-4 {
+    animation-delay: 0.4s;
+  }
+  
+  .fade-in-up-delay-5 {
+    animation-delay: 0.5s;
+  }
+
+  /* Slide In Animations */
+  .slide-in-right {
+    opacity: 0;
+    transform: translateX(50px);
+    animation: slideInRight 0.6s ease-out forwards;
+  }
+  
+  .slide-in-left {
+    opacity: 0;
+    transform: translateX(-50px);
+    animation: slideInLeft 0.6s ease-out forwards;
+  }
+
+  /* Visual Edits Compatibility - Separate labels from content */
+  .label {
+    @apply font-semibold text-gray-900;
+  }
+  
+  .content {
+    @apply text-gray-700;
+  }
+  
+  .static-label {
+    @apply inline-block font-medium;
+  }
+  
+  .editable-content {
+    @apply inline-block;
+  }
 }
 
 @keyframes fadeInUp {
@@ -143,12 +212,70 @@
   }
 }
 
+@keyframes slideInRight {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInLeft {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 @keyframes gradientShift {
   0%, 100% {
     background-position: 0% 50%;
   }
   50% {
     background-position: 100% 50%;
+  }
+}
+
+@keyframes accordionExpand {
+  from {
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    max-height: 500px;
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes accordionCollapse {
+  from {
+    max-height: 500px;
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px hsla(var(--ai-primary), 0.4);
+  }
+  50% {
+    box-shadow: 0 0 40px hsla(var(--ai-primary), 0.6);
   }
 }
 

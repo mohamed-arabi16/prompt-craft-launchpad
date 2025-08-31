@@ -17,40 +17,110 @@ const courseData: DayContent[] = [
     day: 1,
     title: "Foundation & Fundamentals",
     description: "Build a solid understanding of AI prompt engineering principles and core concepts.",
-    topics: ["Introduction to Prompt Engineering", "Understanding AI Model Behavior", "Basic Prompt Structure", "Common Pitfalls and Best Practices"],
-    techniques: ["Direct Prompting", "Context Setting", "Role Assignment", "Clear Instructions"],
+    topics: [
+      "Introduction to Prompt Engineering",
+      "Understanding AI Model Behavior", 
+      "Basic Prompt Structure & Syntax",
+      "Common Pitfalls and How to Avoid Them",
+      "Setting Up Your AI Workspace",
+      "Ethics in AI Prompt Engineering"
+    ],
+    techniques: [
+      "Direct Prompting",
+      "Context Setting",
+      "Role Assignment", 
+      "Clear Instructions",
+      "Prompt Templates",
+      "Basic Iteration Methods"
+    ],
     duration: "2.5 hours"
   },
   {
     day: 2,
     title: "Advanced Techniques & Strategies",
     description: "Master sophisticated prompting methods for complex problem-solving.",
-    topics: ["Chain-of-Thought Prompting", "Few-Shot Learning", "Prompt Decomposition", "Self-Critique Methods"],
-    techniques: ["Reasoning Chains", "Example-Based Learning", "Step-by-Step Breakdown", "Quality Assessment"],
+    topics: [
+      "Chain-of-Thought Prompting",
+      "Few-Shot Learning Principles",
+      "Prompt Decomposition Strategies",
+      "Self-Critique and Reflection Methods",
+      "Meta-Prompting Techniques",
+      "Advanced Context Management"
+    ],
+    techniques: [
+      "Reasoning Chains",
+      "Example-Based Learning",
+      "Step-by-Step Breakdown",
+      "Quality Assessment",
+      "Iterative Refinement",
+      "Context Switching"
+    ],
     duration: "3 hours"
   },
   {
     day: 3,
     title: "Specialized Applications",
     description: "Apply prompt engineering to specific domains and use cases.",
-    topics: ["Creative Writing Prompts", "Technical Documentation", "Data Analysis Prompts", "Code Generation"],
-    techniques: ["Genre-Specific Prompting", "Template Creation", "Analytical Frameworks", "Programming Assistance"],
+    topics: [
+      "Creative Writing & Content Generation",
+      "Technical Documentation & APIs",
+      "Data Analysis & Visualization Prompts",
+      "Code Generation & Debugging",
+      "Research & Information Synthesis",
+      "Marketing & Business Applications"
+    ],
+    techniques: [
+      "Genre-Specific Prompting",
+      "Template Creation",
+      "Analytical Frameworks",
+      "Programming Assistance",
+      "Information Architecture",
+      "Multi-Modal Prompting"
+    ],
     duration: "2.5 hours"
   },
   {
     day: 4,
     title: "Optimization & Refinement",
     description: "Learn to iterate and improve your prompts for maximum effectiveness.",
-    topics: ["Prompt Testing & Evaluation", "A/B Testing Strategies", "Performance Metrics", "Iterative Improvement"],
-    techniques: ["Systematic Testing", "Metric Definition", "Comparative Analysis", "Continuous Refinement"],
+    topics: [
+      "Prompt Testing & Evaluation Methods",
+      "A/B Testing Strategies",
+      "Performance Metrics & KPIs",
+      "Iterative Improvement Workflows",
+      "Quality Assurance Frameworks",
+      "Prompt Version Control"
+    ],
+    techniques: [
+      "Systematic Testing",
+      "Metric Definition",
+      "Comparative Analysis",
+      "Continuous Refinement",
+      "Error Analysis",
+      "Performance Benchmarking"
+    ],
     duration: "3 hours"
   },
   {
     day: 5,
     title: "Real-World Implementation",
     description: "Put your skills into practice with hands-on projects and deployment strategies.",
-    topics: ["End-to-End Projects", "Integration Strategies", "Scaling Best Practices", "Future Trends"],
-    techniques: ["Project Planning", "System Integration", "Workflow Optimization", "Trend Analysis"],
+    topics: [
+      "End-to-End Project Development",
+      "Integration with Business Systems",
+      "Scaling Best Practices",
+      "Team Collaboration Strategies",
+      "Future Trends & Emerging Technologies",
+      "Building Your AI Prompt Portfolio"
+    ],
+    techniques: [
+      "Project Planning & Management",
+      "System Integration",
+      "Workflow Optimization",
+      "Trend Analysis",
+      "Portfolio Development",
+      "Continuous Learning Strategies"
+    ],
     duration: "3.5 hours"
   }
 ];
@@ -113,8 +183,10 @@ const CourseBreakdown = () => {
 
               {/* Expandable Content */}
               <div 
-                className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                  expandedDay === dayData.day ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+                className={`accordion-content overflow-hidden ${
+                  expandedDay === dayData.day 
+                    ? 'max-h-[600px] opacity-100 expanded' 
+                    : 'max-h-0 opacity-0 collapsed'
                 }`}
               >
                 <div className="px-6 pb-6 border-t border-gray-100">
@@ -123,13 +195,15 @@ const CourseBreakdown = () => {
                     <div className="space-y-3">
                       <div className="flex items-center gap-2">
                         <Target className="h-5 w-5 text-purple-600" />
-                        <h4 className="font-semibold text-gray-900">Key Topics:</h4>
+                        <h4 className="label">
+                          <span className="static-label">Key Topics:</span>
+                        </h4>
                       </div>
                       <ul className="space-y-2">
                         {dayData.topics.map((topic, index) => (
-                          <li key={index} className="flex items-start gap-2">
+                          <li key={index} className="flex items-start gap-2 fade-in-up" style={{ animationDelay: `${index * 0.1}s` }}>
                             <div className="h-1.5 w-1.5 bg-purple-400 rounded-full mt-2 flex-shrink-0"></div>
-                            <span className="text-gray-700">{topic}</span>
+                            <span className="content editable-content">{topic}</span>
                           </li>
                         ))}
                       </ul>
@@ -139,13 +213,15 @@ const CourseBreakdown = () => {
                     <div className="space-y-3">
                       <div className="flex items-center gap-2">
                         <Calendar className="h-5 w-5 text-blue-600" />
-                        <h4 className="font-semibold text-gray-900">Techniques Covered:</h4>
+                        <h4 className="label">
+                          <span className="static-label">Techniques Covered:</span>
+                        </h4>
                       </div>
                       <ul className="space-y-2">
                         {dayData.techniques.map((technique, index) => (
-                          <li key={index} className="flex items-start gap-2">
+                          <li key={index} className="flex items-start gap-2 fade-in-up" style={{ animationDelay: `${(index + dayData.topics.length) * 0.1}s` }}>
                             <div className="h-1.5 w-1.5 bg-blue-400 rounded-full mt-2 flex-shrink-0"></div>
-                            <span className="text-gray-700">{technique}</span>
+                            <span className="content editable-content">{technique}</span>
                           </li>
                         ))}
                       </ul>
@@ -156,14 +232,17 @@ const CourseBreakdown = () => {
                   <div className="mt-6 pt-4 border-t border-gray-100">
                     <Button 
                       variant="outline" 
-                      className="group hover:bg-purple-50 hover:border-purple-200 transition-colors"
+                      className="group hover:bg-purple-50 hover:border-purple-200 transition-all duration-300 hover:scale-105 hover:shadow-lg pulse-glow"
                       onClick={(e) => {
                         e.stopPropagation();
-                        // Placeholder link
+                        // Placeholder link - would connect to actual PDF download
+                        window.open('#', '_blank');
                       }}
                     >
-                      <Download className="h-4 w-4 mr-2" />
-                      Download Day {dayData.day} Summary (PDF)
+                      <Download className="h-4 w-4 mr-2 group-hover:animate-bounce" />
+                      <span className="static-label">Download Day</span>{' '}
+                      <span className="editable-content">{dayData.day}</span>{' '}
+                      <span className="static-label">Summary (PDF)</span>
                     </Button>
                   </div>
                 </div>
