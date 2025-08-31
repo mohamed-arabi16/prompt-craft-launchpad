@@ -98,6 +98,7 @@ const translations = {
   // CTA Section
   ctaTitle: "Start Your AI Journey Today",
   ctaDescription: "Don't wait - the AI revolution is happening now. Secure your spot in our next cohort and transform your career in just 5 days.",
+  ctaFeatures: ["Lifetime access to all materials", "Free content updates", "Private graduate community", "Certified completion certificate", "Specialized technical support"],
   enrollButton: "Enroll Now - Start Learning",
   downloadSyllabus: "Download Syllabus",
   
