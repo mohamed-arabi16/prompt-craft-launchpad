@@ -80,7 +80,14 @@ export const TranslationProvider = ({ children }: { children: ReactNode }) => {
     if (Array.isArray(value)) {
       return value.join(', ');
     }
-    return (value as string) || key;
+    const result = (value as string) || key;
+    
+    // Debug: Log missing translations in development
+    if (result === key && process.env.NODE_ENV === 'development') {
+      console.warn(`Missing translation for key: ${key} in language: ${currentLanguage}`);
+    }
+    
+    return result;
   };
 
   const tArray = (key: string): string[] => {
