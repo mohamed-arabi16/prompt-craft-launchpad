@@ -52,15 +52,15 @@ const HeroSection = () => {
         <div className="flex items-center justify-center gap-8 text-muted-foreground text-sm fade-in-up-delay-3">
           <div className="flex items-center gap-2">
             <div className="h-2 w-2 bg-primary rounded-full"></div>
-            <span data-i18n="feature1">5 Interactive Days</span>
+            <span>{t('feature1')}</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="h-2 w-2 bg-primary rounded-full"></div>
-            <span data-i18n="feature2">Expert Instruction</span>
+            <span>{t('feature2')}</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="h-2 w-2 bg-primary rounded-full"></div>
-            <span data-i18n="feature3">Practical Projects</span>
+            <span>{t('feature3')}</span>
           </div>
         </div>
       </div>
