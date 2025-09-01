@@ -33,7 +33,21 @@ const translationsData: Record<Language, () => Promise<Translations>> = {
 export const TranslationProvider = ({ children }: { children: ReactNode }) => {
   const [currentLanguage, setCurrentLanguage] = useState<Language>('ar');
   const [translations, setTranslations] = useState<Translations>({});
-  const [isLoading, setIsLoading] = useState(false);
+  const [englishTranslations, setEnglishTranslations] = useState<Translations>({});
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Load English translations once on mount for fallback
+  useEffect(() => {
+    const fetchEnglishTranslations = async () => {
+      try {
+        const enTranslations = await translationsData['en']();
+        setEnglishTranslations(enTranslations);
+      } catch (error) {
+        console.error('Failed to load English fallback translations:', error);
+      }
+    };
+    fetchEnglishTranslations();
+  }, []);
 
   const loadTranslations = async (language: Language) => {
     setIsLoading(true);
@@ -56,7 +70,7 @@ export const TranslationProvider = ({ children }: { children: ReactNode }) => {
       }));
 
     } catch (error) {
-      console.error('Failed to load translations:', error);
+      console.error(`Failed to load ${language} translations:`, error);
     } finally {
       setIsLoading(false);
     }
@@ -76,18 +90,28 @@ export const TranslationProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const t = (key: string): string => {
+    // Try to get the translation from the current language
     const value = translations[key];
-    if (Array.isArray(value)) {
-      return value.join(', ');
+    if (value) {
+      return Array.isArray(value) ? value.join(', ') : (value as string);
     }
-    const result = (value as string) || key;
-    
-    // Debug: Log missing translations in development
-    if (result === key && process.env.NODE_ENV === 'development') {
-      console.warn(`Missing translation for key: ${key} in language: ${currentLanguage}`);
+
+    // Fallback to English if the key is missing in the current language
+    const fallbackValue = englishTranslations[key];
+    if (fallbackValue) {
+      // Log a warning in development that we're using a fallback
+      if (process.env.NODE_ENV === 'development') {
+        console.warn(`Missing translation for key: ${key} in language: ${currentLanguage}. Using English fallback.`);
+      }
+      return Array.isArray(fallbackValue) ? fallbackValue.join(', ') : (fallbackValue as string);
     }
     
-    return result;
+    // If the key is not found in either, return the key and log a warning
+    if (process.env.NODE_ENV === 'development') {
+      console.warn(`Missing translation for key: ${key} in both ${currentLanguage} and English.`);
+    }
+    
+    return key;
   };
 
   const tArray = (key: string): string[] => {

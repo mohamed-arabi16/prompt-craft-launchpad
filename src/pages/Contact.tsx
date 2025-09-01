@@ -108,20 +108,20 @@ const Contact = () => {
             <CardContent className="pt-6">
               <CheckCircle className="h-16 w-16 text-primary mx-auto mb-4" />
               <h2 className="text-2xl font-bold text-foreground mb-2">
-                Message Sent Successfully!
+                {t('success.messageSent')}
               </h2>
               <p className="text-muted-foreground mb-6">
-                Thank you for contacting us. We'll get back to you within 24 hours.
+                {t('success.messageSentSubtext', "We'll get back to you as soon as possible.")}
               </p>
               <div className="flex gap-4 justify-center">
                 <Link to="/">
                   <Button variant="outline">
                     <ArrowLeft className="h-4 w-4 ltr:mr-2 rtl:ml-2" />
-                    Back to Home
+                    {t('navHome')}
                   </Button>
                 </Link>
                 <Button onClick={() => setIsSubmitted(false)}>
-                  Send Another Message
+                  {t('buttons.sendAnother', 'Send Another Message')}
                 </Button>
               </div>
             </CardContent>
@@ -137,7 +137,7 @@ const Contact = () => {
         <div className="text-center mb-8">
           <Link to="/" className="inline-flex items-center text-primary hover:text-primary/80 mb-4">
             <ArrowLeft className="h-4 w-4 ltr:mr-2 rtl:ml-2" />
-            Back to Home
+            {t('navHome')}
           </Link>
           <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
             {t('contactTitle')}
@@ -151,10 +151,10 @@ const Contact = () => {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <MessageSquare className="h-5 w-5 text-primary" />
-              Contact Form
+              {t('contactTitle')}
             </CardTitle>
             <CardDescription>
-              Fill out the form below and we'll respond as soon as possible.
+              {t('contactSubtitle')}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -162,7 +162,7 @@ const Contact = () => {
               <div className="space-y-2">
                 <Label htmlFor="name" className="flex items-center gap-2">
                   <User className="h-4 w-4" />
-                  {t('contactForm.name')} *
+                  {t('contactForm.name')}
                 </Label>
                 <Input
                   id="name"
@@ -179,7 +179,7 @@ const Contact = () => {
               <div className="space-y-2">
                 <Label htmlFor="email" className="flex items-center gap-2">
                   <Mail className="h-4 w-4" />
-                  {t('contactForm.email')} *
+                  {t('contactForm.email')}
                 </Label>
                 <Input
                   id="email"
@@ -196,7 +196,7 @@ const Contact = () => {
 
               <div className="space-y-2">
                 <Label htmlFor="subject">
-                  {t('contactForm.subject')} *
+                  {t('contactForm.subject')}
                 </Label>
                 <Input
                   id="subject"
@@ -212,7 +212,7 @@ const Contact = () => {
 
               <div className="space-y-2">
                 <Label htmlFor="message">
-                  {t('contactForm.message')} *
+                  {t('contactForm.message')}
                 </Label>
                 <Textarea
                   id="message"
