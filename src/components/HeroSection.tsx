@@ -35,7 +35,7 @@ const HeroSection = () => {
         <div className="mb-6 fade-in-up-delay-1">
           <span className="inline-flex items-center px-4 py-2 bg-card backdrop-blur-sm rounded-full text-foreground text-sm font-medium border border-primary/20">
             <Sparkles className="h-4 w-4 ltr:mr-2 rtl:ml-2" />
-            <span>5-Day Intensive Program</span>
+            <span>{t('intensiveProgram')}</span>
           </span>
         </div>
         
@@ -72,15 +72,15 @@ const HeroSection = () => {
         <div className="flex items-center justify-center gap-8 text-muted-foreground text-sm fade-in-up-delay-3">
           <div className="flex items-center gap-2">
             <div className="h-2 w-2 bg-primary rounded-full"></div>
-            <span>5-Day Program</span>
+            <span>{t('programFeature1')}</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="h-2 w-2 bg-primary rounded-full"></div>
-            <span>Expert Training</span>
+            <span>{t('programFeature2')}</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="h-2 w-2 bg-primary rounded-full"></div>
-            <span>Lifetime Access</span>
+            <span>{t('programFeature3')}</span>
           </div>
         </div>
       </div>

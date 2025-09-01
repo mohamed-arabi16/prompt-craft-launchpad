@@ -110,6 +110,8 @@ const Enrollment = () => {
     }
   };
 
+  const experienceLevels = ['beginner', 'intermediate', 'advanced'];
+
   if (isSubmitted) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center p-6">
@@ -120,12 +122,12 @@ const Enrollment = () => {
               {t('success.enrollmentComplete')}
             </h2>
             <p className="text-muted-foreground mb-6">
-              Check your email for course access details and further instructions.
+              {t('success.enrollmentSubtext', 'Check your email for course access details.')}
             </p>
             <Link to="/">
               <Button className="w-full">
                 <ArrowLeft className="h-4 w-4 ltr:mr-2 rtl:ml-2" />
-                Back to Home
+                {t('navHome')}
               </Button>
             </Link>
           </CardContent>
@@ -140,7 +142,7 @@ const Enrollment = () => {
         <div className="text-center mb-8">
           <Link to="/" className="inline-flex items-center text-primary hover:text-primary/80 mb-4">
             <ArrowLeft className="h-4 w-4 ltr:mr-2 rtl:ml-2" />
-            Back to Home
+            {t('navHome')}
           </Link>
           <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
             {t('enrollmentTitle')}
@@ -154,10 +156,10 @@ const Enrollment = () => {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <User className="h-5 w-5 text-primary" />
-              Enrollment Information
+              {t('enrollmentTitle')}
             </CardTitle>
             <CardDescription>
-              Please fill out all required fields to complete your enrollment.
+              {t('enrollmentSubtitle')}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -165,7 +167,7 @@ const Enrollment = () => {
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="firstName">
-                    {t('enrollmentForm.firstName')} *
+                    {t('enrollmentForm.firstName')}
                   </Label>
                   <Input
                     id="firstName"
@@ -181,7 +183,7 @@ const Enrollment = () => {
 
                 <div className="space-y-2">
                   <Label htmlFor="lastName">
-                    {t('enrollmentForm.lastName')} *
+                    {t('enrollmentForm.lastName')}
                   </Label>
                   <Input
                     id="lastName"
@@ -199,7 +201,7 @@ const Enrollment = () => {
               <div className="space-y-2">
                 <Label htmlFor="email" className="flex items-center gap-2">
                   <Mail className="h-4 w-4" />
-                  {t('enrollmentForm.email')} *
+                  {t('enrollmentForm.email')}
                 </Label>
                 <Input
                   id="email"
@@ -217,7 +219,7 @@ const Enrollment = () => {
               <div className="space-y-2">
                 <Label htmlFor="phone" className="flex items-center gap-2">
                   <Phone className="h-4 w-4" />
-                  {t('enrollmentForm.phone')} *
+                  {t('enrollmentForm.phone')}
                 </Label>
                 <Input
                   id="phone"
@@ -246,7 +248,7 @@ const Enrollment = () => {
 
               <div className="space-y-2">
                 <Label htmlFor="experience">
-                  {t('enrollmentForm.experience')} *
+                  {t('enrollmentForm.experience')}
                 </Label>
                 <Select
                   value={formData.experience}
@@ -254,12 +256,12 @@ const Enrollment = () => {
                   disabled={isSubmitting}
                 >
                   <SelectTrigger className={errors.experience ? 'border-destructive' : ''}>
-                    <SelectValue placeholder="Select your experience level" />
+                    <SelectValue placeholder={t('enrollmentForm.experience')} />
                   </SelectTrigger>
                   <SelectContent>
-                    {tArray('enrollmentExperience').map((level, index) => (
-                      <SelectItem key={index} value={level}>
-                        {level}
+                    {experienceLevels.map((level) => (
+                      <SelectItem key={level} value={level}>
+                        {t(`enrollmentForm.experience.options.${level}`)}
                       </SelectItem>
                     ))}
                   </SelectContent>
