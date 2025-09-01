@@ -1,9 +1,30 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Check, Clock } from "lucide-react";
+import { ArrowRight, Check, Clock, Download } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
+import { useDownload } from "@/hooks/useDownload";
+import { useState } from "react";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Link } from "react-router-dom";
+import LoadingSpinner from "./LoadingSpinner";
 
 const CTASection = () => {
   const { t, tArray } = useTranslation();
+  const { isLoading, downloadFile } = useDownload();
+  const [showComingSoon, setShowComingSoon] = useState(false);
+
+  const handleDownload = () => {
+    // For demo purposes, show "Coming Soon" modal sometimes
+    if (Math.random() > 0.5) {
+      setShowComingSoon(true);
+    } else {
+      downloadFile('ai-prompt-course-outline.pdf');
+    }
+  };
+
+  const handleEnroll = () => {
+    // Navigate to enrollment page
+    window.location.href = '/enrollment';
+  };
 
   return (
     <section className="py-20 bg-background">
@@ -37,12 +58,24 @@ const CTASection = () => {
           </div>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button className="bg-primary text-primary-foreground hover:bg-primary/90 group text-lg px-8 py-4">
-              {t('ctaEnrollButton')}
-              <ArrowRight className="ltr:ml-2 rtl:mr-2 h-5 w-5 transition-transform group-hover:ltr:translate-x-1 group-hover:rtl:-translate-x-1" />
-            </Button>
-            <Button variant="outline" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground px-8 py-4">
-              {t('ctaDownloadButton')}
+            <Link to="/enrollment">
+              <Button className="bg-primary text-primary-foreground hover:bg-primary/90 group text-lg px-8 py-4 w-full sm:w-auto">
+                {t('ctaEnrollButton')}
+                <ArrowRight className="ltr:ml-2 rtl:mr-2 h-5 w-5 transition-transform group-hover:ltr:translate-x-1 group-hover:rtl:-translate-x-1" />
+              </Button>
+            </Link>
+            <Button 
+              variant="outline" 
+              className="border-primary text-primary hover:bg-primary hover:text-primary-foreground px-8 py-4"
+              onClick={handleDownload}
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <LoadingSpinner size="sm" className="ltr:mr-2 rtl:ml-2" />
+              ) : (
+                <Download className="ltr:mr-2 rtl:ml-2 h-5 w-5" />
+              )}
+              {isLoading ? t('loading.downloading') : t('ctaDownloadButton')}
             </Button>
           </div>
         </div>
@@ -51,6 +84,28 @@ const CTASection = () => {
           {t('ctaGuarantee')}
         </p>
       </div>
+
+      {/* Coming Soon Modal */}
+      <Dialog open={showComingSoon} onOpenChange={setShowComingSoon}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t('comingSoon')}</DialogTitle>
+            <DialogDescription>
+              {t('comingSoonMessage')}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex justify-end gap-2 mt-4">
+            <Button variant="outline" onClick={() => setShowComingSoon(false)}>
+              {t('buttons.close')}
+            </Button>
+            <Link to="/contact">
+              <Button onClick={() => setShowComingSoon(false)}>
+                {t('footerContact')}
+              </Button>
+            </Link>
+          </div>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };

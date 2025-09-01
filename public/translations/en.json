@@ -1,0 +1,171 @@
+{
+  "navHome": "Home",
+  "navAbout": "About",
+  "navCourse": "Course",
+  "navTestimonials": "Testimonials",
+  "navContact": "Contact",
+  "heroTitle": "Master AI Prompt Engineering in 5 Days",
+  "heroSubtitle": "Transform from casual user to strategic AI practitioner with expert techniques that deliver professional results",
+  "heroEnrollButton": "Start Your AI Mastery Journey",
+  "heroDownloadButton": "Download Course Outline",
+  "benefitsTitle": "Why Learn Prompt Engineering?",
+  "benefitsSubtitle": "Unlock the strategic potential of AI in your professional workflow",
+  "benefitsTitles": [
+    "Strategic AI Integration",
+    "Professional Efficiency",
+    "Competitive Advantage",
+    "Measurable Results"
+  ],
+  "benefitsDescriptions": [
+    "Learn to integrate AI tools strategically into your workflow, moving beyond casual use to professional mastery.",
+    "Increase your productivity by 10x with advanced prompting techniques that deliver consistent, high-quality results.",
+    "Stay ahead in your field by mastering the skills that will define the future of professional work.",
+    "Achieve measurable improvements in your work quality and efficiency through systematic AI application."
+  ],
+  "courseTitle": "5-Day Transformation Journey",
+  "courseSubtitle": "From Beginner to Expert: Your Complete AI Prompt Engineering Roadmap",
+  "dayTitles": [
+    "Foundation & Fundamentals",
+    "Advanced Techniques",
+    "Strategic Applications",
+    "Professional Workflows",
+    "Mastery & Optimization"
+  ],
+  "dayDescriptions": [
+    "Build your foundation with core principles, prompt anatomy, and best practices for reliable AI interactions.",
+    "Master advanced techniques like chain-of-thought, few-shot learning, and context optimization strategies.",
+    "Apply strategic frameworks for complex tasks, role-playing, and multi-step problem solving.",
+    "Develop professional workflows, quality assurance methods, and team collaboration strategies.",
+    "Achieve mastery through optimization techniques, custom methodologies, and advanced troubleshooting."
+  ],
+  "dayTopics": [
+    [
+      "Understanding AI Model Capabilities",
+      "Prompt Structure & Anatomy",
+      "Clear Communication Principles",
+      "Basic Prompt Types & Patterns"
+    ],
+    [
+      "Chain-of-Thought Reasoning",
+      "Few-Shot Learning Techniques",
+      "Context Window Optimization",
+      "Error Prevention Strategies"
+    ],
+    [
+      "Role-Based Prompting",
+      "Multi-Step Problem Solving",
+      "Strategic Task Decomposition",
+      "Complex Output Formatting"
+    ],
+    [
+      "Workflow Integration",
+      "Quality Assurance Protocols",
+      "Team Collaboration Methods",
+      "Performance Optimization"
+    ],
+    [
+      "Advanced Troubleshooting",
+      "Custom Methodology Development",
+      "Continuous Improvement",
+      "Mastery Assessment"
+    ]
+  ],
+  "philosophyTitle": "Our Teaching Philosophy",
+  "philosophySubtitle": "Practical mastery through strategic application",
+  "philosophyDescription": "We believe in learning through strategic application. Our course combines theoretical understanding with hands-on practice, ensuring you develop not just knowledge, but true expertise in AI prompt engineering.",
+  "philosophyPoints": [
+    "Hands-on learning with real-world applications",
+    "Strategic thinking over tactical execution",
+    "Measurable outcomes and continuous improvement",
+    "Professional-grade tools and methodologies"
+  ],
+  "testimonialsTitle": "Success Stories",
+  "testimonialsSubtitle": "Real professionals, real results",
+  "testimonialNames": [
+    "Dr. Sarah Chen",
+    "Ahmed Al-Rashid",
+    "Maria Rodriguez"
+  ],
+  "testimonialRoles": [
+    "Research Director, TechCorp",
+    "Product Manager, InnovateCo",
+    "Data Scientist, AnalyticsPro"
+  ],
+  "testimonialTexts": [
+    "This course completely transformed how I approach AI in my research. The strategic frameworks taught here increased my research efficiency by 300%.",
+    "As a product manager, understanding AI capabilities at this level has been game-changing. I can now design AI-enhanced features with confidence.",
+    "The systematic approach to prompt engineering has revolutionized my data analysis workflow. Highly recommended for any technical professional."
+  ],
+  "ctaTitle": "Ready to Transform Your AI Skills?",
+  "ctaSubtitle": "Join thousands of professionals who have mastered strategic AI prompt engineering",
+  "ctaFeatures": [
+    "5-Day Intensive Course",
+    "Expert-Led Training",
+    "Lifetime Access"
+  ],
+  "ctaDiscount": "Limited Time: 50% Off",
+  "ctaCurrentPrice": "$197",
+  "ctaOriginalPrice": "$397",
+  "ctaEnrollButton": "Enroll Now",
+  "ctaDownloadButton": "Download Course Outline",
+  "ctaGuarantee": "30-day money-back guarantee",
+  "footerCopyright": "© 2024 AI Prompt Engineering Course. All rights reserved.",
+  "footerPrivacy": "Privacy Policy",
+  "footerTerms": "Terms of Service",
+  "footerContact": "Contact",
+  "enrollmentTitle": "Enroll in the Course",
+  "enrollmentSubtitle": "Start your journey to AI mastery today",
+  "enrollmentForm": {
+    "firstName": "First Name",
+    "lastName": "Last Name", 
+    "email": "Email Address",
+    "phone": "Phone Number",
+    "company": "Company (Optional)",
+    "experience": "AI Experience Level",
+    "submit": "Complete Enrollment"
+  },
+  "enrollmentExperience": [
+    "Complete Beginner",
+    "Some Experience",
+    "Intermediate",
+    "Advanced"
+  ],
+  "contactTitle": "Get in Touch",
+  "contactSubtitle": "Have questions? We're here to help",
+  "contactForm": {
+    "name": "Full Name",
+    "email": "Email Address",
+    "subject": "Subject",
+    "message": "Your Message",
+    "submit": "Send Message"
+  },
+  "privacyTitle": "Privacy Policy",
+  "privacyContent": "Your privacy is important to us. This policy outlines how we collect, use, and protect your personal information.",
+  "termsTitle": "Terms of Service",
+  "termsContent": "These terms govern your use of our course and services.",
+  "errors": {
+    "required": "This field is required",
+    "invalidEmail": "Please enter a valid email address",
+    "downloadFailed": "Download failed. Please check your connection and try again.",
+    "networkError": "Network error. Please check your internet connection.",
+    "genericError": "Something went wrong. Please try again."
+  },
+  "success": {
+    "messageSent": "Message sent successfully! We'll get back to you soon.",
+    "enrollmentComplete": "Enrollment complete! Check your email for course access details.",
+    "downloadStarted": "Download started successfully!"
+  },
+  "loading": {
+    "submitting": "Submitting...",
+    "downloading": "Downloading...",
+    "processing": "Processing..."
+  },
+  "buttons": {
+    "retry": "Retry",
+    "close": "Close",
+    "cancel": "Cancel",
+    "confirm": "Confirm"
+  },
+  "comingSoon": "Coming Soon",
+  "comingSoonMessage": "The course outline will be available for download soon. Please check back later or contact us for more information."
+}

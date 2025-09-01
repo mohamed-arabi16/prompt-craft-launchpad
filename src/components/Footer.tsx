@@ -1,4 +1,5 @@
 import { useTranslation } from "@/hooks/useTranslation";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   const { t } = useTranslation();
@@ -11,24 +12,24 @@ const Footer = () => {
             {t('footerCopyright')}
           </div>
           <div className="flex gap-6">
-            <a 
-              href="#" 
+            <Link 
+              to="/privacy" 
               className="text-muted-foreground hover:text-primary transition-colors"
             >
               {t('footerPrivacy')}
-            </a>
-            <a 
-              href="#" 
+            </Link>
+            <Link 
+              to="/terms" 
               className="text-muted-foreground hover:text-primary transition-colors"
             >
               {t('footerTerms')}
-            </a>
-            <a 
-              href="#" 
+            </Link>
+            <Link 
+              to="/contact" 
               className="text-muted-foreground hover:text-primary transition-colors"
             >
               {t('footerContact')}
-            </a>
+            </Link>
           </div>
         </div>
       </div>

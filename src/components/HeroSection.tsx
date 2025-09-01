@@ -1,10 +1,18 @@
 
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Sparkles, Brain, Zap } from "lucide-react";
+import { ArrowRight, Sparkles, Brain, Zap, Download } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
+import { useDownload } from "@/hooks/useDownload";
+import { Link } from "react-router-dom";
+import LoadingSpinner from "./LoadingSpinner";
 
 const HeroSection = () => {
   const { t } = useTranslation();
+  const { isLoading, downloadFile } = useDownload();
+
+  const handleDownload = () => {
+    downloadFile('ai-prompt-course-outline.pdf');
+  };
   
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
@@ -40,27 +48,39 @@ const HeroSection = () => {
         </p>
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8 fade-in-up-delay-3">
-          <Button className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-4 text-lg font-semibold group">
-            <span>{t('ctaPrimary')}</span>
-            <ArrowRight className="ltr:ml-2 rtl:mr-2 h-5 w-5 transition-transform group-hover:ltr:translate-x-1 group-hover:rtl:-translate-x-1" />
-          </Button>
-          <Button variant="outline" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground px-8 py-4 text-lg">
-            <span>{t('ctaSecondary')}</span>
+          <Link to="/enrollment">
+            <Button className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-4 text-lg font-semibold group w-full sm:w-auto">
+              <span>{t('heroEnrollButton')}</span>
+              <ArrowRight className="ltr:ml-2 rtl:mr-2 h-5 w-5 transition-transform group-hover:ltr:translate-x-1 group-hover:rtl:-translate-x-1" />
+            </Button>
+          </Link>
+          <Button 
+            variant="outline" 
+            className="border-primary text-primary hover:bg-primary hover:text-primary-foreground px-8 py-4 text-lg"
+            onClick={handleDownload}
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <LoadingSpinner size="sm" className="ltr:mr-2 rtl:ml-2" />
+            ) : (
+              <Download className="ltr:mr-2 rtl:ml-2 h-5 w-5" />
+            )}
+            <span>{isLoading ? t('loading.downloading') : t('heroDownloadButton')}</span>
           </Button>
         </div>
         
         <div className="flex items-center justify-center gap-8 text-muted-foreground text-sm fade-in-up-delay-3">
           <div className="flex items-center gap-2">
             <div className="h-2 w-2 bg-primary rounded-full"></div>
-            <span>{t('feature1')}</span>
+            <span>5-Day Program</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="h-2 w-2 bg-primary rounded-full"></div>
-            <span>{t('feature2')}</span>
+            <span>Expert Training</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="h-2 w-2 bg-primary rounded-full"></div>
-            <span>{t('feature3')}</span>
+            <span>Lifetime Access</span>
           </div>
         </div>
       </div>
