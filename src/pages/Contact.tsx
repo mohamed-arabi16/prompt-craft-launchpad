@@ -9,6 +9,7 @@ import { toast } from 'sonner';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { ArrowLeft, CheckCircle, Mail, MessageSquare, User } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { supabase } from '@/integrations/supabase/client';
 
 interface ContactFormData {
   name: string;
@@ -68,19 +69,25 @@ const Contact = () => {
     setIsSubmitting(true);
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      // Simulate random failure for demo
-      if (Math.random() > 0.9) {
-        throw new Error('Message failed to send');
+      const { error } = await supabase
+        .from('contact_messages')
+        .insert({
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+        });
+
+      if (error) {
+        throw error;
       }
 
       setIsSubmitted(true);
       setFormData({ name: '', email: '', subject: '', message: '' });
       toast.success(t('success.messageSent'));
     } catch (error) {
-      toast.error(t('errors.genericError'));
+      console.error('Error submitting contact message:', error);
+      toast.error('Failed to send message. Please try again.');
     } finally {
       setIsSubmitting(false);
     }

@@ -9,6 +9,7 @@ import { toast } from 'sonner';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { ArrowLeft, CheckCircle, User, Mail, Phone, Building } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { supabase } from '@/integrations/supabase/client';
 
 interface FormData {
   firstName: string;
@@ -76,18 +77,27 @@ const Enrollment = () => {
     setIsSubmitting(true);
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // Simulate random failure for demo
-      if (Math.random() > 0.8) {
-        throw new Error('Enrollment failed');
+      const { error } = await supabase
+        .from('enrollments')
+        .insert({
+          user_id: '00000000-0000-0000-0000-000000000000', // Temporary placeholder for public enrollments
+          first_name: formData.firstName,
+          last_name: formData.lastName,
+          email: formData.email,
+          phone: formData.phone || null,
+          company: formData.company || null,
+          ai_experience: formData.experience,
+        });
+
+      if (error) {
+        throw error;
       }
 
       setIsSubmitted(true);
       toast.success(t('success.enrollmentComplete'));
     } catch (error) {
-      toast.error(t('errors.genericError'));
+      console.error('Error submitting enrollment:', error);
+      toast.error('Failed to submit enrollment. Please try again.');
     } finally {
       setIsSubmitting(false);
     }

@@ -70,6 +70,49 @@
       "Mastery Assessment"
     ]
   ],
+  "dayTechniques": [
+    [
+      "Basic prompt templates",
+      "Input-output examples",
+      "Context setting methods",
+      "Response formatting"
+    ],
+    [
+      "Multi-step reasoning",
+      "Example-driven learning",
+      "Context compression",
+      "Error handling patterns"
+    ],
+    [
+      "Character and role definition",
+      "Task breakdown strategies",
+      "Sequential problem solving",
+      "Structured output design"
+    ],
+    [
+      "Tool integration methods",
+      "Quality checkpoints",
+      "Collaborative frameworks",
+      "Performance metrics"
+    ],
+    [
+      "Advanced debugging",
+      "Custom framework creation",
+      "Iterative improvement",
+      "Expert-level techniques"
+    ]
+  ],
+  "keyTopicsLabel": "Key Topics:",
+  "techniquesCoveredLabel": "Techniques Covered:",
+  "downloadDayLabel": "Download Day",
+  "summaryPdfLabel": "Summary (PDF)",
+  "intensiveProgram": "5-Day Intensive Program",
+  "philosophyFeature1Title": "Practical Application",
+  "philosophyFeature1Description": "Learn through real-world scenarios and hands-on exercises that mirror professional challenges.",
+  "philosophyFeature2Title": "Strategic Thinking",
+  "philosophyFeature2Description": "Develop a strategic mindset that goes beyond tactics to master the art of AI interaction.",
+  "philosophyFeature3Title": "Professional Tools",
+  "philosophyFeature3Description": "Master industry-standard tools and methodologies used by AI professionals worldwide.",
   "philosophyTitle": "Our Teaching Philosophy",
   "philosophySubtitle": "Practical mastery through strategic application",
   "philosophyDescription": "We believe in learning through strategic application. Our course combines theoretical understanding with hands-on practice, ensuring you develop not just knowledge, but true expertise in AI prompt engineering.",
