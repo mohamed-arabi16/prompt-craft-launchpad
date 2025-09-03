@@ -1,11 +1,11 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Check, Clock, Download } from "lucide-react";
+import { ArrowRight, Check, Clock } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useAuth } from "@/contexts/AuthContext";
 import { useState } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Link, useNavigate } from "react-router-dom";
-import LoadingSpinner from "./LoadingSpinner";
+import { Link } from "react-router-dom";
+import DownloadButton from "./DownloadButton";
 
 /**
  * Renders the Call-to-Action (CTA) section of the homepage.
@@ -17,16 +17,7 @@ import LoadingSpinner from "./LoadingSpinner";
 const CTASection = () => {
   const { t, tArray } = useTranslation();
   const { user } = useAuth();
-  const navigate = useNavigate();
   const [showComingSoon, setShowComingSoon] = useState(false);
-
-  const handleDownload = () => {
-    if (!user) {
-      navigate('/auth');
-    } else {
-      navigate('/dashboard');
-    }
-  };
 
   const handleEnroll = () => {
     // Navigate to enrollment page
@@ -71,14 +62,12 @@ const CTASection = () => {
                 <ArrowRight className="ltr:ml-2 rtl:mr-2 h-5 w-5 transition-transform group-hover:ltr:translate-x-1 group-hover:rtl:-translate-x-1" />
               </Button>
             </Link>
-            <Button 
+            <DownloadButton 
               variant="outline" 
               className="border-primary text-primary hover:bg-primary hover:text-primary-foreground px-8 py-4"
-              onClick={handleDownload}
-            >
-              <Download className="ltr:mr-2 rtl:ml-2 h-5 w-5" />
-              {user ? t('ctaAccessDashboard') : t('ctaDownloadButton')}
-            </Button>
+              signInText={t('ctaDownloadButton')}
+              downloadText={t('ctaAccessDashboard')}
+            />
           </div>
         </div>
 

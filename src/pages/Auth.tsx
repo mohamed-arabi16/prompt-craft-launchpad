@@ -39,9 +39,10 @@ const Auth = () => {
   // Redirect if already authenticated
   useEffect(() => {
     if (!authLoading && user) {
-      navigate('/');
+      const redirectTo = searchParams.get('redirectTo');
+      navigate(redirectTo === 'dashboard' ? '/dashboard' : '/');
     }
-  }, [user, authLoading, navigate]);
+  }, [user, authLoading, navigate, searchParams]);
 
   /**
    * Handles the sign-in form submission.
@@ -62,7 +63,11 @@ const Auth = () => {
           toast.error(error.message);
         }
       } else {
+        const redirectTo = searchParams.get('redirectTo');
         toast.success('Welcome back!');
+        if (redirectTo === 'dashboard') {
+          navigate('/dashboard');
+        }
       }
     } catch (error) {
       toast.error('An unexpected error occurred. Please try again.');
@@ -105,7 +110,12 @@ const Auth = () => {
         }
       } else {
         toast.success('Account created successfully! Please check your email to verify your account.');
-        setActiveTab('signin');
+        const redirectTo = searchParams.get('redirectTo');
+        if (redirectTo === 'dashboard') {
+          navigate('/dashboard');
+        } else {
+          setActiveTab('signin');
+        }
       }
     } catch (error) {
       toast.error('An unexpected error occurred. Please try again.');
@@ -155,7 +165,11 @@ const Auth = () => {
           <Link to="/" className="inline-block">
             <h1 className="text-2xl font-bold text-primary mb-2">AI Prompt Mastery</h1>
           </Link>
-          <p className="text-muted-foreground">Access your course content</p>
+          {searchParams.get('redirectTo') === 'dashboard' ? (
+            <p className="text-muted-foreground">Sign in to download course materials</p>
+          ) : (
+            <p className="text-muted-foreground">Access your course content</p>
+          )}
         </div>
 
         <Card className="border-border/50 shadow-lg">

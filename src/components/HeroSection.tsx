@@ -1,10 +1,10 @@
 
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Sparkles, Brain, Zap, Download } from "lucide-react";
+import { ArrowRight, Sparkles, Brain, Zap } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useAuth } from "@/contexts/AuthContext";
-import { Link, useNavigate } from "react-router-dom";
-import LoadingSpinner from "./LoadingSpinner";
+import { Link } from "react-router-dom";
+import DownloadButton from "./DownloadButton";
 
 /**
  * Renders the hero section of the homepage.
@@ -16,19 +16,6 @@ import LoadingSpinner from "./LoadingSpinner";
 const HeroSection = () => {
   const { t } = useTranslation();
   const { user } = useAuth();
-  const navigate = useNavigate();
-
-  /**
-   * Handles the download of the course outline PDF.
-   * Redirects to auth if user is not signed in.
-   */
-  const handleDownload = () => {
-    if (!user) {
-      navigate('/auth');
-    } else {
-      navigate('/dashboard');
-    }
-  };
   
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
@@ -70,14 +57,12 @@ const HeroSection = () => {
               <ArrowRight className="ltr:ml-2 rtl:mr-2 h-5 w-5 transition-transform group-hover:ltr:translate-x-1 group-hover:rtl:-translate-x-1" />
             </Button>
           </Link>
-          <Button 
+          <DownloadButton 
             variant="outline" 
             className="border-primary text-primary hover:bg-primary hover:text-primary-foreground px-8 py-4 text-lg"
-            onClick={handleDownload}
-          >
-            <Download className="ltr:mr-2 rtl:ml-2 h-5 w-5" />
-            <span>{user ? t('heroAccessDashboard') : t('heroDownloadButton')}</span>
-          </Button>
+            signInText={t('heroDownloadButton')}
+            downloadText={t('heroAccessDashboard')}
+          />
         </div>
         
         <div className="flex items-center justify-center gap-8 text-muted-foreground text-sm fade-in-up-delay-3">
