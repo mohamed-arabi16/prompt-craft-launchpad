@@ -109,10 +109,13 @@ const Enrollment = () => {
     setIsSubmitting(true);
 
     try {
+      // Generate a unique ID for anonymous enrollments
+      const anonymousId = `anon_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      
       const { error } = await supabase
         .from('enrollments')
         .insert({
-          user_id: '00000000-0000-0000-0000-000000000000', // Temporary placeholder for public enrollments
+          user_id: anonymousId, // Use unique anonymous ID instead of hardcoded placeholder
           first_name: formData.firstName,
           last_name: formData.lastName,
           email: formData.email,
@@ -159,9 +162,9 @@ const Enrollment = () => {
             <h2 className="text-2xl font-bold text-foreground mb-2">
               {t('success.enrollmentComplete')}
             </h2>
-            <p className="text-muted-foreground mb-6">
-              {t('success.enrollmentSubtext', 'Check your email for course access details.')}
-            </p>
+              <p className="text-muted-foreground mb-6">
+                {t('success.enrollmentSubtext')}
+              </p>
             <Link to="/">
               <Button className="w-full">
                 <ArrowLeft className="h-4 w-4 ltr:mr-2 rtl:ml-2" />

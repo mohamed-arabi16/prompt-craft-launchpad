@@ -146,7 +146,7 @@ const Contact = () => {
                 {t('success.messageSent')}
               </h2>
               <p className="text-muted-foreground mb-6">
-                {t('success.messageSentSubtext', "We'll get back to you as soon as possible.")}
+                {t('success.messageSentSubtext')}
               </p>
               <div className="flex gap-4 justify-center">
                 <Link to="/">
@@ -156,7 +156,7 @@ const Contact = () => {
                   </Button>
                 </Link>
                 <Button onClick={() => setIsSubmitted(false)}>
-                  {t('buttons.sendAnother', 'Send Another Message')}
+                  {t('buttons.sendAnother')}
                 </Button>
               </div>
             </CardContent>
