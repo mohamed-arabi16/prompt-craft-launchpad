@@ -39,10 +39,7 @@ export const useDownload = () => {
         throw new Error(t('errors.networkError'));
       }
 
-      // For demo purposes, simulate a download failure for PDF
-      if (filename.includes('.pdf') && Math.random() > 0.7) {
-        throw new Error(t('errors.downloadFailed'));
-      }
+      // Removed artificial download failure for production
 
       // Simulate download delay
       await new Promise(resolve => setTimeout(resolve, 1000));
@@ -56,8 +53,20 @@ export const useDownload = () => {
         link.click();
         document.body.removeChild(link);
       } else {
-        // Placeholder download - create a dummy file
-        const content = `Course Outline - ${new Date().toLocaleDateString()}`;
+        // Create a meaningful demo file instead of just placeholder text
+        const content = `AI Prompt Engineering Course - ${filename}
+
+Course Overview:
+- 5-Day Intensive Program
+- Master ChatGPT, Midjourney, and Lovable
+- Transform from casual user to strategic AI practitioner
+- Expert techniques for professional results
+
+Date Generated: ${new Date().toLocaleDateString()}
+Time: ${new Date().toLocaleTimeString()}
+
+For full access to all course materials, please complete your enrollment.
+`;
         const blob = new Blob([content], { type: 'text/plain' });
         const blobUrl = URL.createObjectURL(blob);
         
@@ -77,7 +86,13 @@ export const useDownload = () => {
       const errorMessage = error instanceof Error ? error.message : t('errors.genericError');
       setState({ isLoading: false, error: errorMessage });
       
-      toast.error(errorMessage, {
+      // Provide user-friendly fallback messages
+      const fallbackMessage = filename.includes('.pdf') 
+        ? t('errors.fileNotAvailable')
+        : errorMessage;
+      
+      toast.error(fallbackMessage, {
+        duration: 5000,
         action: {
           label: t('buttons.retry'),
           onClick: () => downloadFile(filename, url),

@@ -132,7 +132,7 @@ const Enrollment = () => {
       toast.success(t('success.enrollmentComplete'));
     } catch (error) {
       console.error('Error submitting enrollment:', error);
-      toast.error('Failed to submit enrollment. Please try again.');
+      toast.error(t('errors.genericError'));
     } finally {
       setIsSubmitting(false);
     }
@@ -199,16 +199,23 @@ const Enrollment = () => {
               <User className="h-5 w-5 text-primary" />
               {t('enrollmentTitle')}
             </CardTitle>
-            <CardDescription>
-              {t('enrollmentSubtitle')}
+            <CardDescription className="space-y-2">
+              <p>{t('enrollmentSubtitle')}</p>
+              <p className="text-sm text-muted-foreground">
+                <strong>Data Usage:</strong> Your information will be used to process your enrollment, issue course certificates, and provide course updates. We respect your privacy and will never share your data with third parties.
+              </p>
+              <p className="text-xs text-muted-foreground">
+                Fields marked with * are required
+              </p>
             </CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="firstName">
+                  <Label htmlFor="firstName" className="flex items-center gap-1">
                     {t('enrollmentForm.firstName')}
+                    <span className="text-destructive">*</span>
                   </Label>
                   <Input
                     id="firstName"
@@ -223,8 +230,9 @@ const Enrollment = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="lastName">
+                  <Label htmlFor="lastName" className="flex items-center gap-1">
                     {t('enrollmentForm.lastName')}
+                    <span className="text-destructive">*</span>
                   </Label>
                   <Input
                     id="lastName"
@@ -243,6 +251,7 @@ const Enrollment = () => {
                 <Label htmlFor="email" className="flex items-center gap-2">
                   <Mail className="h-4 w-4" />
                   {t('enrollmentForm.email')}
+                  <span className="text-destructive">*</span>
                 </Label>
                 <Input
                   id="email"
@@ -261,6 +270,7 @@ const Enrollment = () => {
                 <Label htmlFor="phone" className="flex items-center gap-2">
                   <Phone className="h-4 w-4" />
                   {t('enrollmentForm.phone')}
+                  <span className="text-destructive">*</span>
                 </Label>
                 <Input
                   id="phone"
@@ -288,8 +298,9 @@ const Enrollment = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="experience">
-                  {t('enrollmentForm.experience')}
+                <Label htmlFor="experience" className="flex items-center gap-1">
+                  {t('enrollmentForm.experience.label')}
+                  <span className="text-destructive">*</span>
                 </Label>
                 <Select
                   value={formData.experience}
@@ -297,7 +308,7 @@ const Enrollment = () => {
                   disabled={isSubmitting}
                 >
                   <SelectTrigger className={errors.experience ? 'border-destructive' : ''}>
-                    <SelectValue placeholder={t('enrollmentForm.experience')} />
+                    <SelectValue placeholder={t('enrollmentForm.experience.label')} />
                   </SelectTrigger>
                   <SelectContent>
                     {experienceLevels.map((level) => (

@@ -56,7 +56,25 @@
     "submit": "Send"
   },
   "buttons": {
-    "sendAnother": "Send Another Message"
+    "sendAnother": "Send Another Message",
+    "retry": "Retry",
+    "signIn": "Sign In"
+  },
+  "errors": {
+    "required": "This field is required",
+    "invalidEmail": "Please enter a valid email address",
+    "downloadFailed": "Download failed. Please try again.",
+    "networkError": "Network error. Please check your connection.",
+    "genericError": "An error occurred. Please try again.",
+    "fileNotAvailable": "The file is not yet available. Please check back later."
+  },
+  "loading": {
+    "submitting": "Submitting...",
+    "downloading": "Downloading..."
+  },
+  "success": {
+    "downloadStarted": "Download started successfully",
+    "enrollmentComplete": "Enrollment completed successfully!"
   },
   "heroDescription": "Transform from simple prompting to strategic problem formulation. Master ChatGPT, Midjourney, and Lovable through sophisticated cognitive architecture and collaborative AI workflows.",
   "ctaPrimary": "Start Learning Today",
