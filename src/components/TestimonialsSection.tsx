@@ -21,7 +21,7 @@ const TestimonialsSection = () => {
   const { t } = useTranslation();
   
   return (
-    <section className="py-20 bg-background">
+    <section id="testimonials" className="py-20 bg-background">
       <div className="max-w-6xl mx-auto px-6">
         <div className="text-center mb-16 fade-in-up">
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
