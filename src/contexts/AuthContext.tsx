@@ -72,18 +72,55 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const signUp = async (email: string, password: string, metadata?: any) => {
-    const redirectUrl = `${window.location.origin}/`;
-    
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        emailRedirectTo: redirectUrl,
-        data: metadata
+    try {
+      // First check if email has completed enrollment
+      const { data: enrollmentData, error: enrollmentError } = await supabase
+        .rpc('check_enrollment_status', { email_address: email });
+
+      if (enrollmentError) {
+        return { error: { message: 'Failed to verify enrollment status' } };
       }
-    });
-    
-    return { error };
+
+      const enrollment = enrollmentData?.[0];
+      if (!enrollment?.has_enrollment) {
+        return { 
+          error: { 
+            message: 'You must complete the enrollment form before creating an account. Please fill out the enrollment form first.' 
+          } 
+        };
+      }
+
+      if (enrollment.linked_user_id) {
+        return { 
+          error: { 
+            message: 'An account has already been created for this email address. Please sign in instead.' 
+          } 
+        };
+      }
+
+      const redirectUrl = `${window.location.origin}/`;
+      
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: redirectUrl,
+          data: metadata
+        }
+      });
+
+      // If signup successful, link the enrollment to the user
+      if (data.user && !error && enrollment.enrollment_id) {
+        await supabase.rpc('link_enrollment_to_user', {
+          email_address: email,
+          user_uuid: data.user.id
+        });
+      }
+      
+      return { error };
+    } catch (err) {
+      return { error: { message: 'An unexpected error occurred during signup' } };
+    }
   };
 
   const signIn = async (email: string, password: string) => {
@@ -100,8 +137,24 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     });
     
     if (data.user && !error) {
-      // Force page reload for clean state
-      setTimeout(() => {
+      // Check if user has course access after successful sign in
+      setTimeout(async () => {
+        try {
+          const { data: accessData, error: accessError } = await supabase
+            .from('course_access')
+            .select('has_access')
+            .eq('user_id', data.user.id)
+            .single();
+
+          if (accessError || !accessData?.has_access) {
+            // User signed in but doesn't have course access
+            localStorage.setItem('show_access_warning', 'true');
+          }
+        } catch (err) {
+          console.error('Error checking course access:', err);
+        }
+        
+        // Force page reload for clean state
         window.location.href = '/';
       }, 100);
     }

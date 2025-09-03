@@ -124,10 +124,13 @@ export type Database = {
           ai_experience: string
           company: string | null
           email: string
+          enrollment_completed: boolean
           enrollment_date: string
           first_name: string
           id: string
           last_name: string
+          linked_user_id: string | null
+          payment_completed: boolean
           phone: string | null
           status: string
           user_id: string
@@ -136,10 +139,13 @@ export type Database = {
           ai_experience: string
           company?: string | null
           email: string
+          enrollment_completed?: boolean
           enrollment_date?: string
           first_name: string
           id?: string
           last_name: string
+          linked_user_id?: string | null
+          payment_completed?: boolean
           phone?: string | null
           status?: string
           user_id: string
@@ -148,10 +154,13 @@ export type Database = {
           ai_experience?: string
           company?: string | null
           email?: string
+          enrollment_completed?: boolean
           enrollment_date?: string
           first_name?: string
           id?: string
           last_name?: string
+          linked_user_id?: string | null
+          payment_completed?: boolean
           phone?: string | null
           status?: string
           user_id?: string
@@ -199,8 +208,21 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      check_enrollment_status: {
+        Args: { email_address: string }
+        Returns: {
+          enrollment_completed: boolean
+          enrollment_id: string
+          has_enrollment: boolean
+          payment_completed: boolean
+        }[]
+      }
       is_admin: {
         Args: { user_id: string }
+        Returns: boolean
+      }
+      link_enrollment_to_user: {
+        Args: { email_address: string; user_uuid: string }
         Returns: boolean
       }
     }

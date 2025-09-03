@@ -105,6 +105,14 @@ const Auth = () => {
       if (error) {
         if (error.message.includes('User already registered')) {
           toast.error('An account with this email already exists. Please sign in instead.');
+        } else if (error.message.includes('enrollment form')) {
+          toast.error(error.message);
+          setTimeout(() => {
+            window.location.href = '/enrollment';
+          }, 2000);
+        } else if (error.message.includes('account has already been created')) {
+          toast.error(error.message);
+          setActiveTab('signin');
         } else {
           toast.error(error.message);
         }
@@ -240,7 +248,7 @@ const Auth = () => {
               <CardHeader>
                 <CardTitle>Create Account</CardTitle>
                 <CardDescription>
-                  Join thousands of AI enthusiasts mastering prompt engineering
+                  You must complete the enrollment form before creating an account. Use the same email address you used for enrollment.
                 </CardDescription>
               </CardHeader>
               <CardContent>

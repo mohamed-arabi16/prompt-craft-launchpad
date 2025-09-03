@@ -66,7 +66,7 @@ export const useCourseMaterials = () => {
           .single();
 
         if (accessError || !accessData?.has_access) {
-          toast.error('You need course access to download materials. Please contact support.');
+          toast.error('You have to complete the payment and enroll in the course to have access to the materials');
           return false;
         }
       }
