@@ -38,14 +38,8 @@ const TranslationContext = createContext<TranslationContextType | undefined>(und
  * An object that fetches the translation data.
  */
 const translationsData: Record<Language, () => Promise<Translations>> = {
-  ar: () => fetch('/translations/ar.js').then(r => r.text()).then(text => {
-    const match = text.match(/const translations = ({[\s\S]*?});/);
-    return match ? eval(`(${match[1]})`) : {};
-  }),
-  en: () => fetch('/translations/en.js').then(r => r.text()).then(text => {
-    const match = text.match(/const translations = ({[\s\S]*?});/);
-    return match ? eval(`(${match[1]})`) : {};
-  })
+  ar: () => fetch('/translations/ar.json').then(r => r.json()),
+  en: () => fetch('/translations/en.json').then(r => r.json())
 };
 
 /**

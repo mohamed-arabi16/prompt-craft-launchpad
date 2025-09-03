@@ -37,32 +37,19 @@ class LanguageManager {
    * @returns {Promise<void>} A promise that resolves when the translations are loaded.
    */
   async loadTranslations() {
-    return new Promise((resolve, reject) => {
-      // Remove existing translation script
-      const existingScript = document.querySelector('script[data-translation]');
-      if (existingScript) {
-        existingScript.remove();
+    try {
+      const response = await fetch(`/translations/${this.currentLanguage}.json`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
-
-      const script = document.createElement('script');
-      script.src = `/translations/${this.currentLanguage}.js`;
-      script.dataset.translation = 'true';
-      
-      script.onload = () => {
-        if (window.translations) {
-          this.translations = window.translations;
-          resolve();
-        } else {
-          reject(new Error('Translations not found'));
-        }
-      };
-      
-      script.onerror = () => {
-        reject(new Error('Failed to load translation file'));
-      };
-      
-      document.head.appendChild(script);
-    });
+      this.translations = await response.json();
+      // For compatibility with any old script that might still use window.translations
+      window.translations = this.translations;
+    } catch (error) {
+      console.error('Failed to load translations:', error);
+      this.translations = {}; // Reset translations on error
+      throw error; // Re-throw the error to be caught by the caller
+    }
   }
 
   /**
