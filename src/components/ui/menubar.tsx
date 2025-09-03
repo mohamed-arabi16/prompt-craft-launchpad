@@ -4,16 +4,38 @@ import { Check, ChevronRight, Circle } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * A menu in a menubar.
+ */
 const MenubarMenu = MenubarPrimitive.Menu
 
+/**
+ * A group of items in a menubar.
+ */
 const MenubarGroup = MenubarPrimitive.Group
 
+/**
+ * Portals the menubar parts into the body.
+ */
 const MenubarPortal = MenubarPrimitive.Portal
 
+/**
+ * A sub-menu in a menubar.
+ */
 const MenubarSub = MenubarPrimitive.Sub
 
+/**
+ * A group of radio items in a menubar.
+ */
 const MenubarRadioGroup = MenubarPrimitive.RadioGroup
 
+/**
+ * The root component for a menubar.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Root>} props - The props for the component.
+ * @returns {JSX.Element} The rendered menubar component.
+ * @see https://www.radix-ui.com/primitives/docs/components/menubar
+ */
 const Menubar = React.forwardRef<
   React.ElementRef<typeof MenubarPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Root>
@@ -29,6 +51,12 @@ const Menubar = React.forwardRef<
 ))
 Menubar.displayName = MenubarPrimitive.Root.displayName
 
+/**
+ * The trigger that opens a menu in the menubar.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Trigger>} props - The props for the component.
+ * @returns {JSX.Element} The rendered menubar trigger.
+ */
 const MenubarTrigger = React.forwardRef<
   React.ElementRef<typeof MenubarPrimitive.Trigger>,
   React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Trigger>
@@ -44,6 +72,12 @@ const MenubarTrigger = React.forwardRef<
 ))
 MenubarTrigger.displayName = MenubarPrimitive.Trigger.displayName
 
+/**
+ * The trigger for a sub-menu in the menubar.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof MenubarPrimitive.SubTrigger> & { inset?: boolean }} props - The props for the component.
+ * @returns {JSX.Element} The rendered menubar sub-trigger.
+ */
 const MenubarSubTrigger = React.forwardRef<
   React.ElementRef<typeof MenubarPrimitive.SubTrigger>,
   React.ComponentPropsWithoutRef<typeof MenubarPrimitive.SubTrigger> & {
@@ -65,6 +99,12 @@ const MenubarSubTrigger = React.forwardRef<
 ))
 MenubarSubTrigger.displayName = MenubarPrimitive.SubTrigger.displayName
 
+/**
+ * The content of a sub-menu in the menubar.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof MenubarPrimitive.SubContent>} props - The props for the component.
+ * @returns {JSX.Element} The rendered menubar sub-content.
+ */
 const MenubarSubContent = React.forwardRef<
   React.ElementRef<typeof MenubarPrimitive.SubContent>,
   React.ComponentPropsWithoutRef<typeof MenubarPrimitive.SubContent>
@@ -80,6 +120,12 @@ const MenubarSubContent = React.forwardRef<
 ))
 MenubarSubContent.displayName = MenubarPrimitive.SubContent.displayName
 
+/**
+ * The content of a menu in the menubar.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Content>} props - The props for the component.
+ * @returns {JSX.Element} The rendered menubar content.
+ */
 const MenubarContent = React.forwardRef<
   React.ElementRef<typeof MenubarPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Content>
@@ -105,6 +151,12 @@ const MenubarContent = React.forwardRef<
 )
 MenubarContent.displayName = MenubarPrimitive.Content.displayName
 
+/**
+ * An item in a menubar menu.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Item> & { inset?: boolean }} props - The props for the component.
+ * @returns {JSX.Element} The rendered menubar item.
+ */
 const MenubarItem = React.forwardRef<
   React.ElementRef<typeof MenubarPrimitive.Item>,
   React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Item> & {
@@ -123,6 +175,12 @@ const MenubarItem = React.forwardRef<
 ))
 MenubarItem.displayName = MenubarPrimitive.Item.displayName
 
+/**
+ * A checkbox item in a menubar menu.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof MenubarPrimitive.CheckboxItem>} props - The props for the component.
+ * @returns {JSX.Element} The rendered menubar checkbox item.
+ */
 const MenubarCheckboxItem = React.forwardRef<
   React.ElementRef<typeof MenubarPrimitive.CheckboxItem>,
   React.ComponentPropsWithoutRef<typeof MenubarPrimitive.CheckboxItem>
@@ -146,6 +204,12 @@ const MenubarCheckboxItem = React.forwardRef<
 ))
 MenubarCheckboxItem.displayName = MenubarPrimitive.CheckboxItem.displayName
 
+/**
+ * A radio item in a menubar menu.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof MenubarPrimitive.RadioItem>} props - The props for the component.
+ * @returns {JSX.Element} The rendered menubar radio item.
+ */
 const MenubarRadioItem = React.forwardRef<
   React.ElementRef<typeof MenubarPrimitive.RadioItem>,
   React.ComponentPropsWithoutRef<typeof MenubarPrimitive.RadioItem>
@@ -168,6 +232,12 @@ const MenubarRadioItem = React.forwardRef<
 ))
 MenubarRadioItem.displayName = MenubarPrimitive.RadioItem.displayName
 
+/**
+ * A label in a menubar menu.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Label> & { inset?: boolean }} props - The props for the component.
+ * @returns {JSX.Element} The rendered menubar label.
+ */
 const MenubarLabel = React.forwardRef<
   React.ElementRef<typeof MenubarPrimitive.Label>,
   React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Label> & {
@@ -186,6 +256,12 @@ const MenubarLabel = React.forwardRef<
 ))
 MenubarLabel.displayName = MenubarPrimitive.Label.displayName
 
+/**
+ * A separator in a menubar menu.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Separator>} props - The props for the component.
+ * @returns {JSX.Element} The rendered menubar separator.
+ */
 const MenubarSeparator = React.forwardRef<
   React.ElementRef<typeof MenubarPrimitive.Separator>,
   React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Separator>
@@ -198,6 +274,12 @@ const MenubarSeparator = React.forwardRef<
 ))
 MenubarSeparator.displayName = MenubarPrimitive.Separator.displayName
 
+/**
+ * A shortcut in a menubar menu.
+ *
+ * @param {React.HTMLAttributes<HTMLSpanElement>} props - The props for the component.
+ * @returns {JSX.Element} The rendered menubar shortcut.
+ */
 const MenubarShortcut = ({
   className,
   ...props

@@ -1,3 +1,6 @@
+/**
+ * Represents a JSON value.
+ */
 export type Json =
   | string
   | number
@@ -6,6 +9,9 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
+/**
+ * The shape of the database.
+ */
 export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
@@ -169,6 +175,11 @@ type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">
 
 type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, "public">]
 
+/**
+ * A utility type to get the row type of a table.
+ *
+ * @template T - The table name.
+ */
 export type Tables<
   DefaultSchemaTableNameOrOptions extends
     | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
@@ -198,6 +209,11 @@ export type Tables<
       : never
     : never
 
+/**
+ * A utility type to get the insert type of a table.
+ *
+ * @template T - The table name.
+ */
 export type TablesInsert<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
@@ -223,6 +239,11 @@ export type TablesInsert<
       : never
     : never
 
+/**
+ * A utility type to get the update type of a table.
+ *
+ * @template T - The table name.
+ */
 export type TablesUpdate<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
@@ -248,6 +269,11 @@ export type TablesUpdate<
       : never
     : never
 
+/**
+ * A utility type to get the type of an enum.
+ *
+ * @template T - The enum name.
+ */
 export type Enums<
   DefaultSchemaEnumNameOrOptions extends
     | keyof DefaultSchema["Enums"]
@@ -265,6 +291,11 @@ export type Enums<
     ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
     : never
 
+/**
+ * A utility type to get the type of a composite type.
+ *
+ * @template T - The composite type name.
+ */
 export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
     | keyof DefaultSchema["CompositeTypes"]
@@ -282,6 +313,9 @@ export type CompositeTypes<
     ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
     : never
 
+/**
+ * A constants object for the database.
+ */
 export const Constants = {
   public: {
     Enums: {},

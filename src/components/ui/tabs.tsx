@@ -3,8 +3,19 @@ import * as TabsPrimitive from "@radix-ui/react-tabs"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * The root component for a set of tabs.
+ *
+ * @see https://www.radix-ui.com/primitives/docs/components/tabs
+ */
 const Tabs = TabsPrimitive.Root
 
+/**
+ * The list of tab triggers.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof TabsPrimitive.List>} props - The props for the component.
+ * @returns {JSX.Element} The rendered tabs list.
+ */
 const TabsList = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.List>,
   React.ComponentPropsWithoutRef<typeof TabsPrimitive.List>
@@ -20,6 +31,12 @@ const TabsList = React.forwardRef<
 ))
 TabsList.displayName = TabsPrimitive.List.displayName
 
+/**
+ * The trigger that activates a tab.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>} props - The props for the component.
+ * @returns {JSX.Element} The rendered tabs trigger.
+ */
 const TabsTrigger = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.Trigger>,
   React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>
@@ -35,6 +52,12 @@ const TabsTrigger = React.forwardRef<
 ))
 TabsTrigger.displayName = TabsPrimitive.Trigger.displayName
 
+/**
+ * The content of a tab.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof TabsPrimitive.Content>} props - The props for the component.
+ * @returns {JSX.Element} The rendered tabs content.
+ */
 const TabsContent = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof TabsPrimitive.Content>

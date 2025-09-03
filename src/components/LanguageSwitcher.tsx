@@ -2,6 +2,12 @@ import { Button } from "@/components/ui/button";
 import { Globe } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
 
+/**
+ * A button component that allows the user to switch the application's language.
+ * It displays the alternative language and toggles between available languages on click.
+ *
+ * @returns {JSX.Element} The rendered language switcher button.
+ */
 export default function LanguageSwitcher() {
   const { currentLanguage, isLoading, toggleLanguage } = useTranslation();
 

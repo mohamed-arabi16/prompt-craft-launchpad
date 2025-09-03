@@ -9,6 +9,14 @@ import { Download, User, Mail, Calendar, Building } from 'lucide-react';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { useDownload } from '@/hooks/useDownload';
 
+/**
+ * @interface Profile
+ * @property {string} [first_name] - The user's first name.
+ * @property {string} [last_name] - The user's last name.
+ * @property {string} [phone] - The user's phone number.
+ * @property {string} [company] - The user's company.
+ * @property {string} [ai_experience] - The user's AI experience level.
+ */
 interface Profile {
   first_name?: string;
   last_name?: string;
@@ -17,12 +25,23 @@ interface Profile {
   ai_experience?: string;
 }
 
+/**
+ * @interface CourseAccess
+ * @property {boolean} has_access - Whether the user has access to the course.
+ * @property {string} [access_granted_at] - The date the user was granted access.
+ * @property {string} [access_expires_at] - The date the user's access expires.
+ */
 interface CourseAccess {
   has_access: boolean;
   access_granted_at?: string;
   access_expires_at?: string;
 }
 
+/**
+ * The dashboard page, which displays the user's profile and course materials.
+ *
+ * @returns {JSX.Element} The rendered dashboard page.
+ */
 const Dashboard = () => {
   const { user, signOut } = useAuth();
   const { t } = useTranslation();
@@ -63,12 +82,20 @@ const Dashboard = () => {
     fetchUserData();
   }, [user]);
 
+  /**
+   * Handles the download of a course day's materials.
+   *
+   * @param {number} day - The day number to download.
+   */
   const handleDownloadDay = (day: number) => {
     if (courseAccess?.has_access) {
       downloadFile(`ai-prompt-course-day-${day}.pdf`);
     }
   };
 
+  /**
+   * Handles the sign-out process.
+   */
   const handleSignOut = async () => {
     await signOut();
   };

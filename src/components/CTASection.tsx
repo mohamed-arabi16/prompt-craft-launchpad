@@ -7,6 +7,13 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Link } from "react-router-dom";
 import LoadingSpinner from "./LoadingSpinner";
 
+/**
+ * Renders the Call-to-Action (CTA) section of the homepage.
+ * This component displays pricing, features, and buttons for enrollment and downloading a course outline.
+ * It also includes a "Coming Soon" modal for the download functionality.
+ *
+ * @returns {JSX.Element} The rendered CTA section.
+ */
 const CTASection = () => {
   const { t, tArray } = useTranslation();
   const { isLoading, downloadFile } = useDownload();

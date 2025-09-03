@@ -1,14 +1,25 @@
 import { cn } from "@/lib/utils";
 
+/**
+ * @interface LoadingSpinnerProps
+ * @property {"sm" | "md" | "lg"} [size="md"] - The size of the spinner.
+ * @property {string} [className] - Additional CSS classes for the spinner.
+ */
 interface LoadingSpinnerProps {
   size?: "sm" | "md" | "lg";
   className?: string;
 }
 
+/**
+ * A reusable loading spinner component.
+ *
+ * @param {LoadingSpinnerProps} props - The props for the component.
+ * @returns {JSX.Element} The rendered loading spinner.
+ */
 const LoadingSpinner = ({ size = "md", className }: LoadingSpinnerProps) => {
   const sizeClasses = {
     sm: "h-4 w-4",
-    md: "h-6 w-6", 
+    md: "h-6 w-6",
     lg: "h-8 w-8"
   };
 

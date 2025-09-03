@@ -5,8 +5,19 @@ import { X } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * The provider for the toast component.
+ *
+ * @see https://www.radix-ui.com/primitives/docs/components/toast
+ */
 const ToastProvider = ToastPrimitives.Provider
 
+/**
+ * The viewport for the toast component.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof ToastPrimitives.Viewport>} props - The props for the component.
+ * @returns {JSX.Element} The rendered toast viewport.
+ */
 const ToastViewport = React.forwardRef<
   React.ElementRef<typeof ToastPrimitives.Viewport>,
   React.ComponentPropsWithoutRef<typeof ToastPrimitives.Viewport>
@@ -22,6 +33,11 @@ const ToastViewport = React.forwardRef<
 ))
 ToastViewport.displayName = ToastPrimitives.Viewport.displayName
 
+/**
+ * Defines the visual variants for the toast component.
+ *
+ * @see https://class-variance-authority.js.org/
+ */
 const toastVariants = cva(
   "group pointer-events-auto relative flex w-full items-center justify-between space-x-4 overflow-hidden rounded-md border p-6 pr-8 shadow-lg transition-all data-[swipe=cancel]:translate-x-0 data-[swipe=end]:translate-x-[var(--radix-toast-swipe-end-x)] data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] data-[swipe=move]:transition-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[swipe=end]:animate-out data-[state=closed]:fade-out-80 data-[state=closed]:slide-out-to-right-full data-[state=open]:slide-in-from-top-full data-[state=open]:sm:slide-in-from-bottom-full",
   {
@@ -38,6 +54,12 @@ const toastVariants = cva(
   }
 )
 
+/**
+ * A toast component.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof ToastPrimitives.Root> & VariantProps<typeof toastVariants>} props - The props for the component.
+ * @returns {JSX.Element} The rendered toast component.
+ */
 const Toast = React.forwardRef<
   React.ElementRef<typeof ToastPrimitives.Root>,
   React.ComponentPropsWithoutRef<typeof ToastPrimitives.Root> &
@@ -53,6 +75,12 @@ const Toast = React.forwardRef<
 })
 Toast.displayName = ToastPrimitives.Root.displayName
 
+/**
+ * An action button for a toast.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof ToastPrimitives.Action>} props - The props for the component.
+ * @returns {JSX.Element} The rendered toast action.
+ */
 const ToastAction = React.forwardRef<
   React.ElementRef<typeof ToastPrimitives.Action>,
   React.ComponentPropsWithoutRef<typeof ToastPrimitives.Action>
@@ -68,6 +96,12 @@ const ToastAction = React.forwardRef<
 ))
 ToastAction.displayName = ToastPrimitives.Action.displayName
 
+/**
+ * A button to close a toast.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof ToastPrimitives.Close>} props - The props for the component.
+ * @returns {JSX.Element} The rendered toast close button.
+ */
 const ToastClose = React.forwardRef<
   React.ElementRef<typeof ToastPrimitives.Close>,
   React.ComponentPropsWithoutRef<typeof ToastPrimitives.Close>
@@ -86,6 +120,12 @@ const ToastClose = React.forwardRef<
 ))
 ToastClose.displayName = ToastPrimitives.Close.displayName
 
+/**
+ * The title of a toast.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof ToastPrimitives.Title>} props - The props for the component.
+ * @returns {JSX.Element} The rendered toast title.
+ */
 const ToastTitle = React.forwardRef<
   React.ElementRef<typeof ToastPrimitives.Title>,
   React.ComponentPropsWithoutRef<typeof ToastPrimitives.Title>
@@ -98,6 +138,12 @@ const ToastTitle = React.forwardRef<
 ))
 ToastTitle.displayName = ToastPrimitives.Title.displayName
 
+/**
+ * The description of a toast.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof ToastPrimitives.Description>} props - The props for the component.
+ * @returns {JSX.Element} The rendered toast description.
+ */
 const ToastDescription = React.forwardRef<
   React.ElementRef<typeof ToastPrimitives.Description>,
   React.ComponentPropsWithoutRef<typeof ToastPrimitives.Description>
@@ -110,8 +156,14 @@ const ToastDescription = React.forwardRef<
 ))
 ToastDescription.displayName = ToastPrimitives.Description.displayName
 
+/**
+ * The props for the Toast component.
+ */
 type ToastProps = React.ComponentPropsWithoutRef<typeof Toast>
 
+/**
+ * The type for a toast action element.
+ */
 type ToastActionElement = React.ReactElement<typeof ToastAction>
 
 export {

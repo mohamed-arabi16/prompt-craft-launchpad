@@ -1,10 +1,25 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
-// Translation types
+/**
+ * The available languages.
+ */
 type Language = 'ar' | 'en';
+/**
+ * A record of translations.
+ */
 type Translations = Record<string, string | string[]>;
 
-// Context shape
+/**
+ * The shape of the translation context.
+ *
+ * @interface TranslationContextType
+ * @property {Language} currentLanguage - The current language.
+ * @property {Translations} translations - The current translations.
+ * @property {boolean} isLoading - Whether the translations are loading.
+ * @property {() => void} toggleLanguage - A function to toggle the language.
+ * @property {(key: string) => string} t - A function to get a translation.
+ * @property {(key: string) => string[]} tArray - A function to get an array of translations.
+ */
 interface TranslationContextType {
   currentLanguage: Language;
   translations: Translations;
@@ -14,10 +29,14 @@ interface TranslationContextType {
   tArray: (key: string) => string[];
 }
 
-// Create the context
+/**
+ * The context for the translation provider.
+ */
 const TranslationContext = createContext<TranslationContextType | undefined>(undefined);
 
-// Translation data fetcher
+/**
+ * An object that fetches the translation data.
+ */
 const translationsData: Record<Language, () => Promise<Translations>> = {
   ar: () => fetch('/translations/ar.js').then(r => r.text()).then(text => {
     const match = text.match(/const translations = ({[\s\S]*?});/);
@@ -29,7 +48,12 @@ const translationsData: Record<Language, () => Promise<Translations>> = {
   })
 };
 
-// Create the provider component
+/**
+ * The provider for the translation context.
+ *
+ * @param {{ children: ReactNode }} props - The props for the component.
+ * @returns {JSX.Element} The rendered translation provider.
+ */
 export const TranslationProvider = ({ children }: { children: ReactNode }) => {
   const [currentLanguage, setCurrentLanguage] = useState<Language>('ar');
   const [translations, setTranslations] = useState<Translations>({});
@@ -38,6 +62,9 @@ export const TranslationProvider = ({ children }: { children: ReactNode }) => {
 
   // Load English translations once on mount for fallback
   useEffect(() => {
+    /**
+     * Fetches the English translations to use as a fallback.
+     */
     const fetchEnglishTranslations = async () => {
       try {
         const enTranslations = await translationsData['en']();
@@ -49,6 +76,11 @@ export const TranslationProvider = ({ children }: { children: ReactNode }) => {
     fetchEnglishTranslations();
   }, []);
 
+  /**
+   * Loads the translations for a given language.
+   *
+   * @param {Language} language - The language to load.
+   */
   const loadTranslations = async (language: Language) => {
     setIsLoading(true);
     try {
@@ -82,6 +114,9 @@ export const TranslationProvider = ({ children }: { children: ReactNode }) => {
     loadTranslations(savedLanguage);
   }, []);
 
+  /**
+   * Toggles the language between English and Arabic.
+   */
   const toggleLanguage = async () => {
     if (isLoading) return;
     const newLanguage: Language = currentLanguage === 'ar' ? 'en' : 'ar';
@@ -89,6 +124,12 @@ export const TranslationProvider = ({ children }: { children: ReactNode }) => {
     await loadTranslations(newLanguage);
   };
 
+  /**
+   * Gets the translation for a given key.
+   *
+   * @param {string} key - The key of the translation to get.
+   * @returns {string} The translated string.
+   */
   const t = (key: string): string => {
     // Try to get the translation from the current language
     const value = translations[key];
@@ -114,6 +155,12 @@ export const TranslationProvider = ({ children }: { children: ReactNode }) => {
     return key;
   };
 
+  /**
+   * Gets an array of translations for a given key.
+   *
+   * @param {string} key - The key of the translations to get.
+   * @returns {string[]} The translated strings.
+   */
   const tArray = (key: string): string[] => {
     const value = translations[key];
     return Array.isArray(value) ? value : [];
@@ -135,7 +182,12 @@ export const TranslationProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-// Create the hook to use the context
+/**
+ * A hook to use the translation context.
+ *
+ * @returns {TranslationContextType} The translation context.
+ * @throws {Error} If used outside of a `TranslationProvider`.
+ */
 export const useTranslation = () => {
   const context = useContext(TranslationContext);
   if (context === undefined) {

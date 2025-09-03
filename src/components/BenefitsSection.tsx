@@ -3,6 +3,12 @@ import { useTranslation } from "@/hooks/useTranslation";
 
 const benefitIcons: LucideIcon[] = [Brain, Zap, Target, Trophy, Users, Rocket];
 
+/**
+ * Renders the benefits section of the homepage.
+ * This component displays a grid of benefits, each with an icon, title, and description.
+ *
+ * @returns {JSX.Element} The rendered benefits section.
+ */
 const BenefitsSection = () => {
   const { t } = useTranslation();
   

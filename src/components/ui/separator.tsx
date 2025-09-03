@@ -3,6 +3,13 @@ import * as SeparatorPrimitive from "@radix-ui/react-separator"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * A separator component.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof SeparatorPrimitive.Root>} props - The props for the component.
+ * @returns {JSX.Element} The rendered separator component.
+ * @see https://www.radix-ui.com/primitives/docs/components/separator
+ */
 const Separator = React.forwardRef<
   React.ElementRef<typeof SeparatorPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof SeparatorPrimitive.Root>

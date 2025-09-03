@@ -6,10 +6,20 @@ import { useDownload } from "@/hooks/useDownload";
 import { Link } from "react-router-dom";
 import LoadingSpinner from "./LoadingSpinner";
 
+/**
+ * Renders the hero section of the homepage.
+ * This component includes the main headline, a subtitle, and call-to-action buttons
+ * for enrollment and downloading the course outline. It also features an animated background and decorative elements.
+ *
+ * @returns {JSX.Element} The rendered hero section.
+ */
 const HeroSection = () => {
   const { t } = useTranslation();
   const { isLoading, downloadFile } = useDownload();
 
+  /**
+   * Handles the download of the course outline PDF.
+   */
   const handleDownload = () => {
     downloadFile('ai-prompt-course-outline.pdf');
   };

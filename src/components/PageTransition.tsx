@@ -2,11 +2,24 @@ import { useEffect, useState } from 'react';
 import { Brain, Zap, Target } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
+/**
+ * @interface PageTransitionProps
+ * @property {boolean} isLoading - Whether the page is currently loading.
+ * @property {React.ReactNode} children - The content to be displayed after loading.
+ */
 interface PageTransitionProps {
   isLoading: boolean;
   children: React.ReactNode;
 }
 
+/**
+ * A component that provides a transition effect for pages.
+ * It shows an AI-themed loading animation while `isLoading` is true,
+ * and then fades in the children content.
+ *
+ * @param {PageTransitionProps} props - The props for the component.
+ * @returns {JSX.Element} The page transition component.
+ */
 const PageTransition = ({ isLoading, children }: PageTransitionProps) => {
   const [showContent, setShowContent] = useState(!isLoading);
   const [animationStep, setAnimationStep] = useState(0);

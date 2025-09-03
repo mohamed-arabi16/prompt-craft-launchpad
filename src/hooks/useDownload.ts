@@ -2,11 +2,21 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 import { useTranslation } from './useTranslation';
 
+/**
+ * @interface DownloadState
+ * @property {boolean} isLoading - Whether a download is in progress.
+ * @property {string | null} error - The error message, if any.
+ */
 export interface DownloadState {
   isLoading: boolean;
   error: string | null;
 }
 
+/**
+ * A hook to manage file downloads.
+ *
+ * @returns {{ isLoading: boolean; error: string | null; downloadFile: (filename: string, url?: string) => Promise<void>; clearError: () => void; }} The download state and actions.
+ */
 export const useDownload = () => {
   const [state, setState] = useState<DownloadState>({
     isLoading: false,
@@ -14,6 +24,12 @@ export const useDownload = () => {
   });
   const { t } = useTranslation();
 
+  /**
+   * Downloads a file.
+   *
+   * @param {string} filename - The name of the file to download.
+   * @param {string} [url] - The URL of the file to download.
+   */
   const downloadFile = async (filename: string, url?: string) => {
     setState({ isLoading: true, error: null });
 
@@ -70,6 +86,9 @@ export const useDownload = () => {
     }
   };
 
+  /**
+   * Clears the error state.
+   */
   const clearError = () => {
     setState(prev => ({ ...prev, error: null }));
   };

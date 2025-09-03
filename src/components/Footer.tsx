@@ -1,6 +1,12 @@
 import { useTranslation } from "@/hooks/useTranslation";
 import { Link } from "react-router-dom";
 
+/**
+ * Renders the footer section of the website.
+ * This component includes copyright information and links to privacy, terms, and contact pages.
+ *
+ * @returns {JSX.Element} The rendered footer component.
+ */
 const Footer = () => {
   const { t } = useTranslation();
   

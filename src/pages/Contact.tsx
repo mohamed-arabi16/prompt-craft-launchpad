@@ -11,6 +11,13 @@ import { ArrowLeft, CheckCircle, Mail, MessageSquare, User } from 'lucide-react'
 import { Link } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 
+/**
+ * @interface ContactFormData
+ * @property {string} name - The user's name.
+ * @property {string} email - The user's email address.
+ * @property {string} subject - The subject of the message.
+ * @property {string} message - The message content.
+ */
 interface ContactFormData {
   name: string;
   email: string;
@@ -18,6 +25,13 @@ interface ContactFormData {
   message: string;
 }
 
+/**
+ * @interface ContactFormErrors
+ * @property {string} [name] - The error message for the name field.
+ * @property {string} [email] - The error message for the email field.
+ * @property {string} [subject] - The error message for the subject field.
+ * @property {string} [message] - The error message for the message field.
+ */
 interface ContactFormErrors {
   name?: string;
   email?: string;
@@ -25,6 +39,11 @@ interface ContactFormErrors {
   message?: string;
 }
 
+/**
+ * The contact page, which includes a form for users to send messages.
+ *
+ * @returns {JSX.Element} The rendered contact page.
+ */
 const Contact = () => {
   const { t } = useTranslation();
   const [formData, setFormData] = useState<ContactFormData>({
@@ -37,6 +56,11 @@ const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
+  /**
+   * Validates the contact form.
+   *
+   * @returns {boolean} Whether the form is valid.
+   */
   const validateForm = (): boolean => {
     const newErrors: ContactFormErrors = {};
 
@@ -59,6 +83,11 @@ const Contact = () => {
     return Object.keys(newErrors).length === 0;
   };
 
+  /**
+   * Handles the submission of the contact form.
+   *
+   * @param {React.FormEvent} e - The form event.
+   */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -93,6 +122,12 @@ const Contact = () => {
     }
   };
 
+  /**
+   * Handles changes to the form inputs.
+   *
+   * @param {keyof ContactFormData} field - The field to update.
+   * @param {string} value - The new value of the field.
+   */
   const handleInputChange = (field: keyof ContactFormData, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
     if (errors[field]) {

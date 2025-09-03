@@ -3,6 +3,13 @@ import * as SwitchPrimitives from "@radix-ui/react-switch"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * A switch component that allows the user to toggle between two states.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof SwitchPrimitives.Root>} props - The props for the component.
+ * @returns {JSX.Element} The rendered switch component.
+ * @see https://www.radix-ui.com/primitives/docs/components/switch
+ */
 const Switch = React.forwardRef<
   React.ElementRef<typeof SwitchPrimitives.Root>,
   React.ComponentPropsWithoutRef<typeof SwitchPrimitives.Root>

@@ -2,6 +2,11 @@ import { ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from '@/hooks/useTranslation';
 
+/**
+ * The privacy policy page.
+ *
+ * @returns {JSX.Element} The rendered privacy policy page.
+ */
 const Privacy = () => {
   const { t } = useTranslation();
 

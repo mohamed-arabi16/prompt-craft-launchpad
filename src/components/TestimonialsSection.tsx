@@ -1,12 +1,22 @@
 import { Star, Quote } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
 
+/**
+ * @const {Array<Object>} testimonialsData
+ * @property {number} rating - The star rating for the testimonial.
+ */
 const testimonialsData = [
   { rating: 5 },
   { rating: 5 },
   { rating: 5 },
 ];
 
+/**
+ * Renders the testimonials section of the homepage.
+ * This component displays a grid of testimonials, each with a rating, content, and author information.
+ *
+ * @returns {JSX.Element} The rendered testimonials section.
+ */
 const TestimonialsSection = () => {
   const { t } = useTranslation();
   
