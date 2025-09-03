@@ -153,9 +153,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         } catch (err) {
           console.error('Error checking course access:', err);
         }
-        
-        // Force page reload for clean state
-        window.location.href = '/';
       }, 100);
     }
     
