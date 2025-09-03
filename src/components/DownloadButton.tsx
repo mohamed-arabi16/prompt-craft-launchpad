@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import LoadingSpinner from "./LoadingSpinner";
 import { toast } from "sonner";
+import { useCourseMaterials } from "@/hooks/useCourseMaterials";
 
 interface DownloadButtonProps {
   variant?: "default" | "outline";
@@ -12,6 +13,9 @@ interface DownloadButtonProps {
   children?: React.ReactNode;
   signInText?: string;
   downloadText?: string;
+  materialId?: string;
+  materialCategory?: string;
+  courseDay?: number;
 }
 
 /**
@@ -23,22 +27,46 @@ const DownloadButton = ({
   className = "", 
   children,
   signInText = "Sign in to Download",
-  downloadText = "Access Dashboard"
+  downloadText = "Access Dashboard",
+  materialId,
+  materialCategory,
+  courseDay
 }: DownloadButtonProps) => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const { downloadMaterial, getMaterialByDay, getCourseGuide } = useCourseMaterials();
 
   const handleClick = async () => {
     setIsLoading(true);
     
     if (!user) {
       toast.info("Please sign in to download course materials");
-      await new Promise(resolve => setTimeout(resolve, 500)); // Small delay for UX
+      await new Promise(resolve => setTimeout(resolve, 500));
       navigate('/auth?redirectTo=dashboard');
     } else {
-      await new Promise(resolve => setTimeout(resolve, 300)); // Small delay for UX
-      navigate('/dashboard');
+      // If we have specific material info, try to download it
+      if (materialId) {
+        await downloadMaterial(materialId);
+      } else if (courseDay) {
+        const material = getMaterialByDay(courseDay);
+        if (material) {
+          await downloadMaterial(material.id);
+        } else {
+          toast.error('Material not found for this day');
+        }
+      } else if (materialCategory === 'course_guide') {
+        const guide = getCourseGuide();
+        if (guide) {
+          await downloadMaterial(guide.id);
+        } else {
+          toast.error('Course guide not found');
+        }
+      } else {
+        // Default: navigate to dashboard
+        await new Promise(resolve => setTimeout(resolve, 300));
+        navigate('/dashboard');
+      }
     }
     
     setIsLoading(false);

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <!-- Homepage -->
+  <url>
+    <loc>https://ai-prompt-academy.lovable.app/</loc>
+    <lastmod>2024-01-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ai-prompt-academy.lovable.app/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://ai-prompt-academy.lovable.app/?lang=ar"/>
+  </url>
+
+  <!-- Enrollment Page -->
+  <url>
+    <loc>https://ai-prompt-academy.lovable.app/enrollment</loc>
+    <lastmod>2024-01-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ai-prompt-academy.lovable.app/enrollment?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://ai-prompt-academy.lovable.app/enrollment?lang=ar"/>
+  </url>
+
+  <!-- Authentication Page -->
+  <url>
+    <loc>https://ai-prompt-academy.lovable.app/auth</loc>
+    <lastmod>2024-01-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ai-prompt-academy.lovable.app/auth?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://ai-prompt-academy.lovable.app/auth?lang=ar"/>
+  </url>
+
+  <!-- Dashboard Page -->
+  <url>
+    <loc>https://ai-prompt-academy.lovable.app/dashboard</loc>
+    <lastmod>2024-01-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ai-prompt-academy.lovable.app/dashboard?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://ai-prompt-academy.lovable.app/dashboard?lang=ar"/>
+  </url>
+
+  <!-- Contact Page -->
+  <url>
+    <loc>https://ai-prompt-academy.lovable.app/contact</loc>
+    <lastmod>2024-01-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ai-prompt-academy.lovable.app/contact?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://ai-prompt-academy.lovable.app/contact?lang=ar"/>
+  </url>
+
+  <!-- Privacy Policy -->
+  <url>
+    <loc>https://ai-prompt-academy.lovable.app/privacy</loc>
+    <lastmod>2024-01-20</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ai-prompt-academy.lovable.app/privacy?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://ai-prompt-academy.lovable.app/privacy?lang=ar"/>
+  </url>
+
+  <!-- Terms and Conditions -->
+  <url>
+    <loc>https://ai-prompt-academy.lovable.app/terms</loc>
+    <lastmod>2024-01-20</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ai-prompt-academy.lovable.app/terms?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://ai-prompt-academy.lovable.app/terms?lang=ar"/>
+  </url>
+
+</urlset>

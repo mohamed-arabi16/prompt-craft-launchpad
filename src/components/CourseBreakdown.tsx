@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ChevronDown, Download, Calendar, Clock, Target } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
+import DownloadButton from "./DownloadButton";
 
 /**
  * Renders the course breakdown section, displaying a 5-day program in an accordion.
@@ -61,7 +62,7 @@ const CourseBreakdown = () => {
                   <div className="flex items-center gap-4">
                     <div className="hidden sm:flex items-center gap-2 text-sm text-muted-foreground">
                       <Clock className="h-4 w-4" />
-                      <span>{t('intensiveProgram')}</span>
+                      <span>{t(`day${day}Duration`)}</span>
                     </div>
                     <ChevronDown
                       className={`h-5 w-5 text-muted-foreground transition-transform duration-200 ${
@@ -116,17 +117,16 @@ const CourseBreakdown = () => {
                     </div>
 
                     <div className="mt-6 pt-4 border-t border-border">
-                      <Button
+                      <DownloadButton
                         variant="outline"
                         className="group hover:bg-primary/10 hover:border-primary transition-all duration-300 hover:scale-105 hover:shadow-lg"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          window.open('#', '_blank');
-                        }}
+                        courseDay={day}
+                        signInText={`${t('downloadDayLabel')} ${day} ${t('summaryPdfLabel')}`}
+                        downloadText={`${t('downloadDayLabel')} ${day} ${t('summaryPdfLabel')}`}
                       >
-                        <Download className="h-4 w-4 mr-2 group-hover:animate-bounce" />
+                        <Download className="h-4 w-4 ltr:mr-2 rtl:ml-2 group-hover:animate-bounce" />
                         {t('downloadDayLabel')} {day} {t('summaryPdfLabel')}
-                      </Button>
+                      </DownloadButton>
                     </div>
                   </div>
                 </div>

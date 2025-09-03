@@ -65,6 +65,7 @@ const CTASection = () => {
             <DownloadButton 
               variant="outline" 
               className="border-primary text-primary hover:bg-primary hover:text-primary-foreground px-8 py-4"
+              materialCategory="course_guide"
               signInText={t('ctaDownloadButton')}
               downloadText={t('ctaAccessDashboard')}
             />

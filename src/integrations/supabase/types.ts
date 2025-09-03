@@ -74,6 +74,51 @@ export type Database = {
         }
         Relationships: []
       }
+      course_materials: {
+        Row: {
+          category: string
+          course_day: number | null
+          created_at: string
+          description: string | null
+          file_path: string
+          file_type: string
+          file_url: string | null
+          id: string
+          is_active: boolean
+          requires_access: boolean
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          category: string
+          course_day?: number | null
+          created_at?: string
+          description?: string | null
+          file_path: string
+          file_type?: string
+          file_url?: string | null
+          id?: string
+          is_active?: boolean
+          requires_access?: boolean
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          course_day?: number | null
+          created_at?: string
+          description?: string | null
+          file_path?: string
+          file_type?: string
+          file_url?: string | null
+          id?: string
+          is_active?: boolean
+          requires_access?: boolean
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       enrollments: {
         Row: {
           ai_experience: string

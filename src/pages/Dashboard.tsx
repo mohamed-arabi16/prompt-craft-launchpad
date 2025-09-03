@@ -116,7 +116,7 @@ const Dashboard = () => {
           <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-transparent"></div>
           <div className="relative z-10">
             <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-4 hero-title">
-              {t('dashboardWelcome') || `Welcome back, ${profile?.first_name || user?.email?.split('@')[0]}!`}
+              {t('dashboardWelcome')}, {profile?.first_name || user?.email?.split('@')[0]}!
             </h1>
             <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
               {t('dashboardSubtitle') || 'Ready to advance your AI expertise? Your course materials are waiting below.'}

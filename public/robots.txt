@@ -1,8 +1,13 @@
+# AI Prompt Engineering Academy - Robots.txt
+# Welcome search engines to crawl our educational content
+
 User-agent: Googlebot
 Allow: /
+Crawl-delay: 1
 
 User-agent: Bingbot
 Allow: /
+Crawl-delay: 1
 
 User-agent: Twitterbot
 Allow: /
@@ -10,5 +15,27 @@ Allow: /
 User-agent: facebookexternalhit
 Allow: /
 
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: WhatsApp
+Allow: /
+
+# Allow all other crawlers
 User-agent: *
 Allow: /
+Crawl-delay: 2
+
+# Disallow admin and private areas
+Disallow: /admin/
+Disallow: /api/
+Disallow: /.env
+Disallow: /auth/callback
+
+# Sitemap location
+Sitemap: https://ai-prompt-academy.lovable.app/sitemap.xml
+
+# Important pages for indexing
+# Homepage: https://ai-prompt-academy.lovable.app/
+# Course Enrollment: https://ai-prompt-academy.lovable.app/enrollment
+# Contact: https://ai-prompt-academy.lovable.app/contact
