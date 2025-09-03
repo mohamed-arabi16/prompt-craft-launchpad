@@ -66,7 +66,13 @@ export const useCourseMaterials = () => {
           .single();
 
         if (accessError || !accessData?.has_access) {
-          toast.error('You have to complete the payment and enroll in the course to have access to the materials');
+          toast.error('Course access requires completed enrollment and payment verification. Please complete your enrollment or contact support if payment has been made.', {
+            duration: 6000,
+            action: {
+              label: "Contact Support",
+              onClick: () => window.location.href = "/contact"
+            }
+          });
           return false;
         }
       }

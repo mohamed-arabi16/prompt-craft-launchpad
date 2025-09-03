@@ -1,5 +1,9 @@
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useTranslation } from "@/hooks/useTranslation";
+import { useAdmin } from "@/hooks/useAdmin";
+import { Button } from "@/components/ui/button";
+import { Shield } from "lucide-react";
+import { Link } from "react-router-dom";
 
 /**
  * Renders the navigation bar for the application.
@@ -10,6 +14,7 @@ import { useTranslation } from "@/hooks/useTranslation";
  */
 export default function Navbar() {
   const { t } = useTranslation();
+  const { isAdmin } = useAdmin();
   
   return (
     <nav className="fixed top-0 w-full z-50 bg-background/95 backdrop-blur-sm border-b border-border">
@@ -17,7 +22,17 @@ export default function Navbar() {
         <div className="text-xl font-bold text-primary">
           {t('brandName')}
         </div>
-        <LanguageSwitcher />
+        <div className="flex items-center gap-4">
+          {isAdmin && (
+            <Link to="/admin">
+              <Button variant="outline" size="sm" className="flex items-center gap-2">
+                <Shield className="h-4 w-4" />
+                Admin
+              </Button>
+            </Link>
+          )}
+          <LanguageSwitcher />
+        </div>
       </div>
     </nav>
   );

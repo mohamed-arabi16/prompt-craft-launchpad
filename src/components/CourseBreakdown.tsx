@@ -123,10 +123,7 @@ const CourseBreakdown = () => {
                         courseDay={day}
                         signInText={`${t('downloadDayLabel')} ${day} ${t('summaryPdfLabel')}`}
                         downloadText={`${t('downloadDayLabel')} ${day} ${t('summaryPdfLabel')}`}
-                      >
-                        <Download className="h-4 w-4 ltr:mr-2 rtl:ml-2 group-hover:animate-bounce" />
-                        {t('downloadDayLabel')} {day} {t('summaryPdfLabel')}
-                      </DownloadButton>
+                      />
                     </div>
                   </div>
                 </div>

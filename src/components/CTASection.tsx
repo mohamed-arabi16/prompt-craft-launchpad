@@ -28,7 +28,7 @@ const CTASection = () => {
     <section className="py-20 bg-background">
       <div className="max-w-4xl mx-auto px-6 text-center">
         <div className="fade-in-up">
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6 cta-title-rtl">
             {t('ctaTitle')}
           </h2>
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
