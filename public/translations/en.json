@@ -207,8 +207,14 @@
     "retry": "Retry",
     "close": "Close",
     "cancel": "Cancel",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "sendAnother": "Send Another Message"
   },
+  "heroAccessDashboard": "Access Dashboard",
+  "ctaAccessDashboard": "Access Dashboard",
+  "dashboardWelcome": "Welcome back, Expert!",
+  "dashboardSubtitle": "Ready to advance your AI expertise? Your course materials are waiting below.",
+  "signOut": "Sign Out",
   "comingSoon": "Coming Soon",
   "comingSoonMessage": "The course outline will be available for download soon. Please check back later or contact us for more information."
 }

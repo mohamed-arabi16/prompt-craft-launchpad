@@ -2,8 +2,8 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles, Brain, Zap, Download } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
-import { useDownload } from "@/hooks/useDownload";
-import { Link } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+import { Link, useNavigate } from "react-router-dom";
 import LoadingSpinner from "./LoadingSpinner";
 
 /**
@@ -15,13 +15,19 @@ import LoadingSpinner from "./LoadingSpinner";
  */
 const HeroSection = () => {
   const { t } = useTranslation();
-  const { isLoading, downloadFile } = useDownload();
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
   /**
    * Handles the download of the course outline PDF.
+   * Redirects to auth if user is not signed in.
    */
   const handleDownload = () => {
-    downloadFile('ai-prompt-course-outline.pdf');
+    if (!user) {
+      navigate('/auth');
+    } else {
+      navigate('/dashboard');
+    }
   };
   
   return (
@@ -68,14 +74,9 @@ const HeroSection = () => {
             variant="outline" 
             className="border-primary text-primary hover:bg-primary hover:text-primary-foreground px-8 py-4 text-lg"
             onClick={handleDownload}
-            disabled={isLoading}
           >
-            {isLoading ? (
-              <LoadingSpinner size="sm" className="ltr:mr-2 rtl:ml-2" />
-            ) : (
-              <Download className="ltr:mr-2 rtl:ml-2 h-5 w-5" />
-            )}
-            <span>{isLoading ? t('loading.downloading') : t('heroDownloadButton')}</span>
+            <Download className="ltr:mr-2 rtl:ml-2 h-5 w-5" />
+            <span>{user ? t('heroAccessDashboard') : t('heroDownloadButton')}</span>
           </Button>
         </div>
         

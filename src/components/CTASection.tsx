@@ -1,10 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Check, Clock, Download } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
-import { useDownload } from "@/hooks/useDownload";
+import { useAuth } from "@/contexts/AuthContext";
 import { useState } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LoadingSpinner from "./LoadingSpinner";
 
 /**
@@ -16,15 +16,15 @@ import LoadingSpinner from "./LoadingSpinner";
  */
 const CTASection = () => {
   const { t, tArray } = useTranslation();
-  const { isLoading, downloadFile } = useDownload();
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const [showComingSoon, setShowComingSoon] = useState(false);
 
   const handleDownload = () => {
-    // For demo purposes, show "Coming Soon" modal sometimes
-    if (Math.random() > 0.5) {
-      setShowComingSoon(true);
+    if (!user) {
+      navigate('/auth');
     } else {
-      downloadFile('ai-prompt-course-outline.pdf');
+      navigate('/dashboard');
     }
   };
 
@@ -75,14 +75,9 @@ const CTASection = () => {
               variant="outline" 
               className="border-primary text-primary hover:bg-primary hover:text-primary-foreground px-8 py-4"
               onClick={handleDownload}
-              disabled={isLoading}
             >
-              {isLoading ? (
-                <LoadingSpinner size="sm" className="ltr:mr-2 rtl:ml-2" />
-              ) : (
-                <Download className="ltr:mr-2 rtl:ml-2 h-5 w-5" />
-              )}
-              {isLoading ? t('loading.downloading') : t('ctaDownloadButton')}
+              <Download className="ltr:mr-2 rtl:ml-2 h-5 w-5" />
+              {user ? t('ctaAccessDashboard') : t('ctaDownloadButton')}
             </Button>
           </div>
         </div>
