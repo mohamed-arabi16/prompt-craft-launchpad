@@ -1,8 +1,9 @@
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useAdmin } from "@/hooks/useAdmin";
+import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
-import { Shield } from "lucide-react";
+import { Shield, LogIn } from "lucide-react";
 import { Link } from "react-router-dom";
 
 /**
@@ -15,6 +16,7 @@ import { Link } from "react-router-dom";
 export default function Navbar() {
   const { t } = useTranslation();
   const { isAdmin } = useAdmin();
+  const { user } = useAuth();
   
   return (
     <nav className="fixed top-0 w-full z-50 bg-background/95 backdrop-blur-sm border-b border-border">
@@ -23,11 +25,22 @@ export default function Navbar() {
           {t('brandName')}
         </div>
         <div className="flex items-center gap-4">
-          {isAdmin && (
-            <Link to="/admin">
+          {user ? (
+            <>
+              {isAdmin && (
+                <Link to="/admin">
+                  <Button variant="outline" size="sm" className="flex items-center gap-2">
+                    <Shield className="h-4 w-4" />
+                    Admin
+                  </Button>
+                </Link>
+              )}
+            </>
+          ) : (
+            <Link to="/auth">
               <Button variant="outline" size="sm" className="flex items-center gap-2">
-                <Shield className="h-4 w-4" />
-                Admin
+                <LogIn className="h-4 w-4" />
+                {t('signIn')}
               </Button>
             </Link>
           )}
