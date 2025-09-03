@@ -214,6 +214,7 @@ export type Database = {
           enrollment_completed: boolean
           enrollment_id: string
           has_enrollment: boolean
+          linked_user_id: string
           payment_completed: boolean
         }[]
       }

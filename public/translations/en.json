@@ -249,5 +249,11 @@
   "dashboardWelcome": "Welcome back",
   "heroAccessDashboard": "Access Dashboard",
   "ctaAccessDashboard": "Access Dashboard",
-  "intensiveProgram": "5-Day Intensive Program"
+  "intensiveProgram": "5-Day Intensive Program",
+  "accessWarning": {
+    "title": "Course Access Required", 
+    "description": "You have successfully signed in, but you need to complete the payment and enroll in the course to have access to the materials.",
+    "completeEnrollment": "Complete Enrollment",
+    "continueBrowsing": "Continue Browsing"
+  }
 }

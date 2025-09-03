@@ -16,6 +16,7 @@ import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import NotFound from "./pages/NotFound";
 import PageTransition from "./components/PageTransition";
+import AccessWarningDialog from "./components/AccessWarningDialog";
 
 /**
  * The query client for TanStack Query.
@@ -45,29 +46,30 @@ const App = () => {
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <TranslationProvider>
-          <AuthProvider>
-            <BrowserRouter>
-              <PageTransition isLoading={isLoading}>
-                <Routes>
-                  <Route path="/" element={<Index />} />
-                  <Route path="/auth" element={<Auth />} />
-                  <Route path="/dashboard" element={
-                    <ProtectedRoute>
-                      <Dashboard />
-                    </ProtectedRoute>
-                  } />
-                  <Route path="/enrollment" element={<Enrollment />} />
-                  <Route path="/contact" element={<Contact />} />
-                  <Route path="/privacy" element={<Privacy />} />
-                  <Route path="/terms" element={<Terms />} />
-                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </PageTransition>
-            </BrowserRouter>
-          </AuthProvider>
-        </TranslationProvider>
+          <TranslationProvider>
+            <AuthProvider>
+              <BrowserRouter>
+                <PageTransition isLoading={isLoading}>
+                  <Routes>
+                    <Route path="/" element={<Index />} />
+                    <Route path="/auth" element={<Auth />} />
+                    <Route path="/dashboard" element={
+                      <ProtectedRoute>
+                        <Dashboard />
+                      </ProtectedRoute>
+                    } />
+                    <Route path="/enrollment" element={<Enrollment />} />
+                    <Route path="/contact" element={<Contact />} />
+                    <Route path="/privacy" element={<Privacy />} />
+                    <Route path="/terms" element={<Terms />} />
+                    {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </PageTransition>
+                <AccessWarningDialog />
+              </BrowserRouter>
+            </AuthProvider>
+          </TranslationProvider>
       </TooltipProvider>
     </QueryClientProvider>
   );

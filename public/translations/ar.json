@@ -249,5 +249,11 @@
   "dashboardWelcome": "أهلاً وسهلاً",
   "heroAccessDashboard": "لوحة التحكم",
   "ctaAccessDashboard": "لوحة التحكم",
-  "intensiveProgram": "برنامج مكثف لـ 5 أيام"
+  "intensiveProgram": "برنامج مكثف لـ 5 أيام",
+  "accessWarning": {
+    "title": "مطلوب الوصول للدورة",
+    "description": "لقد تم تسجيل دخولك بنجاح، ولكن تحتاج إلى إكمال الدفع والتسجيل في الدورة للحصول على الوصول إلى المواد.",
+    "completeEnrollment": "إكمال التسجيل", 
+    "continueBrowsing": "متابعة التصفح"
+  }
 }
