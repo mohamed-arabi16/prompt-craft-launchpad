@@ -58,7 +58,8 @@
   "buttons": {
     "sendAnother": "Send Another Message",
     "retry": "Retry",
-    "signIn": "Sign In"
+    "signIn": "Sign In",
+    "signOut": "Sign Out"
   },
   "errors": {
     "required": "This field is required",

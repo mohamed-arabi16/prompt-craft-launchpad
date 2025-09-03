@@ -8,12 +8,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
-import { Users, ShieldCheck, UserPlus, Settings, CheckCircle, XCircle, Clock, AlertCircle } from "lucide-react";
+import { Users, ShieldCheck, UserPlus, Settings, CheckCircle, XCircle, Clock, AlertCircle, Home } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { useTranslation } from "@/hooks/useTranslation";
 import LoadingSpinner from "./LoadingSpinner";
+import { Link } from "react-router-dom";
 
 interface Enrollment {
   id: string;
@@ -130,9 +131,17 @@ const AdminPanel = () => {
 
   return (
     <div className="container mx-auto px-4 py-8 space-y-8">
-      <div className="flex items-center gap-3 mb-8">
-        <ShieldCheck className="h-8 w-8 text-primary" />
-        <h1 className="text-3xl font-bold text-foreground">Admin Panel</h1>
+      <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center gap-3">
+          <ShieldCheck className="h-8 w-8 text-primary" />
+          <h1 className="text-3xl font-bold text-foreground">Admin Panel</h1>
+        </div>
+        <Link to="/">
+          <Button variant="outline" className="flex items-center gap-2">
+            <Home className="h-4 w-4" />
+            Home
+          </Button>
+        </Link>
       </div>
 
       {/* Stats Cards */}

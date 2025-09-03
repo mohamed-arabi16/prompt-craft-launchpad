@@ -1,6 +1,6 @@
 
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Sparkles, Brain, Zap } from "lucide-react";
+import { ArrowRight, Sparkles, Brain, Zap, LogOut } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useAuth } from "@/contexts/AuthContext";
 import { Link } from "react-router-dom";
@@ -16,7 +16,11 @@ import DashboardButton from "./DashboardButton";
  */
 const HeroSection = () => {
   const { t } = useTranslation();
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
+
+  const handleSignOut = async () => {
+    await signOut();
+  };
   
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
@@ -34,6 +38,21 @@ const HeroSection = () => {
         <Zap className="h-6 w-6 text-primary/25" />
       </div>
 
+      {/* Sign Out Button for authenticated users */}
+      {user && (
+        <div className="absolute top-4 ltr:right-4 rtl:left-4 z-20">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleSignOut}
+            className="flex items-center gap-2 text-foreground hover:text-primary"
+          >
+            <LogOut className="h-4 w-4" />
+            <span className="hidden sm:inline">{t('buttons.signOut')}</span>
+          </Button>
+        </div>
+      )}
+
       {/* Main Content */}
       <div className="relative z-10 text-center max-w-5xl mx-auto px-6 fade-in-up">
         <div className="mb-6 fade-in-up-delay-1">
@@ -47,7 +66,7 @@ const HeroSection = () => {
           {t('heroTitle')}
         </h1>
         
-        <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed fade-in-up-delay-3 hero-subtitle">
+        <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed fade-in-up-delay-3 hero-subtitle break-words">
           {t('heroSubtitle')}
         </p>
         

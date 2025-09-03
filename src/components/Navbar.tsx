@@ -22,10 +22,20 @@ export default function Navbar() {
 
   const navigationLinks = [
     { href: "/", label: t('navHome') },
-    { href: "/#course", label: t('navCourse') },
-    { href: "/#testimonials", label: t('navTestimonials') },
+    { href: "#course", label: t('navCourse') },
+    { href: "#testimonials", label: t('navTestimonials') },
     { href: "/contact", label: t('navContact') },
   ];
+
+  const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href.startsWith('#')) {
+      e.preventDefault();
+      const element = document.querySelector(href);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
 
   return (
     <nav className="fixed top-0 w-full z-50 bg-background/95 backdrop-blur-sm border-b border-border">
@@ -38,13 +48,24 @@ export default function Navbar() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-6">
             {navigationLinks.map((link) => (
-              <Link
-                key={link.href}
-                to={link.href}
-                className="text-foreground hover:text-primary transition-colors"
-              >
-                {link.label}
-              </Link>
+              link.href.startsWith('#') ? (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={(e) => handleSmoothScroll(e, link.href)}
+                  className="text-foreground hover:text-primary transition-colors cursor-pointer"
+                >
+                  {link.label}
+                </a>
+              ) : (
+                <Link
+                  key={link.href}
+                  to={link.href}
+                  className="text-foreground hover:text-primary transition-colors"
+                >
+                  {link.label}
+                </Link>
+              )
             ))}
           </div>
 
@@ -90,14 +111,28 @@ export default function Navbar() {
           <div className="md:hidden mt-4 pb-4 border-t border-border">
             <div className="flex flex-col gap-4 mt-4">
               {navigationLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  to={link.href}
-                  className="text-foreground hover:text-primary transition-colors py-2"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {link.label}
-                </Link>
+                link.href.startsWith('#') ? (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    onClick={(e) => {
+                      handleSmoothScroll(e, link.href);
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="text-foreground hover:text-primary transition-colors py-2 cursor-pointer"
+                  >
+                    {link.label}
+                  </a>
+                ) : (
+                  <Link
+                    key={link.href}
+                    to={link.href}
+                    className="text-foreground hover:text-primary transition-colors py-2"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {link.label}
+                  </Link>
+                )
               ))}
               
               <div className="flex items-center gap-4 pt-4 border-t border-border/50">
