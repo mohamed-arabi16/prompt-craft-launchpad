@@ -17,8 +17,18 @@ import Terms from "./pages/Terms";
 import NotFound from "./pages/NotFound";
 import PageTransition from "./components/PageTransition";
 
+/**
+ * The query client for TanStack Query.
+ *
+ * @see https://tanstack.com/query/v4/docs/react/reference/QueryClient
+ */
 const queryClient = new QueryClient();
 
+/**
+ * The root component of the application.
+ *
+ * @returns {JSX.Element} The rendered application.
+ */
 const App = () => {
   const [isLoading, setIsLoading] = useState(false);
 

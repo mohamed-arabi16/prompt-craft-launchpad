@@ -3,12 +3,29 @@ import * as TooltipPrimitive from "@radix-ui/react-tooltip"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * The provider for the tooltip component.
+ *
+ * @see https://www.radix-ui.com/primitives/docs/components/tooltip
+ */
 const TooltipProvider = TooltipPrimitive.Provider
 
+/**
+ * The root component for a tooltip.
+ */
 const Tooltip = TooltipPrimitive.Root
 
+/**
+ * The trigger that opens the tooltip.
+ */
 const TooltipTrigger = TooltipPrimitive.Trigger
 
+/**
+ * The content of the tooltip.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>} props - The props for the component.
+ * @returns {JSX.Element} The rendered tooltip content.
+ */
 const TooltipContent = React.forwardRef<
   React.ElementRef<typeof TooltipPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>

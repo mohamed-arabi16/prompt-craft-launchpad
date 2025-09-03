@@ -10,6 +10,13 @@ import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
 import { useTranslation } from "@/hooks/useTranslation";
 
+/**
+ * The main landing page of the application.
+ * It is composed of several sections, including a hero section, course philosophy, course breakdown, benefits, testimonials, and a call-to-action.
+ * It also handles SEO-related tasks like updating meta tags and structured data.
+ *
+ * @returns {JSX.Element} The rendered index page.
+ */
 const Index = () => {
   const { t, tArray } = useTranslation();
 

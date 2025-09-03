@@ -2,6 +2,12 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * A standard input field.
+ *
+ * @param {React.ComponentProps<"input">} props - The props for the component.
+ * @returns {JSX.Element} The rendered input component.
+ */
 const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
   ({ className, type, ...props }, ref) => {
     return (

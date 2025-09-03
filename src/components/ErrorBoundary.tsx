@@ -2,33 +2,69 @@ import React, { Component, ErrorInfo, ReactNode } from 'react';
 import { Button } from '@/components/ui/button';
 import { AlertTriangle, RefreshCw } from 'lucide-react';
 
+/**
+ * @interface Props
+ * @property {ReactNode} children - The child components to render.
+ * @property {ReactNode} [fallback] - An optional fallback component to render on error.
+ */
 interface Props {
   children: ReactNode;
   fallback?: ReactNode;
 }
 
+/**
+ * @interface State
+ * @property {boolean} hasError - Indicates if an error has been caught.
+ * @property {Error} [error] - The caught error.
+ */
 interface State {
   hasError: boolean;
   error?: Error;
 }
 
+/**
+ * A React component that catches JavaScript errors anywhere in its child component tree,
+ * logs those errors, and displays a fallback UI.
+ *
+ * @extends Component<Props, State>
+ */
 class ErrorBoundary extends Component<Props, State> {
   public state: State = {
     hasError: false
   };
 
+  /**
+   * Updates state so the next render will show the fallback UI.
+   *
+   * @param {Error} error - The error that was thrown.
+   * @returns {State} The new state.
+   */
   public static getDerivedStateFromError(error: Error): State {
     return { hasError: true, error };
   }
 
+  /**
+   * Logs the error to an error reporting service.
+   *
+   * @param {Error} error - The error that was caught.
+   * @param {ErrorInfo} errorInfo - An object with a `componentStack` key.
+   */
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error('Uncaught error:', error, errorInfo);
   }
 
+  /**
+   * Resets the error boundary state, allowing a re-render of the child components.
+   */
   private handleRetry = () => {
     this.setState({ hasError: false, error: undefined });
   };
 
+  /**
+   * Renders the fallback UI if an error has been caught, otherwise renders the children.
+   *
+   * @returns {ReactNode} The rendered component.
+   */
   public render() {
     if (this.state.hasError) {
       if (this.props.fallback) {

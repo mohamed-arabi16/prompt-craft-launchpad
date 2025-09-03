@@ -6,6 +6,11 @@ import { cn } from "@/lib/utils"
 // Format: { THEME_NAME: CSS_SELECTOR }
 const THEMES = { light: "", dark: ".dark" } as const
 
+/**
+ * The configuration for a chart.
+ *
+ * @typedef {Object.<string, ChartConfigItem>} ChartConfig
+ */
 export type ChartConfig = {
   [k in string]: {
     label?: React.ReactNode
@@ -16,12 +21,22 @@ export type ChartConfig = {
   )
 }
 
+/**
+ * @typedef {Object} ChartContextProps
+ * @property {ChartConfig} config - The configuration for the chart.
+ */
 type ChartContextProps = {
   config: ChartConfig
 }
 
 const ChartContext = React.createContext<ChartContextProps | null>(null)
 
+/**
+ * A hook to access the chart context.
+ *
+ * @returns {ChartContextProps} The chart context.
+ * @throws {Error} If used outside of a `<ChartContainer />` component.
+ */
 function useChart() {
   const context = React.useContext(ChartContext)
 
@@ -32,6 +47,12 @@ function useChart() {
   return context
 }
 
+/**
+ * The main container for a chart.
+ *
+ * @param {React.ComponentProps<"div"> & { config: ChartConfig; children: React.ComponentProps<typeof RechartsPrimitive.ResponsiveContainer>["children"] }} props - The props for the component.
+ * @returns {JSX.Element} The rendered chart container.
+ */
 const ChartContainer = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<"div"> & {
@@ -65,6 +86,12 @@ const ChartContainer = React.forwardRef<
 })
 ChartContainer.displayName = "Chart"
 
+/**
+ * A component to apply styles to the chart based on the configuration.
+ *
+ * @param {{ id: string; config: ChartConfig }} props - The props for the component.
+ * @returns {JSX.Element | null} The rendered style tag, or null if no color configuration is provided.
+ */
 const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
   const colorConfig = Object.entries(config).filter(
     ([_, config]) => config.theme || config.color
@@ -98,8 +125,19 @@ ${colorConfig
   )
 }
 
+/**
+ * The tooltip component for the chart.
+ *
+ * @see https://recharts.org/en-US/api/Tooltip
+ */
 const ChartTooltip = RechartsPrimitive.Tooltip
 
+/**
+ * The content of the chart tooltip.
+ *
+ * @param {React.ComponentProps<typeof RechartsPrimitive.Tooltip> & React.ComponentProps<"div"> & { hideLabel?: boolean; hideIndicator?: boolean; indicator?: "line" | "dot" | "dashed"; nameKey?: string; labelKey?: string }} props - The props for the component.
+ * @returns {JSX.Element | null} The rendered tooltip content, or null if not active or no payload.
+ */
 const ChartTooltipContent = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<typeof RechartsPrimitive.Tooltip> &
@@ -254,8 +292,19 @@ const ChartTooltipContent = React.forwardRef<
 )
 ChartTooltipContent.displayName = "ChartTooltip"
 
+/**
+ * The legend component for the chart.
+ *
+ * @see https://recharts.org/en-US/api/Legend
+ */
 const ChartLegend = RechartsPrimitive.Legend
 
+/**
+ * The content of the chart legend.
+ *
+ * @param {React.ComponentProps<"div"> & Pick<RechartsPrimitive.LegendProps, "payload" | "verticalAlign"> & { hideIcon?: boolean; nameKey?: string }} props - The props for the component.
+ * @returns {JSX.Element | null} The rendered legend content, or null if no payload.
+ */
 const ChartLegendContent = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<"div"> &
@@ -314,7 +363,14 @@ const ChartLegendContent = React.forwardRef<
 )
 ChartLegendContent.displayName = "ChartLegend"
 
-// Helper to extract item config from a payload.
+/**
+ * Helper to extract item config from a payload.
+ *
+ * @param {ChartConfig} config - The chart configuration.
+ * @param {unknown} payload - The payload from the chart.
+ * @param {string} key - The key to extract from the payload.
+ * @returns {ChartConfig[string] | undefined} The item configuration, or undefined if not found.
+ */
 function getPayloadConfigFromPayload(
   config: ChartConfig,
   payload: unknown,

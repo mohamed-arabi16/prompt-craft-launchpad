@@ -1,7 +1,15 @@
 import * as React from "react"
 
+/**
+ * The breakpoint for mobile devices.
+ */
 const MOBILE_BREAKPOINT = 768
 
+/**
+ * A hook to check if the current device is a mobile device.
+ *
+ * @returns {boolean} Whether the current device is a mobile device.
+ */
 export function useIsMobile() {
   const [isMobile, setIsMobile] = React.useState<boolean | undefined>(undefined)
 

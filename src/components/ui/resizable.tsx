@@ -3,6 +3,13 @@ import * as ResizablePrimitive from "react-resizable-panels"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * A group of resizable panels.
+ *
+ * @param {React.ComponentProps<typeof ResizablePrimitive.PanelGroup>} props - The props for the component.
+ * @returns {JSX.Element} The rendered resizable panel group.
+ * @see https://github.com/bvaughn/react-resizable-panels
+ */
 const ResizablePanelGroup = ({
   className,
   ...props
@@ -16,8 +23,17 @@ const ResizablePanelGroup = ({
   />
 )
 
+/**
+ * A single panel in a resizable panel group.
+ */
 const ResizablePanel = ResizablePrimitive.Panel
 
+/**
+ * The handle for resizing a panel.
+ *
+ * @param {React.ComponentProps<typeof ResizablePrimitive.PanelResizeHandle> & { withHandle?: boolean }} props - The props for the component.
+ * @returns {JSX.Element} The rendered resizable handle.
+ */
 const ResizableHandle = ({
   withHandle,
   className,

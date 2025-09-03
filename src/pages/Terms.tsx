@@ -2,6 +2,11 @@ import { ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from '@/hooks/useTranslation';
 
+/**
+ * The terms of service page.
+ *
+ * @returns {JSX.Element} The rendered terms of service page.
+ */
 const Terms = () => {
   const { t } = useTranslation();
 

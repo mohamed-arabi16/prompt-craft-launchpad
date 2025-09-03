@@ -1,10 +1,21 @@
+/**
+ * A class to manage the language of the application.
+ *
+ * @class LanguageManager
+ */
 class LanguageManager {
+  /**
+   * Creates an instance of LanguageManager.
+   */
   constructor() {
     this.currentLanguage = localStorage.getItem('language') || 'ar';
     this.translations = {};
     this.isLoading = false;
   }
 
+  /**
+   * Initializes the language manager.
+   */
   async init() {
     if (this.isLoading) return;
     this.isLoading = true;
@@ -20,6 +31,11 @@ class LanguageManager {
     }
   }
 
+  /**
+   * Loads the translations for the current language.
+   *
+   * @returns {Promise<void>} A promise that resolves when the translations are loaded.
+   */
   async loadTranslations() {
     return new Promise((resolve, reject) => {
       // Remove existing translation script
@@ -49,6 +65,9 @@ class LanguageManager {
     });
   }
 
+  /**
+   * Applies the translations to the DOM.
+   */
   applyLanguage() {
     // Set document direction and language
     document.documentElement.dir = this.currentLanguage === 'ar' ? 'rtl' : 'ltr';
@@ -121,6 +140,9 @@ class LanguageManager {
     }));
   }
 
+  /**
+   * Toggles the language between English and Arabic.
+   */
   async toggleLanguage() {
     if (this.isLoading) return;
     
@@ -138,6 +160,9 @@ class LanguageManager {
     }
   }
 
+  /**
+   * Sets up the language switcher button.
+   */
   setupLanguageSwitcher() {
     const languageSwitcher = document.querySelector('[data-language-switcher]');
     if (languageSwitcher) {
@@ -148,6 +173,11 @@ class LanguageManager {
     }
   }
 
+  /**
+   * Gets the current language.
+   *
+   * @returns {string} The current language.
+   */
   getCurrentLanguage() {
     return this.currentLanguage;
   }
@@ -159,6 +189,11 @@ document.addEventListener('DOMContentLoaded', () => {
   window.languageManager.init();
 });
 
+/**
+ * Gets the current language.
+ *
+ * @returns {string} The current language.
+ */
 // For React components to access
 window.getLanguage = () => {
   return window.languageManager ? window.languageManager.getCurrentLanguage() : 'ar';

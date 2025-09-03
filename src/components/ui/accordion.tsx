@@ -4,8 +4,19 @@ import { ChevronDown } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * A vertically stacked set of interactive headings that each reveal a section of content.
+ *
+ * @see https://www.radix-ui.com/primitives/docs/components/accordion
+ */
 const Accordion = AccordionPrimitive.Root
 
+/**
+ * An item within an accordion.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Item>} props - The props for the component.
+ * @returns {JSX.Element} The rendered accordion item.
+ */
 const AccordionItem = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Item>,
   React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Item>
@@ -18,6 +29,12 @@ const AccordionItem = React.forwardRef<
 ))
 AccordionItem.displayName = "AccordionItem"
 
+/**
+ * A button that toggles the open state of an accordion item.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger>} props - The props for the component.
+ * @returns {JSX.Element} The rendered accordion trigger.
+ */
 const AccordionTrigger = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Trigger>,
   React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger>
@@ -38,6 +55,12 @@ const AccordionTrigger = React.forwardRef<
 ))
 AccordionTrigger.displayName = AccordionPrimitive.Trigger.displayName
 
+/**
+ * The content of an accordion item.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Content>} props - The props for the component.
+ * @returns {JSX.Element} The rendered accordion content.
+ */
 const AccordionContent = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Content>

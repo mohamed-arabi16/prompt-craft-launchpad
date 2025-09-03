@@ -1,6 +1,13 @@
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useTranslation } from "@/hooks/useTranslation";
 
+/**
+ * Renders the navigation bar for the application.
+ * It includes the brand name and a language switcher component.
+ * The navbar is fixed at the top of the viewport.
+ *
+ * @returns {JSX.Element} The rendered navigation bar.
+ */
 export default function Navbar() {
   const { t } = useTranslation();
   

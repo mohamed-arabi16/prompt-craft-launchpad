@@ -3,10 +3,21 @@ import { Button } from "@/components/ui/button";
 import { ChevronDown, Download, Calendar, Clock, Target } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
 
+/**
+ * Renders the course breakdown section, displaying a 5-day program in an accordion.
+ * Each day can be expanded to show key topics, techniques, and a download link for a summary.
+ *
+ * @returns {JSX.Element} The rendered course breakdown section.
+ */
 const CourseBreakdown = () => {
   const [expandedDay, setExpandedDay] = useState<number | null>(1);
   const { t, tArray } = useTranslation();
 
+  /**
+   * Toggles the expanded state of a day in the accordion.
+   *
+   * @param {number} day - The day number to toggle.
+   */
   const toggleDay = (day: number) => {
     setExpandedDay(expandedDay === day ? null : day);
   };

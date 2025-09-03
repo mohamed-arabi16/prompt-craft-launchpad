@@ -7,11 +7,32 @@ import { ArrowLeft, ArrowRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 
+/**
+ * The API for the carousel component.
+ *
+ * @see https://www.embla-carousel.com/api/api/
+ */
 type CarouselApi = UseEmblaCarouselType[1]
+/**
+ * The parameters for the `useEmblaCarousel` hook.
+ */
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>
+/**
+ * The options for the carousel.
+ */
 type CarouselOptions = UseCarouselParameters[0]
+/**
+ * The plugins for the carousel.
+ */
 type CarouselPlugin = UseCarouselParameters[1]
 
+/**
+ * @typedef {Object} CarouselProps
+ * @property {CarouselOptions} [opts] - The options for the carousel.
+ * @property {CarouselPlugin} [plugins] - The plugins for the carousel.
+ * @property {"horizontal" | "vertical"} [orientation="horizontal"] - The orientation of the carousel.
+ * @property {(api: CarouselApi) => void} [setApi] - A function to set the API for the carousel.
+ */
 type CarouselProps = {
   opts?: CarouselOptions
   plugins?: CarouselPlugin
@@ -19,6 +40,16 @@ type CarouselProps = {
   setApi?: (api: CarouselApi) => void
 }
 
+/**
+ * @typedef {Object} CarouselContextProps
+ * @property {ReturnType<typeof useEmblaCarousel>[0]} carouselRef - The ref for the carousel.
+ * @property {ReturnType<typeof useEmblaCarousel>[1]} api - The API for the carousel.
+ * @property {() => void} scrollPrev - A function to scroll to the previous slide.
+ * @property {() => void} scrollNext - A function to scroll to the next slide.
+ * @property {boolean} canScrollPrev - Whether the carousel can scroll to the previous slide.
+ * @property {boolean} canScrollNext - Whether the carousel can scroll to the next slide.
+ * @extends CarouselProps
+ */
 type CarouselContextProps = {
   carouselRef: ReturnType<typeof useEmblaCarousel>[0]
   api: ReturnType<typeof useEmblaCarousel>[1]
@@ -30,6 +61,12 @@ type CarouselContextProps = {
 
 const CarouselContext = React.createContext<CarouselContextProps | null>(null)
 
+/**
+ * A hook to access the carousel context.
+ *
+ * @returns {CarouselContextProps} The carousel context.
+ * @throws {Error} If used outside of a `<Carousel />` component.
+ */
 function useCarousel() {
   const context = React.useContext(CarouselContext)
 
@@ -40,6 +77,12 @@ function useCarousel() {
   return context
 }
 
+/**
+ * The main carousel component.
+ *
+ * @param {React.HTMLAttributes<HTMLDivElement> & CarouselProps} props - The props for the component.
+ * @returns {JSX.Element} The rendered carousel component.
+ */
 const Carousel = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & CarouselProps
@@ -148,6 +191,12 @@ const Carousel = React.forwardRef<
 )
 Carousel.displayName = "Carousel"
 
+/**
+ * The content of the carousel.
+ *
+ * @param {React.HTMLAttributes<HTMLDivElement>} props - The props for the component.
+ * @returns {JSX.Element} The rendered carousel content.
+ */
 const CarouselContent = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
@@ -170,6 +219,12 @@ const CarouselContent = React.forwardRef<
 })
 CarouselContent.displayName = "CarouselContent"
 
+/**
+ * A single item in the carousel.
+ *
+ * @param {React.HTMLAttributes<HTMLDivElement>} props - The props for the component.
+ * @returns {JSX.Element} The rendered carousel item.
+ */
 const CarouselItem = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
@@ -192,6 +247,12 @@ const CarouselItem = React.forwardRef<
 })
 CarouselItem.displayName = "CarouselItem"
 
+/**
+ * The button to scroll to the previous slide in the carousel.
+ *
+ * @param {React.ComponentProps<typeof Button>} props - The props for the component.
+ * @returns {JSX.Element} The rendered previous button.
+ */
 const CarouselPrevious = React.forwardRef<
   HTMLButtonElement,
   React.ComponentProps<typeof Button>
@@ -221,6 +282,12 @@ const CarouselPrevious = React.forwardRef<
 })
 CarouselPrevious.displayName = "CarouselPrevious"
 
+/**
+ * The button to scroll to the next slide in the carousel.
+ *
+ * @param {React.ComponentProps<typeof Button>} props - The props for the component.
+ * @returns {JSX.Element} The rendered next button.
+ */
 const CarouselNext = React.forwardRef<
   HTMLButtonElement,
   React.ComponentProps<typeof Button>

@@ -1,6 +1,12 @@
 import { Brain, MessageSquare, Code2 } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
 
+/**
+ * Renders the course philosophy section.
+ * This component highlights the three core principles of the course, each with an icon, title, and description.
+ *
+ * @returns {JSX.Element} The rendered course philosophy section.
+ */
 const CoursePhilosophy = () => {
   const { t } = useTranslation();
   

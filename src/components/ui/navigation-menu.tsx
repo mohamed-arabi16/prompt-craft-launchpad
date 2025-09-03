@@ -5,6 +5,13 @@ import { ChevronDown } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * The root component for a navigation menu.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Root>} props - The props for the component.
+ * @returns {JSX.Element} The rendered navigation menu component.
+ * @see https://www.radix-ui.com/primitives/docs/components/navigation-menu
+ */
 const NavigationMenu = React.forwardRef<
   React.ElementRef<typeof NavigationMenuPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Root>
@@ -23,6 +30,12 @@ const NavigationMenu = React.forwardRef<
 ))
 NavigationMenu.displayName = NavigationMenuPrimitive.Root.displayName
 
+/**
+ * A list of navigation menu items.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.List>} props - The props for the component.
+ * @returns {JSX.Element} The rendered navigation menu list.
+ */
 const NavigationMenuList = React.forwardRef<
   React.ElementRef<typeof NavigationMenuPrimitive.List>,
   React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.List>
@@ -38,12 +51,26 @@ const NavigationMenuList = React.forwardRef<
 ))
 NavigationMenuList.displayName = NavigationMenuPrimitive.List.displayName
 
+/**
+ * A single item in a navigation menu.
+ */
 const NavigationMenuItem = NavigationMenuPrimitive.Item
 
+/**
+ * Defines the visual variants for the navigation menu trigger.
+ *
+ * @see https://class-variance-authority.js.org/
+ */
 const navigationMenuTriggerStyle = cva(
   "group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"
 )
 
+/**
+ * The trigger that opens a navigation menu.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Trigger>} props - The props for the component.
+ * @returns {JSX.Element} The rendered navigation menu trigger.
+ */
 const NavigationMenuTrigger = React.forwardRef<
   React.ElementRef<typeof NavigationMenuPrimitive.Trigger>,
   React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Trigger>
@@ -62,6 +89,12 @@ const NavigationMenuTrigger = React.forwardRef<
 ))
 NavigationMenuTrigger.displayName = NavigationMenuPrimitive.Trigger.displayName
 
+/**
+ * The content of a navigation menu.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Content>} props - The props for the component.
+ * @returns {JSX.Element} The rendered navigation menu content.
+ */
 const NavigationMenuContent = React.forwardRef<
   React.ElementRef<typeof NavigationMenuPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Content>
@@ -77,8 +110,17 @@ const NavigationMenuContent = React.forwardRef<
 ))
 NavigationMenuContent.displayName = NavigationMenuPrimitive.Content.displayName
 
+/**
+ * A link in a navigation menu.
+ */
 const NavigationMenuLink = NavigationMenuPrimitive.Link
 
+/**
+ * The viewport for a navigation menu.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Viewport>} props - The props for the component.
+ * @returns {JSX.Element} The rendered navigation menu viewport.
+ */
 const NavigationMenuViewport = React.forwardRef<
   React.ElementRef<typeof NavigationMenuPrimitive.Viewport>,
   React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Viewport>
@@ -97,6 +139,12 @@ const NavigationMenuViewport = React.forwardRef<
 NavigationMenuViewport.displayName =
   NavigationMenuPrimitive.Viewport.displayName
 
+/**
+ * An indicator for the current navigation menu item.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Indicator>} props - The props for the component.
+ * @returns {JSX.Element} The rendered navigation menu indicator.
+ */
 const NavigationMenuIndicator = React.forwardRef<
   React.ElementRef<typeof NavigationMenuPrimitive.Indicator>,
   React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Indicator>

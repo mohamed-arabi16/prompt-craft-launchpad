@@ -2,6 +2,18 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
 
+/**
+ * The shape of the authentication context.
+ *
+ * @interface AuthContextType
+ * @property {User | null} user - The current user.
+ * @property {Session | null} session - The current session.
+ * @property {boolean} loading - Whether the authentication state is loading.
+ * @property {(email: string, password: string, metadata?: any) => Promise<{ error: any }>} signUp - A function to sign up a new user.
+ * @property {(email: string, password: string) => Promise<{ error: any }>} signIn - A function to sign in a user.
+ * @property {() => Promise<{ error: any }>} signOut - A function to sign out a user.
+ * @property {(email: string) => Promise<{ error: any }>} resetPassword - A function to reset a user's password.
+ */
 interface AuthContextType {
   user: User | null;
   session: Session | null;
@@ -14,6 +26,12 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+/**
+ * A hook to use the authentication context.
+ *
+ * @returns {AuthContextType} The authentication context.
+ * @throws {Error} If used outside of an `AuthProvider`.
+ */
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
@@ -22,6 +40,12 @@ export const useAuth = () => {
   return context;
 };
 
+/**
+ * The provider for the authentication context.
+ *
+ * @param {{ children: React.ReactNode }} props - The props for the component.
+ * @returns {JSX.Element} The rendered authentication provider.
+ */
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);

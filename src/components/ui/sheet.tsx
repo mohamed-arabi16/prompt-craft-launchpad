@@ -5,14 +5,34 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * The root component for a sheet.
+ *
+ * @see https://www.radix-ui.com/primitives/docs/components/dialog
+ */
 const Sheet = SheetPrimitive.Root
 
+/**
+ * The trigger that opens the sheet.
+ */
 const SheetTrigger = SheetPrimitive.Trigger
 
+/**
+ * The button that closes the sheet.
+ */
 const SheetClose = SheetPrimitive.Close
 
+/**
+ * Portals the sheet parts into the body.
+ */
 const SheetPortal = SheetPrimitive.Portal
 
+/**
+ * A layer that covers the inert portion of the view when the sheet is open.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof SheetPrimitive.Overlay>} props - The props for the component.
+ * @returns {JSX.Element} The rendered sheet overlay.
+ */
 const SheetOverlay = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Overlay>,
   React.ComponentPropsWithoutRef<typeof SheetPrimitive.Overlay>
@@ -28,6 +48,11 @@ const SheetOverlay = React.forwardRef<
 ))
 SheetOverlay.displayName = SheetPrimitive.Overlay.displayName
 
+/**
+ * Defines the visual variants for the sheet component.
+ *
+ * @see https://class-variance-authority.js.org/
+ */
 const sheetVariants = cva(
   "fixed z-50 gap-4 bg-background p-6 shadow-lg transition ease-in-out data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:duration-300 data-[state=open]:duration-500",
   {
@@ -47,10 +72,21 @@ const sheetVariants = cva(
   }
 )
 
+/**
+ * @interface SheetContentProps
+ * @extends React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content>
+ * @extends VariantProps<typeof sheetVariants>
+ */
 interface SheetContentProps
   extends React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content>,
   VariantProps<typeof sheetVariants> { }
 
+/**
+ * The content of the sheet.
+ *
+ * @param {SheetContentProps} props - The props for the component.
+ * @returns {JSX.Element} The rendered sheet content.
+ */
 const SheetContent = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Content>,
   SheetContentProps
@@ -72,6 +108,12 @@ const SheetContent = React.forwardRef<
 ))
 SheetContent.displayName = SheetPrimitive.Content.displayName
 
+/**
+ * The header of the sheet.
+ *
+ * @param {React.HTMLAttributes<HTMLDivElement>} props - The props for the component.
+ * @returns {JSX.Element} The rendered sheet header.
+ */
 const SheetHeader = ({
   className,
   ...props
@@ -86,6 +128,12 @@ const SheetHeader = ({
 )
 SheetHeader.displayName = "SheetHeader"
 
+/**
+ * The footer of the sheet.
+ *
+ * @param {React.HTMLAttributes<HTMLDivElement>} props - The props for the component.
+ * @returns {JSX.Element} The rendered sheet footer.
+ */
 const SheetFooter = ({
   className,
   ...props
@@ -100,6 +148,12 @@ const SheetFooter = ({
 )
 SheetFooter.displayName = "SheetFooter"
 
+/**
+ * The title of the sheet.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof SheetPrimitive.Title>} props - The props for the component.
+ * @returns {JSX.Element} The rendered sheet title.
+ */
 const SheetTitle = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Title>,
   React.ComponentPropsWithoutRef<typeof SheetPrimitive.Title>
@@ -112,6 +166,12 @@ const SheetTitle = React.forwardRef<
 ))
 SheetTitle.displayName = SheetPrimitive.Title.displayName
 
+/**
+ * The description of the sheet.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof SheetPrimitive.Description>} props - The props for the component.
+ * @returns {JSX.Element} The rendered sheet description.
+ */
 const SheetDescription = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Description>,
   React.ComponentPropsWithoutRef<typeof SheetPrimitive.Description>

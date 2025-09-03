@@ -11,6 +11,11 @@ import { Eye, EyeOff, Lock, Mail, User } from 'lucide-react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import LoadingSpinner from '@/components/LoadingSpinner';
 
+/**
+ * The authentication page, which includes forms for signing in, signing up, and resetting the password.
+ *
+ * @returns {JSX.Element} The rendered authentication page.
+ */
 const Auth = () => {
   const { signUp, signIn, resetPassword, user, loading: authLoading } = useAuth();
   const { t } = useTranslation();
@@ -38,6 +43,11 @@ const Auth = () => {
     }
   }, [user, authLoading, navigate]);
 
+  /**
+   * Handles the sign-in form submission.
+   *
+   * @param {React.FormEvent} e - The form event.
+   */
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -61,6 +71,11 @@ const Auth = () => {
     }
   };
 
+  /**
+   * Handles the sign-up form submission.
+   *
+   * @param {React.FormEvent} e - The form event.
+   */
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -99,6 +114,11 @@ const Auth = () => {
     }
   };
 
+  /**
+   * Handles the password reset form submission.
+   *
+   * @param {React.FormEvent} e - The form event.
+   */
   const handlePasswordReset = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);

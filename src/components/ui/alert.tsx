@@ -3,6 +3,11 @@ import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * Defines the visual variants for the alert component.
+ *
+ * @see https://class-variance-authority.js.org/
+ */
 const alertVariants = cva(
   "relative w-full rounded-lg border p-4 [&>svg~*]:pl-7 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground",
   {
@@ -19,6 +24,12 @@ const alertVariants = cva(
   }
 )
 
+/**
+ * Displays a callout for user attention.
+ *
+ * @param {React.HTMLAttributes<HTMLDivElement> & VariantProps<typeof alertVariants>} props - The props for the component.
+ * @returns {JSX.Element} The rendered alert component.
+ */
 const Alert = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & VariantProps<typeof alertVariants>
@@ -32,6 +43,12 @@ const Alert = React.forwardRef<
 ))
 Alert.displayName = "Alert"
 
+/**
+ * The title of the alert.
+ *
+ * @param {React.HTMLAttributes<HTMLHeadingElement>} props - The props for the component.
+ * @returns {JSX.Element} The rendered alert title.
+ */
 const AlertTitle = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLHeadingElement>
@@ -44,6 +61,12 @@ const AlertTitle = React.forwardRef<
 ))
 AlertTitle.displayName = "AlertTitle"
 
+/**
+ * The description of the alert.
+ *
+ * @param {React.HTMLAttributes<HTMLParagraphElement>} props - The props for the component.
+ * @returns {JSX.Element} The rendered alert description.
+ */
 const AlertDescription = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>

@@ -11,6 +11,15 @@ import { ArrowLeft, CheckCircle, User, Mail, Phone, Building } from 'lucide-reac
 import { Link } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 
+/**
+ * @interface FormData
+ * @property {string} firstName - The user's first name.
+ * @property {string} lastName - The user's last name.
+ * @property {string} email - The user's email address.
+ * @property {string} phone - The user's phone number.
+ * @property {string} company - The user's company.
+ * @property {string} experience - The user's AI experience level.
+ */
 interface FormData {
   firstName: string;
   lastName: string;
@@ -20,6 +29,14 @@ interface FormData {
   experience: string;
 }
 
+/**
+ * @interface FormErrors
+ * @property {string} [firstName] - The error message for the first name field.
+ * @property {string} [lastName] - The error message for the last name field.
+ * @property {string} [email] - The error message for the email field.
+ * @property {string} [phone] - The error message for the phone field.
+ * @property {string} [experience] - The error message for the experience field.
+ */
 interface FormErrors {
   firstName?: string;
   lastName?: string;
@@ -28,6 +45,11 @@ interface FormErrors {
   experience?: string;
 }
 
+/**
+ * The enrollment page, which includes a form for users to enroll in the course.
+ *
+ * @returns {JSX.Element} The rendered enrollment page.
+ */
 const Enrollment = () => {
   const { t, tArray } = useTranslation();
   const [formData, setFormData] = useState<FormData>({
@@ -42,6 +64,11 @@ const Enrollment = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
+  /**
+   * Validates the enrollment form.
+   *
+   * @returns {boolean} Whether the form is valid.
+   */
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
 
@@ -67,6 +94,11 @@ const Enrollment = () => {
     return Object.keys(newErrors).length === 0;
   };
 
+  /**
+   * Handles the submission of the enrollment form.
+   *
+   * @param {React.FormEvent} e - The form event.
+   */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -103,6 +135,12 @@ const Enrollment = () => {
     }
   };
 
+  /**
+   * Handles changes to the form inputs.
+   *
+   * @param {keyof FormData} field - The field to update.
+   * @param {string} value - The new value of the field.
+   */
   const handleInputChange = (field: keyof FormData, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
     if (errors[field]) {
