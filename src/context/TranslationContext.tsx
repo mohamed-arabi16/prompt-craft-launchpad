@@ -5,9 +5,10 @@ import { createContext, useContext, useState, useEffect, ReactNode } from 'react
  */
 type Language = 'ar' | 'en';
 /**
- * A record of translations.
+ * A recursive type for nested translations.
  */
-type Translations = Record<string, string | string[]>;
+type TranslationValue = string | string[] | { [key: string]: TranslationValue };
+type Translations = Record<string, TranslationValue>;
 
 /**
  * The shape of the translation context.
@@ -119,44 +120,66 @@ export const TranslationProvider = ({ children }: { children: ReactNode }) => {
   };
 
   /**
+   * Safely retrieves a nested value from an object.
+   *
+   * @param {Translations} obj - The object to search.
+   * @param {string} path - The path to the value.
+   * @returns {TranslationValue | undefined} The value if found, otherwise undefined.
+   */
+  const getNestedValue = (obj: Translations, path: string): TranslationValue | undefined => {
+    return path.split('.').reduce<TranslationValue | undefined>((current, key) => {
+      if (current && typeof current === 'object' && key in current) {
+        return (current as { [key: string]: TranslationValue })[key];
+      }
+      return undefined;
+    }, obj);
+  };
+
+  /**
    * Gets the translation for a given key.
+   * It handles nested keys and falls back to English if the translation is not found.
    *
    * @param {string} key - The key of the translation to get.
    * @returns {string} The translated string.
    */
   const t = (key: string): string => {
-    // Try to get the translation from the current language
-    const value = translations[key];
-    if (value) {
-      return Array.isArray(value) ? value.join(', ') : (value as string);
+    let value = getNestedValue(translations, key);
+
+    // If no value, try the English fallback
+    if (value === undefined) {
+      value = getNestedValue(englishTranslations, key);
+      if (value !== undefined && process.env.NODE_ENV === 'development') {
+        console.warn(`Translation for key '${key}' not found in '${currentLanguage}'. Using English fallback.`);
+      }
     }
 
-    // Fallback to English if the key is missing in the current language
-    const fallbackValue = englishTranslations[key];
-    if (fallbackValue) {
-      // Log a warning in development that we're using a fallback
+    // If still no value, return the key and warn
+    if (value === undefined) {
       if (process.env.NODE_ENV === 'development') {
-        console.warn(`Missing translation for key: ${key} in language: ${currentLanguage}. Using English fallback.`);
+        console.warn(`Translation for key '${key}' not found.`);
       }
-      return Array.isArray(fallbackValue) ? fallbackValue.join(', ') : (fallbackValue as string);
+      return key;
     }
-    
-    // If the key is not found in either, return the key and log a warning
-    if (process.env.NODE_ENV === 'development') {
-      console.warn(`Missing translation for key: ${key} in both ${currentLanguage} and English.`);
-    }
-    
-    return key;
+
+    // Return the value, formatted if it's an array
+    return Array.isArray(value) ? value.join(', ') : String(value);
   };
 
   /**
    * Gets an array of translations for a given key.
+   * It handles nested keys and falls back to English.
    *
    * @param {string} key - The key of the translations to get.
    * @returns {string[]} The translated strings.
    */
   const tArray = (key: string): string[] => {
-    const value = translations[key];
+    let value = getNestedValue(translations, key);
+
+    // If no value, try the English fallback
+    if (value === undefined) {
+      value = getNestedValue(englishTranslations, key);
+    }
+
     return Array.isArray(value) ? value : [];
   };
 

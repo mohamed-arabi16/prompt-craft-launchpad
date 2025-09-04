@@ -39,12 +39,16 @@
         "advanced": "متقدم"
       }
     },
-    "submit": "أكمل التسجيل"
+    "submit": "أكمل التسجيل",
+    "dataUsage": "<strong>استخدام البيانات:</strong> سيتم استخدام معلوماتك لمعالجة تسجيلك وإصدار شهادات الدورة وتقديم تحديثات الدورة. نحن نحترم خصوصيتك ولن نشارك بياناتك أبدًا مع أطراف ثالثة.",
+    "requiredFields": "الحقول المشار إليها بعلامة * مطلوبة"
   },
   "success": {
     "enrollmentSubtext": "تحقق من بريدك الإلكتروني للحصول على تفاصيل الوصول إلى الدورة.",
     "messageSent": "تم إرسال الرسالة بنجاح!",
-    "messageSentSubtext": "شكرا لتواصلك معنا. سنرد عليك في غضون 24 ساعة."
+    "messageSentSubtext": "شكرا لتواصلك معنا. سنرد عليك في غضون 24 ساعة.",
+    "downloadStarted": "بدأ التنزيل بنجاح",
+    "enrollmentComplete": "تم التسجيل بنجاح!"
   },
   "contactTitle": "اتصل بنا",
   "contactSubtitle": "يسعدنا الرد على استفساراتك في أقرب وقت.",
@@ -67,15 +71,12 @@
     "downloadFailed": "فشل التنزيل. يرجى المحاولة مرة أخرى.",
     "networkError": "خطأ في الشبكة. يرجى التحقق من اتصالك.",
     "genericError": "حدث خطأ. يرجى المحاولة مرة أخرى.",
-    "fileNotAvailable": "الملف غير متوفر حالياً. يرجى المراجعة لاحقاً."
+    "fileNotAvailable": "الملف غير متوفر حالياً. يرجى المراجعة لاحقاً.",
+    "sendMessageFailed": "فشل إرسال الرسالة. يرجى المحاولة مرة أخرى."
   },
   "loading": {
     "submitting": "جاري الإرسال...",
     "downloading": "جاري التنزيل..."
-  },
-  "success": {
-    "downloadStarted": "بدأ التنزيل بنجاح",
-    "enrollmentComplete": "تم التسجيل بنجاح!"
   },
   "heroDescription": "انتقل من المطالبات البسيطة إلى صياغة المشاكل الاستراتيجية. أتقن ChatGPT وMidjourney وLovable من خلال الهندسة المعرفية المتطورة وسير العمل التعاوني مع الذكاء الاصطناعي.",
   "ctaPrimary": "ابدأ التعلم اليوم",
@@ -266,13 +267,71 @@
   "footerTerms": "الشروط والأحكام",
   "footerContact": "اتصل بنا",
   "dashboardWelcome": "أهلاً وسهلاً",
+  "dashboardSubtitle": "الوصول إلى مواد الدورة التدريبية الخاصة بك وإدارة حسابك.",
   "heroAccessDashboard": "لوحة التحكم",
   "ctaAccessDashboard": "لوحة التحكم",
   "intensiveProgram": "برنامج مكثف لـ 5 أيام",
+  "dashboard": {
+    "profileTitle": "الملف الشخصي",
+    "phoneLabel": "الهاتف:",
+    "experienceLabel": "الخبرة في الذكاء الاصطناعي:",
+    "enrolledLabel": "مسجل:",
+    "courseMaterialsTitle": "مواد الدورة",
+    "downloadMaterials": "قم بتنزيل مواد الدورة التدريبية الخاصة بك أدناه",
+    "accessPendingApproval": "الوصول إلى الدورة في انتظار الموافقة",
+    "accessPendingBadge": "الوصول معلق",
+    "accessPendingDescription": "تتم مراجعة وصولك إلى الدورة. ستتلقى بريدًا إلكترونيًا بمجرد الموافقة.",
+    "accessPendingTimeframe": "يستغرق هذا عادة 1-2 يوم عمل.",
+    "accessGrantedBadge": "تم منح الوصول",
+    "day": "اليوم",
+    "downloadPDF": "تنزيل PDF",
+    "additionalResources": "مصادر إضافية",
+    "completeGuide": "دليل الدورة الكامل (PDF)",
+    "promptTemplates": "مجموعة قوالب الأوامر"
+  },
+  "auth": {
+    "title": "إتقان أوامر الذكاء الاصطناعي",
+    "signInToDownload": "سجل الدخول لتنزيل مواد الدورة",
+    "accessCourseContent": "الوصول إلى محتوى الدورة التدريبية الخاصة بك",
+    "signIn": "تسجيل الدخول",
+    "signUp": "انشاء حساب",
+    "reset": "إعادة تعيين",
+    "welcomeBack": "مرحباً بعودتك",
+    "signInToAccess": "سجل الدخول للوصول إلى مواد الدورة التدريبية الخاصة بك",
+    "emailLabel": "البريد الإلكتروني",
+    "emailPlaceholder": "أدخل بريدك الإلكتروني",
+    "passwordLabel": "كلمة المرور",
+    "passwordPlaceholder": "ادخل كلمة المرور",
+    "signInButton": "تسجيل الدخول",
+    "createAccount": "انشاء حساب",
+    "createAccountDescription": "يجب عليك إكمال نموذج التسجيل قبل إنشاء حساب. استخدم نفس عنوان البريد الإلكتروني الذي استخدمته للتسجيل.",
+    "firstNameLabel": "الاسم الأول",
+    "firstNamePlaceholder": "الاسم الأول",
+    "lastNameLabel": "اسم العائلة",
+    "lastNamePlaceholder": "اسم العائلة",
+    "createPasswordPlaceholder": "أنشئ كلمة مرور",
+    "confirmPasswordLabel": "تأكيد كلمة المرور",
+    "confirmPasswordPlaceholder": "أكد رقمك السري",
+    "createAccountButton": "انشاء حساب",
+    "resetPassword": "إعادة تعيين كلمة المرور",
+    "resetPasswordDescription": "أدخل بريدك الإلكتروني لتلقي تعليمات إعادة تعيين كلمة المرور",
+    "sendResetLinkButton": "إرسال رابط إعادة التعيين",
+    "backToCourse": "← العودة إلى معلومات الدورة",
+    "toast": {
+      "invalidCredentials": "بريد إلكتروني أو كلمة مرور غير صالحة. يرجى التحقق من بيانات الاعتماد الخاصة بك وحاول مرة أخرى.",
+      "welcomeBack": "مرحباً بعودتك!",
+      "passwordsDoNotMatch": "كلمات المرور غير متطابقة",
+      "passwordTooShort": "يجب أن لا تقل كلمة السر عن 6 أحرف",
+      "userExists": "حساب بهذا البريد الإلكتروني موجود بالفعل. الرجاء تسجيل الدخول بدلاً من ذلك.",
+      "accountCreated": "تم إنشاء الحساب بنجاح! يرجى التحقق من بريدك الإلكتروني للتحقق من حسابك.",
+      "unexpectedError": "حدث خطأ غير متوقع. حاول مرة اخرى.",
+      "passwordResetSent": "تم إرسال بريد إلكتروني لإعادة تعيين كلمة المرور! تحقق من صندوق الوارد الخاص بك للحصول على التعليمات."
+    }
+  },
   "accessWarning": {
     "title": "مطلوب الوصول للدورة",
     "description": "لقد تم تسجيل دخولك بنجاح، ولكن تحتاج إلى إكمال الدفع والتسجيل في الدورة للحصول على الوصول إلى المواد.",
-    "completeEnrollment": "إكمال التسجيل", 
+    "completeEnrollment": "إكمال التسجيل",
     "continueBrowsing": "متابعة التصفح"
   }
 }

@@ -201,11 +201,12 @@ const Enrollment = () => {
             </CardTitle>
             <CardDescription className="space-y-2">
               <p>{t('enrollmentSubtitle')}</p>
-              <p className="text-sm text-muted-foreground">
-                <strong>Data Usage:</strong> Your information will be used to process your enrollment, issue course certificates, and provide course updates. We respect your privacy and will never share your data with third parties.
-              </p>
+              <p
+                className="text-sm text-muted-foreground"
+                dangerouslySetInnerHTML={{ __html: t('enrollmentForm.dataUsage') }}
+              />
               <p className="text-xs text-muted-foreground">
-                Fields marked with * are required
+                {t('enrollmentForm.requiredFields')}
               </p>
             </CardDescription>
           </CardHeader>

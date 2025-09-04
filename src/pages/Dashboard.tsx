@@ -136,41 +136,45 @@ const Dashboard = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <User className="h-5 w-5" />
-                  Profile
+                  {t('dashboard.profileTitle')}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex items-center gap-2 text-sm">
                   <Mail className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-muted-foreground">{t('auth.emailLabel')}:</span>
                   <span>{user?.email}</span>
                 </div>
-                
+
                 {profile?.phone && (
                   <div className="flex items-center gap-2 text-sm">
-                    <span className="text-muted-foreground">Phone:</span>
+                    <Phone className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-muted-foreground">{t('dashboard.phoneLabel')}:</span>
                     <span>{profile.phone}</span>
                   </div>
                 )}
-                
+
                 {profile?.company && (
                   <div className="flex items-center gap-2 text-sm">
                     <Building className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-muted-foreground">{t('enrollmentForm.company')}:</span>
                     <span>{profile.company}</span>
                   </div>
                 )}
-                
+
                 {profile?.ai_experience && (
                   <div className="flex items-center gap-2 text-sm">
-                    <span className="text-muted-foreground">AI Experience:</span>
-                    <Badge variant="secondary">{profile.ai_experience}</Badge>
+                    <span className="text-muted-foreground">{t('dashboard.experienceLabel')}:</span>
+                    <Badge variant="secondary">{t(`enrollmentForm.experience.options.${profile.ai_experience}`)}</Badge>
                   </div>
                 )}
-                
+
                 {courseAccess?.access_granted_at && (
                   <div className="flex items-center gap-2 text-sm">
                     <Calendar className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-muted-foreground">{t('dashboard.enrolledLabel')}:</span>
                     <span>
-                      Enrolled: {new Date(courseAccess.access_granted_at).toLocaleDateString()}
+                      {new Date(courseAccess.access_granted_at).toLocaleDateString()}
                     </span>
                   </div>
                 )}
@@ -182,11 +186,11 @@ const Dashboard = () => {
           <div className="lg:col-span-2">
             <Card>
               <CardHeader>
-                <CardTitle>Course Materials</CardTitle>
+                <CardTitle>{t('dashboard.courseMaterialsTitle')}</CardTitle>
                 <CardDescription>
-                  {courseAccess?.has_access 
-                    ? "Download your course materials below"
-                    : "Course access pending approval"
+                  {courseAccess?.has_access
+                    ? t('dashboard.downloadMaterials')
+                    : t('dashboard.accessPendingApproval')
                   }
                 </CardDescription>
               </CardHeader>
@@ -195,31 +199,31 @@ const Dashboard = () => {
                   <div className="text-center py-8">
                     <div className="mb-4">
                       <Badge variant="secondary" className="text-sm">
-                        Access Pending
+                        {t('dashboard.accessPendingBadge')}
                       </Badge>
                     </div>
                     <p className="text-muted-foreground mb-4">
-                      Your course access is being reviewed. You'll receive an email once approved.
+                      {t('dashboard.accessPendingDescription')}
                     </p>
                     <p className="text-sm text-muted-foreground">
-                      This usually takes 1-2 business days.
+                      {t('dashboard.accessPendingTimeframe')}
                     </p>
                   </div>
                 ) : (
                   <div className="space-y-4">
                     <div className="mb-6">
                       <Badge variant="default" className="text-sm">
-                        Access Granted
+                        {t('dashboard.accessGrantedBadge')}
                       </Badge>
                     </div>
-                    
+
                     {/* Course Days */}
                     {Array.from({ length: 5 }).map((_, index) => {
                       const day = index + 1;
                       return (
                         <div key={day} className="flex items-center justify-between p-4 border border-border rounded-lg">
                           <div>
-                            <h4 className="font-semibold">Day {day}: {t(`day${day}Title`)}</h4>
+                            <h4 className="font-semibold">{t('dashboard.day')} {day}: {t(`day${day}Title`)}</h4>
                             <p className="text-sm text-muted-foreground mt-1">
                               {t(`day${day}Description`)}
                             </p>
@@ -236,7 +240,7 @@ const Dashboard = () => {
                             ) : (
                               <Download className="h-4 w-4 mr-2" />
                             )}
-                            Download PDF
+                            {t('dashboard.downloadPDF')}
                           </Button>
                         </div>
                       );
@@ -244,7 +248,7 @@ const Dashboard = () => {
 
                     {/* Additional Resources */}
                     <div className="mt-8 pt-6 border-t border-border">
-                      <h4 className="font-semibold mb-4">Additional Resources</h4>
+                      <h4 className="font-semibold mb-4">{t('dashboard.additionalResources')}</h4>
                       <div className="space-y-2">
                         <Button
                           variant="outline"
@@ -258,9 +262,9 @@ const Dashboard = () => {
                           ) : (
                             <Download className="h-4 w-4 mr-2" />
                           )}
-                          Complete Course Guide (PDF)
+                          {t('dashboard.completeGuide')}
                         </Button>
-                        
+
                         <Button
                           variant="outline"
                           size="sm"
@@ -273,7 +277,7 @@ const Dashboard = () => {
                           ) : (
                             <Download className="h-4 w-4 mr-2" />
                           )}
-                          Prompt Templates Collection
+                          {t('dashboard.promptTemplates')}
                         </Button>
                       </div>
                     </div>

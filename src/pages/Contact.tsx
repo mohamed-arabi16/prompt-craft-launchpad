@@ -116,7 +116,7 @@ const Contact = () => {
       toast.success(t('success.messageSent'));
     } catch (error) {
       console.error('Error submitting contact message:', error);
-      toast.error('Failed to send message. Please try again.');
+      toast.error(t('errors.sendMessageFailed'));
     } finally {
       setIsSubmitting(false);
     }
