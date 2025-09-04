@@ -39,12 +39,16 @@
         "advanced": "Advanced"
       }
     },
-    "submit": "Complete Enrollment"
+    "submit": "Complete Enrollment",
+    "dataUsage": "<strong>Data Usage:</strong> Your information will be used to process your enrollment, issue course certificates, and provide course updates. We respect your privacy and will never share your data with third parties.",
+    "requiredFields": "Fields marked with * are required"
   },
   "success": {
     "enrollmentSubtext": "Check your email for course access details.",
     "messageSent": "Message Sent Successfully!",
-    "messageSentSubtext": "Thank you for contacting us. We'll get back to you within 24 hours."
+    "messageSentSubtext": "Thank you for contacting us. We'll get back to you within 24 hours.",
+    "downloadStarted": "Download started successfully",
+    "enrollmentComplete": "Enrollment completed successfully!"
   },
   "contactTitle": "Contact Us",
   "contactSubtitle": "We’ll get back to you as soon as possible.",
@@ -67,15 +71,12 @@
     "downloadFailed": "Download failed. Please try again.",
     "networkError": "Network error. Please check your connection.",
     "genericError": "An error occurred. Please try again.",
-    "fileNotAvailable": "The file is not yet available. Please check back later."
+    "fileNotAvailable": "The file is not yet available. Please check back later.",
+    "sendMessageFailed": "Failed to send message. Please try again."
   },
   "loading": {
     "submitting": "Submitting...",
     "downloading": "Downloading..."
-  },
-  "success": {
-    "downloadStarted": "Download started successfully",
-    "enrollmentComplete": "Enrollment completed successfully!"
   },
   "heroDescription": "Transform from simple prompting to strategic problem formulation. Master ChatGPT, Midjourney, and Lovable through sophisticated cognitive architecture and collaborative AI workflows.",
   "ctaPrimary": "Start Learning Today",
@@ -266,11 +267,69 @@
   "footerTerms": "Terms & Conditions",
   "footerContact": "Contact Us",
   "dashboardWelcome": "Welcome back",
+  "dashboardSubtitle": "Access your course materials and manage your account.",
   "heroAccessDashboard": "Access Dashboard",
   "ctaAccessDashboard": "Access Dashboard",
   "intensiveProgram": "5-Day Intensive Program",
+  "dashboard": {
+    "profileTitle": "Profile",
+    "phoneLabel": "Phone:",
+    "experienceLabel": "AI Experience:",
+    "enrolledLabel": "Enrolled:",
+    "courseMaterialsTitle": "Course Materials",
+    "downloadMaterials": "Download your course materials below",
+    "accessPendingApproval": "Course access pending approval",
+    "accessPendingBadge": "Access Pending",
+    "accessPendingDescription": "Your course access is being reviewed. You'll receive an email once approved.",
+    "accessPendingTimeframe": "This usually takes 1-2 business days.",
+    "accessGrantedBadge": "Access Granted",
+    "day": "Day",
+    "downloadPDF": "Download PDF",
+    "additionalResources": "Additional Resources",
+    "completeGuide": "Complete Course Guide (PDF)",
+    "promptTemplates": "Prompt Templates Collection"
+  },
+  "auth": {
+    "title": "AI Prompt Mastery",
+    "signInToDownload": "Sign in to download course materials",
+    "accessCourseContent": "Access your course content",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "reset": "Reset",
+    "welcomeBack": "Welcome Back",
+    "signInToAccess": "Sign in to access your course materials",
+    "emailLabel": "Email",
+    "emailPlaceholder": "Enter your email",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "signInButton": "Sign In",
+    "createAccount": "Create Account",
+    "createAccountDescription": "You must complete the enrollment form before creating an account. Use the same email address you used for enrollment.",
+    "firstNameLabel": "First Name",
+    "firstNamePlaceholder": "First name",
+    "lastNameLabel": "Last Name",
+    "lastNamePlaceholder": "Last name",
+    "createPasswordPlaceholder": "Create a password",
+    "confirmPasswordLabel": "Confirm Password",
+    "confirmPasswordPlaceholder": "Confirm your password",
+    "createAccountButton": "Create Account",
+    "resetPassword": "Reset Password",
+    "resetPasswordDescription": "Enter your email to receive password reset instructions",
+    "sendResetLinkButton": "Send Reset Link",
+    "backToCourse": "← Back to Course Information",
+    "toast": {
+      "invalidCredentials": "Invalid email or password. Please check your credentials and try again.",
+      "welcomeBack": "Welcome back!",
+      "passwordsDoNotMatch": "Passwords do not match",
+      "passwordTooShort": "Password must be at least 6 characters long",
+      "userExists": "An account with this email already exists. Please sign in instead.",
+      "accountCreated": "Account created successfully! Please check your email to verify your account.",
+      "unexpectedError": "An unexpected error occurred. Please try again.",
+      "passwordResetSent": "Password reset email sent! Check your inbox for instructions."
+    }
+  },
   "accessWarning": {
-    "title": "Course Access Required", 
+    "title": "Course Access Required",
     "description": "You have successfully signed in, but you need to complete the payment and enroll in the course to have access to the materials.",
     "completeEnrollment": "Complete Enrollment",
     "continueBrowsing": "Continue Browsing"

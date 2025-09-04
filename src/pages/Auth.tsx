@@ -27,9 +27,9 @@ const Auth = () => {
 
   // Form states
   const [signInForm, setSignInForm] = useState({ email: '', password: '' });
-  const [signUpForm, setSignUpForm] = useState({ 
-    email: '', 
-    password: '', 
+  const [signUpForm, setSignUpForm] = useState({
+    email: '',
+    password: '',
     confirmPassword: '',
     firstName: '',
     lastName: ''
@@ -55,22 +55,22 @@ const Auth = () => {
 
     try {
       const { error } = await signIn(signInForm.email, signInForm.password);
-      
+
       if (error) {
         if (error.message.includes('Invalid login credentials')) {
-          toast.error('Invalid email or password. Please check your credentials and try again.');
+          toast.error(t('auth.toast.invalidCredentials'));
         } else {
           toast.error(error.message);
         }
       } else {
         const redirectTo = searchParams.get('redirectTo');
-        toast.success('Welcome back!');
+        toast.success(t('auth.toast.welcomeBack'));
         if (redirectTo === 'dashboard') {
           navigate('/dashboard');
         }
       }
     } catch (error) {
-      toast.error('An unexpected error occurred. Please try again.');
+      toast.error(t('auth.toast.unexpectedError'));
     } finally {
       setLoading(false);
     }
@@ -83,14 +83,14 @@ const Auth = () => {
    */
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (signUpForm.password !== signUpForm.confirmPassword) {
-      toast.error('Passwords do not match');
+      toast.error(t('auth.toast.passwordsDoNotMatch'));
       return;
     }
 
     if (signUpForm.password.length < 6) {
-      toast.error('Password must be at least 6 characters long');
+      toast.error(t('auth.toast.passwordTooShort'));
       return;
     }
 
@@ -101,10 +101,10 @@ const Auth = () => {
         first_name: signUpForm.firstName,
         last_name: signUpForm.lastName,
       });
-      
+
       if (error) {
         if (error.message.includes('User already registered')) {
-          toast.error('An account with this email already exists. Please sign in instead.');
+          toast.error(t('auth.toast.userExists'));
         } else if (error.message.includes('enrollment form')) {
           toast.error(error.message);
           setTimeout(() => {
@@ -117,7 +117,7 @@ const Auth = () => {
           toast.error(error.message);
         }
       } else {
-        toast.success('Account created successfully! Please check your email to verify your account.');
+        toast.success(t('auth.toast.accountCreated'));
         const redirectTo = searchParams.get('redirectTo');
         if (redirectTo === 'dashboard') {
           navigate('/dashboard');
@@ -126,7 +126,7 @@ const Auth = () => {
         }
       }
     } catch (error) {
-      toast.error('An unexpected error occurred. Please try again.');
+      toast.error(t('auth.toast.unexpectedError'));
     } finally {
       setLoading(false);
     }
@@ -143,15 +143,15 @@ const Auth = () => {
 
     try {
       const { error } = await resetPassword(resetForm.email);
-      
+
       if (error) {
         toast.error(error.message);
       } else {
-        toast.success('Password reset email sent! Check your inbox for instructions.');
+        toast.success(t('auth.toast.passwordResetSent'));
         setActiveTab('signin');
       }
     } catch (error) {
-      toast.error('An unexpected error occurred. Please try again.');
+      toast.error(t('auth.toast.unexpectedError'));
     } finally {
       setLoading(false);
     }
@@ -171,40 +171,40 @@ const Auth = () => {
         {/* Header */}
         <div className="text-center mb-8">
           <Link to="/" className="inline-block">
-            <h1 className="text-2xl font-bold text-primary mb-2">AI Prompt Mastery</h1>
+            <h1 className="text-2xl font-bold text-primary mb-2">{t('auth.title')}</h1>
           </Link>
           {searchParams.get('redirectTo') === 'dashboard' ? (
-            <p className="text-muted-foreground">Sign in to download course materials</p>
+            <p className="text-muted-foreground">{t('auth.signInToDownload')}</p>
           ) : (
-            <p className="text-muted-foreground">Access your course content</p>
+            <p className="text-muted-foreground">{t('auth.accessCourseContent')}</p>
           )}
         </div>
 
         <Card className="border-border/50 shadow-lg">
           <Tabs value={activeTab} onValueChange={setActiveTab}>
             <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="signin">Sign In</TabsTrigger>
-              <TabsTrigger value="signup">Sign Up</TabsTrigger>
-              <TabsTrigger value="reset">Reset</TabsTrigger>
+              <TabsTrigger value="signin">{t('auth.signIn')}</TabsTrigger>
+              <TabsTrigger value="signup">{t('auth.signUp')}</TabsTrigger>
+              <TabsTrigger value="reset">{t('auth.reset')}</TabsTrigger>
             </TabsList>
 
             <TabsContent value="signin">
               <CardHeader>
-                <CardTitle>Welcome Back</CardTitle>
+                <CardTitle>{t('auth.welcomeBack')}</CardTitle>
                 <CardDescription>
-                  Sign in to access your course materials
+                  {t('auth.signInToAccess')}
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleSignIn} className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="signin-email">Email</Label>
+                    <Label htmlFor="signin-email">{t('auth.emailLabel')}</Label>
                     <div className="relative">
                       <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                       <Input
                         id="signin-email"
                         type="email"
-                        placeholder="Enter your email"
+                        placeholder={t('auth.emailPlaceholder')}
                         value={signInForm.email}
                         onChange={(e) => setSignInForm(prev => ({ ...prev, email: e.target.value }))}
                         className="pl-10"
@@ -212,15 +212,15 @@ const Auth = () => {
                       />
                     </div>
                   </div>
-                  
+
                   <div className="space-y-2">
-                    <Label htmlFor="signin-password">Password</Label>
+                    <Label htmlFor="signin-password">{t('auth.passwordLabel')}</Label>
                     <div className="relative">
                       <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                       <Input
                         id="signin-password"
                         type={showPassword ? 'text' : 'password'}
-                        placeholder="Enter your password"
+                        placeholder={t('auth.passwordPlaceholder')}
                         value={signInForm.password}
                         onChange={(e) => setSignInForm(prev => ({ ...prev, password: e.target.value }))}
                         className="pl-10 pr-10"
@@ -238,7 +238,7 @@ const Auth = () => {
 
                   <Button type="submit" className="w-full" disabled={loading}>
                     {loading ? <LoadingSpinner size="sm" className="mr-2" /> : null}
-                    Sign In
+                    {t('auth.signInButton')}
                   </Button>
                 </form>
               </CardContent>
@@ -246,22 +246,22 @@ const Auth = () => {
 
             <TabsContent value="signup">
               <CardHeader>
-                <CardTitle>Create Account</CardTitle>
+                <CardTitle>{t('auth.createAccount')}</CardTitle>
                 <CardDescription>
-                  You must complete the enrollment form before creating an account. Use the same email address you used for enrollment.
+                  {t('auth.createAccountDescription')}
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleSignUp} className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="signup-firstname">First Name</Label>
+                      <Label htmlFor="signup-firstname">{t('auth.firstNameLabel')}</Label>
                       <div className="relative">
                         <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                         <Input
                           id="signup-firstname"
                           type="text"
-                          placeholder="First name"
+                          placeholder={t('auth.firstNamePlaceholder')}
                           value={signUpForm.firstName}
                           onChange={(e) => setSignUpForm(prev => ({ ...prev, firstName: e.target.value }))}
                           className="pl-10"
@@ -269,13 +269,13 @@ const Auth = () => {
                         />
                       </div>
                     </div>
-                    
+
                     <div className="space-y-2">
-                      <Label htmlFor="signup-lastname">Last Name</Label>
+                      <Label htmlFor="signup-lastname">{t('auth.lastNameLabel')}</Label>
                       <Input
                         id="signup-lastname"
                         type="text"
-                        placeholder="Last name"
+                        placeholder={t('auth.lastNamePlaceholder')}
                         value={signUpForm.lastName}
                         onChange={(e) => setSignUpForm(prev => ({ ...prev, lastName: e.target.value }))}
                         required
@@ -284,13 +284,13 @@ const Auth = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="signup-email">Email</Label>
+                    <Label htmlFor="signup-email">{t('auth.emailLabel')}</Label>
                     <div className="relative">
                       <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                       <Input
                         id="signup-email"
                         type="email"
-                        placeholder="Enter your email"
+                        placeholder={t('auth.emailPlaceholder')}
                         value={signUpForm.email}
                         onChange={(e) => setSignUpForm(prev => ({ ...prev, email: e.target.value }))}
                         className="pl-10"
@@ -298,15 +298,15 @@ const Auth = () => {
                       />
                     </div>
                   </div>
-                  
+
                   <div className="space-y-2">
-                    <Label htmlFor="signup-password">Password</Label>
+                    <Label htmlFor="signup-password">{t('auth.passwordLabel')}</Label>
                     <div className="relative">
                       <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                       <Input
                         id="signup-password"
                         type={showPassword ? 'text' : 'password'}
-                        placeholder="Create a password"
+                        placeholder={t('auth.createPasswordPlaceholder')}
                         value={signUpForm.password}
                         onChange={(e) => setSignUpForm(prev => ({ ...prev, password: e.target.value }))}
                         className="pl-10 pr-10"
@@ -324,13 +324,13 @@ const Auth = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="signup-confirm-password">Confirm Password</Label>
+                    <Label htmlFor="signup-confirm-password">{t('auth.confirmPasswordLabel')}</Label>
                     <div className="relative">
                       <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                       <Input
                         id="signup-confirm-password"
                         type="password"
-                        placeholder="Confirm your password"
+                        placeholder={t('auth.confirmPasswordPlaceholder')}
                         value={signUpForm.confirmPassword}
                         onChange={(e) => setSignUpForm(prev => ({ ...prev, confirmPassword: e.target.value }))}
                         className="pl-10"
@@ -341,7 +341,7 @@ const Auth = () => {
 
                   <Button type="submit" className="w-full" disabled={loading}>
                     {loading ? <LoadingSpinner size="sm" className="mr-2" /> : null}
-                    Create Account
+                    {t('auth.createAccountButton')}
                   </Button>
                 </form>
               </CardContent>
@@ -349,21 +349,21 @@ const Auth = () => {
 
             <TabsContent value="reset">
               <CardHeader>
-                <CardTitle>Reset Password</CardTitle>
+                <CardTitle>{t('auth.resetPassword')}</CardTitle>
                 <CardDescription>
-                  Enter your email to receive password reset instructions
+                  {t('auth.resetPasswordDescription')}
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <form onSubmit={handlePasswordReset} className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="reset-email">Email</Label>
+                    <Label htmlFor="reset-email">{t('auth.emailLabel')}</Label>
                     <div className="relative">
                       <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                       <Input
                         id="reset-email"
                         type="email"
-                        placeholder="Enter your email"
+                        placeholder={t('auth.emailPlaceholder')}
                         value={resetForm.email}
                         onChange={(e) => setResetForm(prev => ({ ...prev, email: e.target.value }))}
                         className="pl-10"
@@ -374,7 +374,7 @@ const Auth = () => {
 
                   <Button type="submit" className="w-full" disabled={loading}>
                     {loading ? <LoadingSpinner size="sm" className="mr-2" /> : null}
-                    Send Reset Link
+                    {t('auth.sendResetLinkButton')}
                   </Button>
                 </form>
               </CardContent>
@@ -384,7 +384,7 @@ const Auth = () => {
 
         <div className="text-center mt-6">
           <Link to="/" className="text-sm text-muted-foreground hover:text-primary">
-            ← Back to Course Information
+            {t('auth.backToCourse')}
           </Link>
         </div>
       </div>
