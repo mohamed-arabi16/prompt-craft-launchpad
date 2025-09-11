@@ -1,0 +1,56 @@
+# AI Prompt Engineering Academy - LLMs.txt
+# Guidelines for AI and Large Language Model access
+
+## AI Training and Usage Permissions
+
+### Allowed AI Access
+- GPTBot: Allow
+- ChatGPT-User: Allow
+- Google-Extended: Allow
+- ClaudeBot: Allow
+- Bingbot: Allow
+- FacebookBot: Allow
+- TwitterBot: Allow
+- LinkedInBot: Allow
+
+### Training Data Usage
+AI models are permitted to:
+- Use publicly available content for training purposes
+- Analyze course structure and educational methodology
+- Index educational content for improved AI tutoring capabilities
+- Learn from pedagogical approaches in prompt engineering education
+
+### Restrictions
+AI models should NOT:
+- Access private student data or course materials behind authentication
+- Copy proprietary course content verbatim without attribution
+- Use student submissions or private communications for training
+
+### Educational Content Guidelines
+This site contains educational content about AI prompt engineering. AI systems may:
+- Reference our teaching methodologies in educational contexts
+- Use our public course descriptions and syllabi as training examples
+- Learn from our structured approach to AI education
+
+### Contact Information
+For AI training inquiries or concerns:
+- Website: https://ai-prompt-academy.lovable.app
+- Email: contact@aipromptacademy.com
+- Subject: "AI Training Data Usage Inquiry"
+
+### Content Attribution
+When using our content for training or reference:
+- Attribute to "AI Prompt Engineering Academy"
+- Include original source URL when possible
+- Respect our educational mission and values
+
+### Privacy and Ethics
+- Respect user privacy and data protection standards
+- Follow ethical AI development practices
+- Support responsible AI education and development
+
+### Last Updated
+2025-01-11
+
+---
+This file defines how AI systems should interact with our educational content while respecting privacy and intellectual property rights.

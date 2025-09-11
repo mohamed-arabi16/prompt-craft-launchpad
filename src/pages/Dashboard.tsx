@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/contexts/AuthContext';
 import { useTranslation } from '@/hooks/useTranslation';
 import { supabase } from '@/integrations/supabase/client';
-import { Download, User, Mail, Calendar, Building } from 'lucide-react';
+import { Download, User, Mail, Calendar, Building, Phone } from 'lucide-react';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { useDownload } from '@/hooks/useDownload';
 

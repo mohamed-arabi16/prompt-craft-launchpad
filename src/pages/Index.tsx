@@ -8,6 +8,8 @@ import BenefitsSection from "@/components/BenefitsSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
+import FAQ from "@/components/FAQ";
+import Glossary from "@/components/Glossary";
 import { useTranslation } from "@/hooks/useTranslation";
 
 /**
@@ -41,50 +43,120 @@ const Index = () => {
     const twitterDescription = document.querySelector('meta[name="twitter:description"]');
     if (twitterDescription) twitterDescription.setAttribute('content', t('metaTwitterDescription') || t('metaDescription'));
 
-    // Update structured data
+    // Update enhanced structured data
     const existingScript = document.querySelector('script[type="application/ld+json"]');
     if (existingScript) existingScript.remove();
 
-    const structuredData = {
-      "@context": "https://schema.org",
-      "@type": "Course",
-      "name": t('structuredDataName'),
-      "description": t('structuredDataDescription'),
-      "provider": {
-        "@type": "Organization",
-        "name": t('structuredDataProviderName'),
-        "url": "https://aipromptacademy.com",
-        "logo": "https://aipromptacademy.com/logo.png"
-      },
-      "courseCode": "AIPE-101",
-      "educationalLevel": "Intermediate",
-      "teaches": tArray('structuredDataTeaches'),
-      "timeRequired": "P5D",
-      "totalTime": "PT14H",
-      "coursePrerequisites": t('structuredDataPrerequisites'),
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.9",
-        "reviewCount": "1247",
-        "bestRating": "5"
-      },
-      "offers": {
-        "@type": "Offer",
-        "price": "399",
-        "priceCurrency": "USD",
-        "availability": "https://schema.org/InStock",
-        "priceValidUntil": "2025-12-31",
-        "url": "https://aipromptacademy.com/enroll"
-      },
-      "hasCourseInstance": {
-        "@type": "CourseInstance",
-        "courseMode": "online",
-        "instructor": {
-          "@type": "Person",
-          "name": t('structuredDataInstructorName')
+    const structuredData = [
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": t('structuredDataName'),
+        "description": t('structuredDataDescription'),
+        "provider": {
+          "@type": "Organization",
+          "name": t('structuredDataProviderName'),
+          "url": "https://ai-prompt-academy.lovable.app",
+          "logo": "https://ai-prompt-academy.lovable.app/logo.png",
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+1-555-AI-PROMPT",
+            "contactType": "customer service",
+            "availableLanguage": ["Arabic", "English"]
+          },
+          "sameAs": [
+            "https://linkedin.com/company/ai-prompt-academy",
+            "https://twitter.com/aipromptacademy"
+          ]
+        },
+        "courseCode": "AIPE-101",
+        "educationalLevel": "Intermediate",
+        "teaches": tArray('structuredDataTeaches'),
+        "timeRequired": "P5D",
+        "totalTime": "PT14H",
+        "coursePrerequisites": t('structuredDataPrerequisites'),
+        "learningResourceType": "Course",
+        "educationalUse": "instruction",
+        "audience": {
+          "@type": "EducationalAudience",
+          "educationalRole": "student",
+          "audienceType": "professional developers, product managers, researchers"
+        },
+        "competencyRequired": "Basic understanding of AI and technology",
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.9",
+          "reviewCount": "1247",
+          "bestRating": "5"
+        },
+        "offers": {
+          "@type": "Offer",
+          "price": "399",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock",
+          "priceValidUntil": "2025-12-31",
+          "url": "https://ai-prompt-academy.lovable.app/enrollment",
+          "validFrom": "2024-01-01"
+        },
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT2H30M",
+          "instructor": {
+            "@type": "Person",
+            "name": t('structuredDataInstructorName'),
+            "jobTitle": "AI Prompt Engineering Expert",
+            "worksFor": {
+              "@type": "Organization",
+              "name": t('structuredDataProviderName')
+            }
+          }
         }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "AI Prompt Engineering Academy",
+        "url": "https://ai-prompt-academy.lovable.app",
+        "description": "Master AI prompt engineering in 5 days with expert-led courses",
+        "inLanguage": ["ar", "en"],
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://ai-prompt-academy.lovable.app/search?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is AI Prompt Engineering?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "AI Prompt Engineering is the practice of crafting effective instructions and queries to get optimal responses from AI systems like ChatGPT, Claude, and other language models."
+            }
+          },
+          {
+            "@type": "Question", 
+            "name": "Who should take this course?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "This course is designed for professionals, developers, product managers, and researchers who want to master AI interaction for professional results."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How long does the course take?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The course is designed to be completed in 5 days with approximately 2.5 hours of content per day, totaling 14 hours of comprehensive training."
+            }
+          }
+        ]
       }
-    };
+    ];
     const script = document.createElement('script');
     script.type = 'application/ld+json';
     script.textContent = JSON.stringify(structuredData);
@@ -111,17 +183,43 @@ const Index = () => {
   }, [t, tArray]);
 
   return (
-    <div className="min-h-screen pt-20">
+    <main className="min-h-screen pt-20" role="main" aria-label="AI Prompt Engineering Course Landing Page">
       <Navbar />
-      <HeroSection />
-      <CoursePhilosophy />
-      <CourseBreakdown />
-      <BenefitsSection />
-      <TestimonialsSection />
-      <CTASection />
+      
+      <section aria-label="Hero Section">
+        <HeroSection />
+      </section>
+      
+      <section aria-label="Course Philosophy" id="course-philosophy">
+        <CoursePhilosophy />
+      </section>
+      
+      <section aria-label="Course Curriculum" id="course-curriculum">
+        <CourseBreakdown />
+      </section>
+      
+      <section aria-label="Course Benefits" id="course-benefits">
+        <BenefitsSection />
+      </section>
+      
+      <section aria-label="Student Testimonials" id="testimonials">
+        <TestimonialsSection />
+      </section>
+      
+      <section aria-label="Enrollment Call to Action" id="enrollment-cta">
+        <CTASection />
+      </section>
+
+      <section aria-label="Frequently Asked Questions" id="faq">
+        <FAQ />
+      </section>
+
+      <section aria-label="AI Terminology Glossary" id="glossary">
+        <Glossary />
+      </section>
       
       <Footer />
-    </div>
+    </main>
   );
 };
 
