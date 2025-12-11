@@ -10,29 +10,9 @@ import LoadingSpinner from '@/components/LoadingSpinner';
 import { ArrowLeft, CheckCircle, Mail, MessageSquare, User } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
+import { contactSchema, type ContactFormData } from '@/lib/validations';
 
-/**
- * @interface ContactFormData
- * @property {string} name - The user's name.
- * @property {string} email - The user's email address.
- * @property {string} subject - The subject of the message.
- * @property {string} message - The message content.
- */
-interface ContactFormData {
-  name: string;
-  email: string;
-  subject: string;
-  message: string;
-}
-
-/**
- * @interface ContactFormErrors
- * @property {string} [name] - The error message for the name field.
- * @property {string} [email] - The error message for the email field.
- * @property {string} [subject] - The error message for the subject field.
- * @property {string} [message] - The error message for the message field.
- */
-interface ContactFormErrors {
+interface FormErrors {
   name?: string;
   email?: string;
   subject?: string;
@@ -40,9 +20,7 @@ interface ContactFormErrors {
 }
 
 /**
- * The contact page, which includes a form for users to send messages.
- *
- * @returns {JSX.Element} The rendered contact page.
+ * The contact page with Zod validation.
  */
 const Contact = () => {
   const { t } = useTranslation();
@@ -52,41 +30,32 @@ const Contact = () => {
     subject: '',
     message: ''
   });
-  const [errors, setErrors] = useState<ContactFormErrors>({});
+  const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   /**
-   * Validates the contact form.
-   *
-   * @returns {boolean} Whether the form is valid.
+   * Validates the form using Zod schema
    */
   const validateForm = (): boolean => {
-    const newErrors: ContactFormErrors = {};
-
-    if (!formData.name.trim()) {
-      newErrors.name = t('errors.required');
+    const result = contactSchema.safeParse(formData);
+    
+    if (!result.success) {
+      const newErrors: FormErrors = {};
+      result.error.errors.forEach((error) => {
+        const field = error.path[0] as keyof FormErrors;
+        newErrors[field] = t(`errors.${error.message}`) || error.message;
+      });
+      setErrors(newErrors);
+      return false;
     }
-    if (!formData.email.trim()) {
-      newErrors.email = t('errors.required');
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = t('errors.invalidEmail');
-    }
-    if (!formData.subject.trim()) {
-      newErrors.subject = t('errors.required');
-    }
-    if (!formData.message.trim()) {
-      newErrors.message = t('errors.required');
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    
+    setErrors({});
+    return true;
   };
 
   /**
-   * Handles the submission of the contact form.
-   *
-   * @param {React.FormEvent} e - The form event.
+   * Handles form submission
    */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -101,10 +70,10 @@ const Contact = () => {
       const { error } = await supabase
         .from('contact_messages')
         .insert({
-          name: formData.name,
-          email: formData.email,
-          subject: formData.subject,
-          message: formData.message,
+          name: formData.name.trim(),
+          email: formData.email.trim().toLowerCase(),
+          subject: formData.subject.trim(),
+          message: formData.message.trim(),
         });
 
       if (error) {
@@ -123,10 +92,7 @@ const Contact = () => {
   };
 
   /**
-   * Handles changes to the form inputs.
-   *
-   * @param {keyof ContactFormData} field - The field to update.
-   * @param {string} value - The new value of the field.
+   * Handles input changes
    */
   const handleInputChange = (field: keyof ContactFormData, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -205,6 +171,8 @@ const Contact = () => {
                   onChange={(e) => handleInputChange('name', e.target.value)}
                   className={errors.name ? 'border-destructive' : ''}
                   disabled={isSubmitting}
+                  maxLength={100}
+                  autoComplete="name"
                 />
                 {errors.name && (
                   <p className="text-sm text-destructive">{errors.name}</p>
@@ -223,6 +191,8 @@ const Contact = () => {
                   onChange={(e) => handleInputChange('email', e.target.value)}
                   className={errors.email ? 'border-destructive' : ''}
                   disabled={isSubmitting}
+                  maxLength={255}
+                  autoComplete="email"
                 />
                 {errors.email && (
                   <p className="text-sm text-destructive">{errors.email}</p>
@@ -239,6 +209,7 @@ const Contact = () => {
                   onChange={(e) => handleInputChange('subject', e.target.value)}
                   className={errors.subject ? 'border-destructive' : ''}
                   disabled={isSubmitting}
+                  maxLength={200}
                 />
                 {errors.subject && (
                   <p className="text-sm text-destructive">{errors.subject}</p>
@@ -256,6 +227,7 @@ const Contact = () => {
                   className={errors.message ? 'border-destructive' : ''}
                   rows={6}
                   disabled={isSubmitting}
+                  maxLength={5000}
                 />
                 {errors.message && (
                   <p className="text-sm text-destructive">{errors.message}</p>

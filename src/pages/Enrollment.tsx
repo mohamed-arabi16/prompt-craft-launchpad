@@ -10,57 +10,30 @@ import LoadingSpinner from '@/components/LoadingSpinner';
 import { ArrowLeft, CheckCircle, User, Mail, Phone, Building } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
+import { enrollmentSchema, type EnrollmentFormData } from '@/lib/validations';
 
-/**
- * @interface FormData
- * @property {string} firstName - The user's first name.
- * @property {string} lastName - The user's last name.
- * @property {string} email - The user's email address.
- * @property {string} phone - The user's phone number.
- * @property {string} company - The user's company.
- * @property {string} aiExperience - The user's AI experience level.
- * @property {string} goals - The user's goals for the course.
- */
-interface FormData {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  company: string;
-  aiExperience: string;
-  goals: string;
-}
-
-/**
- * @interface FormErrors
- * @property {string} [firstName] - The error message for the first name field.
- * @property {string} [lastName] - The error message for the last name field.
- * @property {string} [email] - The error message for the email field.
- * @property {string} [phone] - The error message for the phone field.
- * @property {string} [aiExperience] - The error message for the experience field.
- */
 interface FormErrors {
   firstName?: string;
   lastName?: string;
   email?: string;
   phone?: string;
   aiExperience?: string;
+  company?: string;
+  goals?: string;
 }
 
 /**
- * The enrollment page, which includes a form for users to enroll in the course.
- *
- * @returns {JSX.Element} The rendered enrollment page.
+ * The enrollment page with Zod validation and XSS protection.
  */
 const Enrollment = () => {
-  const { t, tArray } = useTranslation();
-  const [formData, setFormData] = useState<FormData>({
+  const { t } = useTranslation();
+  const [formData, setFormData] = useState<EnrollmentFormData>({
     firstName: '',
     lastName: '',
     email: '',
     phone: '',
     company: '',
-    aiExperience: '',
+    aiExperience: 'beginner',
     goals: ''
   });
   const [errors, setErrors] = useState<FormErrors>({});
@@ -68,39 +41,27 @@ const Enrollment = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   /**
-   * Validates the enrollment form.
-   *
-   * @returns {boolean} Whether the form is valid.
+   * Validates the form using Zod schema
    */
   const validateForm = (): boolean => {
-    const newErrors: FormErrors = {};
-
-    if (!formData.firstName.trim()) {
-      newErrors.firstName = t('errors.required');
+    const result = enrollmentSchema.safeParse(formData);
+    
+    if (!result.success) {
+      const newErrors: FormErrors = {};
+      result.error.errors.forEach((error) => {
+        const field = error.path[0] as keyof FormErrors;
+        newErrors[field] = t(`errors.${error.message}`) || error.message;
+      });
+      setErrors(newErrors);
+      return false;
     }
-    if (!formData.lastName.trim()) {
-      newErrors.lastName = t('errors.required');
-    }
-    if (!formData.email.trim()) {
-      newErrors.email = t('errors.required');
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = t('errors.invalidEmail');
-    }
-    if (!formData.phone.trim()) {
-      newErrors.phone = t('errors.required');
-    }
-    if (!formData.aiExperience) {
-      newErrors.aiExperience = t('errors.required');
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    
+    setErrors({});
+    return true;
   };
 
   /**
-   * Handles the submission of the enrollment form.
-   *
-   * @param {React.FormEvent} e - The form event.
+   * Handles form submission with validation
    */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -115,13 +76,13 @@ const Enrollment = () => {
       const { error } = await supabase
         .from('enrollments')
         .insert({
-          first_name: formData.firstName,
-          last_name: formData.lastName,
-          email: formData.email,
-          phone: formData.phone || null,
-          company: formData.company || null,
+          first_name: formData.firstName.trim(),
+          last_name: formData.lastName.trim(),
+          email: formData.email.trim().toLowerCase(),
+          phone: formData.phone.trim() || null,
+          company: formData.company?.trim() || null,
           ai_experience: formData.aiExperience,
-          goals: formData.goals || null,
+          goals: formData.goals?.trim() || null,
           enrollment_completed: true,
         });
 
@@ -140,19 +101,16 @@ const Enrollment = () => {
   };
 
   /**
-   * Handles changes to the form inputs.
-   *
-   * @param {keyof FormData} field - The field to update.
-   * @param {string} value - The new value of the field.
+   * Handles input changes with error clearing
    */
-  const handleInputChange = (field: keyof FormData, value: string) => {
+  const handleInputChange = (field: keyof EnrollmentFormData, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
     if (errors[field as keyof FormErrors]) {
       setErrors(prev => ({ ...prev, [field]: undefined }));
     }
   };
 
-  const experienceLevels = ['beginner', 'intermediate', 'advanced'];
+  const experienceLevels = ['beginner', 'intermediate', 'advanced'] as const;
 
   if (isSubmitted) {
     return (
@@ -163,9 +121,9 @@ const Enrollment = () => {
             <h2 className="text-2xl font-bold text-foreground mb-2">
               {t('success.enrollmentComplete')}
             </h2>
-              <p className="text-muted-foreground mb-6">
-                {t('success.enrollmentSubtext')}
-              </p>
+            <p className="text-muted-foreground mb-6">
+              {t('success.enrollmentSubtext')}
+            </p>
             <Link to="/">
               <Button className="w-full">
                 <ArrowLeft className="h-4 w-4 ltr:mr-2 rtl:ml-2" />
@@ -202,10 +160,10 @@ const Enrollment = () => {
             </CardTitle>
             <CardDescription className="space-y-2">
               <p>{t('enrollmentSubtitle')}</p>
-              <p
-                className="text-sm text-muted-foreground"
-                dangerouslySetInnerHTML={{ __html: t('enrollmentForm.dataUsage') }}
-              />
+              {/* Safe rendering without dangerouslySetInnerHTML */}
+              <p className="text-sm text-muted-foreground">
+                {t('enrollmentForm.dataUsage')}
+              </p>
               <p className="text-xs text-muted-foreground">
                 {t('enrollmentForm.requiredFields')}
               </p>
@@ -225,6 +183,8 @@ const Enrollment = () => {
                     onChange={(e) => handleInputChange('firstName', e.target.value)}
                     className={errors.firstName ? 'border-destructive' : ''}
                     disabled={isSubmitting}
+                    maxLength={50}
+                    autoComplete="given-name"
                   />
                   {errors.firstName && (
                     <p className="text-sm text-destructive">{errors.firstName}</p>
@@ -242,6 +202,8 @@ const Enrollment = () => {
                     onChange={(e) => handleInputChange('lastName', e.target.value)}
                     className={errors.lastName ? 'border-destructive' : ''}
                     disabled={isSubmitting}
+                    maxLength={50}
+                    autoComplete="family-name"
                   />
                   {errors.lastName && (
                     <p className="text-sm text-destructive">{errors.lastName}</p>
@@ -262,6 +224,8 @@ const Enrollment = () => {
                   onChange={(e) => handleInputChange('email', e.target.value)}
                   className={errors.email ? 'border-destructive' : ''}
                   disabled={isSubmitting}
+                  maxLength={255}
+                  autoComplete="email"
                 />
                 {errors.email && (
                   <p className="text-sm text-destructive">{errors.email}</p>
@@ -280,6 +244,8 @@ const Enrollment = () => {
                   onChange={(e) => handleInputChange('phone', e.target.value)}
                   className={errors.phone ? 'border-destructive' : ''}
                   disabled={isSubmitting}
+                  maxLength={20}
+                  autoComplete="tel"
                 />
                 {errors.phone && (
                   <p className="text-sm text-destructive">{errors.phone}</p>
@@ -296,6 +262,8 @@ const Enrollment = () => {
                   value={formData.company}
                   onChange={(e) => handleInputChange('company', e.target.value)}
                   disabled={isSubmitting}
+                  maxLength={100}
+                  autoComplete="organization"
                 />
               </div>
 
