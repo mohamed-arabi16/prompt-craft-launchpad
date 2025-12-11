@@ -3,26 +3,32 @@ import { useTranslation } from "@/hooks/useTranslation";
 import { useAdmin } from "@/hooks/useAdmin";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
-import { Shield, LogIn, Menu, X } from "lucide-react";
+import { Shield, LogIn, LogOut, Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
 /**
  * Renders the navigation bar for the application.
- * It includes the brand name and a language switcher component.
- * The navbar is fixed at the top of the viewport.
+ * It includes the brand name, navigation links, and a language switcher component.
+ * The navbar is fixed at the top of the viewport with responsive mobile menu.
  *
  * @returns {JSX.Element} The rendered navigation bar.
  */
 export default function Navbar() {
   const { t } = useTranslation();
   const { isAdmin } = useAdmin();
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const handleSignOut = async () => {
+    await signOut();
+  };
 
   const navigationLinks = [
     { href: "/", label: t('navHome') },
     { href: "#course", label: t('navCourse') },
+    { href: "#faq", label: t('navFAQ') },
+    { href: "#glossary", label: t('navGlossary') },
     { href: "#testimonials", label: t('navTestimonials') },
     { href: "/contact", label: t('navContact') },
   ];
@@ -92,6 +98,15 @@ export default function Navbar() {
                       </Button>
                     </Link>
                   )}
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={handleSignOut}
+                    className="flex items-center gap-2 text-foreground hover:text-primary"
+                  >
+                    <LogOut className="h-4 w-4" />
+                    {t('buttons.signOut')}
+                  </Button>
                 </>
               ) : (
                 <Link to="/auth">
@@ -135,7 +150,7 @@ export default function Navbar() {
                 )
               ))}
               
-              <div className="flex items-center gap-4 pt-4 border-t border-border/50">
+              <div className="flex flex-wrap items-center gap-4 pt-4 border-t border-border/50">
                 {user ? (
                   <>
                     {isAdmin && (
@@ -146,6 +161,18 @@ export default function Navbar() {
                         </Button>
                       </Link>
                     )}
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => {
+                        handleSignOut();
+                        setIsMobileMenuOpen(false);
+                      }}
+                      className="flex items-center gap-2 text-foreground hover:text-primary"
+                    >
+                      <LogOut className="h-4 w-4" />
+                      {t('buttons.signOut')}
+                    </Button>
                   </>
                 ) : (
                   <Link to="/auth" onClick={() => setIsMobileMenuOpen(false)}>

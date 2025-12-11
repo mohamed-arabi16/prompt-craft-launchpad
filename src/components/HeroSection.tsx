@@ -1,6 +1,5 @@
-
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Sparkles, Brain, Zap, LogOut } from "lucide-react";
+import { ArrowRight, Sparkles, Brain, Zap } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useAuth } from "@/contexts/AuthContext";
 import { Link } from "react-router-dom";
@@ -16,48 +15,29 @@ import DashboardButton from "./DashboardButton";
  */
 const HeroSection = () => {
   const { t } = useTranslation();
-  const { user, signOut } = useAuth();
-
-  const handleSignOut = async () => {
-    await signOut();
-  };
+  const { user } = useAuth();
   
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background" aria-label="Hero section">
       {/* Animated Gradient Background */}
-      <div className="absolute inset-0 bg-gradient-hero"></div>
+      <div className="absolute inset-0 bg-gradient-hero" aria-hidden="true"></div>
       
       {/* Floating Elements */}
-      <div className="absolute top-20 ltr:left-10 rtl:right-10 animate-bounce">
+      <div className="absolute top-20 ltr:left-10 rtl:right-10 animate-bounce" aria-hidden="true">
         <Sparkles className="h-8 w-8 text-primary/30" />
       </div>
-      <div className="absolute bottom-40 ltr:right-16 rtl:left-16 animate-pulse">
+      <div className="absolute bottom-40 ltr:right-16 rtl:left-16 animate-pulse" aria-hidden="true">
         <Brain className="h-12 w-12 text-primary/20" />
       </div>
-      <div className="absolute top-1/3 ltr:right-10 rtl:left-10 animate-bounce delay-700">
+      <div className="absolute top-1/3 ltr:right-10 rtl:left-10 animate-bounce delay-700" aria-hidden="true">
         <Zap className="h-6 w-6 text-primary/25" />
       </div>
-
-      {/* Sign Out Button for authenticated users */}
-      {user && (
-        <div className="absolute top-4 ltr:right-4 rtl:left-4 z-20">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={handleSignOut}
-            className="flex items-center gap-2 text-foreground hover:text-primary"
-          >
-            <LogOut className="h-4 w-4" />
-            <span className="hidden sm:inline">{t('buttons.signOut')}</span>
-          </Button>
-        </div>
-      )}
 
       {/* Main Content */}
       <div className="relative z-10 text-center max-w-5xl mx-auto px-6 fade-in-up">
         <div className="mb-6 fade-in-up-delay-1">
           <span className="inline-flex items-center px-4 py-2 bg-card backdrop-blur-sm rounded-full text-foreground text-sm font-medium border border-primary/20">
-            <Sparkles className="h-4 w-4 ltr:mr-2 rtl:ml-2" />
+            <Sparkles className="h-4 w-4 ltr:mr-2 rtl:ml-2" aria-hidden="true" />
             <span>{t('limitedOffer')}</span>
           </span>
         </div>
@@ -74,19 +54,19 @@ const HeroSection = () => {
           <Link to="/enrollment">
             <Button className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-4 text-lg font-semibold group w-full sm:w-auto">
               <span>{t('heroEnrollButton')}</span>
-              <ArrowRight className="ltr:ml-2 rtl:mr-2 h-5 w-5 transition-transform group-hover:ltr:translate-x-1 group-hover:rtl:-translate-x-1" />
+              <ArrowRight className="ltr:ml-2 rtl:mr-2 h-5 w-5 transition-transform group-hover:ltr:translate-x-1 group-hover:rtl:-translate-x-1" aria-hidden="true" />
             </Button>
           </Link>
           {user ? (
             <DashboardButton
               variant="outline" 
-              className="border-primary text-primary hover:bg-primary hover:text-primary-foreground px-8 py-4 text-lg"
+              className="border-primary text-foreground hover:bg-primary hover:text-primary-foreground px-8 py-4 text-lg"
               dashboardText={t('heroAccessDashboard')}
             />
           ) : (
             <DownloadButton 
               variant="outline" 
-              className="border-primary text-primary hover:bg-primary hover:text-primary-foreground px-8 py-4 text-lg"
+              className="border-primary text-foreground hover:bg-primary hover:text-primary-foreground px-8 py-4 text-lg"
               materialCategory="course_guide"
               signInText={t('heroDownloadButton')}
               downloadText={t('heroDownloadButton')}
@@ -94,17 +74,17 @@ const HeroSection = () => {
           )}
         </div>
         
-        <div className="flex items-center justify-center gap-8 text-muted-foreground text-sm fade-in-up-delay-3">
+        <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-8 text-muted-foreground text-sm fade-in-up-delay-3">
           <div className="flex items-center gap-2">
-            <div className="h-2 w-2 bg-primary rounded-full"></div>
+            <div className="h-2 w-2 bg-primary rounded-full" aria-hidden="true"></div>
             <span>{t('programFeature1')}</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="h-2 w-2 bg-primary rounded-full"></div>
+            <div className="h-2 w-2 bg-primary rounded-full" aria-hidden="true"></div>
             <span>{t('programFeature2')}</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="h-2 w-2 bg-primary rounded-full"></div>
+            <div className="h-2 w-2 bg-primary rounded-full" aria-hidden="true"></div>
             <span>{t('programFeature3')}</span>
           </div>
         </div>

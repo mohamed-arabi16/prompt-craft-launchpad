@@ -258,10 +258,7 @@ export type Database = {
         }
         Returns: boolean
       }
-      is_admin: {
-        Args: { user_id: string }
-        Returns: boolean
-      }
+      is_admin: { Args: { user_id: string }; Returns: boolean }
       link_enrollment_to_user: {
         Args: { email_address: string; user_uuid: string }
         Returns: boolean
