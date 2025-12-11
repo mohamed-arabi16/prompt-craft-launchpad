@@ -10,77 +10,44 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "13.0.4"
+    PostgrestVersion: "13.0.5"
   }
   public: {
     Tables: {
-      admin_users: {
-        Row: {
-          created_at: string
-          granted_at: string
-          granted_by: string | null
-          id: string
-          is_active: boolean
-          role: Database["public"]["Enums"]["admin_role"]
-          updated_at: string
-          user_id: string
-        }
-        Insert: {
-          created_at?: string
-          granted_at?: string
-          granted_by?: string | null
-          id?: string
-          is_active?: boolean
-          role?: Database["public"]["Enums"]["admin_role"]
-          updated_at?: string
-          user_id: string
-        }
-        Update: {
-          created_at?: string
-          granted_at?: string
-          granted_by?: string | null
-          id?: string
-          is_active?: boolean
-          role?: Database["public"]["Enums"]["admin_role"]
-          updated_at?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
       contact_messages: {
         Row: {
           created_at: string
           email: string
           id: string
+          is_read: boolean
           message: string
           name: string
-          status: string
-          subject: string
+          subject: string | null
         }
         Insert: {
           created_at?: string
           email: string
           id?: string
+          is_read?: boolean
           message: string
           name: string
-          status?: string
-          subject: string
+          subject?: string | null
         }
         Update: {
           created_at?: string
           email?: string
           id?: string
+          is_read?: boolean
           message?: string
           name?: string
-          status?: string
-          subject?: string
+          subject?: string | null
         }
         Relationships: []
       }
       course_access: {
         Row: {
-          access_expires_at: string | null
           access_granted_at: string | null
+          course_id: string
           created_at: string
           has_access: boolean
           id: string
@@ -88,8 +55,8 @@ export type Database = {
           user_id: string
         }
         Insert: {
-          access_expires_at?: string | null
           access_granted_at?: string | null
+          course_id?: string
           created_at?: string
           has_access?: boolean
           id?: string
@@ -97,8 +64,8 @@ export type Database = {
           user_id: string
         }
         Update: {
-          access_expires_at?: string | null
           access_granted_at?: string | null
+          course_id?: string
           created_at?: string
           has_access?: boolean
           id?: string
@@ -109,102 +76,104 @@ export type Database = {
       }
       course_materials: {
         Row: {
-          category: string
-          course_day: number | null
           created_at: string
+          day_number: number | null
           description: string | null
+          description_ar: string | null
+          file_name: string
           file_path: string
-          file_type: string
-          file_url: string | null
           id: string
           is_active: boolean
-          requires_access: boolean
+          material_type: string
           title: string
+          title_ar: string | null
           updated_at: string
         }
         Insert: {
-          category: string
-          course_day?: number | null
           created_at?: string
+          day_number?: number | null
           description?: string | null
+          description_ar?: string | null
+          file_name: string
           file_path: string
-          file_type?: string
-          file_url?: string | null
           id?: string
           is_active?: boolean
-          requires_access?: boolean
+          material_type?: string
           title: string
+          title_ar?: string | null
           updated_at?: string
         }
         Update: {
-          category?: string
-          course_day?: number | null
           created_at?: string
+          day_number?: number | null
           description?: string | null
+          description_ar?: string | null
+          file_name?: string
           file_path?: string
-          file_type?: string
-          file_url?: string | null
           id?: string
           is_active?: boolean
-          requires_access?: boolean
+          material_type?: string
           title?: string
+          title_ar?: string | null
           updated_at?: string
         }
         Relationships: []
       }
       enrollments: {
         Row: {
-          ai_experience: string
-          company: string | null
+          country: string | null
+          created_at: string
           email: string
-          enrollment_completed: boolean
-          enrollment_date: string
+          enrollment_completed: boolean | null
+          experience_level: string | null
           first_name: string
+          goals: string | null
           id: string
           last_name: string
           linked_user_id: string | null
-          payment_completed: boolean
+          payment_completed: boolean | null
           phone: string | null
-          status: string
-          user_id: string
+          updated_at: string
+          user_id: string | null
         }
         Insert: {
-          ai_experience: string
-          company?: string | null
+          country?: string | null
+          created_at?: string
           email: string
-          enrollment_completed?: boolean
-          enrollment_date?: string
+          enrollment_completed?: boolean | null
+          experience_level?: string | null
           first_name: string
+          goals?: string | null
           id?: string
           last_name: string
           linked_user_id?: string | null
-          payment_completed?: boolean
+          payment_completed?: boolean | null
           phone?: string | null
-          status?: string
-          user_id: string
+          updated_at?: string
+          user_id?: string | null
         }
         Update: {
-          ai_experience?: string
-          company?: string | null
+          country?: string | null
+          created_at?: string
           email?: string
-          enrollment_completed?: boolean
-          enrollment_date?: string
+          enrollment_completed?: boolean | null
+          experience_level?: string | null
           first_name?: string
+          goals?: string | null
           id?: string
           last_name?: string
           linked_user_id?: string | null
-          payment_completed?: boolean
+          payment_completed?: boolean | null
           phone?: string | null
-          status?: string
-          user_id?: string
+          updated_at?: string
+          user_id?: string | null
         }
         Relationships: []
       }
       profiles: {
         Row: {
-          ai_experience: string | null
-          company: string | null
           created_at: string
+          email: string | null
           first_name: string | null
           id: string
           last_name: string | null
@@ -213,9 +182,8 @@ export type Database = {
           user_id: string
         }
         Insert: {
-          ai_experience?: string | null
-          company?: string | null
           created_at?: string
+          email?: string | null
           first_name?: string | null
           id?: string
           last_name?: string | null
@@ -224,14 +192,34 @@ export type Database = {
           user_id: string
         }
         Update: {
-          ai_experience?: string | null
-          company?: string | null
           created_at?: string
+          email?: string | null
           first_name?: string | null
           id?: string
           last_name?: string | null
           phone?: string | null
           updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
           user_id?: string
         }
         Relationships: []
@@ -242,30 +230,28 @@ export type Database = {
     }
     Functions: {
       check_enrollment_status: {
-        Args: { email_address: string }
+        Args: { p_email: string }
         Returns: {
           enrollment_completed: boolean
           enrollment_id: string
-          has_enrollment: boolean
-          linked_user_id: string
           payment_completed: boolean
         }[]
       }
-      has_admin_role: {
+      has_role: {
         Args: {
-          required_role: Database["public"]["Enums"]["admin_role"]
-          user_id: string
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
         }
         Returns: boolean
       }
-      is_admin: { Args: { user_id: string }; Returns: boolean }
+      is_admin: { Args: { _user_id: string }; Returns: boolean }
       link_enrollment_to_user: {
-        Args: { email_address: string; user_uuid: string }
-        Returns: boolean
+        Args: { p_email: string; p_user_id: string }
+        Returns: undefined
       }
     }
     Enums: {
-      admin_role: "super_admin" | "admin" | "moderator"
+      app_role: "admin" | "moderator" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -393,7 +379,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      admin_role: ["super_admin", "admin", "moderator"],
+      app_role: ["admin", "moderator", "user"],
     },
   },
 } as const

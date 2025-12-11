@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/contexts/AuthContext';
 import { useTranslation } from '@/hooks/useTranslation';
 import { supabase } from '@/integrations/supabase/client';
-import { Download, User, Mail, Calendar, Building, Phone } from 'lucide-react';
+import { Download, User, Mail, Calendar, Phone } from 'lucide-react';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { useDownload } from '@/hooks/useDownload';
 
@@ -18,11 +18,10 @@ import { useDownload } from '@/hooks/useDownload';
  * @property {string} [ai_experience] - The user's AI experience level.
  */
 interface Profile {
-  first_name?: string;
-  last_name?: string;
-  phone?: string;
-  company?: string;
-  ai_experience?: string;
+  first_name?: string | null;
+  last_name?: string | null;
+  email?: string | null;
+  phone?: string | null;
 }
 
 /**
@@ -151,21 +150,6 @@ const Dashboard = () => {
                     <Phone className="h-4 w-4 text-muted-foreground" />
                     <span className="text-muted-foreground">{t('dashboard.phoneLabel')}:</span>
                     <span>{profile.phone}</span>
-                  </div>
-                )}
-
-                {profile?.company && (
-                  <div className="flex items-center gap-2 text-sm">
-                    <Building className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-muted-foreground">{t('enrollmentForm.company')}:</span>
-                    <span>{profile.company}</span>
-                  </div>
-                )}
-
-                {profile?.ai_experience && (
-                  <div className="flex items-center gap-2 text-sm">
-                    <span className="text-muted-foreground">{t('dashboard.experienceLabel')}:</span>
-                    <Badge variant="secondary">{t(`enrollmentForm.experience.options.${profile.ai_experience}`)}</Badge>
                   </div>
                 )}
 

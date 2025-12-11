@@ -25,8 +25,9 @@ interface FormData {
   lastName: string;
   email: string;
   phone: string;
-  company: string;
+  country: string;
   experience: string;
+  goals: string;
 }
 
 /**
@@ -57,8 +58,9 @@ const Enrollment = () => {
     lastName: '',
     email: '',
     phone: '',
-    company: '',
-    experience: ''
+    country: '',
+    experience: '',
+    goals: ''
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -109,19 +111,17 @@ const Enrollment = () => {
     setIsSubmitting(true);
 
     try {
-      // Generate a unique ID for anonymous enrollments
-      const anonymousId = `anon_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-      
       const { error } = await supabase
         .from('enrollments')
         .insert({
-          user_id: anonymousId, // Use unique anonymous ID instead of hardcoded placeholder
           first_name: formData.firstName,
           last_name: formData.lastName,
           email: formData.email,
           phone: formData.phone || null,
-          company: formData.company || null,
-          ai_experience: formData.experience,
+          country: formData.country || null,
+          experience_level: formData.experience,
+          goals: formData.goals || null,
+          enrollment_completed: true,
         });
 
       if (error) {
@@ -286,14 +286,14 @@ const Enrollment = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="company" className="flex items-center gap-2">
+                <Label htmlFor="country" className="flex items-center gap-2">
                   <Building className="h-4 w-4" />
-                  {t('enrollmentForm.company')}
+                  {t('enrollmentForm.country') || 'Country'}
                 </Label>
                 <Input
-                  id="company"
-                  value={formData.company}
-                  onChange={(e) => handleInputChange('company', e.target.value)}
+                  id="country"
+                  value={formData.country}
+                  onChange={(e) => handleInputChange('country', e.target.value)}
                   disabled={isSubmitting}
                 />
               </div>

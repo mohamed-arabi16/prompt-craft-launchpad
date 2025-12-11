@@ -75,14 +75,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       // First check if email has completed enrollment
       const { data: enrollmentData, error: enrollmentError } = await supabase
-        .rpc('check_enrollment_status', { email_address: email });
+        .rpc('check_enrollment_status', { p_email: email });
 
       if (enrollmentError) {
         return { error: { message: 'Failed to verify enrollment status' } };
       }
 
       const enrollment = enrollmentData?.[0];
-      if (!enrollment?.has_enrollment) {
+      if (!enrollment?.enrollment_id) {
         return { 
           error: { 
             message: 'You must complete the enrollment form before creating an account. Please fill out the enrollment form first.' 
@@ -90,7 +90,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         };
       }
 
-      if (enrollment.linked_user_id) {
+      // Check if enrollment is already linked to a user by querying the enrollments table
+      const { data: existingEnrollment } = await supabase
+        .from('enrollments')
+        .select('linked_user_id')
+        .eq('id', enrollment.enrollment_id)
+        .single();
+
+      if (existingEnrollment?.linked_user_id) {
         return { 
           error: { 
             message: 'An account has already been created for this email address. Please sign in instead.' 
@@ -112,8 +119,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       // If signup successful, link the enrollment to the user
       if (data.user && !error && enrollment.enrollment_id) {
         await supabase.rpc('link_enrollment_to_user', {
-          email_address: email,
-          user_uuid: data.user.id
+          p_email: email,
+          p_user_id: data.user.id
         });
       }
       
