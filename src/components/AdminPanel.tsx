@@ -2,13 +2,9 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
-import { Users, ShieldCheck, UserPlus, Settings, CheckCircle, XCircle, Clock, AlertCircle, Home } from "lucide-react";
+import { Users, ShieldCheck, UserPlus, CheckCircle, XCircle, Clock, AlertCircle, Home } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -22,12 +18,14 @@ interface Enrollment {
   first_name: string;
   last_name: string;
   phone?: string | null;
-  country?: string | null;
-  experience_level?: string | null;
+  company?: string | null;
+  ai_experience?: string | null;
   goals?: string | null;
   enrollment_completed: boolean | null;
   payment_completed: boolean | null;
   linked_user_id?: string | null;
+  status: string;
+  enrollment_date: string;
   created_at: string;
   updated_at: string;
 }
@@ -46,8 +44,6 @@ const AdminPanel = () => {
   const [enrollments, setEnrollments] = useState<Enrollment[]>([]);
   const [courseAccess, setCourseAccess] = useState<CourseAccess[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedUserId, setSelectedUserId] = useState<string>("");
-  const [accessAction, setAccessAction] = useState<"grant" | "revoke">("grant");
 
   useEffect(() => {
     fetchData();
@@ -200,9 +196,9 @@ const AdminPanel = () => {
                 <TableRow>
                   <TableHead>Name</TableHead>
                   <TableHead>Email</TableHead>
-                    <TableHead>Country</TableHead>
-                    <TableHead>Experience Level</TableHead>
-                    <TableHead>Created At</TableHead>
+                  <TableHead>Company</TableHead>
+                  <TableHead>AI Experience</TableHead>
+                  <TableHead>Created At</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead>Course Access</TableHead>
                   <TableHead>Actions</TableHead>
@@ -215,9 +211,9 @@ const AdminPanel = () => {
                       {enrollment.first_name} {enrollment.last_name}
                     </TableCell>
                     <TableCell>{enrollment.email}</TableCell>
-                    <TableCell>{enrollment.country || 'N/A'}</TableCell>
+                    <TableCell>{enrollment.company || 'N/A'}</TableCell>
                     <TableCell>
-                      <Badge variant="outline">{enrollment.experience_level || 'N/A'}</Badge>
+                      <Badge variant="outline">{enrollment.ai_experience || 'N/A'}</Badge>
                     </TableCell>
                     <TableCell>
                       {new Date(enrollment.created_at).toLocaleDateString()}

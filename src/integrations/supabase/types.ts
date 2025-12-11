@@ -22,6 +22,7 @@ export type Database = {
           is_read: boolean
           message: string
           name: string
+          status: string
           subject: string | null
         }
         Insert: {
@@ -31,6 +32,7 @@ export type Database = {
           is_read?: boolean
           message: string
           name: string
+          status?: string
           subject?: string | null
         }
         Update: {
@@ -40,12 +42,14 @@ export type Database = {
           is_read?: boolean
           message?: string
           name?: string
+          status?: string
           subject?: string | null
         }
         Relationships: []
       }
       course_access: {
         Row: {
+          access_expires_at: string | null
           access_granted_at: string | null
           course_id: string
           created_at: string
@@ -55,6 +59,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          access_expires_at?: string | null
           access_granted_at?: string | null
           course_id?: string
           created_at?: string
@@ -64,6 +69,7 @@ export type Database = {
           user_id: string
         }
         Update: {
+          access_expires_at?: string | null
           access_granted_at?: string | null
           course_id?: string
           created_at?: string
@@ -76,43 +82,52 @@ export type Database = {
       }
       course_materials: {
         Row: {
+          category: string
+          course_day: number | null
           created_at: string
-          day_number: number | null
           description: string | null
           description_ar: string | null
           file_name: string
           file_path: string
+          file_type: string
+          file_url: string | null
           id: string
           is_active: boolean
-          material_type: string
+          requires_access: boolean
           title: string
           title_ar: string | null
           updated_at: string
         }
         Insert: {
+          category?: string
+          course_day?: number | null
           created_at?: string
-          day_number?: number | null
           description?: string | null
           description_ar?: string | null
           file_name: string
           file_path: string
+          file_type?: string
+          file_url?: string | null
           id?: string
           is_active?: boolean
-          material_type?: string
+          requires_access?: boolean
           title: string
           title_ar?: string | null
           updated_at?: string
         }
         Update: {
+          category?: string
+          course_day?: number | null
           created_at?: string
-          day_number?: number | null
           description?: string | null
           description_ar?: string | null
           file_name?: string
           file_path?: string
+          file_type?: string
+          file_url?: string | null
           id?: string
           is_active?: boolean
-          material_type?: string
+          requires_access?: boolean
           title?: string
           title_ar?: string | null
           updated_at?: string
@@ -121,57 +136,62 @@ export type Database = {
       }
       enrollments: {
         Row: {
-          country: string | null
+          ai_experience: string
+          company: string | null
           created_at: string
           email: string
-          enrollment_completed: boolean | null
-          experience_level: string | null
+          enrollment_completed: boolean
+          enrollment_date: string
           first_name: string
           goals: string | null
           id: string
           last_name: string
           linked_user_id: string | null
-          payment_completed: boolean | null
+          payment_completed: boolean
           phone: string | null
+          status: string
           updated_at: string
-          user_id: string | null
         }
         Insert: {
-          country?: string | null
+          ai_experience: string
+          company?: string | null
           created_at?: string
           email: string
-          enrollment_completed?: boolean | null
-          experience_level?: string | null
+          enrollment_completed?: boolean
+          enrollment_date?: string
           first_name: string
           goals?: string | null
           id?: string
           last_name: string
           linked_user_id?: string | null
-          payment_completed?: boolean | null
+          payment_completed?: boolean
           phone?: string | null
+          status?: string
           updated_at?: string
-          user_id?: string | null
         }
         Update: {
-          country?: string | null
+          ai_experience?: string
+          company?: string | null
           created_at?: string
           email?: string
-          enrollment_completed?: boolean | null
-          experience_level?: string | null
+          enrollment_completed?: boolean
+          enrollment_date?: string
           first_name?: string
           goals?: string | null
           id?: string
           last_name?: string
           linked_user_id?: string | null
-          payment_completed?: boolean | null
+          payment_completed?: boolean
           phone?: string | null
+          status?: string
           updated_at?: string
-          user_id?: string | null
         }
         Relationships: []
       }
       profiles: {
         Row: {
+          ai_experience: string | null
+          company: string | null
           created_at: string
           email: string | null
           first_name: string | null
@@ -182,6 +202,8 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          ai_experience?: string | null
+          company?: string | null
           created_at?: string
           email?: string | null
           first_name?: string | null
@@ -192,6 +214,8 @@ export type Database = {
           user_id: string
         }
         Update: {
+          ai_experience?: string | null
+          company?: string | null
           created_at?: string
           email?: string | null
           first_name?: string | null

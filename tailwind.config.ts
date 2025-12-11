@@ -56,10 +56,14 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
-				// Electric Lime Green Accent
-				'lime-green': {
-					DEFAULT: 'hsl(var(--lime-green))',
-					foreground: 'hsl(var(--lime-green-foreground))'
+				// Teal/Cyan Brand Colors
+				'teal': {
+					DEFAULT: 'hsl(var(--teal))',
+					foreground: 'hsl(var(--teal-foreground))'
+				},
+				'cyan': {
+					DEFAULT: 'hsl(var(--cyan))',
+					foreground: 'hsl(var(--cyan-foreground))'
 				}
 			},
 			borderRadius: {
@@ -121,8 +125,8 @@ export default {
 				'gradient-shift': 'gradient-shift 8s ease-in-out infinite'
 			},
 			backgroundImage: {
-				'gradient-hero': 'linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--lime-green) / 0.1) 50%, hsl(var(--background)) 100%)',
-				'gradient-lime': 'linear-gradient(135deg, hsl(var(--lime-green)) 0%, hsl(var(--lime-green) / 0.8) 100%)'
+				'gradient-hero': 'linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--teal) / 0.15) 50%, hsl(var(--background)) 100%)',
+				'gradient-teal': 'linear-gradient(135deg, hsl(var(--teal)) 0%, hsl(var(--cyan)) 100%)'
 			}
 		}
 	},
