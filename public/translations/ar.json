@@ -4,6 +4,8 @@
   "navHome": "الرئيسية",
   "navAbout": "حول الدورة",
   "navCourse": "المنهج",
+  "navFAQ": "الأسئلة الشائعة",
+  "navGlossary": "المصطلحات",
   "navTestimonials": "آراء الطلاب",
   "navContact": "اتصل بنا",
   "languageSwitcher": "العربية",
@@ -63,8 +65,11 @@
     "sendAnother": "إرسال رسالة أخرى",
     "retry": "إعادة المحاولة",
     "signIn": "تسجيل الدخول",
-    "signOut": "تسجيل الخروج"
+    "signOut": "تسجيل الخروج",
+    "close": "إغلاق"
   },
+  "comingSoon": "قريباً",
+  "comingSoonMessage": "هذه الميزة قادمة قريباً. ترقبوا التحديثات!",
   "errors": {
     "required": "هذا الحقل مطلوب",
     "invalidEmail": "يرجى إدخال عنوان بريد إلكتروني صالح",
@@ -266,6 +271,9 @@
   "footerPrivacy": "سياسة الخصوصية",
   "footerTerms": "الشروط والأحكام",
   "footerContact": "اتصل بنا",
+  "footerQuickLinks": "روابط سريعة",
+  "footerContactUs": "تواصل معنا",
+  "footerLocation": "متاح عالمياً عبر الإنترنت",
   "dashboardWelcome": "أهلاً وسهلاً",
   "dashboardSubtitle": "الوصول إلى مواد الدورة التدريبية الخاصة بك وإدارة حسابك.",
   "heroAccessDashboard": "لوحة التحكم",

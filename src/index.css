@@ -7,59 +7,59 @@
 
 @layer base {
   :root {
-    /* High-Contrast Black/Lime Green Theme */
+    /* High-Contrast Black/Electric Lime Green Theme */
     --background: 0 0% 0%;           /* Pure Black */
     --foreground: 0 0% 100%;         /* Pure White */
     --card: 0 0% 5%;                 /* Near Black for cards */
     --card-foreground: 0 0% 100%;    /* Pure White */
     --popover: 0 0% 3%;              /* Very Dark for popovers */
     --popover-foreground: 0 0% 100%; /* Pure White */
-    --primary: 220 85% 35%;          /* Navy Blue */
-    --primary-foreground: 0 0% 100%; /* White text on navy */
+    --primary: 90 100% 50%;          /* Electric Lime Green #39FF14 */
+    --primary-foreground: 0 0% 0%;   /* Black text on lime */
     --secondary: 0 0% 15%;           /* Dark Gray */
     --secondary-foreground: 0 0% 100%; /* White text */
     --muted: 0 0% 10%;               /* Very Dark Gray */
     --muted-foreground: 0 0% 70%;    /* Light Gray text */
-    --accent: 220 85% 35%;           /* Navy Blue */
-    --accent-foreground: 0 0% 100%;  /* White text on navy */
+    --accent: 90 100% 50%;           /* Electric Lime Green */
+    --accent-foreground: 0 0% 0%;    /* Black text on lime */
     --destructive: 0 84% 60%;        /* Red */
     --destructive-foreground: 0 0% 100%; /* White text */
     --border: 0 0% 20%;              /* Dark borders */
     --input: 0 0% 10%;               /* Dark inputs */
-    --ring: 220 85% 35%;             /* Navy focus ring */
+    --ring: 90 100% 50%;             /* Lime focus ring */
     --radius: 0.75rem;
 
-    /* Navy Blue */
-    --navy-blue: 220 85% 35%;            /* Navy Blue */
-    --navy-blue-foreground: 0 0% 100%;   /* White text on navy */
+    /* Electric Lime Green */
+    --lime-green: 90 100% 50%;           /* Electric Lime Green #39FF14 */
+    --lime-green-foreground: 0 0% 0%;    /* Black text on lime */
     
-    /* Modern Black/Navy Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--navy-blue) / 0.1) 50%, hsl(var(--background)) 100%);
-    --gradient-navy: linear-gradient(135deg, hsl(var(--navy-blue)) 0%, hsl(var(--navy-blue) / 0.8) 100%);
+    /* Modern Black/Lime Gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--lime-green) / 0.1) 50%, hsl(var(--background)) 100%);
+    --gradient-lime: linear-gradient(135deg, hsl(var(--lime-green)) 0%, hsl(var(--lime-green) / 0.8) 100%);
     --gradient-card: linear-gradient(145deg, hsl(var(--card)) 0%, hsl(0 0% 8%) 100%);
   }
 
   .dark {
-    /* Same as root for consistent black theme */
+    /* Same as root for consistent black/lime theme */
     --background: 0 0% 0%;
     --foreground: 0 0% 100%;
     --card: 0 0% 5%;
     --card-foreground: 0 0% 100%;
     --popover: 0 0% 3%;
     --popover-foreground: 0 0% 100%;
-    --primary: 220 85% 35%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 90 100% 50%;
+    --primary-foreground: 0 0% 0%;
     --secondary: 0 0% 15%;
     --secondary-foreground: 0 0% 100%;
     --muted: 0 0% 10%;
     --muted-foreground: 0 0% 70%;
-    --accent: 220 85% 35%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 90 100% 50%;
+    --accent-foreground: 0 0% 0%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
     --border: 0 0% 20%;
     --input: 0 0% 10%;
-    --ring: 220 85% 35%;
+    --ring: 90 100% 50%;
   }
 }
 

@@ -4,6 +4,8 @@
   "navHome": "Home",
   "navAbout": "About",
   "navCourse": "Course",
+  "navFAQ": "FAQ",
+  "navGlossary": "Glossary",
   "navTestimonials": "Testimonials",
   "navContact": "Contact",
   "languageSwitcher": "English",
@@ -63,8 +65,11 @@
     "sendAnother": "Send Another Message",
     "retry": "Retry",
     "signIn": "Sign In",
-    "signOut": "Sign Out"
+    "signOut": "Sign Out",
+    "close": "Close"
   },
+  "comingSoon": "Coming Soon",
+  "comingSoonMessage": "This feature is coming soon. Stay tuned for updates!",
   "errors": {
     "required": "This field is required",
     "invalidEmail": "Please enter a valid email address",
@@ -266,6 +271,9 @@
   "footerPrivacy": "Privacy Policy",
   "footerTerms": "Terms & Conditions",
   "footerContact": "Contact Us",
+  "footerQuickLinks": "Quick Links",
+  "footerContactUs": "Contact Us",
+  "footerLocation": "Online Worldwide",
   "dashboardWelcome": "Welcome back",
   "dashboardSubtitle": "Access your course materials and manage your account.",
   "heroAccessDashboard": "Access Dashboard",
