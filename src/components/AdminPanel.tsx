@@ -21,14 +21,15 @@ interface Enrollment {
   email: string;
   first_name: string;
   last_name: string;
-  phone?: string;
-  company?: string;
-  ai_experience: string;
-  enrollment_date: string;
-  enrollment_completed: boolean;
-  payment_completed: boolean;
-  status: string;
-  linked_user_id?: string;
+  phone?: string | null;
+  country?: string | null;
+  experience_level?: string | null;
+  goals?: string | null;
+  enrollment_completed: boolean | null;
+  payment_completed: boolean | null;
+  linked_user_id?: string | null;
+  created_at: string;
+  updated_at: string;
 }
 
 interface CourseAccess {
@@ -60,7 +61,7 @@ const AdminPanel = () => {
       const { data: enrollmentsData, error: enrollmentsError } = await supabase
         .from('enrollments')
         .select('*')
-        .order('enrollment_date', { ascending: false });
+        .order('created_at', { ascending: false });
 
       if (enrollmentsError) throw enrollmentsError;
 
@@ -199,9 +200,9 @@ const AdminPanel = () => {
                 <TableRow>
                   <TableHead>Name</TableHead>
                   <TableHead>Email</TableHead>
-                  <TableHead>Company</TableHead>
-                  <TableHead>AI Experience</TableHead>
-                  <TableHead>Enrollment Date</TableHead>
+                    <TableHead>Country</TableHead>
+                    <TableHead>Experience Level</TableHead>
+                    <TableHead>Created At</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead>Course Access</TableHead>
                   <TableHead>Actions</TableHead>
@@ -214,12 +215,12 @@ const AdminPanel = () => {
                       {enrollment.first_name} {enrollment.last_name}
                     </TableCell>
                     <TableCell>{enrollment.email}</TableCell>
-                    <TableCell>{enrollment.company || 'N/A'}</TableCell>
+                    <TableCell>{enrollment.country || 'N/A'}</TableCell>
                     <TableCell>
-                      <Badge variant="outline">{enrollment.ai_experience}</Badge>
+                      <Badge variant="outline">{enrollment.experience_level || 'N/A'}</Badge>
                     </TableCell>
                     <TableCell>
-                      {new Date(enrollment.enrollment_date).toLocaleDateString()}
+                      {new Date(enrollment.created_at).toLocaleDateString()}
                     </TableCell>
                     <TableCell>{getStatusBadge(enrollment)}</TableCell>
                     <TableCell>

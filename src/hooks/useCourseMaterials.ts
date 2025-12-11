@@ -6,14 +6,14 @@ import { toast } from 'sonner';
 export interface CourseMaterial {
   id: string;
   title: string;
+  title_ar: string | null;
   description: string | null;
-  file_type: string;
+  description_ar: string | null;
   file_path: string;
-  file_url: string | null;
-  course_day: number | null;
-  category: string;
+  file_name: string;
+  day_number: number | null;
+  material_type: string;
   is_active: boolean;
-  requires_access: boolean;
   created_at: string;
   updated_at: string;
 }
@@ -37,7 +37,7 @@ export const useCourseMaterials = () => {
         .from('course_materials')
         .select('*')
         .eq('is_active', true)
-        .order('course_day', { ascending: true });
+        .order('day_number', { ascending: true });
 
       if (fetchError) throw fetchError;
 
@@ -100,16 +100,16 @@ export const useCourseMaterials = () => {
     }
   };
 
-  const getMaterialByCategory = (category: string) => {
-    return materials.filter(m => m.category === category);
+  const getMaterialByType = (type: string) => {
+    return materials.filter(m => m.material_type === type);
   };
 
   const getMaterialByDay = (day: number) => {
-    return materials.find(m => m.course_day === day && m.category === 'daily_summary');
+    return materials.find(m => m.day_number === day);
   };
 
   const getCourseGuide = () => {
-    return materials.find(m => m.category === 'course_guide');
+    return materials.find(m => m.material_type === 'course_guide');
   };
 
   return {
@@ -117,7 +117,7 @@ export const useCourseMaterials = () => {
     loading,
     error,
     downloadMaterial,
-    getMaterialByCategory,
+    getMaterialByType,
     getMaterialByDay,
     getCourseGuide,
     refetch: fetchMaterials
