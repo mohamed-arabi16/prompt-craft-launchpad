@@ -19,23 +19,14 @@ export default defineConfig(({ mode }) => ({
     },
   },
   build: {
-    // Production optimizations
+    // Production optimizations - use esbuild (built-in) instead of terser
     sourcemap: false,
-    minify: 'terser',
-    terserOptions: {
-      compress: {
-        drop_console: true,
-        drop_debugger: true,
-      },
-    },
+    minify: 'esbuild',
     rollupOptions: {
       output: {
         manualChunks: {
-          // Vendor chunk for core dependencies
           vendor: ['react', 'react-dom', 'react-router-dom'],
-          // Supabase chunk
           supabase: ['@supabase/supabase-js'],
-          // UI components chunk
           ui: [
             '@radix-ui/react-dialog',
             '@radix-ui/react-tabs',
@@ -44,12 +35,14 @@ export default defineConfig(({ mode }) => ({
             '@radix-ui/react-toast',
             '@radix-ui/react-tooltip',
           ],
-          // Query chunk
           query: ['@tanstack/react-query'],
         },
       },
     },
-    // Chunk size warnings
     chunkSizeWarningLimit: 500,
+  },
+  esbuild: {
+    // Drop console.log in production
+    drop: mode === 'production' ? ['console', 'debugger'] : [],
   },
 }));
