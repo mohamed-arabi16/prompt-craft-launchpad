@@ -1,21 +1,16 @@
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { useTranslation } from './useTranslation';
+import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/contexts/AuthContext';
 
-/**
- * @interface DownloadState
- * @property {boolean} isLoading - Whether a download is in progress.
- * @property {string | null} error - The error message, if any.
- */
 export interface DownloadState {
   isLoading: boolean;
   error: string | null;
 }
 
 /**
- * A hook to manage file downloads.
- *
- * @returns {{ isLoading: boolean; error: string | null; downloadFile: (filename: string, url?: string) => Promise<void>; clearError: () => void; }} The download state and actions.
+ * A hook to manage file downloads with proper error handling.
  */
 export const useDownload = () => {
   const [state, setState] = useState<DownloadState>({
@@ -23,37 +18,46 @@ export const useDownload = () => {
     error: null,
   });
   const { t } = useTranslation();
+  const { user } = useAuth();
 
   /**
-   * Downloads a file.
-   *
-   * @param {string} filename - The name of the file to download.
-   * @param {string} [url] - The URL of the file to download.
+   * Downloads a file from a URL or generates a signed URL from storage.
    */
-  const downloadFile = async (filename: string, url?: string) => {
+  const downloadFile = async (filename: string, url?: string, storagePath?: string) => {
     setState({ isLoading: true, error: null });
 
     try {
-      // Simulate network check and file availability
+      // Check network connectivity
       if (!navigator.onLine) {
-        throw new Error(t('errors.networkError'));
+        throw new Error(t('errors.networkError') || 'No internet connection');
       }
 
-      // Removed artificial download failure for production
+      let downloadUrl = url;
 
-      // Simulate download delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // If storage path is provided, get signed URL
+      if (storagePath && !url) {
+        const { data: signedUrl, error: signedError } = await supabase.storage
+          .from('course-materials')
+          .createSignedUrl(storagePath, 3600);
 
-      // In a real implementation, you would fetch the file
-      if (url) {
+        if (signedError) {
+          throw new Error(t('errors.downloadFailed') || 'Failed to generate download link');
+        }
+
+        downloadUrl = signedUrl.signedUrl;
+      }
+
+      if (downloadUrl) {
+        // Download from URL
         const link = document.createElement('a');
-        link.href = url;
+        link.href = downloadUrl;
         link.download = filename;
+        link.target = '_blank';
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
       } else {
-        // Create a meaningful demo file instead of just placeholder text
+        // Fallback: create demo file
         const content = `AI Prompt Engineering Course - ${filename}
 
 Course Overview:
@@ -80,22 +84,17 @@ For full access to all course materials, please complete your enrollment.
         URL.revokeObjectURL(blobUrl);
       }
 
-      toast.success(t('success.downloadStarted'));
+      toast.success(t('success.downloadStarted') || 'Download started');
       setState({ isLoading: false, error: null });
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : t('errors.genericError');
       setState({ isLoading: false, error: errorMessage });
       
-      // Provide user-friendly fallback messages
-      const fallbackMessage = filename.includes('.pdf') 
-        ? t('errors.fileNotAvailable')
-        : errorMessage;
-      
-      toast.error(fallbackMessage, {
+      toast.error(errorMessage, {
         duration: 5000,
         action: {
-          label: t('buttons.retry'),
-          onClick: () => downloadFile(filename, url),
+          label: t('buttons.retry') || 'Retry',
+          onClick: () => downloadFile(filename, url, storagePath),
         },
       });
     }

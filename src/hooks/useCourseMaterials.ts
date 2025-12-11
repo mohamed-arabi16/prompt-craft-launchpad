@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
+import { useTranslation } from './useTranslation';
 
 export interface CourseMaterial {
   id: string;
@@ -25,11 +26,16 @@ export const useCourseMaterials = () => {
   const [materials, setMaterials] = useState<CourseMaterial[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { user } = useAuth();
+  const { user, session } = useAuth();
+  const { t } = useTranslation();
 
   useEffect(() => {
-    fetchMaterials();
-  }, []);
+    if (user) {
+      fetchMaterials();
+    } else {
+      setLoading(false);
+    }
+  }, [user]);
 
   const fetchMaterials = async () => {
     try {
@@ -53,52 +59,84 @@ export const useCourseMaterials = () => {
     }
   };
 
-  const downloadMaterial = async (materialId: string, requiresAuth = true) => {
+  /**
+   * Downloads a material using the secure edge function
+   */
+  const downloadMaterial = async (materialId: string, requiresAuth = true): Promise<boolean> => {
     if (requiresAuth && !user) {
-      toast.error('Please sign in to download course materials');
+      toast.error(t('errors.signInRequired') || 'Please sign in to download course materials');
       return false;
     }
 
     try {
-      // Check if user has course access
-      if (requiresAuth && user) {
-        const { data: accessData, error: accessError } = await supabase
-          .from('course_access')
-          .select('has_access')
-          .eq('user_id', user.id)
-          .single();
-
-        if (accessError || !accessData?.has_access) {
-          toast.error('Course access requires completed enrollment and payment verification. Please complete your enrollment or contact support if payment has been made.', {
-            duration: 6000,
-            action: {
-              label: "Contact Support",
-              onClick: () => window.location.href = "/contact"
-            }
-          });
-          return false;
-        }
-      }
-
-      // Get material details
+      // Get material details first for filename
       const material = materials.find(m => m.id === materialId);
       if (!material) {
-        toast.error('Material not found');
+        toast.error(t('errors.materialNotFound') || 'Material not found');
         return false;
       }
 
-      // For now, show a placeholder since actual files need to be uploaded
-      toast.info(`Downloading ${material.title}... (Demo mode - actual file download coming soon)`);
-      
-      // In production, this would download from storage:
-      // const { data, error } = await supabase.storage
-      //   .from('course-materials')
-      //   .download(material.file_path);
+      // Call the secure download edge function
+      const { data, error: invokeError } = await supabase.functions.invoke('download-material', {
+        body: { materialId },
+      });
 
-      return true;
+      if (invokeError) {
+        console.error('Download invoke error:', invokeError);
+        throw new Error(invokeError.message);
+      }
+
+      if (data.error) {
+        // Handle specific error messages
+        if (data.error === 'Course access required') {
+          toast.error(
+            t('errors.courseAccessRequired') || 
+            'You need to complete enrollment and payment to access course materials.',
+            {
+              duration: 6000,
+              action: {
+                label: t('buttons.contactSupport') || 'Contact Support',
+                onClick: () => window.location.href = '/contact'
+              }
+            }
+          );
+        } else if (data.error === 'Access expired') {
+          toast.error(
+            t('errors.accessExpired') || 
+            'Your course access has expired. Please contact support to renew.',
+            { duration: 6000 }
+          );
+        } else {
+          toast.error(data.message || data.error);
+        }
+        return false;
+      }
+
+      // Trigger download with the signed URL
+      if (data.downloadUrl) {
+        const link = document.createElement('a');
+        link.href = data.downloadUrl;
+        link.download = data.filename || material.file_name;
+        link.target = '_blank';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        toast.success(t('success.downloadStarted') || 'Download started');
+        return true;
+      }
+
+      toast.error(t('errors.downloadFailed') || 'Failed to generate download link');
+      return false;
+
     } catch (err) {
       console.error('Download error:', err);
-      toast.error('Failed to download material');
+      toast.error(t('errors.downloadFailed') || 'Failed to download material', {
+        action: {
+          label: t('buttons.retry') || 'Retry',
+          onClick: () => downloadMaterial(materialId, requiresAuth)
+        }
+      });
       return false;
     }
   };
