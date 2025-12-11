@@ -21,6 +21,8 @@ const Contact = lazy(() => import("./pages/Contact"));
 const Privacy = lazy(() => import("./pages/Privacy"));
 const Terms = lazy(() => import("./pages/Terms"));
 const Admin = lazy(() => import("./pages/Admin"));
+const FAQPage = lazy(() => import("./pages/FAQPage"));
+const GlossaryPage = lazy(() => import("./pages/GlossaryPage"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 /**
@@ -84,6 +86,8 @@ const App = () => {
                       <Route path="/contact" element={<Contact />} />
                       <Route path="/privacy" element={<Privacy />} />
                       <Route path="/terms" element={<Terms />} />
+                      <Route path="/faq" element={<FAQPage />} />
+                      <Route path="/glossary" element={<GlossaryPage />} />
                       <Route path="/admin" element={
                         <ProtectedRoute requireAdmin={true}>
                           <Admin />

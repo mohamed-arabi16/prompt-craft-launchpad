@@ -26,9 +26,9 @@ export default function Navbar() {
 
   const navigationLinks = [
     { href: "/", label: t('navHome') },
-    { href: "#course", label: t('navCourse') },
-    { href: "#faq", label: t('navFAQ') },
-    { href: "#glossary", label: t('navGlossary') },
+    { href: "#course-curriculum", label: t('navCourse') },
+    { href: "/faq", label: t('navFAQ') },
+    { href: "/glossary", label: t('navGlossary') },
     { href: "#testimonials", label: t('navTestimonials') },
     { href: "/contact", label: t('navContact') },
   ];
