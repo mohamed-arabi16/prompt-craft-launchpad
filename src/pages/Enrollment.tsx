@@ -18,15 +18,16 @@ import { supabase } from '@/integrations/supabase/client';
  * @property {string} email - The user's email address.
  * @property {string} phone - The user's phone number.
  * @property {string} company - The user's company.
- * @property {string} experience - The user's AI experience level.
+ * @property {string} aiExperience - The user's AI experience level.
+ * @property {string} goals - The user's goals for the course.
  */
 interface FormData {
   firstName: string;
   lastName: string;
   email: string;
   phone: string;
-  country: string;
-  experience: string;
+  company: string;
+  aiExperience: string;
   goals: string;
 }
 
@@ -36,14 +37,14 @@ interface FormData {
  * @property {string} [lastName] - The error message for the last name field.
  * @property {string} [email] - The error message for the email field.
  * @property {string} [phone] - The error message for the phone field.
- * @property {string} [experience] - The error message for the experience field.
+ * @property {string} [aiExperience] - The error message for the experience field.
  */
 interface FormErrors {
   firstName?: string;
   lastName?: string;
   email?: string;
   phone?: string;
-  experience?: string;
+  aiExperience?: string;
 }
 
 /**
@@ -58,8 +59,8 @@ const Enrollment = () => {
     lastName: '',
     email: '',
     phone: '',
-    country: '',
-    experience: '',
+    company: '',
+    aiExperience: '',
     goals: ''
   });
   const [errors, setErrors] = useState<FormErrors>({});
@@ -88,8 +89,8 @@ const Enrollment = () => {
     if (!formData.phone.trim()) {
       newErrors.phone = t('errors.required');
     }
-    if (!formData.experience) {
-      newErrors.experience = t('errors.required');
+    if (!formData.aiExperience) {
+      newErrors.aiExperience = t('errors.required');
     }
 
     setErrors(newErrors);
@@ -118,8 +119,8 @@ const Enrollment = () => {
           last_name: formData.lastName,
           email: formData.email,
           phone: formData.phone || null,
-          country: formData.country || null,
-          experience_level: formData.experience,
+          company: formData.company || null,
+          ai_experience: formData.aiExperience,
           goals: formData.goals || null,
           enrollment_completed: true,
         });
@@ -146,7 +147,7 @@ const Enrollment = () => {
    */
   const handleInputChange = (field: keyof FormData, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
-    if (errors[field]) {
+    if (errors[field as keyof FormErrors]) {
       setErrors(prev => ({ ...prev, [field]: undefined }));
     }
   };
@@ -286,29 +287,29 @@ const Enrollment = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="country" className="flex items-center gap-2">
+                <Label htmlFor="company" className="flex items-center gap-2">
                   <Building className="h-4 w-4" />
-                  {t('enrollmentForm.country') || 'Country'}
+                  {t('enrollmentForm.company') || 'Company'}
                 </Label>
                 <Input
-                  id="country"
-                  value={formData.country}
-                  onChange={(e) => handleInputChange('country', e.target.value)}
+                  id="company"
+                  value={formData.company}
+                  onChange={(e) => handleInputChange('company', e.target.value)}
                   disabled={isSubmitting}
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="experience" className="flex items-center gap-1">
+                <Label htmlFor="aiExperience" className="flex items-center gap-1">
                   {t('enrollmentForm.experience.label')}
                   <span className="text-destructive">*</span>
                 </Label>
                 <Select
-                  value={formData.experience}
-                  onValueChange={(value) => handleInputChange('experience', value)}
+                  value={formData.aiExperience}
+                  onValueChange={(value) => handleInputChange('aiExperience', value)}
                   disabled={isSubmitting}
                 >
-                  <SelectTrigger className={errors.experience ? 'border-destructive' : ''}>
+                  <SelectTrigger className={errors.aiExperience ? 'border-destructive' : ''}>
                     <SelectValue placeholder={t('enrollmentForm.experience.label')} />
                   </SelectTrigger>
                   <SelectContent>
@@ -319,8 +320,8 @@ const Enrollment = () => {
                     ))}
                   </SelectContent>
                 </Select>
-                {errors.experience && (
-                  <p className="text-sm text-destructive">{errors.experience}</p>
+                {errors.aiExperience && (
+                  <p className="text-sm text-destructive">{errors.aiExperience}</p>
                 )}
               </div>
 

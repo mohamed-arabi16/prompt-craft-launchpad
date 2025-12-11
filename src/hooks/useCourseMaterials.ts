@@ -9,11 +9,14 @@ export interface CourseMaterial {
   title_ar: string | null;
   description: string | null;
   description_ar: string | null;
+  file_type: string;
   file_path: string;
   file_name: string;
-  day_number: number | null;
-  material_type: string;
+  file_url: string | null;
+  course_day: number | null;
+  category: string;
   is_active: boolean;
+  requires_access: boolean;
   created_at: string;
   updated_at: string;
 }
@@ -37,7 +40,7 @@ export const useCourseMaterials = () => {
         .from('course_materials')
         .select('*')
         .eq('is_active', true)
-        .order('day_number', { ascending: true });
+        .order('course_day', { ascending: true });
 
       if (fetchError) throw fetchError;
 
@@ -101,15 +104,15 @@ export const useCourseMaterials = () => {
   };
 
   const getMaterialByType = (type: string) => {
-    return materials.filter(m => m.material_type === type);
+    return materials.filter(m => m.file_type === type);
   };
 
   const getMaterialByDay = (day: number) => {
-    return materials.find(m => m.day_number === day);
+    return materials.find(m => m.course_day === day);
   };
 
   const getCourseGuide = () => {
-    return materials.find(m => m.material_type === 'course_guide');
+    return materials.find(m => m.category === 'course_guide');
   };
 
   return {

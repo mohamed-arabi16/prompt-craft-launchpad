@@ -3,63 +3,69 @@
 @tailwind components;
 @tailwind utilities;
 
-/* AI Prompt Engineering Course Design System - Premium Tech Education Theme */
+/* AI Prompt Engineering Course Design System - Premium Teal/Navy Theme */
 
 @layer base {
   :root {
-    /* High-Contrast Black/Electric Lime Green Theme */
-    --background: 0 0% 0%;           /* Pure Black */
-    --foreground: 0 0% 100%;         /* Pure White */
-    --card: 0 0% 5%;                 /* Near Black for cards */
-    --card-foreground: 0 0% 100%;    /* Pure White */
-    --popover: 0 0% 3%;              /* Very Dark for popovers */
-    --popover-foreground: 0 0% 100%; /* Pure White */
-    --primary: 90 100% 50%;          /* Electric Lime Green #39FF14 */
-    --primary-foreground: 0 0% 0%;   /* Black text on lime */
-    --secondary: 0 0% 15%;           /* Dark Gray */
-    --secondary-foreground: 0 0% 100%; /* White text */
-    --muted: 0 0% 10%;               /* Very Dark Gray */
-    --muted-foreground: 0 0% 70%;    /* Light Gray text */
-    --accent: 90 100% 50%;           /* Electric Lime Green */
-    --accent-foreground: 0 0% 0%;    /* Black text on lime */
-    --destructive: 0 84% 60%;        /* Red */
-    --destructive-foreground: 0 0% 100%; /* White text */
-    --border: 0 0% 20%;              /* Dark borders */
-    --input: 0 0% 10%;               /* Dark inputs */
-    --ring: 90 100% 50%;             /* Lime focus ring */
+    /* Dark Navy/Teal Theme - Colors: #009DB0, #B6DCE9, #00ABAB, #0C1439, #E9F4F4 */
+    --background: 227 70% 14%;           /* #0C1439 - Dark Navy */
+    --foreground: 180 31% 94%;           /* #E9F4F4 - Light Cyan */
+    --card: 227 70% 10%;                 /* Darker navy for cards */
+    --card-foreground: 180 31% 94%;      /* Light Cyan */
+    --popover: 227 70% 8%;               /* Even darker for popovers */
+    --popover-foreground: 180 31% 94%;   /* Light Cyan */
+    --primary: 187 100% 35%;             /* #009DB0 - Teal */
+    --primary-foreground: 227 70% 14%;   /* Dark Navy text on teal */
+    --secondary: 195 48% 81%;            /* #B6DCE9 - Light Blue */
+    --secondary-foreground: 227 70% 14%; /* Dark Navy text */
+    --muted: 227 60% 20%;                /* Muted navy */
+    --muted-foreground: 180 20% 70%;     /* Muted cyan text */
+    --accent: 180 100% 34%;              /* #00ABAB - Cyan Accent */
+    --accent-foreground: 227 70% 14%;    /* Dark Navy text */
+    --destructive: 0 84% 60%;            /* Red */
+    --destructive-foreground: 180 31% 94%; /* Light Cyan text */
+    --border: 227 50% 25%;               /* Navy borders */
+    --input: 227 60% 18%;                /* Navy inputs */
+    --ring: 180 100% 34%;                /* Cyan focus ring */
     --radius: 0.75rem;
 
-    /* Electric Lime Green */
-    --lime-green: 90 100% 50%;           /* Electric Lime Green #39FF14 */
-    --lime-green-foreground: 0 0% 0%;    /* Black text on lime */
+    /* Teal/Cyan Brand Colors */
+    --teal: 187 100% 35%;                /* #009DB0 - Primary Teal */
+    --teal-foreground: 227 70% 14%;      /* Dark Navy text on teal */
+    --cyan: 180 100% 34%;                /* #00ABAB - Cyan Accent */
+    --cyan-foreground: 227 70% 14%;      /* Dark Navy text */
+    --light-blue: 195 48% 81%;           /* #B6DCE9 - Light Blue */
+    --light-cyan: 180 31% 94%;           /* #E9F4F4 - Light Cyan */
+    --dark-navy: 227 70% 14%;            /* #0C1439 - Dark Navy */
     
-    /* Modern Black/Lime Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--lime-green) / 0.1) 50%, hsl(var(--background)) 100%);
-    --gradient-lime: linear-gradient(135deg, hsl(var(--lime-green)) 0%, hsl(var(--lime-green) / 0.8) 100%);
-    --gradient-card: linear-gradient(145deg, hsl(var(--card)) 0%, hsl(0 0% 8%) 100%);
+    /* Modern Teal/Navy Gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--teal) / 0.15) 50%, hsl(var(--background)) 100%);
+    --gradient-teal: linear-gradient(135deg, hsl(var(--teal)) 0%, hsl(var(--cyan)) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(var(--card)) 0%, hsl(227 70% 12%) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(var(--cyan)) 0%, hsl(var(--teal)) 100%);
   }
 
   .dark {
-    /* Same as root for consistent black/lime theme */
-    --background: 0 0% 0%;
-    --foreground: 0 0% 100%;
-    --card: 0 0% 5%;
-    --card-foreground: 0 0% 100%;
-    --popover: 0 0% 3%;
-    --popover-foreground: 0 0% 100%;
-    --primary: 90 100% 50%;
-    --primary-foreground: 0 0% 0%;
-    --secondary: 0 0% 15%;
-    --secondary-foreground: 0 0% 100%;
-    --muted: 0 0% 10%;
-    --muted-foreground: 0 0% 70%;
-    --accent: 90 100% 50%;
-    --accent-foreground: 0 0% 0%;
+    /* Same as root for consistent dark theme */
+    --background: 227 70% 14%;
+    --foreground: 180 31% 94%;
+    --card: 227 70% 10%;
+    --card-foreground: 180 31% 94%;
+    --popover: 227 70% 8%;
+    --popover-foreground: 180 31% 94%;
+    --primary: 187 100% 35%;
+    --primary-foreground: 227 70% 14%;
+    --secondary: 195 48% 81%;
+    --secondary-foreground: 227 70% 14%;
+    --muted: 227 60% 20%;
+    --muted-foreground: 180 20% 70%;
+    --accent: 180 100% 34%;
+    --accent-foreground: 227 70% 14%;
     --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 0 0% 20%;
-    --input: 0 0% 10%;
-    --ring: 90 100% 50%;
+    --destructive-foreground: 180 31% 94%;
+    --border: 227 50% 25%;
+    --input: 227 60% 18%;
+    --ring: 180 100% 34%;
   }
 }
 
