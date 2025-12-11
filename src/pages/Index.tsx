@@ -8,8 +8,8 @@ import BenefitsSection from "@/components/BenefitsSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
-import FAQ from "@/components/FAQ";
-import Glossary from "@/components/Glossary";
+import BackToTop from "@/components/BackToTop";
+import SectionProgress from "@/components/SectionProgress";
 import { useTranslation } from "@/hooks/useTranslation";
 
 /**
@@ -185,8 +185,9 @@ const Index = () => {
   return (
     <main className="min-h-screen pt-20" role="main" aria-label="AI Prompt Engineering Course Landing Page">
       <Navbar />
+      <SectionProgress />
       
-      <section aria-label="Hero Section">
+      <section aria-label="Hero Section" id="hero">
         <HeroSection />
       </section>
       
@@ -209,16 +210,9 @@ const Index = () => {
       <section aria-label="Enrollment Call to Action" id="enrollment-cta">
         <CTASection />
       </section>
-
-      <section aria-label="Frequently Asked Questions" id="faq">
-        <FAQ />
-      </section>
-
-      <section aria-label="AI Terminology Glossary" id="glossary">
-        <Glossary />
-      </section>
       
       <Footer />
+      <BackToTop />
     </main>
   );
 };
