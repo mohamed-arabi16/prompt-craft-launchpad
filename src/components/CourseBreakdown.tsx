@@ -1,134 +1,211 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { ChevronDown, Download, Calendar, Clock, Target } from "lucide-react";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { ChevronDown, Clock, Target, Calendar, BookOpen } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import DownloadButton from "./DownloadButton";
+import { SectionReveal, GlassCard } from "./premium";
+import { accordionAnimation, iconRotate } from "@/lib/animations";
 
 /**
- * Renders the course breakdown section, displaying a 5-day program in an accordion.
- * Each day can be expanded to show key topics, techniques, and a download link for a summary.
- *
- * @returns {JSX.Element} The rendered course breakdown section.
+ * Premium course breakdown section with enhanced accordion animations
  */
 const CourseBreakdown = () => {
   const [expandedDay, setExpandedDay] = useState<number | null>(1);
   const { t, tArray } = useTranslation();
+  const prefersReducedMotion = useReducedMotion();
 
-  /**
-   * Toggles the expanded state of a day in the accordion.
-   *
-   * @param {number} day - The day number to toggle.
-   */
   const toggleDay = (day: number) => {
     setExpandedDay(expandedDay === day ? null : day);
   };
 
+  const dayIcons = [BookOpen, Target, Calendar, Clock, ChevronDown];
+
   return (
-    <section id="course" className="py-20 bg-gradient-to-b from-muted/20 to-background">
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="text-center mb-16 fade-in-up">
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-            {t('courseTitle')}
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            {t('benefitsSubtitle')}
-          </p>
-        </div>
+    <section id="course" className="py-20 bg-gradient-to-b from-muted/20 to-background relative overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-cyan/5 rounded-full blur-3xl" />
+      </div>
+
+      <div className="max-w-6xl mx-auto px-6 relative z-10">
+        <SectionReveal>
+          <div className="text-center mb-16">
+            <motion.span
+              className="inline-block px-4 py-1.5 mb-4 text-sm font-medium text-primary bg-primary/10 rounded-full border border-primary/20"
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+            >
+              {t('courseBreakdownBadge') || '5-Day Program'}
+            </motion.span>
+            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+              {t('courseTitle')}
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              {t('benefitsSubtitle')}
+            </p>
+          </div>
+        </SectionReveal>
 
         <div className="space-y-4">
           {Array.from({ length: 5 }).map((_, index) => {
             const day = index + 1;
+            const isExpanded = expandedDay === day;
+            const DayIcon = dayIcons[index % dayIcons.length];
+
             return (
-              <div
+              <motion.div
                 key={day}
-                className="day-card overflow-hidden fade-in-up"
-                style={{ animationDelay: `${day * 0.1}s` }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ delay: index * 0.1 }}
               >
-                <div
-                  className="p-6 cursor-pointer flex items-center justify-between hover:bg-muted/50 transition-colors"
-                  onClick={() => toggleDay(day)}
-                >
-                  <div className="flex items-center gap-4">
-                    <div className="flex-shrink-0 w-12 h-12 bg-primary rounded-lg flex items-center justify-center text-primary-foreground font-bold text-lg">
-                      {day}
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-semibold text-foreground mb-1">
-                        {t(`day${day}Title`)}
-                      </h3>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-4">
-                    <div className="hidden sm:flex items-center gap-2 text-sm text-muted-foreground">
-                      <Clock className="h-4 w-4" />
-                      <span>{t(`day${day}Duration`)}</span>
-                    </div>
-                    <ChevronDown
-                      className={`h-5 w-5 text-muted-foreground transition-transform duration-200 ${
-                        expandedDay === day ? 'rotate-180' : ''
-                      }`}
-                    />
-                  </div>
-                </div>
-
-                <div
-                  className={`accordion-content overflow-hidden ${
-                    expandedDay === day
-                      ? 'max-h-[600px] opacity-100 expanded'
-                      : 'max-h-0 opacity-0 collapsed'
+                <GlassCard
+                  variant="subtle"
+                  interactive={false}
+                  glow={isExpanded}
+                  className={`overflow-hidden transition-all duration-300 ${
+                    isExpanded ? 'border-primary/40' : 'border-border/50'
                   }`}
                 >
-                  <div className="px-6 pb-6 border-t border-border">
-                    <div className="grid md:grid-cols-2 gap-6 mt-4">
-                      <div className="space-y-3">
-                        <div className="flex items-center gap-2">
-                          <Target className="h-5 w-5 text-primary" />
-                          <h4 className="label">
-                            {t('keyTopicsLabel')}
-                          </h4>
+                  <motion.div
+                    className="p-6 cursor-pointer flex items-center justify-between hover:bg-muted/30 transition-colors rounded-t-2xl"
+                    onClick={() => toggleDay(day)}
+                    whileHover={prefersReducedMotion ? {} : { x: 4 }}
+                    whileTap={prefersReducedMotion ? {} : { scale: 0.99 }}
+                  >
+                    <div className="flex items-center gap-4">
+                      <motion.div
+                        className={`flex-shrink-0 w-14 h-14 rounded-xl flex items-center justify-center text-primary-foreground font-bold text-lg transition-all duration-300 ${
+                          isExpanded
+                            ? 'bg-gradient-to-br from-primary to-cyan shadow-lg shadow-primary/30'
+                            : 'bg-primary/80'
+                        }`}
+                        animate={isExpanded && !prefersReducedMotion ? { scale: [1, 1.05, 1] } : {}}
+                        transition={{ duration: 0.3 }}
+                      >
+                        {day}
+                      </motion.div>
+                      <div>
+                        <h3 className="text-xl font-semibold text-foreground mb-1">
+                          {t(`day${day}Title`)}
+                        </h3>
+                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                          <Clock className="h-3.5 w-3.5" />
+                          <span>{t(`day${day}Duration`)}</span>
                         </div>
-                        <ul className="space-y-2">
-                          {tArray(`day${day}Topics`).map((topic, idx) => (
-                            <li key={idx} className="flex items-start gap-2">
-                              <div className="h-1.5 w-1.5 bg-primary rounded-full mt-2 flex-shrink-0"></div>
-                              <span className="text-muted-foreground">{topic}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-
-                      <div className="space-y-3">
-                        <div className="flex items-center gap-2">
-                          <Calendar className="h-5 w-5 text-primary" />
-                          <h4 className="label">
-                            {t('techniquesCoveredLabel')}
-                          </h4>
-                        </div>
-                        <ul className="space-y-2">
-                          {tArray(`day${day}Techniques`).map((technique, idx) => (
-                            <li key={idx} className="flex items-start gap-2">
-                              <div className="h-1.5 w-1.5 bg-primary rounded-full mt-2 flex-shrink-0"></div>
-                              <span className="text-muted-foreground">{technique}</span>
-                            </li>
-                          ))}
-                        </ul>
                       </div>
                     </div>
 
-                    <div className="mt-6 pt-4 border-t border-border">
-                      <DownloadButton
-                        variant="outline"
-                        className="group hover:bg-primary/10 hover:border-primary transition-all duration-300 hover:scale-105 hover:shadow-lg"
-                        courseDay={day}
-                        signInText={`${t('downloadDayLabel')} ${day} ${t('summaryPdfLabel')}`}
-                        downloadText={`${t('downloadDayLabel')} ${day} ${t('summaryPdfLabel')}`}
-                      />
+                    <div className="flex items-center gap-4">
+                      <div className="hidden sm:flex items-center gap-2 px-3 py-1 rounded-full bg-muted/50 text-sm text-muted-foreground">
+                        <DayIcon className="h-4 w-4" />
+                        <span>{t(`day${day}Badge`) || `Day ${day}`}</span>
+                      </div>
+                      <motion.div
+                        variants={iconRotate}
+                        animate={isExpanded ? 'expanded' : 'collapsed'}
+                      >
+                        <ChevronDown className="h-5 w-5 text-muted-foreground" />
+                      </motion.div>
                     </div>
-                  </div>
-                </div>
-              </div>
-            )
+                  </motion.div>
+
+                  <AnimatePresence mode="wait">
+                    {isExpanded && (
+                      <motion.div
+                        variants={prefersReducedMotion ? {} : accordionAnimation}
+                        initial="collapsed"
+                        animate="expanded"
+                        exit="collapsed"
+                        className="overflow-hidden"
+                      >
+                        <div className="px-6 pb-6 border-t border-border/50">
+                          <div className="grid md:grid-cols-2 gap-6 mt-6">
+                            <motion.div
+                              className="space-y-3"
+                              initial={{ opacity: 0, x: -20 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              transition={{ delay: 0.1 }}
+                            >
+                              <div className="flex items-center gap-2">
+                                <div className="p-1.5 rounded-lg bg-primary/10">
+                                  <Target className="h-4 w-4 text-primary" />
+                                </div>
+                                <h4 className="font-semibold text-foreground">
+                                  {t('keyTopicsLabel')}
+                                </h4>
+                              </div>
+                              <ul className="space-y-2.5">
+                                {tArray(`day${day}Topics`).map((topic, idx) => (
+                                  <motion.li
+                                    key={idx}
+                                    className="flex items-start gap-3"
+                                    initial={{ opacity: 0, x: -10 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: 0.15 + idx * 0.05 }}
+                                  >
+                                    <div className="h-2 w-2 bg-gradient-to-r from-primary to-cyan rounded-full mt-2 flex-shrink-0" />
+                                    <span className="text-muted-foreground">{topic}</span>
+                                  </motion.li>
+                                ))}
+                              </ul>
+                            </motion.div>
+
+                            <motion.div
+                              className="space-y-3"
+                              initial={{ opacity: 0, x: 20 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              transition={{ delay: 0.15 }}
+                            >
+                              <div className="flex items-center gap-2">
+                                <div className="p-1.5 rounded-lg bg-cyan/10">
+                                  <Calendar className="h-4 w-4 text-cyan" />
+                                </div>
+                                <h4 className="font-semibold text-foreground">
+                                  {t('techniquesCoveredLabel')}
+                                </h4>
+                              </div>
+                              <ul className="space-y-2.5">
+                                {tArray(`day${day}Techniques`).map((technique, idx) => (
+                                  <motion.li
+                                    key={idx}
+                                    className="flex items-start gap-3"
+                                    initial={{ opacity: 0, x: 10 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: 0.2 + idx * 0.05 }}
+                                  >
+                                    <div className="h-2 w-2 bg-gradient-to-r from-cyan to-primary rounded-full mt-2 flex-shrink-0" />
+                                    <span className="text-muted-foreground">{technique}</span>
+                                  </motion.li>
+                                ))}
+                              </ul>
+                            </motion.div>
+                          </div>
+
+                          <motion.div
+                            className="mt-6 pt-4 border-t border-border/50"
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.3 }}
+                          >
+                            <DownloadButton
+                              variant="outline"
+                              className="group hover:bg-primary/10 hover:border-primary transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-primary/10"
+                              courseDay={day}
+                              signInText={`${t('downloadDayLabel')} ${day} ${t('summaryPdfLabel')}`}
+                              downloadText={`${t('downloadDayLabel')} ${day} ${t('summaryPdfLabel')}`}
+                            />
+                          </motion.div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </GlassCard>
+              </motion.div>
+            );
           })}
         </div>
       </div>
