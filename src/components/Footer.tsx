@@ -1,12 +1,18 @@
 import { useTranslation } from "@/hooks/useTranslation";
 import { Link } from "react-router-dom";
 import { Mail, MapPin, FileText, MessageCircle } from "lucide-react";
+import { useCourseSettings } from "@/hooks/useCourseSettings";
 
 /**
  * Renders the footer section of the website.
  */
 const Footer = () => {
-  const { t } = useTranslation();
+  const { t, currentLanguage } = useTranslation();
+  const { getSetting } = useCourseSettings();
+  
+  // Get dynamic contact info
+  const contactEmail = getSetting('contact_email') || 'info@qobouli.com';
+  const courseLocation = getSetting('course_location') || (currentLanguage === 'ar' ? 'أونلاين' : 'Online');
 
   const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     if (href.startsWith('#')) {
@@ -89,13 +95,18 @@ const Footer = () => {
             <ul className="space-y-3">
               <li className="flex items-center gap-2 text-muted-foreground text-sm">
                 <Mail className="h-4 w-4 text-primary" aria-hidden="true" />
-                <a href="mailto:info@qobouli.com" className="hover:text-primary transition-colors">
-                  info@qobouli.com
+                <a href={`mailto:${contactEmail}`} className="hover:text-primary transition-colors">
+                  {contactEmail}
                 </a>
               </li>
               <li className="flex items-center gap-2 text-muted-foreground text-sm">
                 <MapPin className="h-4 w-4 text-primary" aria-hidden="true" />
-                <span>{t('footerLocation')}</span>
+                <span>
+                  {courseLocation === 'أونلاين' || courseLocation.toLowerCase() === 'online' 
+                    ? (currentLanguage === 'ar' ? 'متاح عالمياً عبر الإنترنت' : 'Available Online Worldwide')
+                    : courseLocation
+                  }
+                </span>
               </li>
             </ul>
           </div>
