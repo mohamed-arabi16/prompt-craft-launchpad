@@ -1,4 +1,5 @@
-import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
+import { motion, useScroll, useSpring, useTransform, useMotionValueEvent } from 'framer-motion';
+import { useState } from 'react';
 import { cn } from '@/lib/utils';
 
 interface ScrollProgressProps {
@@ -20,13 +21,21 @@ const ScrollProgress = ({
   className,
 }: ScrollProgressProps) => {
   const { scrollYProgress } = useScroll();
+  const [percentValue, setPercentValue] = useState(0);
+
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
     damping: 30,
     restDelta: 0.001,
   });
 
+  // Always call useTransform at the top level
   const percentage = useTransform(scrollYProgress, [0, 1], [0, 100]);
+
+  // Use motion value event to track percentage for display
+  useMotionValueEvent(percentage, "change", (latest) => {
+    setPercentValue(Math.round(latest));
+  });
 
   const positionStyles = {
     top: 'top-0 left-0 right-0',
@@ -71,7 +80,7 @@ const ScrollProgress = ({
 
       {/* Percentage indicator */}
       {showPercentage && (
-        <motion.div
+        <div
           className="fixed z-50 bg-card/90 backdrop-blur-sm px-3 py-1 rounded-full
                      border border-border text-xs font-medium text-foreground"
           style={{
@@ -80,10 +89,60 @@ const ScrollProgress = ({
             right: 16,
           }}
         >
-          <motion.span>{useTransform(percentage, (v) => `${Math.round(v)}%`)}</motion.span>
-        </motion.div>
+          <span>{percentValue}%</span>
+        </div>
       )}
     </>
+  );
+};
+
+/**
+ * Individual section marker component
+ */
+const SectionMarker = ({
+  section,
+  index,
+  sectionProgress,
+  scrollYProgress,
+}: {
+  section: string;
+  index: number;
+  sectionProgress: number;
+  scrollYProgress: ReturnType<typeof useScroll>['scrollYProgress'];
+}) => {
+  const [isActive, setIsActive] = useState(false);
+
+  // Track when this section becomes active
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    setIsActive(latest >= sectionProgress - 0.1);
+  });
+
+  return (
+    <motion.div
+      className="relative flex items-center gap-3"
+      initial={{ opacity: 0, x: 10 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ delay: index * 0.1 }}
+    >
+      {/* Marker dot */}
+      <div
+        className="w-3 h-3 rounded-full border-2 transition-colors duration-300"
+        style={{
+          borderColor: isActive ? 'hsl(var(--primary))' : 'hsl(var(--border))',
+          backgroundColor: isActive ? 'hsl(var(--primary))' : 'transparent',
+        }}
+      />
+
+      {/* Section label */}
+      <span
+        className="text-xs whitespace-nowrap transition-colors duration-300"
+        style={{
+          color: isActive ? 'hsl(var(--foreground))' : 'hsl(var(--muted-foreground))',
+        }}
+      >
+        {section}
+      </span>
+    </motion.div>
   );
 };
 
@@ -117,44 +176,13 @@ export const SectionScrollProgress = ({
             const sectionProgress = (index + 1) / sections.length;
 
             return (
-              <motion.div
+              <SectionMarker
                 key={section}
-                className="relative flex items-center gap-3"
-                initial={{ opacity: 0, x: 10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.1 }}
-              >
-                {/* Marker dot */}
-                <motion.div
-                  className="w-3 h-3 rounded-full border-2 transition-colors duration-300"
-                  style={{
-                    borderColor: useTransform(
-                      scrollYProgress,
-                      [sectionProgress - 0.1, sectionProgress],
-                      ['hsl(var(--border))', 'hsl(var(--primary))']
-                    ),
-                    backgroundColor: useTransform(
-                      scrollYProgress,
-                      [sectionProgress - 0.1, sectionProgress],
-                      ['transparent', 'hsl(var(--primary))']
-                    ),
-                  }}
-                />
-
-                {/* Section label */}
-                <motion.span
-                  className="text-xs whitespace-nowrap transition-colors duration-300"
-                  style={{
-                    color: useTransform(
-                      scrollYProgress,
-                      [sectionProgress - 0.1, sectionProgress],
-                      ['hsl(var(--muted-foreground))', 'hsl(var(--foreground))']
-                    ),
-                  }}
-                >
-                  {section}
-                </motion.span>
-              </motion.div>
+                section={section}
+                index={index}
+                sectionProgress={sectionProgress}
+                scrollYProgress={scrollYProgress}
+              />
             );
           })}
         </div>
