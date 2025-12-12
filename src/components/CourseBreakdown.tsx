@@ -126,29 +126,58 @@ const CourseBreakdown = () => {
                         className="overflow-hidden"
                       >
                         <div className="px-6 pb-6 border-t border-border/50">
-                          <div className="mt-6">
-                            <div className="flex items-center gap-2 mb-4">
-                              <div className="p-1.5 rounded-lg bg-primary/10">
-                                <BookOpen className="h-4 w-4 text-primary" />
+                          <div className="grid md:grid-cols-2 gap-8 mt-6">
+                            {/* Main Topics */}
+                            <div>
+                              <div className="flex items-center gap-2 mb-4">
+                                <div className="p-1.5 rounded-lg bg-primary/10">
+                                  <BookOpen className="h-4 w-4 text-primary" />
+                                </div>
+                                <h4 className="font-semibold text-foreground">
+                                  {t('mainTopicsLabel')}
+                                </h4>
                               </div>
-                              <h4 className="font-semibold text-foreground">
-                                {t('keyTopicsLabel')}
-                              </h4>
+                              <ul className="space-y-3">
+                                {tArray(`day${day}Topics`).map((topic, idx) => (
+                                  <motion.li
+                                    key={idx}
+                                    className="flex items-start gap-3"
+                                    initial={{ opacity: 0, x: -10 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: 0.1 + idx * 0.05 }}
+                                  >
+                                    <div className="h-2 w-2 bg-gradient-to-r from-primary to-cyan rounded-full mt-2 flex-shrink-0" />
+                                    <span className="text-muted-foreground text-sm">{topic}</span>
+                                  </motion.li>
+                                ))}
+                              </ul>
                             </div>
-                            <ul className="space-y-3">
-                              {tArray(`day${day}Topics`).map((topic, idx) => (
-                                <motion.li
-                                  key={idx}
-                                  className="flex items-start gap-3"
-                                  initial={{ opacity: 0, x: -10 }}
-                                  animate={{ opacity: 1, x: 0 }}
-                                  transition={{ delay: 0.1 + idx * 0.05 }}
-                                >
-                                  <div className="h-2 w-2 bg-gradient-to-r from-primary to-cyan rounded-full mt-2 flex-shrink-0" />
-                                  <span className="text-muted-foreground">{topic}</span>
-                                </motion.li>
-                              ))}
-                            </ul>
+
+                            {/* Techniques */}
+                            <div>
+                              <div className="flex items-center gap-2 mb-4">
+                                <div className="p-1.5 rounded-lg bg-cyan/10">
+                                  <Zap className="h-4 w-4 text-cyan" />
+                                </div>
+                                <h4 className="font-semibold text-foreground">
+                                  {t('techniquesLabel')}
+                                </h4>
+                              </div>
+                              <ul className="space-y-3">
+                                {tArray(`day${day}Techniques`).map((technique, idx) => (
+                                  <motion.li
+                                    key={idx}
+                                    className="flex items-start gap-3"
+                                    initial={{ opacity: 0, x: -10 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: 0.15 + idx * 0.05 }}
+                                  >
+                                    <div className="h-2 w-2 bg-gradient-to-r from-cyan to-primary rounded-full mt-2 flex-shrink-0" />
+                                    <span className="text-muted-foreground text-sm">{technique}</span>
+                                  </motion.li>
+                                ))}
+                              </ul>
+                            </div>
                           </div>
 
                           <motion.div

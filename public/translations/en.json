@@ -110,51 +110,98 @@
   "benefit5Description": "Ready-to-use files and templates for work and study",
   "whyChooseUs": "Why This Course?",
   "courseBreakdownBadge": "5-Day Program",
-  "day1Title": "How to Write Requests Correctly",
-  "day1Description": "Transform any goal into a clear request",
+  "day1Title": "Prompt Writing Fundamentals",
+  "day1Description": "How AI tools work in a simplified way",
   "day1Topics": [
-    "Simple method to formulate requests (goal + information + constraints + result format)",
+    "How AI tools work in a simplified way",
+    "Transform goals into clear requests instead of random trial",
+    "Professional prompt elements: goal, information, constraints, output format, example",
     "How to make responses \"organized\" instead of long text",
-    "Ready-to-use templates for work and study"
+    "Common mistakes that lead to generic results"
+  ],
+  "day1Techniques": [
+    "\"Task summary\" template before writing the prompt",
+    "Ready-to-use prompt template (with clear sections)",
+    "Specifying output format (list/table/steps)",
+    "Adding measurable constraints (length, style, number of points)",
+    "Quick result testing and one-time improvement"
   ],
   "day1Duration": "4 hours",
   "day1Badge": "Fundamentals",
-  "day2Title": "More Accurate Results… with Less Editing",
-  "day2Description": "Improve quality without random repetition",
+  "day2Title": "Consistent Result Improvement",
+  "day2Description": "How to request options, comparisons, and plans systematically",
   "day2Topics": [
-    "How to request options, comparisons, and plans in an organized way",
-    "How to prevent generic answers (specifying requirements precisely)",
-    "Quick method to adjust requests when you're not satisfied with results"
+    "How to request options, comparisons, and plans systematically",
+    "How to control response length, tone, and level",
+    "How to ask in a way that makes responses more accurate with less filler",
+    "How to build fixed templates for recurring tasks",
+    "Simple quality gates before approving results"
+  ],
+  "day2Techniques": [
+    "Few-shot examples for pattern guidance",
+    "\"Think step by step\" when more accurate results are needed",
+    "Quick review template: What's missing? What needs constraints?",
+    "Systematic prompt reformulation",
+    "Creating two versions of the same prompt (quick/detailed)"
   ],
   "day2Duration": "4 hours",
   "day2Badge": "Optimization",
-  "day3Title": "Reliable Research and Smart Summarization",
-  "day3Description": "Gather and summarize information with confidence",
+  "day3Title": "Reliable Research & Smart Summarization",
+  "day3Description": "How to write research requests that give useful summaries",
   "day3Topics": [
-    "How to research and summarize without \"filler content\"",
+    "How to write research requests that give useful summaries",
+    "How to gather information without \"generic filler\"",
     "How to request sources and clear points",
-    "How to produce a ready report (summary + action points + recommendations)"
+    "Extracting action items and recommendations from any material",
+    "Comparing when to use ChatGPT vs. research tools"
+  ],
+  "day3Techniques": [
+    "Ready-to-use \"research request\" template",
+    "Summarization with structured outputs (summary + action items + risks)",
+    "Follow-up questions for important details",
+    "Preparing a concise report ready to send",
+    "Documenting results in one file for reference"
   ],
   "day3Duration": "4 hours",
   "day3Badge": "Research",
-  "day4Title": "Faster Content and Marketing + Design and Images",
-  "day4Description": "Practical production for publishing and use",
+  "day4Title": "Practical Production: Content & Messages",
+  "day4Description": "Weekly/monthly content plan in a clear way",
   "day4Topics": [
-    "Content plan + ideas + ready-to-use text",
-    "Marketing messages, ads, and short proposal formats",
-    "Basics of generating images/designs that support content"
+    "Weekly/monthly content plan in a clear way",
+    "Writing publish-ready text (posts, short videos)",
+    "Marketing messages and client follow-ups (WhatsApp/Email)",
+    "Writing a landing/about page in an organized way",
+    "(Optional) Basics of generating supporting images for content"
+  ],
+  "day4Techniques": [
+    "Ready content templates (idea + opening + points + call to action)",
+    "Client message templates (inquiry/follow-up/offer)",
+    "Landing page template (headline + benefits + proof + call)",
+    "(Optional) Simple image request template",
+    "Organizing a reusable \"template library\""
   ],
   "day4Duration": "4 hours",
   "day4Badge": "Content",
-  "day5Title": "Your Final Project + Continuous Development Method",
-  "day5Description": "Solidify skills and turn them into work habits",
+  "day5Title": "Result Correction + Final Project",
+  "day5Description": "How to fix any unsatisfactory result in minutes",
   "day5Topics": [
-    "Simple checklist to quickly correct any result",
-    "Evaluate results with clear criteria (instead of impressions)",
-    "Final project: \"Template pack\" ready for your field"
+    "How to fix any unsatisfactory result in minutes",
+    "Evaluating results with clear criteria instead of impressions",
+    "Privacy rules and what not to input into tools",
+    "Building a simple workflow: from prompt → result → final version",
+    "Final project that proves the skill"
+  ],
+  "day5Techniques": [
+    "Quick fix checklist (diagnose → modify → test)",
+    "Simple evaluation model (clarity, organization, usefulness, accuracy)",
+    "Final \"template package\" based on trainee's field",
+    "Documenting templates for daily use",
+    "Post-course continuation plan (how to maintain the level)"
   ],
   "day5Duration": "4 hours",
   "day5Badge": "Project",
+  "mainTopicsLabel": "Main Topics:",
+  "techniquesLabel": "Techniques Covered:",
   "keyTopicsLabel": "You'll Learn:",
   "techniquesCoveredLabel": "Techniques:",
   "downloadDayLabel": "Download Day",
