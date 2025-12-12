@@ -65,7 +65,7 @@ const BenefitsSection = () => {
                     scale={1.02}
                   >
                     <motion.div
-                      className="flex items-center justify-center w-16 h-16 bg-gradient-to-br from-primary to-cyan rounded-2xl mb-6 shadow-lg shadow-primary/25"
+                      className="flex items-center justify-center w-16 h-16 bg-gradient-to-br from-primary to-cyan rounded-2xl mb-6"
                       whileHover={{ scale: 1.1, rotate: 5 }}
                       transition={{ type: 'spring', stiffness: 300 }}
                     >
@@ -81,7 +81,7 @@ const BenefitsSection = () => {
                     </p>
 
                     {/* Decorative corner gradient */}
-                    <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-primary/10 to-transparent rounded-tr-2xl pointer-events-none" />
+                    <div className="absolute top-0 ltr:right-0 rtl:left-0 w-24 h-24 bg-gradient-to-br from-primary/10 to-transparent ltr:rounded-tr-2xl rtl:rounded-tl-2xl pointer-events-none" />
                   </TiltCard>
                 )}
               </StaggerItem>

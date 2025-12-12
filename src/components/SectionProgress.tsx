@@ -54,7 +54,7 @@ const SectionProgress = () => {
 
   return (
     <nav
-      className="fixed left-6 top-1/2 -translate-y-1/2 z-40 hidden lg:flex flex-col gap-3"
+      className="fixed ltr:left-6 rtl:right-6 top-1/2 -translate-y-1/2 z-40 hidden lg:flex flex-col gap-3"
       aria-label="Section navigation"
     >
       {sections.map(({ id, labelKey }) => (
@@ -73,7 +73,7 @@ const SectionProgress = () => {
             }`}
           />
           <span
-            className={`absolute left-6 px-2 py-1 text-sm rounded bg-card border border-border shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none ${
+            className={`absolute ltr:left-6 rtl:right-6 px-2 py-1 text-sm rounded bg-card border border-border shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none ${
               activeSection === id ? "text-primary" : "text-foreground"
             }`}
           >

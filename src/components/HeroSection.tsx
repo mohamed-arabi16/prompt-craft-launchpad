@@ -194,24 +194,27 @@ const HeroSection = () => {
           ))}
         </motion.div>
 
-        {/* Scroll indicator */}
+        {/* Spacer for scroll indicator */}
+        <div className="h-20" />
+      </motion.div>
+
+      {/* Scroll indicator - positioned outside content container */}
+      <motion.div
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.5 }}
+      >
         <motion.div
-          className="absolute bottom-10 left-1/2 -translate-x-1/2"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.5 }}
+          className="w-6 h-10 rounded-full border-2 border-muted-foreground/30 flex justify-center"
+          animate={prefersReducedMotion ? {} : { y: [0, 5, 0] }}
+          transition={{ duration: 2, repeat: Infinity }}
         >
           <motion.div
-            className="w-6 h-10 rounded-full border-2 border-muted-foreground/30 flex justify-center"
-            animate={prefersReducedMotion ? {} : { y: [0, 5, 0] }}
+            className="w-1.5 h-3 bg-primary rounded-full mt-2"
+            animate={prefersReducedMotion ? {} : { y: [0, 12, 0], opacity: [1, 0.3, 1] }}
             transition={{ duration: 2, repeat: Infinity }}
-          >
-            <motion.div
-              className="w-1.5 h-3 bg-primary rounded-full mt-2"
-              animate={prefersReducedMotion ? {} : { y: [0, 12, 0], opacity: [1, 0.3, 1] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            />
-          </motion.div>
+          />
         </motion.div>
       </motion.div>
     </section>
