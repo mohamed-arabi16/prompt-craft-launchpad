@@ -1,44 +1,44 @@
 import { useTranslation } from "@/hooks/useTranslation";
+import { useFAQs } from "@/hooks/useFAQs";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Skeleton } from "@/components/ui/skeleton";
 
 /**
- * FAQ Section Component
- * Provides structured frequently asked questions with semantic markup for AI comprehension
+ * FAQ Section Component with dynamic data from database
  */
 const FAQ = () => {
-  const { t, tArray } = useTranslation();
+  const { t, currentLanguage } = useTranslation();
+  const { faqs, loading } = useFAQs();
 
-  const faqs = [
-    {
-      question: t('faqWhatIsPromptEngineering'),
-      answer: t('faqWhatIsPromptEngineeringAnswer')
-    },
-    {
-      question: t('faqWhoShouldTake'),
-      answer: t('faqWhoShouldTakeAnswer')
-    },
-    {
-      question: t('faqCourseDuration'),
-      answer: t('faqCourseDurationAnswer')
-    },
-    {
-      question: t('faqPrerequisites'),
-      answer: t('faqPrerequisitesAnswer')
-    },
-    {
-      question: t('faqCertification'),
-      answer: t('faqCertificationAnswer')
-    },
-    {
-      question: t('faqRefundPolicy'),
-      answer: t('faqRefundPolicyAnswer')
-    }
-  ];
+  // Filter active FAQs
+  const activeFaqs = faqs.filter(f => f.is_active);
+
+  if (loading) {
+    return (
+      <section className="py-24 bg-gradient-to-b from-background to-background/50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <Skeleton className="h-10 w-64 mx-auto mb-6" />
+            <Skeleton className="h-6 w-96 mx-auto" />
+          </div>
+          <div className="max-w-4xl mx-auto space-y-4">
+            {[1, 2, 3, 4].map((i) => (
+              <Skeleton key={i} className="h-16 w-full" />
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (activeFaqs.length === 0) {
+    return null;
+  }
 
   return (
     <section 
@@ -59,30 +59,35 @@ const FAQ = () => {
 
         <div className="max-w-4xl mx-auto">
           <Accordion type="single" collapsible className="w-full space-y-4">
-            {faqs.map((faq, index) => (
-              <AccordionItem 
-                key={index} 
-                value={`item-${index}`}
-                className="bg-card border border-border rounded-lg px-6"
-                itemScope
-                itemType="https://schema.org/Question"
-              >
-                <AccordionTrigger 
-                  className="text-left text-lg font-semibold text-foreground hover:text-primary transition-colors"
-                  itemProp="name"
-                >
-                  {faq.question}
-                </AccordionTrigger>
-                <AccordionContent 
-                  className="text-muted-foreground leading-relaxed pt-2 pb-4"
-                  itemProp="acceptedAnswer"
+            {activeFaqs.map((faq, index) => {
+              const question = currentLanguage === 'ar' ? faq.question_ar : faq.question_en;
+              const answer = currentLanguage === 'ar' ? faq.answer_ar : faq.answer_en;
+              
+              return (
+                <AccordionItem 
+                  key={faq.id} 
+                  value={`item-${index}`}
+                  className="bg-card border border-border rounded-lg px-6"
                   itemScope
-                  itemType="https://schema.org/Answer"
+                  itemType="https://schema.org/Question"
                 >
-                  <div itemProp="text">{faq.answer}</div>
-                </AccordionContent>
-              </AccordionItem>
-            ))}
+                  <AccordionTrigger 
+                    className="text-left text-lg font-semibold text-foreground hover:text-primary transition-colors"
+                    itemProp="name"
+                  >
+                    {question}
+                  </AccordionTrigger>
+                  <AccordionContent 
+                    className="text-muted-foreground leading-relaxed pt-2 pb-4"
+                    itemProp="acceptedAnswer"
+                    itemScope
+                    itemType="https://schema.org/Answer"
+                  >
+                    <div itemProp="text">{answer}</div>
+                  </AccordionContent>
+                </AccordionItem>
+              );
+            })}
           </Accordion>
         </div>
 

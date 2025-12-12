@@ -1,16 +1,41 @@
 import { motion, useReducedMotion } from 'framer-motion';
-import { RefreshCw, Users, Award, Headphones, FileText, LucideIcon } from "lucide-react";
+import * as LucideIcons from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
-import { TiltCard, SectionReveal, StaggerContainer, StaggerItem } from "./premium";
+import { useBenefits } from "@/hooks/useBenefits";
+import { TiltCard, SectionReveal, StaggerContainer, StaggerItem, CardSkeleton } from "./premium";
 
-const benefitIcons: LucideIcon[] = [RefreshCw, Users, Award, Headphones, FileText];
+// Dynamic icon component
+const DynamicIcon = ({ name, className }: { name: string; className?: string }) => {
+  const IconComponent = (LucideIcons as any)[name] || LucideIcons.Star;
+  return <IconComponent className={className} />;
+};
 
 /**
- * Premium benefits section with 5 benefit cards
+ * Premium benefits section with dynamic data from database
  */
 const BenefitsSection = () => {
-  const { t } = useTranslation();
+  const { t, currentLanguage } = useTranslation();
+  const { benefits, loading } = useBenefits();
   const prefersReducedMotion = useReducedMotion();
+
+  // Filter active benefits
+  const activeBenefits = benefits.filter(b => b.is_active);
+
+  if (loading) {
+    return (
+      <section id="benefits" className="py-20 bg-background">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[1, 2, 3, 4, 5].map((i) => <CardSkeleton key={i} />)}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (activeBenefits.length === 0) {
+    return null;
+  }
 
   return (
     <section id="benefits" className="py-20 bg-background relative overflow-hidden">
@@ -41,27 +66,28 @@ const BenefitsSection = () => {
         </SectionReveal>
 
         <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-3 gap-8" staggerDelay={0.1}>
-          {benefitIcons.map((IconComponent, index) => {
-            const num = index + 1;
+          {activeBenefits.map((benefit, index) => {
+            const title = currentLanguage === 'ar' ? benefit.title_ar : benefit.title_en;
+            const description = currentLanguage === 'ar' ? benefit.description_ar : benefit.description_en;
             // For 5 items in a 3-column grid, center the last 2 items
             const isLastRow = index >= 3;
             
             return (
               <StaggerItem 
-                key={index}
+                key={benefit.id}
                 className={isLastRow && index === 3 ? 'lg:col-start-1 lg:col-end-2 lg:justify-self-end lg:w-full lg:max-w-sm lg:ml-auto' : 
                            isLastRow && index === 4 ? 'lg:col-start-2 lg:col-end-3 lg:justify-self-start lg:w-full lg:max-w-sm lg:mr-auto' : ''}
               >
                 {prefersReducedMotion ? (
                   <div className="course-card h-full">
                     <div className="flex items-center justify-center w-16 h-16 bg-primary rounded-2xl mb-6">
-                      <IconComponent className="h-8 w-8 text-primary-foreground" />
+                      <DynamicIcon name={benefit.icon_name} className="h-8 w-8 text-primary-foreground" />
                     </div>
                     <h3 className="text-xl font-semibold text-foreground mb-3">
-                      {t(`benefit${num}Title`)}
+                      {title}
                     </h3>
                     <p className="text-muted-foreground leading-relaxed">
-                      {t(`benefit${num}Description`)}
+                      {description}
                     </p>
                   </div>
                 ) : (
@@ -76,15 +102,15 @@ const BenefitsSection = () => {
                       whileHover={{ scale: 1.1, rotate: 5 }}
                       transition={{ type: 'spring', stiffness: 300 }}
                     >
-                      <IconComponent className="h-8 w-8 text-primary-foreground" />
+                      <DynamicIcon name={benefit.icon_name} className="h-8 w-8 text-primary-foreground" />
                     </motion.div>
 
                     <h3 className="text-xl font-semibold text-foreground mb-3">
-                      {t(`benefit${num}Title`)}
+                      {title}
                     </h3>
 
                     <p className="text-muted-foreground leading-relaxed">
-                      {t(`benefit${num}Description`)}
+                      {description}
                     </p>
                   </TiltCard>
                 )}

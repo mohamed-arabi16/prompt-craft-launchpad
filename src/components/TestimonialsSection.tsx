@@ -1,6 +1,7 @@
 import { motion, useReducedMotion } from 'framer-motion';
 import { Star, Quote } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
+import { useTestimonials } from "@/hooks/useTestimonials";
 import {
   Carousel,
   CarouselContent,
@@ -10,22 +11,33 @@ import {
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import { useRef } from "react";
-import { GlassCard, SectionReveal } from "./premium";
-
-const testimonialsData = [
-  { rating: 5 },
-  { rating: 5 },
-  { rating: 5 },
-  { rating: 5 },
-];
+import { GlassCard, SectionReveal, CardSkeleton } from "./premium";
 
 /**
- * Premium testimonials section with 4 testimonials
+ * Premium testimonials section with dynamic data from database
  */
 const TestimonialsSection = () => {
-  const { t } = useTranslation();
+  const { t, currentLanguage } = useTranslation();
+  const { testimonials, loading } = useTestimonials();
   const prefersReducedMotion = useReducedMotion();
   const plugin = useRef(Autoplay({ delay: 5000, stopOnInteraction: true }));
+
+  // Filter active testimonials
+  const activeTestimonials = testimonials.filter(t => t.is_active);
+
+  if (loading) {
+    return (
+      <section id="testimonials" className="py-20 bg-background">
+        <div className="max-w-4xl mx-auto px-6">
+          <CardSkeleton />
+        </div>
+      </section>
+    );
+  }
+
+  if (activeTestimonials.length === 0) {
+    return null;
+  }
 
   return (
     <section id="testimonials" className="py-20 bg-background relative overflow-hidden">
@@ -67,10 +79,13 @@ const TestimonialsSection = () => {
             opts={{ loop: true, align: "center" }}
           >
             <CarouselContent>
-              {testimonialsData.map((testimonial, index) => {
-                const num = index + 1;
+            {activeTestimonials.map((testimonial) => {
+                const name = currentLanguage === 'ar' ? testimonial.name_ar : testimonial.name_en;
+                const role = currentLanguage === 'ar' ? testimonial.role_ar : testimonial.role_en;
+                const content = currentLanguage === 'ar' ? testimonial.content_ar : testimonial.content_en;
+                
                 return (
-                  <CarouselItem key={index} className="md:basis-full">
+                  <CarouselItem key={testimonial.id} className="md:basis-full">
                     <div className="px-2">
                       <GlassCard
                         variant="default"
@@ -100,7 +115,7 @@ const TestimonialsSection = () => {
                         </div>
 
                         <p className="text-foreground mb-8 leading-relaxed text-lg italic">
-                          "{t(`testimonial${num}Content`)}"
+                          "{content}"
                         </p>
 
                         <div className="flex items-center gap-4">
@@ -108,14 +123,14 @@ const TestimonialsSection = () => {
                             className="w-14 h-14 bg-gradient-to-br from-primary to-cyan rounded-full flex items-center justify-center text-primary-foreground font-bold text-lg shadow-lg shadow-primary/25"
                             whileHover={prefersReducedMotion ? {} : { scale: 1.1 }}
                           >
-                            {t(`testimonial${num}Name`).split(' ').map(n => n[0]).join('').slice(0, 2)}
+                            {name.split(' ').map(n => n[0]).join('').slice(0, 2)}
                           </motion.div>
                           <div>
                             <div className="font-semibold text-foreground text-lg">
-                              {t(`testimonial${num}Name`)}
+                              {name}
                             </div>
                             <div className="text-sm text-muted-foreground">
-                              {t(`testimonial${num}Role`)}
+                              {role}
                             </div>
                           </div>
                         </div>
@@ -132,7 +147,7 @@ const TestimonialsSection = () => {
 
         {/* Carousel indicators */}
         <div className="flex justify-center gap-3 mt-8">
-          {testimonialsData.map((_, index) => (
+          {activeTestimonials.map((_, index) => (
             <motion.div
               key={index}
               className="h-3 w-3 rounded-full border-2 transition-all duration-300 border-muted-foreground/50 hover:border-primary cursor-pointer"
