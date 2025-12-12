@@ -21,7 +21,7 @@ const CourseBreakdown = () => {
   const dayIcons = [BookOpen, Target, Calendar, Clock, ChevronDown];
 
   return (
-    <section id="course" className="py-20 bg-gradient-to-b from-muted/20 to-background relative overflow-hidden">
+    <section id="course" className="py-20 bg-background relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />

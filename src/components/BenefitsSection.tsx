@@ -80,8 +80,6 @@ const BenefitsSection = () => {
                       {t(`benefit${num}Description`)}
                     </p>
 
-                    {/* Decorative corner gradient */}
-                    <div className="absolute top-0 ltr:right-0 rtl:left-0 w-24 h-24 bg-gradient-to-br from-primary/10 to-transparent ltr:rounded-tr-2xl rtl:rounded-tl-2xl pointer-events-none" />
                   </TiltCard>
                 )}
               </StaggerItem>

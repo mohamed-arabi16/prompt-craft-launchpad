@@ -59,13 +59,13 @@ const CTASection = () => {
           {tArray('ctaFeatures').map((feature, index) => (
             <StaggerItem key={index}>
               <motion.div
-                className="flex items-center gap-3 justify-center px-4 py-3 rounded-xl bg-card/30 backdrop-blur-sm border border-border/50"
+                className="flex items-center gap-3 justify-center px-4 py-3 h-full min-h-[56px] rounded-xl bg-card/30 backdrop-blur-sm border border-border/50"
                 whileHover={prefersReducedMotion ? {} : { scale: 1.05, borderColor: 'hsl(var(--primary) / 0.5)' }}
               >
                 <div className="flex-shrink-0 p-1 rounded-full bg-primary/20">
                   <Check className="h-4 w-4 text-primary" />
                 </div>
-                <span className="text-foreground">{feature}</span>
+                <span className="text-foreground text-center">{feature}</span>
               </motion.div>
             </StaggerItem>
           ))}
@@ -121,7 +121,7 @@ const CTASection = () => {
               </Link>
               <DownloadButton
                 variant="outline"
-                className="border-primary/50 text-primary hover:bg-primary hover:text-primary-foreground px-8 py-4 backdrop-blur-sm"
+                className="border-primary/50 text-foreground hover:bg-primary hover:text-primary-foreground px-8 py-4 text-lg backdrop-blur-sm"
                 materialCategory="course_guide"
                 signInText={t('ctaDownloadButton')}
                 downloadText={t('ctaAccessDashboard')}
