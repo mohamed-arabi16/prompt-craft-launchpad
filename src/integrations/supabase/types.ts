@@ -14,6 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
+      benefits: {
+        Row: {
+          created_at: string
+          description_ar: string
+          description_en: string
+          display_order: number
+          icon_name: string
+          id: string
+          is_active: boolean
+          title_ar: string
+          title_en: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description_ar: string
+          description_en: string
+          display_order?: number
+          icon_name?: string
+          id?: string
+          is_active?: boolean
+          title_ar: string
+          title_en: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description_ar?: string
+          description_en?: string
+          display_order?: number
+          icon_name?: string
+          id?: string
+          is_active?: boolean
+          title_ar?: string
+          title_en?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       contact_messages: {
         Row: {
           created_at: string
@@ -275,6 +314,42 @@ export type Database = {
         }
         Relationships: []
       }
+      faqs: {
+        Row: {
+          answer_ar: string
+          answer_en: string
+          created_at: string
+          display_order: number
+          id: string
+          is_active: boolean
+          question_ar: string
+          question_en: string
+          updated_at: string
+        }
+        Insert: {
+          answer_ar: string
+          answer_en: string
+          created_at?: string
+          display_order?: number
+          id?: string
+          is_active?: boolean
+          question_ar: string
+          question_en: string
+          updated_at?: string
+        }
+        Update: {
+          answer_ar?: string
+          answer_en?: string
+          created_at?: string
+          display_order?: number
+          id?: string
+          is_active?: boolean
+          question_ar?: string
+          question_en?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           ai_experience: string | null
@@ -311,6 +386,114 @@ export type Database = {
           phone?: string | null
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      site_content: {
+        Row: {
+          content_ar: string
+          content_en: string
+          content_key: string
+          created_at: string
+          id: string
+          section: string
+          updated_at: string
+        }
+        Insert: {
+          content_ar: string
+          content_en: string
+          content_key: string
+          created_at?: string
+          id?: string
+          section: string
+          updated_at?: string
+        }
+        Update: {
+          content_ar?: string
+          content_en?: string
+          content_key?: string
+          created_at?: string
+          id?: string
+          section?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      target_audience_items: {
+        Row: {
+          content_ar: string
+          content_en: string
+          created_at: string
+          display_order: number
+          icon_name: string
+          id: string
+          is_active: boolean
+          updated_at: string
+        }
+        Insert: {
+          content_ar: string
+          content_en: string
+          created_at?: string
+          display_order?: number
+          icon_name?: string
+          id?: string
+          is_active?: boolean
+          updated_at?: string
+        }
+        Update: {
+          content_ar?: string
+          content_en?: string
+          created_at?: string
+          display_order?: number
+          icon_name?: string
+          id?: string
+          is_active?: boolean
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      testimonials: {
+        Row: {
+          content_ar: string
+          content_en: string
+          created_at: string
+          display_order: number
+          id: string
+          is_active: boolean
+          name_ar: string
+          name_en: string
+          rating: number
+          role_ar: string
+          role_en: string
+          updated_at: string
+        }
+        Insert: {
+          content_ar: string
+          content_en: string
+          created_at?: string
+          display_order?: number
+          id?: string
+          is_active?: boolean
+          name_ar: string
+          name_en: string
+          rating?: number
+          role_ar: string
+          role_en: string
+          updated_at?: string
+        }
+        Update: {
+          content_ar?: string
+          content_en?: string
+          created_at?: string
+          display_order?: number
+          id?: string
+          is_active?: boolean
+          name_ar?: string
+          name_en?: string
+          rating?: number
+          role_ar?: string
+          role_en?: string
+          updated_at?: string
         }
         Relationships: []
       }
