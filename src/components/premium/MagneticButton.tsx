@@ -64,9 +64,9 @@ const MagneticButton = ({
   };
 
   const sizes = {
-    sm: 'px-4 py-2 text-sm',
-    md: 'px-6 py-3 text-base',
-    lg: 'px-8 py-4 text-lg',
+    sm: 'h-10 px-4 text-sm',
+    md: 'h-12 px-6 text-base',
+    lg: 'h-14 px-8 text-lg',
   };
 
   const glowStyles = glow && variant === 'primary'
