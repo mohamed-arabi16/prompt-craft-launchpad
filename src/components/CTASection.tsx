@@ -1,103 +1,145 @@
-import { Button } from "@/components/ui/button";
-import { ArrowRight, Check, Clock } from "lucide-react";
+import { motion, useReducedMotion } from 'framer-motion';
+import { ArrowRight, Check, Clock, Sparkles } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
-import { useAuth } from "@/contexts/AuthContext";
-import { useState } from "react";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Link } from "react-router-dom";
 import DownloadButton from "./DownloadButton";
+import { GlassCard, MagneticButton, SectionReveal, StaggerContainer, StaggerItem } from "./premium";
 
 /**
- * Renders the Call-to-Action (CTA) section of the homepage.
- * This component displays pricing, features, and buttons for enrollment and downloading a course outline.
- * It also includes a "Coming Soon" modal for the download functionality.
- *
- * @returns {JSX.Element} The rendered CTA section.
+ * Premium CTA section with glassmorphism pricing card and magnetic buttons
  */
 const CTASection = () => {
   const { t, tArray } = useTranslation();
-  const { user } = useAuth();
-  const [showComingSoon, setShowComingSoon] = useState(false);
-
-  const handleEnroll = () => {
-    // Navigate to enrollment page
-    window.location.href = '/enrollment';
-  };
+  const prefersReducedMotion = useReducedMotion();
 
   return (
-    <section className="py-20 bg-background">
-      <div className="max-w-4xl mx-auto px-6 text-center">
-        <div className="fade-in-up">
+    <section className="py-20 bg-background relative overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl" />
+        <motion.div
+          className="absolute top-20 right-20 w-32 h-32 bg-cyan/10 rounded-full blur-2xl"
+          animate={prefersReducedMotion ? {} : {
+            scale: [1, 1.2, 1],
+            opacity: [0.3, 0.5, 0.3],
+          }}
+          transition={{ duration: 5, repeat: Infinity }}
+        />
+        <motion.div
+          className="absolute bottom-20 left-20 w-40 h-40 bg-primary/10 rounded-full blur-2xl"
+          animate={prefersReducedMotion ? {} : {
+            scale: [1.2, 1, 1.2],
+            opacity: [0.2, 0.4, 0.2],
+          }}
+          transition={{ duration: 6, repeat: Infinity, delay: 1 }}
+        />
+      </div>
+
+      <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
+        <SectionReveal>
+          <motion.span
+            className="inline-flex items-center px-4 py-1.5 mb-6 text-sm font-medium text-primary bg-primary/10 rounded-full border border-primary/20"
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+          >
+            <Sparkles className="h-4 w-4 ltr:mr-2 rtl:ml-2" />
+            {t('ctaBadge') || 'Limited Time Offer'}
+          </motion.span>
+
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6 cta-title-rtl">
             {t('ctaTitle')}
           </h2>
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
             {t('ctaSubtitle')}
           </p>
-        </div>
+        </SectionReveal>
 
-        <div className="grid md:grid-cols-3 gap-6 mb-12 fade-in-up-delay-1">
+        <StaggerContainer className="grid md:grid-cols-3 gap-6 mb-12" staggerDelay={0.1}>
           {tArray('ctaFeatures').map((feature, index) => (
-            <div key={index} className="flex items-center gap-3 justify-center">
-              <Check className="h-6 w-6 text-primary" />
-              <span className="text-foreground">{feature}</span>
-            </div>
+            <StaggerItem key={index}>
+              <motion.div
+                className="flex items-center gap-3 justify-center px-4 py-3 rounded-xl bg-card/30 backdrop-blur-sm border border-border/50"
+                whileHover={prefersReducedMotion ? {} : { scale: 1.05, borderColor: 'hsl(var(--primary) / 0.5)' }}
+              >
+                <div className="flex-shrink-0 p-1 rounded-full bg-primary/20">
+                  <Check className="h-4 w-4 text-primary" />
+                </div>
+                <span className="text-foreground">{feature}</span>
+              </motion.div>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerContainer>
 
-        <div className="bg-card/20 backdrop-blur-sm rounded-2xl p-8 mb-8 border border-border fade-in-up-delay-2">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <Clock className="h-5 w-5 text-primary" />
-            <span className="text-primary font-semibold">{t('ctaDiscount')}</span>
-          </div>
-          <div className="text-center mb-6">
-            <div className="text-3xl font-bold text-foreground mb-2">{t('ctaCurrentPrice')}</div>
-            <div className="text-muted-foreground line-through">{t('ctaOriginalPrice')}</div>
-          </div>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/enrollment">
-              <Button className="bg-primary text-primary-foreground hover:bg-primary/90 group text-lg px-8 py-4 w-full sm:w-auto">
-                {t('ctaEnrollButton')}
-                <ArrowRight className="ltr:ml-2 rtl:mr-2 h-5 w-5 transition-transform group-hover:ltr:translate-x-1 group-hover:rtl:-translate-x-1" />
-              </Button>
-            </Link>
-            <DownloadButton 
-              variant="outline" 
-              className="border-primary text-primary hover:bg-primary hover:text-primary-foreground px-8 py-4"
-              materialCategory="course_guide"
-              signInText={t('ctaDownloadButton')}
-              downloadText={t('ctaAccessDashboard')}
-            />
-          </div>
-        </div>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3 }}
+        >
+          <GlassCard
+            variant="gradient"
+            glow
+            interactive={false}
+            className="p-8 mb-8"
+          >
+            <motion.div
+              className="flex items-center justify-center gap-2 mb-4"
+              animate={prefersReducedMotion ? {} : { scale: [1, 1.02, 1] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            >
+              <Clock className="h-5 w-5 text-primary" />
+              <span className="text-primary font-semibold">{t('ctaDiscount')}</span>
+            </motion.div>
 
-        <p className="text-muted-foreground text-sm fade-in-up-delay-3">
+            <div className="text-center mb-6">
+              <motion.div
+                className="text-4xl md:text-5xl font-bold text-foreground mb-2"
+                initial={{ scale: 0.9 }}
+                whileInView={{ scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ type: 'spring', stiffness: 200 }}
+              >
+                {t('ctaCurrentPrice')}
+              </motion.div>
+              <div className="text-muted-foreground line-through text-lg">
+                {t('ctaOriginalPrice')}
+              </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link to="/enrollment">
+                <MagneticButton
+                  variant="primary"
+                  size="lg"
+                  className="group w-full sm:w-auto"
+                  glow
+                >
+                  {t('ctaEnrollButton')}
+                  <ArrowRight className="ltr:ml-2 rtl:mr-2 h-5 w-5 transition-transform group-hover:ltr:translate-x-1 group-hover:rtl:-translate-x-1" />
+                </MagneticButton>
+              </Link>
+              <DownloadButton
+                variant="outline"
+                className="border-primary/50 text-primary hover:bg-primary hover:text-primary-foreground px-8 py-4 backdrop-blur-sm"
+                materialCategory="course_guide"
+                signInText={t('ctaDownloadButton')}
+                downloadText={t('ctaAccessDashboard')}
+              />
+            </div>
+          </GlassCard>
+        </motion.div>
+
+        <motion.p
+          className="text-muted-foreground text-sm"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.5 }}
+        >
           {t('ctaGuarantee')}
-        </p>
+        </motion.p>
       </div>
-
-      {/* Coming Soon Modal */}
-      <Dialog open={showComingSoon} onOpenChange={setShowComingSoon}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>{t('comingSoon')}</DialogTitle>
-            <DialogDescription>
-              {t('comingSoonMessage')}
-            </DialogDescription>
-          </DialogHeader>
-          <div className="flex justify-end gap-2 mt-4">
-            <Button variant="outline" onClick={() => setShowComingSoon(false)}>
-              {t('buttons.close')}
-            </Button>
-            <Link to="/contact">
-              <Button onClick={() => setShowComingSoon(false)}>
-                {t('footerContact')}
-              </Button>
-            </Link>
-          </div>
-        </DialogContent>
-      </Dialog>
     </section>
   );
 };

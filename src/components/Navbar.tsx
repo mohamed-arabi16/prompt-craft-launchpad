@@ -1,24 +1,34 @@
+import { motion, useReducedMotion } from 'framer-motion';
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useAdmin } from "@/hooks/useAdmin";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Shield, LogIn, LogOut, Menu, X } from "lucide-react";
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { CommandPalette } from "./premium";
 
 /**
- * Renders the navigation bar for the application.
- * It includes the brand name, navigation links, and a language switcher component.
- * The navbar is fixed at the top of the viewport with responsive mobile menu.
- *
- * @returns {JSX.Element} The rendered navigation bar.
+ * Premium navigation bar with glassmorphism and command palette
  */
 export default function Navbar() {
-  const { t } = useTranslation();
+  const { t, toggleLanguage } = useTranslation();
   const { isAdmin } = useAdmin();
   const { user, signOut } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const location = useLocation();
+  const prefersReducedMotion = useReducedMotion();
+
+  // Track scroll position for navbar style changes
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const handleSignOut = async () => {
     await signOut();
@@ -43,39 +53,81 @@ export default function Navbar() {
     }
   };
 
+  const isActiveLink = (href: string) => {
+    if (href === '/') return location.pathname === '/';
+    if (href.startsWith('#')) return false;
+    return location.pathname.startsWith(href);
+  };
+
   return (
-    <nav className="fixed top-0 w-full z-50 bg-background/95 backdrop-blur-sm border-b border-border">
+    <motion.nav
+      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+        isScrolled
+          ? 'bg-background/80 backdrop-blur-xl border-b border-border/50 shadow-lg shadow-background/5'
+          : 'bg-background/50 backdrop-blur-sm border-b border-transparent'
+      }`}
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.5, ease: 'easeOut' }}
+    >
       <div className="container mx-auto px-4 py-4">
         <div className="flex justify-between items-center">
-          <Link to="/" className="text-xl font-bold text-primary hover:text-primary/80">
-            {t('brandName')}
+          {/* Logo */}
+          <Link to="/">
+            <motion.span
+              className="text-xl font-bold bg-gradient-to-r from-primary to-cyan bg-clip-text text-transparent"
+              whileHover={prefersReducedMotion ? {} : { scale: 1.05 }}
+              whileTap={prefersReducedMotion ? {} : { scale: 0.98 }}
+            >
+              {t('brandName')}
+            </motion.span>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-6">
-            {navigationLinks.map((link) => (
-              link.href.startsWith('#') ? (
-                <a
+          <div className="hidden md:flex items-center gap-1">
+            {navigationLinks.map((link) => {
+              const isActive = isActiveLink(link.href);
+              return link.href.startsWith('#') ? (
+                <motion.a
                   key={link.href}
                   href={link.href}
                   onClick={(e) => handleSmoothScroll(e, link.href)}
-                  className="text-foreground hover:text-primary transition-colors cursor-pointer"
+                  className={`relative px-4 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer ${
+                    isActive ? 'text-primary' : 'text-foreground hover:text-primary'
+                  }`}
+                  whileHover={prefersReducedMotion ? {} : { scale: 1.05 }}
+                  whileTap={prefersReducedMotion ? {} : { scale: 0.98 }}
                 >
                   {link.label}
-                </a>
+                </motion.a>
               ) : (
-                <Link
-                  key={link.href}
-                  to={link.href}
-                  className="text-foreground hover:text-primary transition-colors"
-                >
-                  {link.label}
+                <Link key={link.href} to={link.href}>
+                  <motion.span
+                    className={`relative px-4 py-2 rounded-lg text-sm font-medium transition-colors block ${
+                      isActive ? 'text-primary' : 'text-foreground hover:text-primary'
+                    }`}
+                    whileHover={prefersReducedMotion ? {} : { scale: 1.05 }}
+                    whileTap={prefersReducedMotion ? {} : { scale: 0.98 }}
+                  >
+                    {link.label}
+                    {isActive && (
+                      <motion.div
+                        className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 bg-primary rounded-full"
+                        layoutId="activeNav"
+                      />
+                    )}
+                  </motion.span>
                 </Link>
-              )
-            ))}
+              );
+            })}
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
+            {/* Command Palette - Desktop only */}
+            <div className="hidden lg:block">
+              <CommandPalette onToggleLanguage={toggleLanguage} />
+            </div>
+
             {/* Mobile Menu Button */}
             <Button
               variant="ghost"
@@ -83,16 +135,25 @@ export default function Navbar() {
               className="md:hidden"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
-              {isMobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+              <motion.div
+                animate={{ rotate: isMobileMenuOpen ? 90 : 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              </motion.div>
             </Button>
 
             {/* Desktop Auth & Admin Buttons */}
-            <div className="hidden md:flex items-center gap-4">
+            <div className="hidden md:flex items-center gap-3">
               {user ? (
                 <>
                   {isAdmin && (
                     <Link to="/admin">
-                      <Button variant="outline" size="sm" className="flex items-center gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="flex items-center gap-2 border-primary/30 hover:border-primary hover:bg-primary/10"
+                      >
                         <Shield className="h-4 w-4" />
                         Admin
                       </Button>
@@ -110,7 +171,11 @@ export default function Navbar() {
                 </>
               ) : (
                 <Link to="/auth">
-                  <Button variant="outline" size="sm" className="flex items-center gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="flex items-center gap-2 border-primary/30 hover:border-primary hover:bg-primary/10"
+                  >
                     <LogIn className="h-4 w-4" />
                     {t('buttons.signIn')}
                   </Button>
@@ -122,72 +187,87 @@ export default function Navbar() {
         </div>
 
         {/* Mobile Menu */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden mt-4 pb-4 border-t border-border">
-            <div className="flex flex-col gap-4 mt-4">
-              {navigationLinks.map((link) => (
-                link.href.startsWith('#') ? (
-                  <a
+        <motion.div
+          className={`md:hidden overflow-hidden ${isMobileMenuOpen ? 'mt-4 pb-4' : ''}`}
+          initial={false}
+          animate={{
+            height: isMobileMenuOpen ? 'auto' : 0,
+            opacity: isMobileMenuOpen ? 1 : 0,
+          }}
+          transition={{ duration: 0.3, ease: 'easeInOut' }}
+        >
+          {isMobileMenuOpen && (
+            <div className="border-t border-border/50 pt-4">
+              <div className="flex flex-col gap-2">
+                {navigationLinks.map((link, index) => (
+                  <motion.div
                     key={link.href}
-                    href={link.href}
-                    onClick={(e) => {
-                      handleSmoothScroll(e, link.href);
-                      setIsMobileMenuOpen(false);
-                    }}
-                    className="text-foreground hover:text-primary transition-colors py-2 cursor-pointer"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.05 }}
                   >
-                    {link.label}
-                  </a>
-                ) : (
-                  <Link
-                    key={link.href}
-                    to={link.href}
-                    className="text-foreground hover:text-primary transition-colors py-2"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    {link.label}
-                  </Link>
-                )
-              ))}
-              
-              <div className="flex flex-wrap items-center gap-4 pt-4 border-t border-border/50">
-                {user ? (
-                  <>
-                    {isAdmin && (
-                      <Link to="/admin" onClick={() => setIsMobileMenuOpen(false)}>
-                        <Button variant="outline" size="sm" className="flex items-center gap-2">
-                          <Shield className="h-4 w-4" />
-                          Admin
-                        </Button>
+                    {link.href.startsWith('#') ? (
+                      <a
+                        href={link.href}
+                        onClick={(e) => {
+                          handleSmoothScroll(e, link.href);
+                          setIsMobileMenuOpen(false);
+                        }}
+                        className="block px-4 py-3 rounded-lg text-foreground hover:text-primary hover:bg-muted/50 transition-colors"
+                      >
+                        {link.label}
+                      </a>
+                    ) : (
+                      <Link
+                        to={link.href}
+                        className="block px-4 py-3 rounded-lg text-foreground hover:text-primary hover:bg-muted/50 transition-colors"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        {link.label}
                       </Link>
                     )}
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => {
-                        handleSignOut();
-                        setIsMobileMenuOpen(false);
-                      }}
-                      className="flex items-center gap-2 text-foreground hover:text-primary"
-                    >
-                      <LogOut className="h-4 w-4" />
-                      {t('buttons.signOut')}
-                    </Button>
-                  </>
-                ) : (
-                  <Link to="/auth" onClick={() => setIsMobileMenuOpen(false)}>
-                    <Button variant="outline" size="sm" className="flex items-center gap-2">
-                      <LogIn className="h-4 w-4" />
-                      {t('buttons.signIn')}
-                    </Button>
-                  </Link>
-                )}
-                <LanguageSwitcher />
+                  </motion.div>
+                ))}
+
+                <div className="flex flex-wrap items-center gap-3 pt-4 mt-2 border-t border-border/50">
+                  {user ? (
+                    <>
+                      {isAdmin && (
+                        <Link to="/admin" onClick={() => setIsMobileMenuOpen(false)}>
+                          <Button variant="outline" size="sm" className="flex items-center gap-2">
+                            <Shield className="h-4 w-4" />
+                            Admin
+                          </Button>
+                        </Link>
+                      )}
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => {
+                          handleSignOut();
+                          setIsMobileMenuOpen(false);
+                        }}
+                        className="flex items-center gap-2 text-foreground hover:text-primary"
+                      >
+                        <LogOut className="h-4 w-4" />
+                        {t('buttons.signOut')}
+                      </Button>
+                    </>
+                  ) : (
+                    <Link to="/auth" onClick={() => setIsMobileMenuOpen(false)}>
+                      <Button variant="outline" size="sm" className="flex items-center gap-2">
+                        <LogIn className="h-4 w-4" />
+                        {t('buttons.signIn')}
+                      </Button>
+                    </Link>
+                  )}
+                  <LanguageSwitcher />
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
+        </motion.div>
       </div>
-    </nav>
+    </motion.nav>
   );
 }
