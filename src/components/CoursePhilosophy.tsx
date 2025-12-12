@@ -11,7 +11,7 @@ const CoursePhilosophy = () => {
   const { t } = useTranslation();
   
   return (
-    <section className="py-20 bg-gradient-to-b from-background to-muted/20">
+    <section className="py-20 bg-background">
       <div className="max-w-6xl mx-auto px-6">
         <div className="text-center mb-16 fade-in-up">
           <h2 className="text-4xl md:text-5xl font-bold mb-6 text-foreground">
