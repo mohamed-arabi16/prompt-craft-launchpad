@@ -1,11 +1,9 @@
 import { Button } from "@/components/ui/button";
-import { Download, LogIn } from "lucide-react";
-import { useAuth } from "@/contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { Download } from "lucide-react";
 import { useState } from "react";
 import LoadingSpinner from "./LoadingSpinner";
 import { toast } from "sonner";
-import { useCourseMaterials } from "@/hooks/useCourseMaterials";
+import { supabase } from "@/integrations/supabase/client";
 
 interface DownloadButtonProps {
   variant?: "default" | "outline";
@@ -19,54 +17,63 @@ interface DownloadButtonProps {
 }
 
 /**
- * A reusable download button component that handles authentication flow.
- * Shows different states based on user authentication status.
+ * A reusable download button component for public course guide downloads.
+ * Course guide can be downloaded without authentication.
  */
 const DownloadButton = ({ 
   variant = "outline", 
   className = "", 
   children,
-  signInText = "Sign in to Download",
-  downloadText = "Access Dashboard",
-  materialId,
-  materialCategory,
-  courseDay
+  signInText = "Download Course Guide",
+  downloadText = "Download Course Guide",
+  materialCategory
 }: DownloadButtonProps) => {
-  const { user } = useAuth();
-  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const { downloadMaterial, getMaterialByDay, getCourseGuide } = useCourseMaterials();
 
   const handleClick = async () => {
     setIsLoading(true);
     
-    if (!user) {
-      toast.info("Please sign in to download course materials");
-      await new Promise(resolve => setTimeout(resolve, 500));
-      navigate('/auth?redirectTo=dashboard');
-    } else {
-      // If we have specific material info, try to download it
-      if (materialId) {
-        await downloadMaterial(materialId);
-      } else if (courseDay) {
-        const material = getMaterialByDay(courseDay);
-        if (material) {
-          await downloadMaterial(material.id);
-        } else {
-          toast.error('Material not found for this day');
-        }
-      } else if (materialCategory === 'course_guide') {
-        const guide = getCourseGuide();
-        if (guide) {
-          await downloadMaterial(guide.id);
-        } else {
+    try {
+      // For course guide, allow public download
+      if (materialCategory === 'course_guide') {
+        // Fetch the course guide material info
+        const { data: material, error: materialError } = await supabase
+          .from('course_materials')
+          .select('*')
+          .eq('category', 'course_guide')
+          .eq('is_active', true)
+          .single();
+
+        if (materialError || !material) {
           toast.error('Course guide not found');
+          setIsLoading(false);
+          return;
         }
-      } else {
-        // Default: navigate to dashboard
-        await new Promise(resolve => setTimeout(resolve, 300));
-        navigate('/dashboard');
+
+        // Get public URL or signed URL for course guide
+        const { data: signedUrl, error: signedError } = await supabase.storage
+          .from('course-materials')
+          .createSignedUrl(material.file_path, 3600);
+
+        if (signedError || !signedUrl) {
+          toast.error('Failed to generate download link');
+          setIsLoading(false);
+          return;
+        }
+
+        // Trigger download
+        const link = document.createElement('a');
+        link.href = signedUrl.signedUrl;
+        link.download = material.file_name;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        toast.success('Download started!');
       }
+    } catch (error) {
+      console.error('Download error:', error);
+      toast.error('Failed to download file');
     }
     
     setIsLoading(false);
@@ -81,13 +88,11 @@ const DownloadButton = ({
     >
       {isLoading ? (
         <LoadingSpinner size="sm" className="ltr:mr-2 rtl:ml-2" />
-      ) : user ? (
-        <Download className="ltr:mr-2 rtl:ml-2 h-5 w-5" />
       ) : (
-        <LogIn className="ltr:mr-2 rtl:ml-2 h-5 w-5" />
+        <Download className="ltr:mr-2 rtl:ml-2 h-5 w-5" />
       )}
       <span>
-        {children || (user ? downloadText : signInText)}
+        {children || downloadText || signInText}
       </span>
     </Button>
   );
