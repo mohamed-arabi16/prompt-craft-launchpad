@@ -21,6 +21,7 @@
   "courseTitle": "5-Day Program",
   "ctaTitle": "Ready to Develop Your AI Skills?",
   "ctaSubtitle": "You'll get a clear training path and practical exercises, with support materials and assistance during the course.",
+  "ctaBadge": "Limited Time Offer",
   "ctaDiscount": "Limited-Time Discount",
   "ctaCurrentPrice": "Current Price",
   "ctaOriginalPrice": "Original Price",
@@ -264,7 +265,8 @@
     "downloadPDF": "Download PDF",
     "additionalResources": "Additional Resources",
     "completeGuide": "Complete Course Guide (PDF)",
-    "promptTemplates": "Prompt Templates Collection"
+    "promptTemplates": "Prompt Templates Collection",
+    "backToHome": "Back to Home"
   },
   "auth": {
     "title": "Intensive AI Course",
