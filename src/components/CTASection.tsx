@@ -16,23 +16,8 @@ const CTASection = () => {
     <section className="py-20 bg-background relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl" />
-        <motion.div
-          className="absolute top-20 right-20 w-32 h-32 bg-cyan/10 rounded-full blur-2xl"
-          animate={prefersReducedMotion ? {} : {
-            scale: [1, 1.2, 1],
-            opacity: [0.3, 0.5, 0.3],
-          }}
-          transition={{ duration: 5, repeat: Infinity }}
-        />
-        <motion.div
-          className="absolute bottom-20 left-20 w-40 h-40 bg-primary/10 rounded-full blur-2xl"
-          animate={prefersReducedMotion ? {} : {
-            scale: [1.2, 1, 1.2],
-            opacity: [0.2, 0.4, 0.2],
-          }}
-          transition={{ duration: 6, repeat: Infinity, delay: 1 }}
-        />
+        <div className="absolute top-1/4 -left-32 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 -right-32 w-64 h-64 bg-cyan/5 rounded-full blur-3xl" />
       </div>
 
       <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
