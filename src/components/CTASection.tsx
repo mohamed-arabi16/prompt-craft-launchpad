@@ -79,7 +79,7 @@ const CTASection = () => {
 
             <div className="text-center mb-6">
               <motion.div
-                className="text-4xl md:text-5xl font-bold text-foreground mb-2"
+                className="text-4xl md:text-5xl font-bold text-foreground mb-4"
                 initial={{ scale: 0.9 }}
                 whileInView={{ scale: 1 }}
                 viewport={{ once: true }}
