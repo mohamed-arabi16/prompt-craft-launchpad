@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { ChevronDown, Clock, Target, Calendar, BookOpen } from "lucide-react";
+import { ChevronDown, Clock, BookOpen, Zap, Search, Palette, Rocket } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import DownloadButton from "./DownloadButton";
 import { SectionReveal, GlassCard } from "./premium";
 import { accordionAnimation, iconRotate } from "@/lib/animations";
 
 /**
- * Premium course breakdown section with enhanced accordion animations
+ * Simplified course breakdown section with 5-day program
  */
 const CourseBreakdown = () => {
   const [expandedDay, setExpandedDay] = useState<number | null>(1);
@@ -18,10 +18,10 @@ const CourseBreakdown = () => {
     setExpandedDay(expandedDay === day ? null : day);
   };
 
-  const dayIcons = [BookOpen, Target, Calendar, Clock, ChevronDown];
+  const dayIcons = [BookOpen, Zap, Search, Palette, Rocket];
 
   return (
-    <section id="course" className="py-20 bg-background relative overflow-hidden">
+    <section id="course-curriculum" className="py-20 bg-background relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 -left-32 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
@@ -37,13 +37,13 @@ const CourseBreakdown = () => {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
             >
-              {t('courseBreakdownBadge') || '5-Day Program'}
+              {t('courseBreakdownBadge')}
             </motion.span>
             <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
               {t('courseTitle')}
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              {t('benefitsSubtitle')}
+              {t('philosophySubtitle')}
             </p>
           </div>
         </SectionReveal>
@@ -92,17 +92,20 @@ const CourseBreakdown = () => {
                         <h3 className="text-xl font-semibold text-foreground mb-1">
                           {t(`day${day}Title`)}
                         </h3>
-                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                          <Clock className="h-3.5 w-3.5" />
-                          <span>{t(`day${day}Duration`)}</span>
-                        </div>
+                        <p className="text-sm text-muted-foreground">
+                          {t(`day${day}Description`)}
+                        </p>
                       </div>
                     </div>
 
                     <div className="flex items-center gap-4">
                       <div className="hidden sm:flex items-center gap-2 px-3 py-1 rounded-full bg-muted/50 text-sm text-muted-foreground">
                         <DayIcon className="h-4 w-4" />
-                        <span>{t(`day${day}Badge`) || `Day ${day}`}</span>
+                        <span>{t(`day${day}Badge`)}</span>
+                      </div>
+                      <div className="hidden sm:flex items-center gap-2 text-sm text-muted-foreground">
+                        <Clock className="h-3.5 w-3.5" />
+                        <span>{t(`day${day}Duration`)}</span>
                       </div>
                       <motion.div
                         variants={iconRotate}
@@ -123,66 +126,29 @@ const CourseBreakdown = () => {
                         className="overflow-hidden"
                       >
                         <div className="px-6 pb-6 border-t border-border/50">
-                          <div className="grid md:grid-cols-2 gap-6 mt-6">
-                            <motion.div
-                              className="space-y-3"
-                              initial={{ opacity: 0, x: -20 }}
-                              animate={{ opacity: 1, x: 0 }}
-                              transition={{ delay: 0.1 }}
-                            >
-                              <div className="flex items-center gap-2">
-                                <div className="p-1.5 rounded-lg bg-primary/10">
-                                  <Target className="h-4 w-4 text-primary" />
-                                </div>
-                                <h4 className="font-semibold text-foreground">
-                                  {t('keyTopicsLabel')}
-                                </h4>
+                          <div className="mt-6">
+                            <div className="flex items-center gap-2 mb-4">
+                              <div className="p-1.5 rounded-lg bg-primary/10">
+                                <BookOpen className="h-4 w-4 text-primary" />
                               </div>
-                              <ul className="space-y-2.5">
-                                {tArray(`day${day}Topics`).map((topic, idx) => (
-                                  <motion.li
-                                    key={idx}
-                                    className="flex items-start gap-3"
-                                    initial={{ opacity: 0, x: -10 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: 0.15 + idx * 0.05 }}
-                                  >
-                                    <div className="h-2 w-2 bg-gradient-to-r from-primary to-cyan rounded-full mt-2 flex-shrink-0" />
-                                    <span className="text-muted-foreground">{topic}</span>
-                                  </motion.li>
-                                ))}
-                              </ul>
-                            </motion.div>
-
-                            <motion.div
-                              className="space-y-3"
-                              initial={{ opacity: 0, x: 20 }}
-                              animate={{ opacity: 1, x: 0 }}
-                              transition={{ delay: 0.15 }}
-                            >
-                              <div className="flex items-center gap-2">
-                                <div className="p-1.5 rounded-lg bg-cyan/10">
-                                  <Calendar className="h-4 w-4 text-cyan" />
-                                </div>
-                                <h4 className="font-semibold text-foreground">
-                                  {t('techniquesCoveredLabel')}
-                                </h4>
-                              </div>
-                              <ul className="space-y-2.5">
-                                {tArray(`day${day}Techniques`).map((technique, idx) => (
-                                  <motion.li
-                                    key={idx}
-                                    className="flex items-start gap-3"
-                                    initial={{ opacity: 0, x: 10 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: 0.2 + idx * 0.05 }}
-                                  >
-                                    <div className="h-2 w-2 bg-gradient-to-r from-cyan to-primary rounded-full mt-2 flex-shrink-0" />
-                                    <span className="text-muted-foreground">{technique}</span>
-                                  </motion.li>
-                                ))}
-                              </ul>
-                            </motion.div>
+                              <h4 className="font-semibold text-foreground">
+                                {t('keyTopicsLabel')}
+                              </h4>
+                            </div>
+                            <ul className="space-y-3">
+                              {tArray(`day${day}Topics`).map((topic, idx) => (
+                                <motion.li
+                                  key={idx}
+                                  className="flex items-start gap-3"
+                                  initial={{ opacity: 0, x: -10 }}
+                                  animate={{ opacity: 1, x: 0 }}
+                                  transition={{ delay: 0.1 + idx * 0.05 }}
+                                >
+                                  <div className="h-2 w-2 bg-gradient-to-r from-primary to-cyan rounded-full mt-2 flex-shrink-0" />
+                                  <span className="text-muted-foreground">{topic}</span>
+                                </motion.li>
+                              ))}
+                            </ul>
                           </div>
 
                           <motion.div

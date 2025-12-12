@@ -16,10 +16,11 @@ const testimonialsData = [
   { rating: 5 },
   { rating: 5 },
   { rating: 5 },
+  { rating: 5 },
 ];
 
 /**
- * Premium testimonials section with glassmorphism cards and animations
+ * Premium testimonials section with 4 testimonials
  */
 const TestimonialsSection = () => {
   const { t } = useTranslation();
@@ -43,7 +44,7 @@ const TestimonialsSection = () => {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
             >
-              {t('testimonialsBadge') || 'Student Success Stories'}
+              {t('testimonialsBadge')}
             </motion.span>
             <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
               {t('testimonialsTitle')}
@@ -107,7 +108,7 @@ const TestimonialsSection = () => {
                             className="w-14 h-14 bg-gradient-to-br from-primary to-cyan rounded-full flex items-center justify-center text-primary-foreground font-bold text-lg shadow-lg shadow-primary/25"
                             whileHover={prefersReducedMotion ? {} : { scale: 1.1 }}
                           >
-                            {t(`testimonial${num}Name`).split(' ').map(n => n[0]).join('')}
+                            {t(`testimonial${num}Name`).split(' ').map(n => n[0]).join('').slice(0, 2)}
                           </motion.div>
                           <div>
                             <div className="font-semibold text-foreground text-lg">

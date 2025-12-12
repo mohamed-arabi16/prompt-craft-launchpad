@@ -35,11 +35,10 @@ export default function Navbar() {
   };
 
   const navigationLinks = [
-    { href: "/", label: t('navHome') },
-    { href: "#course-curriculum", label: t('navCourse') },
+    { href: "#course-curriculum", label: t('navCurriculum') || t('navCourse') },
+    { href: "#target-audience", label: t('navTargetAudience') },
+    { href: "#benefits", label: t('navBenefits') },
     { href: "/faq", label: t('navFAQ') },
-    { href: "/glossary", label: t('navGlossary') },
-    { href: "#testimonials", label: t('navTestimonials') },
     { href: "/contact", label: t('navContact') },
   ];
 
