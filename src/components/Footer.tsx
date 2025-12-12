@@ -1,12 +1,9 @@
 import { useTranslation } from "@/hooks/useTranslation";
 import { Link } from "react-router-dom";
-import { Mail, MapPin } from "lucide-react";
+import { Mail, MapPin, FileText, MessageCircle } from "lucide-react";
 
 /**
  * Renders the footer section of the website.
- * This component includes copyright information, quick links, and contact info.
- *
- * @returns {JSX.Element} The rendered footer component.
  */
 const Footer = () => {
   const { t } = useTranslation();
@@ -26,12 +23,19 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-6">
         {/* Main Footer Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-          {/* Brand & Description */}
+          {/* Brand & Materials */}
           <div>
             <h3 className="text-lg font-bold text-primary mb-4">{t('brandName')}</h3>
-            <p className="text-muted-foreground text-sm leading-relaxed">
-              {t('metaDescription')}
-            </p>
+            <div className="space-y-3 text-muted-foreground text-sm">
+              <div className="flex items-center gap-2">
+                <FileText className="h-4 w-4 text-primary" aria-hidden="true" />
+                <span>{t('footerMaterials')}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <MessageCircle className="h-4 w-4 text-primary" aria-hidden="true" />
+                <span>{t('footerSupport')}</span>
+              </div>
+            </div>
           </div>
 
           {/* Quick Links */}
@@ -41,29 +45,29 @@ const Footer = () => {
               <ul className="space-y-2">
                 <li>
                   <a 
-                    href="#course" 
-                    onClick={(e) => handleSmoothScroll(e, '#course')}
+                    href="#course-curriculum" 
+                    onClick={(e) => handleSmoothScroll(e, '#course-curriculum')}
                     className="text-muted-foreground hover:text-primary transition-colors text-sm"
                   >
-                    {t('navCourse')}
+                    {t('navCurriculum') || t('navCourse')}
                   </a>
                 </li>
                 <li>
                   <a 
-                    href="#faq" 
-                    onClick={(e) => handleSmoothScroll(e, '#faq')}
+                    href="#target-audience" 
+                    onClick={(e) => handleSmoothScroll(e, '#target-audience')}
                     className="text-muted-foreground hover:text-primary transition-colors text-sm"
                   >
-                    {t('navFAQ')}
+                    {t('navTargetAudience')}
                   </a>
                 </li>
                 <li>
                   <a 
-                    href="#glossary" 
-                    onClick={(e) => handleSmoothScroll(e, '#glossary')}
+                    href="#benefits" 
+                    onClick={(e) => handleSmoothScroll(e, '#benefits')}
                     className="text-muted-foreground hover:text-primary transition-colors text-sm"
                   >
-                    {t('navGlossary')}
+                    {t('navBenefits')}
                   </a>
                 </li>
                 <li>
@@ -85,8 +89,8 @@ const Footer = () => {
             <ul className="space-y-3">
               <li className="flex items-center gap-2 text-muted-foreground text-sm">
                 <Mail className="h-4 w-4 text-primary" aria-hidden="true" />
-                <a href="mailto:info@aipromptacademy.com" className="hover:text-primary transition-colors">
-                  info@aipromptacademy.com
+                <a href="mailto:info@qobouli.com" className="hover:text-primary transition-colors">
+                  info@qobouli.com
                 </a>
               </li>
               <li className="flex items-center gap-2 text-muted-foreground text-sm">

@@ -1,19 +1,19 @@
 import { motion, useReducedMotion } from 'framer-motion';
-import { Brain, Zap, Target, Trophy, Users, Rocket, LucideIcon } from "lucide-react";
+import { RefreshCw, Users, Award, Headphones, FileText, LucideIcon } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import { TiltCard, SectionReveal, StaggerContainer, StaggerItem } from "./premium";
 
-const benefitIcons: LucideIcon[] = [Brain, Zap, Target, Trophy, Users, Rocket];
+const benefitIcons: LucideIcon[] = [RefreshCw, Users, Award, Headphones, FileText];
 
 /**
- * Premium benefits section with 3D tilt cards and staggered animations
+ * Premium benefits section with 5 benefit cards
  */
 const BenefitsSection = () => {
   const { t } = useTranslation();
   const prefersReducedMotion = useReducedMotion();
 
   return (
-    <section className="py-20 bg-background relative overflow-hidden">
+    <section id="benefits" className="py-20 bg-background relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 -left-32 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
@@ -29,7 +29,7 @@ const BenefitsSection = () => {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
             >
-              {t('whyChooseUs') || 'Why Choose Us'}
+              {t('whyChooseUs')}
             </motion.span>
             <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
               {t('benefitsTitle')}
@@ -43,8 +43,15 @@ const BenefitsSection = () => {
         <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-3 gap-8" staggerDelay={0.1}>
           {benefitIcons.map((IconComponent, index) => {
             const num = index + 1;
+            // For 5 items in a 3-column grid, center the last 2 items
+            const isLastRow = index >= 3;
+            
             return (
-              <StaggerItem key={index}>
+              <StaggerItem 
+                key={index}
+                className={isLastRow && index === 3 ? 'lg:col-start-1 lg:col-end-2 lg:justify-self-end lg:w-full lg:max-w-sm lg:ml-auto' : 
+                           isLastRow && index === 4 ? 'lg:col-start-2 lg:col-end-3 lg:justify-self-start lg:w-full lg:max-w-sm lg:mr-auto' : ''}
+              >
                 {prefersReducedMotion ? (
                   <div className="course-card h-full">
                     <div className="flex items-center justify-center w-16 h-16 bg-primary rounded-2xl mb-6">
@@ -79,7 +86,6 @@ const BenefitsSection = () => {
                     <p className="text-muted-foreground leading-relaxed">
                       {t(`benefit${num}Description`)}
                     </p>
-
                   </TiltCard>
                 )}
               </StaggerItem>
