@@ -1,5 +1,5 @@
-
 import { useEffect } from "react";
+import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import CoursePhilosophy from "@/components/CoursePhilosophy";
@@ -11,6 +11,7 @@ import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
 import SectionProgress from "@/components/SectionProgress";
 import { useTranslation } from "@/hooks/useTranslation";
+import { pageTransition } from "@/lib/animations";
 
 /**
  * The main landing page of the application.
@@ -183,37 +184,45 @@ const Index = () => {
   }, [t, tArray]);
 
   return (
-    <main className="min-h-screen pt-20" role="main" aria-label="AI Prompt Engineering Course Landing Page">
+    <motion.main
+      className="min-h-screen pt-20"
+      role="main"
+      aria-label="AI Prompt Engineering Course Landing Page"
+      variants={pageTransition}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+    >
       <Navbar />
       <SectionProgress />
-      
+
       <section aria-label="Hero Section" id="hero">
         <HeroSection />
       </section>
-      
+
       <section aria-label="Course Philosophy" id="course-philosophy">
         <CoursePhilosophy />
       </section>
-      
+
       <section aria-label="Course Curriculum" id="course-curriculum">
         <CourseBreakdown />
       </section>
-      
+
       <section aria-label="Course Benefits" id="course-benefits">
         <BenefitsSection />
       </section>
-      
+
       <section aria-label="Student Testimonials" id="testimonials">
         <TestimonialsSection />
       </section>
-      
+
       <section aria-label="Enrollment Call to Action" id="enrollment-cta">
         <CTASection />
       </section>
-      
+
       <Footer />
       <BackToTop />
-    </main>
+    </motion.main>
   );
 };
 
