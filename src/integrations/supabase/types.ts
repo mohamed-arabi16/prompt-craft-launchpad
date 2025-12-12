@@ -80,6 +80,63 @@ export type Database = {
         }
         Relationships: []
       }
+      course_days: {
+        Row: {
+          badge_ar: string | null
+          badge_en: string | null
+          created_at: string
+          day_number: number
+          description_ar: string
+          description_en: string
+          duration: string | null
+          id: string
+          is_active: boolean
+          techniques_ar: Json
+          techniques_en: Json
+          title_ar: string
+          title_en: string
+          topics_ar: Json
+          topics_en: Json
+          updated_at: string
+        }
+        Insert: {
+          badge_ar?: string | null
+          badge_en?: string | null
+          created_at?: string
+          day_number: number
+          description_ar: string
+          description_en: string
+          duration?: string | null
+          id?: string
+          is_active?: boolean
+          techniques_ar?: Json
+          techniques_en?: Json
+          title_ar: string
+          title_en: string
+          topics_ar?: Json
+          topics_en?: Json
+          updated_at?: string
+        }
+        Update: {
+          badge_ar?: string | null
+          badge_en?: string | null
+          created_at?: string
+          day_number?: number
+          description_ar?: string
+          description_en?: string
+          duration?: string | null
+          id?: string
+          is_active?: boolean
+          techniques_ar?: Json
+          techniques_en?: Json
+          title_ar?: string
+          title_en?: string
+          topics_ar?: Json
+          topics_en?: Json
+          updated_at?: string
+        }
+        Relationships: []
+      }
       course_materials: {
         Row: {
           category: string
@@ -130,6 +187,36 @@ export type Database = {
           requires_access?: boolean
           title?: string
           title_ar?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      course_settings: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          setting_key: string
+          setting_type: string
+          setting_value: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          setting_key: string
+          setting_type?: string
+          setting_value: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          setting_key?: string
+          setting_type?: string
+          setting_value?: string
           updated_at?: string
         }
         Relationships: []
