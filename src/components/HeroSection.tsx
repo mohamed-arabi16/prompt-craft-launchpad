@@ -156,13 +156,13 @@ const HeroSection = () => {
           {user ? (
             <DashboardButton
               variant="outline"
-              className="border-primary/50 text-foreground hover:bg-primary hover:text-primary-foreground px-8 py-4 text-lg backdrop-blur-sm"
+              className="border-primary/50 text-foreground hover:bg-primary hover:text-primary-foreground h-14 px-8 text-lg backdrop-blur-sm"
               dashboardText={t('heroAccessDashboard')}
             />
           ) : (
             <DownloadButton
               variant="outline"
-              className="border-primary/50 text-foreground hover:bg-primary hover:text-primary-foreground px-8 py-4 text-lg backdrop-blur-sm"
+              className="border-primary/50 text-foreground hover:bg-primary hover:text-primary-foreground h-14 px-8 text-lg backdrop-blur-sm"
               materialCategory="course_guide"
               signInText={t('heroDownloadButton')}
               downloadText={t('heroDownloadButton')}
