@@ -65,59 +65,77 @@ const BenefitsSection = () => {
           </div>
         </SectionReveal>
 
-        <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-3 gap-8" staggerDelay={0.1}>
-          {activeBenefits.map((benefit, index) => {
-            const title = currentLanguage === 'ar' ? benefit.title_ar : benefit.title_en;
-            const description = currentLanguage === 'ar' ? benefit.description_ar : benefit.description_en;
-            // For 5 items in a 3-column grid, center the last 2 items
-            const isLastRow = index >= 3;
-            
-            return (
-              <StaggerItem 
-                key={benefit.id}
-                className={isLastRow && index === 3 ? 'lg:col-start-1 lg:col-end-2 lg:justify-self-end lg:w-full lg:max-w-sm lg:ml-auto' : 
-                           isLastRow && index === 4 ? 'lg:col-start-2 lg:col-end-3 lg:justify-self-start lg:w-full lg:max-w-sm lg:mr-auto' : ''}
-              >
-                {prefersReducedMotion ? (
-                  <div className="course-card h-full">
-                    <div className="flex items-center justify-center w-16 h-16 bg-primary rounded-2xl mb-6">
-                      <DynamicIcon name={benefit.icon_name} className="h-8 w-8 text-primary-foreground" />
-                    </div>
-                    <h3 className="text-xl font-semibold text-foreground mb-3">
-                      {title}
-                    </h3>
-                    <p className="text-muted-foreground leading-relaxed">
-                      {description}
-                    </p>
-                  </div>
-                ) : (
-                  <TiltCard
-                    className="p-6 h-full"
-                    maxTilt={8}
-                    glare
-                    scale={1.02}
-                  >
-                    <motion.div
-                      className="flex items-center justify-center w-16 h-16 bg-gradient-to-br from-primary to-cyan rounded-2xl mb-6"
-                      whileHover={{ scale: 1.1, rotate: 5 }}
-                      transition={{ type: 'spring', stiffness: 300 }}
-                    >
-                      <DynamicIcon name={benefit.icon_name} className="h-8 w-8 text-primary-foreground" />
-                    </motion.div>
+        {/* Benefits Grid - center last row items when odd number */}
+        {(() => {
+          const totalItems = activeBenefits.length;
+          const isOdd = totalItems % 3 !== 0;
+          const lastRowCount = totalItems % 3;
+          const lastRowStartIndex = totalItems - lastRowCount;
+          
+          return (
+            <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-3 gap-8" staggerDelay={0.1}>
+              {activeBenefits.map((benefit, index) => {
+                const title = currentLanguage === 'ar' ? benefit.title_ar : benefit.title_en;
+                const description = currentLanguage === 'ar' ? benefit.description_ar : benefit.description_en;
+                
+                // Determine centering class for last incomplete row (only on lg screens)
+                const isInLastRow = isOdd && index >= lastRowStartIndex;
+                let lastRowClass = '';
+                
+                if (isInLastRow && lastRowCount === 1) {
+                  lastRowClass = 'lg:col-start-2';
+                } else if (isInLastRow && lastRowCount === 2) {
+                  if (index === lastRowStartIndex) {
+                    lastRowClass = 'lg:col-start-1 lg:justify-self-center';
+                  } else {
+                    lastRowClass = 'lg:col-start-3 lg:justify-self-center';
+                  }
+                }
+                
+                return (
+                  <StaggerItem key={benefit.id} className={lastRowClass}>
+                    {prefersReducedMotion ? (
+                      <div className="course-card h-full">
+                        <div className="flex items-center justify-center w-16 h-16 bg-primary rounded-2xl mb-6">
+                          <DynamicIcon name={benefit.icon_name} className="h-8 w-8 text-primary-foreground" />
+                        </div>
+                        <h3 className="text-xl font-semibold text-foreground mb-3">
+                          {title}
+                        </h3>
+                        <p className="text-muted-foreground leading-relaxed">
+                          {description}
+                        </p>
+                      </div>
+                    ) : (
+                      <TiltCard
+                        className="p-6 h-full"
+                        maxTilt={8}
+                        glare
+                        scale={1.02}
+                      >
+                        <motion.div
+                          className="flex items-center justify-center w-16 h-16 bg-gradient-to-br from-primary to-cyan rounded-2xl mb-6"
+                          whileHover={{ scale: 1.1, rotate: 5 }}
+                          transition={{ type: 'spring', stiffness: 300 }}
+                        >
+                          <DynamicIcon name={benefit.icon_name} className="h-8 w-8 text-primary-foreground" />
+                        </motion.div>
 
-                    <h3 className="text-xl font-semibold text-foreground mb-3">
-                      {title}
-                    </h3>
+                        <h3 className="text-xl font-semibold text-foreground mb-3">
+                          {title}
+                        </h3>
 
-                    <p className="text-muted-foreground leading-relaxed">
-                      {description}
-                    </p>
-                  </TiltCard>
-                )}
-              </StaggerItem>
-            );
-          })}
-        </StaggerContainer>
+                        <p className="text-muted-foreground leading-relaxed">
+                          {description}
+                        </p>
+                      </TiltCard>
+                    )}
+                  </StaggerItem>
+                );
+              })}
+            </StaggerContainer>
+          );
+        })()}
       </div>
     </section>
   );
