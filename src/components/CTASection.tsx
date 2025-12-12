@@ -92,12 +92,12 @@ const CTASection = () => {
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/enrollment">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-stretch">
+              <Link to="/enrollment" className="w-full sm:w-auto">
                 <MagneticButton
                   variant="primary"
                   size="lg"
-                  className="group w-full sm:w-auto"
+                  className="group w-full h-14 px-8 text-lg"
                   glow
                 >
                   {t('ctaEnrollButton')}
@@ -106,7 +106,7 @@ const CTASection = () => {
               </Link>
               <DownloadButton
                 variant="outline"
-                className="border-primary/50 text-foreground hover:bg-primary hover:text-primary-foreground px-8 py-4 text-lg backdrop-blur-sm"
+                className="border-primary/50 text-foreground hover:bg-primary hover:text-primary-foreground h-14 px-8 text-lg backdrop-blur-sm w-full sm:w-auto"
                 materialCategory="course_guide"
                 signInText={t('ctaDownloadButton')}
                 downloadText={t('ctaAccessDashboard')}
