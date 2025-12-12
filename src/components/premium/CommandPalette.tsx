@@ -42,7 +42,7 @@ interface CommandPaletteProps {
 const CommandPalette = ({ onToggleLanguage }: CommandPaletteProps) => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-  const { t, language } = useTranslation();
+  const { t, currentLanguage } = useTranslation();
   const { user } = useAuth();
   const { soundEnabled, toggleSound } = useSoundEnabled();
 
@@ -144,7 +144,7 @@ const CommandPalette = ({ onToggleLanguage }: CommandPaletteProps) => {
                 className="flex items-center gap-2 cursor-pointer"
               >
                 <Languages className="h-4 w-4" />
-                <span>{language === 'en' ? 'Switch to Arabic' : 'Switch to English'}</span>
+                <span>{currentLanguage === 'en' ? 'Switch to Arabic' : 'Switch to English'}</span>
               </CommandItem>
 
               <CommandItem

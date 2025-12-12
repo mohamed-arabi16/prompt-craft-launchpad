@@ -42,7 +42,8 @@
       }
     },
     "submit": "Complete Enrollment",
-    "dataUsage": "<strong>Data Usage:</strong> Your information will be used to process your enrollment, issue course certificates, and provide course updates. We respect your privacy and will never share your data with third parties.",
+    "dataUsageTitle": "Data Usage:",
+    "dataUsageText": "Your information will be used to process your enrollment, issue course certificates, and provide course updates. We respect your privacy and will never share your data with third parties.",
     "requiredFields": "Fields marked with * are required"
   },
   "success": {
@@ -368,5 +369,13 @@
   "glossaryChainOfThought": "A technique that encourages the model to show its step-by-step reasoning process.",
   "glossaryTemperature": "A parameter that controls the randomness and creativity of model responses, from 0 (deterministic) to 1 (creative).",
   "glossaryFineTuning": "The process of further training a pre-trained model on specific data to improve its performance on particular tasks.",
-  "relatedResources": "Related Resources"
+  "relatedResources": "Related Resources",
+  "whyChooseUs": "Why Choose Us",
+  "ctaBadge": "Limited Time Offer",
+  "courseBreakdownBadge": "5-Day Program",
+  "day1Badge": "Day 1",
+  "day2Badge": "Day 2",
+  "day3Badge": "Day 3",
+  "day4Badge": "Day 4",
+  "day5Badge": "Day 5"
 }

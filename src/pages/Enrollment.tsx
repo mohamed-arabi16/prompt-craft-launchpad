@@ -225,7 +225,7 @@ const Enrollment = () => {
               <CardDescription className="space-y-2">
                 <p>{t('enrollmentSubtitle')}</p>
                 <p className="text-sm text-muted-foreground">
-                  {t('enrollmentForm.dataUsage')}
+                  <strong>{t('enrollmentForm.dataUsageTitle')}</strong> {t('enrollmentForm.dataUsageText')}
                 </p>
                 <p className="text-xs text-muted-foreground">
                   {t('enrollmentForm.requiredFields')}
