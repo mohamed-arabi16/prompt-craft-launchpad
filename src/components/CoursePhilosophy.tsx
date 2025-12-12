@@ -9,10 +9,16 @@ import { useTranslation } from "@/hooks/useTranslation";
  */
 const CoursePhilosophy = () => {
   const { t } = useTranslation();
-  
+
   return (
-    <section className="py-20 bg-background">
-      <div className="max-w-6xl mx-auto px-6">
+    <section className="py-20 bg-background relative overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/4 -left-32 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 -right-32 w-64 h-64 bg-cyan/5 rounded-full blur-3xl" />
+      </div>
+
+      <div className="max-w-6xl mx-auto px-6 relative z-10">
         <div className="text-center mb-16 fade-in-up">
           <h2 className="text-4xl md:text-5xl font-bold mb-6 text-foreground">
             {t('philosophyTitle')}

@@ -30,8 +30,8 @@ const TestimonialsSection = () => {
     <section id="testimonials" className="py-20 bg-background relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 right-1/4 w-72 h-72 bg-primary/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-1/4 w-72 h-72 bg-cyan/5 rounded-full blur-3xl" />
+        <div className="absolute top-1/4 -left-32 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 -right-32 w-64 h-64 bg-cyan/5 rounded-full blur-3xl" />
       </div>
 
       <div className="max-w-4xl mx-auto px-6 relative z-10">
@@ -130,12 +130,12 @@ const TestimonialsSection = () => {
         </motion.div>
 
         {/* Carousel indicators */}
-        <div className="flex justify-center gap-2 mt-6">
+        <div className="flex justify-center gap-3 mt-8">
           {testimonialsData.map((_, index) => (
             <motion.div
               key={index}
-              className="w-2 h-2 rounded-full bg-primary/30"
-              whileHover={{ scale: 1.5, backgroundColor: 'hsl(var(--primary))' }}
+              className="h-3 w-3 rounded-full border-2 transition-all duration-300 border-muted-foreground/50 hover:border-primary cursor-pointer"
+              whileHover={{ scale: 1.25, borderColor: 'hsl(var(--primary))' }}
             />
           ))}
         </div>

@@ -104,7 +104,7 @@ const HeroSection = () => {
         {/* Badge */}
         <motion.div variants={fadeInUp} className="mb-6">
           <motion.span
-            className="inline-flex items-center px-4 py-2 bg-card/60 backdrop-blur-xl rounded-full text-foreground text-sm font-medium border border-primary/30 shadow-lg shadow-primary/10"
+            className="inline-flex items-center px-4 py-1.5 bg-primary/10 backdrop-blur-sm rounded-full text-primary text-sm font-medium border border-primary/20"
             whileHover={{ scale: 1.05, borderColor: 'hsl(var(--primary))' }}
             transition={{ duration: 0.2 }}
           >
