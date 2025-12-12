@@ -1,21 +1,33 @@
 import { motion, useReducedMotion } from 'framer-motion';
 import { Check, Info } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
-import { SectionReveal, GlassCard } from "./premium";
+import { useTargetAudience } from "@/hooks/useTargetAudience";
+import { SectionReveal, GlassCard, CardSkeleton } from "./premium";
 
 /**
- * Target audience section explaining who the course is for
+ * Target audience section with dynamic data from database
  */
 const TargetAudienceSection = () => {
-  const { t } = useTranslation();
+  const { t, currentLanguage } = useTranslation();
+  const { items, loading } = useTargetAudience();
   const prefersReducedMotion = useReducedMotion();
 
-  const audiencePoints = [
-    t('targetAudience1'),
-    t('targetAudience2'),
-    t('targetAudience3'),
-    t('targetAudience4'),
-  ];
+  // Filter active items
+  const activeItems = items.filter(i => i.is_active);
+
+  if (loading) {
+    return (
+      <section id="target-audience" className="py-20 bg-background">
+        <div className="max-w-4xl mx-auto px-6">
+          <CardSkeleton />
+        </div>
+      </section>
+    );
+  }
+
+  if (activeItems.length === 0) {
+    return null;
+  }
 
   return (
     <section id="target-audience" className="py-20 bg-background relative overflow-hidden">
@@ -52,21 +64,24 @@ const TargetAudienceSection = () => {
           className="p-8"
         >
           <ul className="space-y-6">
-            {audiencePoints.map((point, index) => (
-              <motion.li
-                key={index}
-                className="flex items-start gap-4"
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-              >
-                <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-br from-primary to-cyan rounded-full flex items-center justify-center mt-1">
-                  <Check className="h-4 w-4 text-primary-foreground" />
-                </div>
-                <p className="text-lg text-foreground leading-relaxed">{point}</p>
-              </motion.li>
-            ))}
+            {activeItems.map((item, index) => {
+              const content = currentLanguage === 'ar' ? item.content_ar : item.content_en;
+              return (
+                <motion.li
+                  key={item.id}
+                  className="flex items-start gap-4"
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                >
+                  <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-br from-primary to-cyan rounded-full flex items-center justify-center mt-1">
+                    <Check className="h-4 w-4 text-primary-foreground" />
+                  </div>
+                  <p className="text-lg text-foreground leading-relaxed">{content}</p>
+                </motion.li>
+              );
+            })}
           </ul>
 
           {/* Optional note */}

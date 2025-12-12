@@ -3,7 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { 
   ShieldCheck, Home, Users, Calendar, MessageSquare, 
-  HelpCircle, Star, Target, FileText, Settings 
+  HelpCircle, Star, Target, FileText, Settings, FolderOpen
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import AdminEnrollments from "./AdminEnrollments";
@@ -14,6 +14,7 @@ import AdminBenefits from "./AdminBenefits";
 import AdminTargetAudience from "./AdminTargetAudience";
 import AdminSiteContent from "./AdminSiteContent";
 import AdminCourseSettings from "./AdminCourseSettings";
+import AdminMaterials from "./AdminMaterials";
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState("enrollments");
@@ -34,7 +35,7 @@ const AdminDashboard = () => {
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-        <TabsList className="grid grid-cols-4 lg:grid-cols-8 gap-2 h-auto p-2 bg-card">
+        <TabsList className="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-9 gap-2 h-auto p-2 bg-card">
           <TabsTrigger value="enrollments" className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
             <Users className="h-4 w-4" />
             <span className="hidden sm:inline">التسجيلات</span>
@@ -42,6 +43,10 @@ const AdminDashboard = () => {
           <TabsTrigger value="course-days" className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
             <Calendar className="h-4 w-4" />
             <span className="hidden sm:inline">الأيام</span>
+          </TabsTrigger>
+          <TabsTrigger value="materials" className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+            <FolderOpen className="h-4 w-4" />
+            <span className="hidden sm:inline">المواد</span>
           </TabsTrigger>
           <TabsTrigger value="testimonials" className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
             <MessageSquare className="h-4 w-4" />
@@ -74,6 +79,9 @@ const AdminDashboard = () => {
         </TabsContent>
         <TabsContent value="course-days">
           <AdminCourseDays />
+        </TabsContent>
+        <TabsContent value="materials">
+          <AdminMaterials />
         </TabsContent>
         <TabsContent value="testimonials">
           <AdminTestimonials />
