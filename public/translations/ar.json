@@ -21,6 +21,7 @@
   "courseTitle": "برنامج الأيام الخمسة",
   "ctaTitle": "هل أنت مستعد لتطوير مهاراتك في الذكاء الاصطناعي؟",
   "ctaSubtitle": "ستحصل على مسار تدريبي واضح وتمارين تطبيقية، مع مواد مساعدة ودعم أثناء فترة الدورة.",
+  "ctaBadge": "عرض محدود",
   "ctaDiscount": "خصم لفترة محدودة",
   "ctaCurrentPrice": "السعر الحالي",
   "ctaOriginalPrice": "السعر الأصلي",
@@ -264,7 +265,8 @@
     "downloadPDF": "تحميل PDF",
     "additionalResources": "موارد إضافية",
     "completeGuide": "دليل الدورة الكامل (PDF)",
-    "promptTemplates": "مجموعة قوالب الأوامر"
+    "promptTemplates": "مجموعة قوالب الأوامر",
+    "backToHome": "العودة للرئيسية"
   },
   "auth": {
     "title": "دورة الذكاء الاصطناعي المكثفة",

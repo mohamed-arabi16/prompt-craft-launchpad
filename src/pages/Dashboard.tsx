@@ -5,9 +5,10 @@ import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/contexts/AuthContext';
 import { useTranslation } from '@/hooks/useTranslation';
 import { supabase } from '@/integrations/supabase/client';
-import { Download, User, Mail, Calendar, Phone } from 'lucide-react';
+import { Download, User, Mail, Calendar, Phone, Home } from 'lucide-react';
 import LoadingSpinner from '@/components/LoadingSpinner';
-import { useDownload } from '@/hooks/useDownload';
+import { useCourseMaterials } from '@/hooks/useCourseMaterials';
+import { Link } from 'react-router-dom';
 
 /**
  * @interface Profile
@@ -44,10 +45,11 @@ interface CourseAccess {
 const Dashboard = () => {
   const { user, signOut } = useAuth();
   const { t } = useTranslation();
-  const { downloadFile, isLoading: downloadLoading } = useDownload();
+  const { materials, downloadMaterial, loading: materialsLoading } = useCourseMaterials();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [courseAccess, setCourseAccess] = useState<CourseAccess | null>(null);
   const [loading, setLoading] = useState(true);
+  const [downloadingId, setDownloadingId] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -82,13 +84,15 @@ const Dashboard = () => {
   }, [user]);
 
   /**
-   * Handles the download of a course day's materials.
+   * Handles the download of a course material.
    *
-   * @param {number} day - The day number to download.
+   * @param {string} materialId - The material ID to download.
    */
-  const handleDownloadDay = (day: number) => {
+  const handleDownload = async (materialId: string) => {
     if (courseAccess?.has_access) {
-      downloadFile(`ai-prompt-course-day-${day}.pdf`);
+      setDownloadingId(materialId);
+      await downloadMaterial(materialId, true);
+      setDownloadingId(null);
     }
   };
 
@@ -98,6 +102,11 @@ const Dashboard = () => {
   const handleSignOut = async () => {
     await signOut();
   };
+
+  // Get materials by category
+  const dailyMaterials = materials.filter(m => m.category === 'daily' && m.course_day);
+  const guideMaterial = materials.find(m => m.category === 'course_guide');
+  const templatesMaterial = materials.find(m => m.category === 'templates');
 
   if (loading) {
     return (
@@ -120,9 +129,15 @@ const Dashboard = () => {
             <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
               {t('dashboardSubtitle') || 'Ready to advance your AI expertise? Your course materials are waiting below.'}
             </p>
-            <div className="flex justify-center">
+            <div className="flex justify-center gap-4">
+              <Link to="/">
+                <Button variant="outline" className="bg-background/80 backdrop-blur-sm">
+                  <Home className="h-4 w-4 ltr:mr-2 rtl:ml-2" />
+                  {t('dashboard.backToHome') || t('navHome')}
+                </Button>
+              </Link>
               <Button variant="outline" onClick={handleSignOut} className="bg-background/80 backdrop-blur-sm">
-                {t('signOut') || 'Sign Out'}
+                {t('buttons.signOut')}
               </Button>
             </div>
           </div>
@@ -202,67 +217,95 @@ const Dashboard = () => {
                     </div>
 
                     {/* Course Days */}
-                    {Array.from({ length: 5 }).map((_, index) => {
-                      const day = index + 1;
-                      return (
-                        <div key={day} className="flex items-center justify-between p-4 border border-border rounded-lg">
+                    {dailyMaterials.length > 0 ? (
+                      dailyMaterials.sort((a, b) => (a.course_day || 0) - (b.course_day || 0)).map((material) => (
+                        <div key={material.id} className="flex items-center justify-between p-4 border border-border rounded-lg">
                           <div>
-                            <h4 className="font-semibold">{t('dashboard.day')} {day}: {t(`day${day}Title`)}</h4>
+                            <h4 className="font-semibold">{t('dashboard.day')} {material.course_day}: {t(`day${material.course_day}Title`)}</h4>
                             <p className="text-sm text-muted-foreground mt-1">
-                              {t(`day${day}Description`)}
+                              {t(`day${material.course_day}Description`)}
                             </p>
                           </div>
                           <Button
                             variant="outline"
                             size="sm"
-                            onClick={() => handleDownloadDay(day)}
-                            disabled={downloadLoading}
-                            className="ml-4"
+                            onClick={() => handleDownload(material.id)}
+                            disabled={downloadingId === material.id}
+                            className="ltr:ml-4 rtl:mr-4"
                           >
-                            {downloadLoading ? (
-                              <LoadingSpinner size="sm" className="mr-2" />
+                            {downloadingId === material.id ? (
+                              <LoadingSpinner size="sm" className="ltr:mr-2 rtl:ml-2" />
                             ) : (
-                              <Download className="h-4 w-4 mr-2" />
+                              <Download className="h-4 w-4 ltr:mr-2 rtl:ml-2" />
                             )}
                             {t('dashboard.downloadPDF')}
                           </Button>
                         </div>
-                      );
-                    })}
+                      ))
+                    ) : (
+                      Array.from({ length: 5 }).map((_, index) => {
+                        const day = index + 1;
+                        return (
+                          <div key={day} className="flex items-center justify-between p-4 border border-border rounded-lg opacity-60">
+                            <div>
+                              <h4 className="font-semibold">{t('dashboard.day')} {day}: {t(`day${day}Title`)}</h4>
+                              <p className="text-sm text-muted-foreground mt-1">
+                                {t(`day${day}Description`)}
+                              </p>
+                            </div>
+                            <Badge variant="secondary">{t('comingSoon')}</Badge>
+                          </div>
+                        );
+                      })
+                    )}
 
                     {/* Additional Resources */}
                     <div className="mt-8 pt-6 border-t border-border">
                       <h4 className="font-semibold mb-4">{t('dashboard.additionalResources')}</h4>
                       <div className="space-y-2">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => downloadFile('ai-prompt-course-complete-guide.pdf')}
-                          disabled={downloadLoading}
-                          className="w-full justify-start"
-                        >
-                          {downloadLoading ? (
-                            <LoadingSpinner size="sm" className="mr-2" />
-                          ) : (
-                            <Download className="h-4 w-4 mr-2" />
-                          )}
-                          {t('dashboard.completeGuide')}
-                        </Button>
+                        {guideMaterial ? (
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleDownload(guideMaterial.id)}
+                            disabled={downloadingId === guideMaterial.id}
+                            className="w-full justify-start"
+                          >
+                            {downloadingId === guideMaterial.id ? (
+                              <LoadingSpinner size="sm" className="ltr:mr-2 rtl:ml-2" />
+                            ) : (
+                              <Download className="h-4 w-4 ltr:mr-2 rtl:ml-2" />
+                            )}
+                            {t('dashboard.completeGuide')}
+                          </Button>
+                        ) : (
+                          <Button variant="outline" size="sm" disabled className="w-full justify-start opacity-60">
+                            <Download className="h-4 w-4 ltr:mr-2 rtl:ml-2" />
+                            {t('dashboard.completeGuide')} - {t('comingSoon')}
+                          </Button>
+                        )}
 
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => downloadFile('ai-prompt-templates.pdf')}
-                          disabled={downloadLoading}
-                          className="w-full justify-start"
-                        >
-                          {downloadLoading ? (
-                            <LoadingSpinner size="sm" className="mr-2" />
-                          ) : (
-                            <Download className="h-4 w-4 mr-2" />
-                          )}
-                          {t('dashboard.promptTemplates')}
-                        </Button>
+                        {templatesMaterial ? (
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleDownload(templatesMaterial.id)}
+                            disabled={downloadingId === templatesMaterial.id}
+                            className="w-full justify-start"
+                          >
+                            {downloadingId === templatesMaterial.id ? (
+                              <LoadingSpinner size="sm" className="ltr:mr-2 rtl:ml-2" />
+                            ) : (
+                              <Download className="h-4 w-4 ltr:mr-2 rtl:ml-2" />
+                            )}
+                            {t('dashboard.promptTemplates')}
+                          </Button>
+                        ) : (
+                          <Button variant="outline" size="sm" disabled className="w-full justify-start opacity-60">
+                            <Download className="h-4 w-4 ltr:mr-2 rtl:ml-2" />
+                            {t('dashboard.promptTemplates')} - {t('comingSoon')}
+                          </Button>
+                        )}
                       </div>
                     </div>
                   </div>

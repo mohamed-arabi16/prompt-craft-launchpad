@@ -4,13 +4,20 @@ import { useTranslation } from "@/hooks/useTranslation";
 import { Link } from "react-router-dom";
 import DownloadButton from "./DownloadButton";
 import { GlassCard, MagneticButton, SectionReveal, StaggerContainer, StaggerItem } from "./premium";
+import { useCourseSettings } from "@/hooks/useCourseSettings";
 
 /**
  * Premium CTA section with glassmorphism pricing card and magnetic buttons
  */
 const CTASection = () => {
-  const { t, tArray } = useTranslation();
+  const { t, tArray, currentLanguage } = useTranslation();
   const prefersReducedMotion = useReducedMotion();
+  const { getSetting, loading } = useCourseSettings();
+
+  // Get dynamic course settings
+  const currentPrice = getSetting('course_price') || (currentLanguage === 'ar' ? '٤٩٩ ريال' : '499 SAR');
+  const originalPrice = getSetting('original_price') || (currentLanguage === 'ar' ? '٩٩٩ ريال' : '999 SAR');
+  const availableSeats = getSetting('available_seats') || '20';
 
   return (
     <section className="py-20 bg-background relative overflow-hidden">
@@ -85,10 +92,13 @@ const CTASection = () => {
                 viewport={{ once: true }}
                 transition={{ type: 'spring', stiffness: 200 }}
               >
-                {t('ctaCurrentPrice')}
+                {currentPrice}
               </motion.div>
               <div className="text-muted-foreground line-through text-lg">
-                {t('ctaOriginalPrice')}
+                {originalPrice}
+              </div>
+              <div className="text-primary text-sm mt-2">
+                {currentLanguage === 'ar' ? `${availableSeats} مقاعد متاحة` : `${availableSeats} seats available`}
               </div>
             </div>
 
