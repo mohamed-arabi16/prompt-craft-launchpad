@@ -63,6 +63,14 @@ npm run dev
 
 This will start the development server at `http://localhost:5173`.
 
+## Development workflow
+
+- `npm run lint`: Run ESLint against the repository to catch formatting and code-quality issues. Use this before opening a pull request to ensure the codebase matches the project's standards. The command prints lint results to the terminal and exits with a non-zero status if fixes are needed.
+- `npm run test`: Execute the Vitest unit test suite in headless mode. Run this regularly during development and before pushing changes to confirm application logic remains stable. Successful runs display passing test summaries; failures list the relevant test file and assertion output.
+- `npm run test:ui`: Launch the interactive Vitest UI dashboard, which is helpful for exploring and debugging tests locally. Expect a local web UI to open (or a URL to visit) showing test statuses; keep the process running while investigating failures.
+- `npm run build`: Generate the production-ready bundle with Vite. Use this prior to deployment or when validating the application can produce an optimized build. The compiled assets are emitted to the `dist/` directory.
+- `npm run preview`: Serve the built application locally using Vite Preview. Run this after `npm run build` to verify the production bundle; it starts a local server (default `http://localhost:4173`) that serves files from `dist/`.
+
 ## Project Structure
 
 The project is organized as follows:
