@@ -87,9 +87,12 @@ The project is organized as follows:
     *   `hooks/`: Contains custom React hooks.
     *   `integrations/`: Contains the Supabase client and types.
     *   `lib/`: Contains utility functions.
-    *   `pages/`: Contains the main pages of the application.
+*   `pages/`: Contains the main pages of the application.
 *   `supabase/`: Contains the Supabase database migrations.
 
+## Architecture
+
+See [docs/architecture.md](docs/architecture.md) for a runtime overview of the provider tree, routing flow, and premium UI wrappers.
 ## Supabase deployment and migrations
 
 The project uses Supabase Edge Functions and database migrations stored in the `supabase/` directory. The commands below assume you have the [Supabase CLI](https://supabase.com/docs/guides/cli) installed and are authenticated (`supabase login`).
