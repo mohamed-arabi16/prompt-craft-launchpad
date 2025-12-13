@@ -50,6 +50,9 @@ To get a local copy up and running, follow these simple steps.
     ```
     VITE_SUPABASE_URL=YOUR_SUPABASE_URL
     VITE_SUPABASE_ANON_KEY=YOUR_SUPABASE_ANON_KEY
+    SUPABASE_URL=YOUR_SUPABASE_URL
+    SUPABASE_SERVICE_ROLE_KEY=YOUR_SUPABASE_SERVICE_ROLE_KEY
+    ENVIRONMENT=local
     ```
     You can find these values in your Supabase project settings.
 
@@ -78,6 +81,67 @@ The project is organized as follows:
     *   `lib/`: Contains utility functions.
     *   `pages/`: Contains the main pages of the application.
 *   `supabase/`: Contains the Supabase database migrations.
+
+## Supabase deployment and migrations
+
+The project uses Supabase Edge Functions and database migrations stored in the `supabase/` directory. The commands below assume you have the [Supabase CLI](https://supabase.com/docs/guides/cli) installed and are authenticated (`supabase login`).
+
+### Required environment variables
+
+| Variable | Purpose | Where it is used |
+| --- | --- | --- |
+| `SUPABASE_URL` | Base URL for the Supabase project | Edge Functions (server-side) |
+| `VITE_SUPABASE_URL` | Public URL for the Supabase project | Frontend build and local dev server |
+| `VITE_SUPABASE_ANON_KEY` | Public anon key for client-side auth | Frontend build and local dev server |
+| `SUPABASE_SERVICE_ROLE_KEY` | Service role key for privileged requests inside Edge Functions | `download-material` Edge Function |
+| `ENVIRONMENT` | Label for health endpoint responses (`local`, `staging`, `production`) | `health-check` Edge Function (optional) |
+
+Store production secrets with `supabase secrets set SUPABASE_SERVICE_ROLE_KEY=... ENVIRONMENT=production` before deploying functions.
+
+### Running Edge Functions locally
+
+Use the Supabase CLI to serve functions with your project environment:
+
+```sh
+supabase functions serve download-material --env-file .env
+supabase functions serve health-check --env-file .env
+```
+
+Ensure `.env` includes `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, and any other values read by the functions. The CLI automatically injects `SUPABASE_URL` from your linked project when available.
+
+### Deploying Edge Functions
+
+Link the CLI to your project and deploy the functions:
+
+```sh
+supabase link --project-ref YOUR_PROJECT_REF
+supabase functions deploy download-material --project-ref YOUR_PROJECT_REF
+supabase functions deploy health-check --project-ref YOUR_PROJECT_REF
+```
+
+Add production secrets before deploying if they are not already set:
+
+```sh
+supabase secrets set SUPABASE_SERVICE_ROLE_KEY=YOUR_PROD_SERVICE_ROLE_KEY ENVIRONMENT=production --project-ref YOUR_PROJECT_REF
+```
+
+### Applying database migrations
+
+Migrations live in `supabase/migrations`. Apply them to your linked project with:
+
+```sh
+supabase link --project-ref YOUR_PROJECT_REF
+supabase db push --use-migrations --project-ref YOUR_PROJECT_REF
+```
+
+For local development against the Supabase emulator, start the stack and apply migrations:
+
+```sh
+supabase start
+supabase db reset --use-migrations
+```
+
+These commands ensure your database schema stays in sync across environments.
 
 ## Contributing
 
