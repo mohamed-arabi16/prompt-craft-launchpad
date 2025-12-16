@@ -1,11 +1,12 @@
 import { motion, useReducedMotion } from 'framer-motion';
-import { Check, Info } from "lucide-react";
+import { Check, Info, FileText, BookOpen, Briefcase, Share2 } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useTargetAudience } from "@/hooks/useTargetAudience";
 import { SectionReveal, GlassCard, CardSkeleton } from "./premium";
 
 /**
  * Target audience section with dynamic data from database
+ * Updated with outputs grid
  */
 const TargetAudienceSection = () => {
   const { t, currentLanguage } = useTranslation();
@@ -15,10 +16,18 @@ const TargetAudienceSection = () => {
   // Filter active items
   const activeItems = items.filter(i => i.is_active);
 
+  // Outputs that users will leave with
+  const outputs = [
+    { icon: FileText, text: t('output1') },
+    { icon: BookOpen, text: t('output2') },
+    { icon: Briefcase, text: t('output3') },
+    { icon: Share2, text: t('output4') },
+  ];
+
   if (loading) {
     return (
-      <section id="target-audience" className="py-20 bg-background">
-        <div className="max-w-4xl mx-auto px-6">
+      <section id="target-audience" className="py-12 bg-background">
+        <div className="max-w-5xl mx-auto px-6">
           <CardSkeleton />
         </div>
       </section>
@@ -30,76 +39,110 @@ const TargetAudienceSection = () => {
   }
 
   return (
-    <section id="target-audience" className="py-20 bg-background relative overflow-hidden">
+    <section id="target-audience" className="py-12 bg-background relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 -left-32 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
         <div className="absolute bottom-1/4 -right-32 w-64 h-64 bg-cyan/5 rounded-full blur-3xl" />
       </div>
 
-      <div className="max-w-4xl mx-auto px-6 relative z-10">
+      <div className="max-w-5xl mx-auto px-6 relative z-10">
         <SectionReveal>
-          <div className="text-center mb-12">
+          <div className="text-center mb-8">
             <motion.span
-              className="inline-block px-4 py-1.5 mb-4 text-sm font-medium text-primary bg-primary/10 rounded-full border border-primary/20"
+              className="inline-block px-4 py-1.5 mb-3 text-sm font-medium text-primary bg-primary/10 rounded-full border border-primary/20"
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
             >
               {t('navTargetAudience')}
             </motion.span>
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">
               {t('targetAudienceTitle')}
             </h2>
-            <p className="text-xl text-muted-foreground">
+            <p className="text-lg text-muted-foreground">
               {t('targetAudienceSubtitle')}
             </p>
           </div>
         </SectionReveal>
 
+        {/* Pain-based checklist */}
         <GlassCard
           variant="default"
           glow
           interactive={false}
-          className="p-8"
+          className="p-6 mb-6"
         >
-          <ul className="space-y-6">
+          <ul className="space-y-4">
             {activeItems.map((item, index) => {
               const content = currentLanguage === 'ar' ? item.content_ar : item.content_en;
               return (
                 <motion.li
                   key={item.id}
-                  className="flex items-start gap-4"
+                  className="flex items-start gap-3"
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-br from-primary to-cyan rounded-full flex items-center justify-center mt-1">
-                    <Check className="h-4 w-4 text-primary-foreground" />
+                  <div className="flex-shrink-0 w-7 h-7 bg-gradient-to-br from-primary to-cyan rounded-full flex items-center justify-center mt-0.5">
+                    <Check className="h-3.5 w-3.5 text-primary-foreground" />
                   </div>
-                  <p className="text-lg text-foreground leading-relaxed">{content}</p>
+                  <p className="text-base text-foreground leading-relaxed">{content}</p>
                 </motion.li>
               );
             })}
           </ul>
 
-          {/* Optional note */}
+          {/* Note */}
           <motion.div
-            className="mt-8 pt-6 border-t border-border/50"
+            className="mt-5 pt-4 border-t border-border/50"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.5 }}
           >
             <div className="flex items-center gap-3 text-muted-foreground">
-              <div className="flex-shrink-0 w-8 h-8 bg-muted/50 rounded-full flex items-center justify-center">
-                <Info className="h-4 w-4 text-primary" />
+              <div className="flex-shrink-0 w-7 h-7 bg-muted/50 rounded-full flex items-center justify-center">
+                <Info className="h-3.5 w-3.5 text-primary" />
               </div>
-              <p className="text-base italic">{t('targetAudienceNote')}</p>
+              <p className="text-sm italic">{t('targetAudienceNote')}</p>
             </div>
           </motion.div>
         </GlassCard>
+
+        {/* Outputs Grid - NEW */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3 }}
+        >
+          <h3 className="text-xl font-semibold text-foreground mb-4 text-center">
+            {t('outputsTitle')}
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {outputs.map((output, index) => {
+              const Icon = output.icon;
+              return (
+                <motion.div
+                  key={index}
+                  className="flex items-center gap-3 p-3 rounded-xl bg-card/30 backdrop-blur-sm border border-border/50"
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.4 + index * 0.1 }}
+                  whileHover={prefersReducedMotion ? {} : { scale: 1.02, borderColor: 'hsl(var(--primary) / 0.5)' }}
+                >
+                  <div className="flex-shrink-0 p-2 rounded-lg bg-primary/10">
+                    <Icon className="h-4 w-4 text-primary" />
+                  </div>
+                  <p className="text-sm text-foreground">{output.text}</p>
+                </motion.div>
+              );
+            })}
+          </div>
+        </motion.div>
       </div>
     </section>
   );

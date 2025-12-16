@@ -5,7 +5,7 @@ import HeroSection from "@/components/HeroSection";
 import CoursePhilosophy from "@/components/CoursePhilosophy";
 import TargetAudienceSection from "@/components/TargetAudienceSection";
 import CourseBreakdown from "@/components/CourseBreakdown";
-import BenefitsSection from "@/components/BenefitsSection";
+import Day5OutcomeSection from "@/components/Day5OutcomeSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
@@ -16,6 +16,7 @@ import { pageTransition } from "@/lib/animations";
 
 /**
  * The main landing page of the application.
+ * Streamlined to 6-7 main sections for better clarity and conversion.
  */
 const Index = () => {
   const { t, tArray } = useTranslation();
@@ -129,30 +130,37 @@ const Index = () => {
       <Navbar />
       <SectionProgress />
 
+      {/* 1. Hero Section */}
       <section aria-label="Hero Section" id="hero">
         <HeroSection />
       </section>
 
-      <section aria-label="Course Philosophy" id="course-philosophy">
+      {/* 2. How the bootcamp works (replaces Philosophy) */}
+      <section aria-label="How the bootcamp works" id="how-it-works">
         <CoursePhilosophy />
       </section>
 
+      {/* 3. Who is this for? + Outputs */}
       <section aria-label="Target Audience" id="target-audience-section">
         <TargetAudienceSection />
       </section>
 
+      {/* 4. 5-Day Program */}
       <section aria-label="Course Curriculum" id="course-curriculum-section">
         <CourseBreakdown />
       </section>
 
-      <section aria-label="Course Benefits" id="course-benefits">
-        <BenefitsSection />
+      {/* 5. Day 5 Outcome */}
+      <section aria-label="Day 5 Outcome" id="day5-outcome">
+        <Day5OutcomeSection />
       </section>
 
+      {/* 6. Testimonials */}
       <section aria-label="Participant Testimonials" id="testimonials-section">
         <TestimonialsSection />
       </section>
 
+      {/* 7. Pricing CTA */}
       <section aria-label="Enrollment Call to Action" id="enrollment-cta">
         <CTASection />
       </section>
