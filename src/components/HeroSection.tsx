@@ -1,11 +1,8 @@
 import { motion, useReducedMotion } from 'framer-motion';
-import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles, Brain, Zap, Target, Lightbulb } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
-import { useAuth } from "@/contexts/AuthContext";
 import { Link } from "react-router-dom";
 import DownloadButton from "./DownloadButton";
-import DashboardButton from "./DashboardButton";
 import { AnimatedBackground, Floating3DElements, MagneticButton } from "./premium";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
 
@@ -14,8 +11,14 @@ import { fadeInUp, staggerContainer } from "@/lib/animations";
  */
 const HeroSection = () => {
   const { t } = useTranslation();
-  const { user } = useAuth();
   const prefersReducedMotion = useReducedMotion();
+
+  // 3 specific chips as requested
+  const chips = [
+    t('heroChip1'),
+    t('heroChip2'),
+    t('heroChip3'),
+  ];
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background" aria-label="Hero section">
@@ -102,7 +105,7 @@ const HeroSection = () => {
         animate="visible"
       >
         {/* Badge */}
-        <motion.div variants={fadeInUp} className="mb-6">
+        <motion.div variants={fadeInUp} className="mb-4">
           <motion.span
             className="inline-flex items-center px-4 py-1.5 bg-primary/10 backdrop-blur-sm rounded-full text-primary text-sm font-medium border border-primary/20"
             whileHover={{ scale: 1.05, borderColor: 'hsl(var(--primary))' }}
@@ -121,25 +124,33 @@ const HeroSection = () => {
         {/* Main Headline */}
         <motion.h1
           variants={fadeInUp}
-          className="text-5xl md:text-7xl font-bold text-foreground mb-6 leading-tight hero-title"
+          className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground mb-3 leading-tight hero-title"
         >
           <span className="bg-clip-text text-transparent bg-gradient-to-r from-foreground via-foreground to-primary">
             {t('heroTitle')}
           </span>
         </motion.h1>
 
-        {/* Subtitle */}
+        {/* Promise Line - NEW */}
         <motion.p
           variants={fadeInUp}
-          className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed hero-subtitle"
+          className="text-lg md:text-xl text-primary font-medium mb-4 max-w-3xl mx-auto"
+        >
+          {t('heroPromiseLine')}
+        </motion.p>
+
+        {/* Subtitle - Updated to be practical */}
+        <motion.p
+          variants={fadeInUp}
+          className="text-base md:text-lg text-muted-foreground mb-6 max-w-3xl mx-auto leading-relaxed hero-subtitle"
         >
           {t('heroSubtitle')}
         </motion.p>
 
-        {/* CTA Buttons */}
+        {/* CTA Buttons - Primary: Book Your Seat, Secondary: Download Course Guide (PDF) */}
         <motion.div
           variants={fadeInUp}
-          className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8"
+          className="flex flex-col sm:flex-row gap-3 justify-center items-center mb-6"
         >
           <Link to="/enrollment">
             <MagneticButton
@@ -153,31 +164,23 @@ const HeroSection = () => {
             </MagneticButton>
           </Link>
 
-          {user ? (
-            <DashboardButton
-              variant="outline"
-              className="border-primary/50 text-foreground hover:bg-primary hover:text-primary-foreground h-14 px-8 text-lg backdrop-blur-sm"
-              dashboardText={t('heroAccessDashboard')}
-            />
-          ) : (
-            <DownloadButton
-              variant="outline"
-              className="border-primary/50 text-foreground hover:bg-primary hover:text-primary-foreground h-14 px-8 text-lg backdrop-blur-sm"
-              materialCategory="course_guide"
-              signInText={t('heroDownloadButton')}
-              downloadText={t('heroDownloadButton')}
-            />
-          )}
+          <DownloadButton
+            variant="outline"
+            className="border-primary/50 text-foreground hover:bg-primary hover:text-primary-foreground h-14 px-8 text-lg backdrop-blur-sm"
+            materialCategory="course_guide"
+            signInText={t('heroDownloadButton')}
+            downloadText={t('heroDownloadButton')}
+          />
         </motion.div>
 
-        {/* Features */}
+        {/* 3 Chips - Only these 3 specific ones */}
         <motion.div
           variants={fadeInUp}
-          className="flex flex-wrap items-center justify-center gap-4 sm:gap-8 text-muted-foreground text-sm"
+          className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 text-muted-foreground text-sm"
         >
-          {[1, 2, 3].map((num, index) => (
+          {chips.map((chip, index) => (
             <motion.div
-              key={num}
+              key={index}
               className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-card/30 backdrop-blur-sm border border-border/50"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -189,13 +192,13 @@ const HeroSection = () => {
                 animate={prefersReducedMotion ? {} : { scale: [1, 1.2, 1] }}
                 transition={{ duration: 2, repeat: Infinity, delay: index * 0.3 }}
               />
-              <span>{t(`programFeature${num}`)}</span>
+              <span>{chip}</span>
             </motion.div>
           ))}
         </motion.div>
 
         {/* Spacer for scroll indicator */}
-        <div className="h-20" />
+        <div className="h-16" />
       </motion.div>
 
       {/* Scroll indicator - positioned outside content container */}

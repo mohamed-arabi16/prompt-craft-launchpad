@@ -27,7 +27,7 @@ const TestimonialsSection = () => {
 
   if (loading) {
     return (
-      <section id="testimonials" className="py-20 bg-background">
+      <section id="testimonials" className="py-12 bg-background">
         <div className="max-w-4xl mx-auto px-6">
           <CardSkeleton />
         </div>
@@ -40,7 +40,7 @@ const TestimonialsSection = () => {
   }
 
   return (
-    <section id="testimonials" className="py-20 bg-background relative overflow-hidden">
+    <section id="testimonials" className="py-12 bg-background relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 -left-32 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
@@ -49,19 +49,19 @@ const TestimonialsSection = () => {
 
       <div className="max-w-4xl mx-auto px-6 relative z-10">
         <SectionReveal>
-          <div className="text-center mb-12">
+          <div className="text-center mb-8">
             <motion.span
-              className="inline-block px-4 py-1.5 mb-4 text-sm font-medium text-primary bg-primary/10 rounded-full border border-primary/20"
+              className="inline-block px-4 py-1.5 mb-3 text-sm font-medium text-primary bg-primary/10 rounded-full border border-primary/20"
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
             >
               {t('testimonialsBadge')}
             </motion.span>
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">
               {t('testimonialsTitle')}
             </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
               {t('testimonialsSubtitle')}
             </p>
           </div>
