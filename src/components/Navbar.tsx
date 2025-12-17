@@ -4,7 +4,7 @@ import { useTranslation } from "@/hooks/useTranslation";
 import { useAdmin } from "@/hooks/useAdmin";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
-import { Shield, LogIn, LogOut, Menu, X } from "lucide-react";
+import { Shield, LogIn, LogOut, Menu, X, User } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { CommandPalette } from "./premium";
@@ -155,6 +155,16 @@ export default function Navbar() {
             <div className="hidden md:flex items-center gap-3">
               {user ? (
                 <>
+                  <Link to="/dashboard">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="flex items-center gap-2 border-primary/30 hover:border-primary hover:bg-primary/10"
+                    >
+                      <User className="h-4 w-4" />
+                      {t('nav.myAccount') || t('nav.courseMaterials') || 'حسابي'}
+                    </Button>
+                  </Link>
                   {isAdmin && (
                     <Link to="/admin">
                       <Button
@@ -163,7 +173,7 @@ export default function Navbar() {
                         className="flex items-center gap-2 border-primary/30 hover:border-primary hover:bg-primary/10"
                       >
                         <Shield className="h-4 w-4" />
-                        Admin
+                        {t('admin.dashboard') || 'لوحة التحكم'}
                       </Button>
                     </Link>
                   )}
@@ -178,16 +188,26 @@ export default function Navbar() {
                   </Button>
                 </>
               ) : (
-                <Link to="/auth">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="flex items-center gap-2 border-primary/30 hover:border-primary hover:bg-primary/10"
-                  >
-                    <LogIn className="h-4 w-4" />
-                    {t('buttons.signIn')}
-                  </Button>
-                </Link>
+                <>
+                  <Link to="/enroll">
+                    <Button
+                      size="sm"
+                      className="flex items-center gap-2 bg-primary text-primary-foreground hover:bg-primary/90"
+                    >
+                      {t('nav.bookSeat') || t('heroEnrollButton') || 'احجز مقعدك'}
+                    </Button>
+                  </Link>
+                  <Link to="/auth">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="flex items-center gap-2 border-primary/30 hover:border-primary hover:bg-primary/10"
+                    >
+                      <LogIn className="h-4 w-4" />
+                      {t('buttons.signIn')}
+                    </Button>
+                  </Link>
+                </>
               )}
               <LanguageSwitcher />
             </div>
@@ -240,11 +260,17 @@ export default function Navbar() {
                 <div className="flex flex-wrap items-center gap-3 pt-4 mt-2 border-t border-border/50">
                   {user ? (
                     <>
+                      <Link to="/dashboard" onClick={() => setIsMobileMenuOpen(false)}>
+                        <Button variant="outline" size="sm" className="flex items-center gap-2">
+                          <User className="h-4 w-4" />
+                          {t('nav.myAccount') || 'حسابي'}
+                        </Button>
+                      </Link>
                       {isAdmin && (
                         <Link to="/admin" onClick={() => setIsMobileMenuOpen(false)}>
                           <Button variant="outline" size="sm" className="flex items-center gap-2">
                             <Shield className="h-4 w-4" />
-                            Admin
+                            {t('admin.dashboard') || 'لوحة التحكم'}
                           </Button>
                         </Link>
                       )}
@@ -262,12 +288,19 @@ export default function Navbar() {
                       </Button>
                     </>
                   ) : (
-                    <Link to="/auth" onClick={() => setIsMobileMenuOpen(false)}>
-                      <Button variant="outline" size="sm" className="flex items-center gap-2">
-                        <LogIn className="h-4 w-4" />
-                        {t('buttons.signIn')}
-                      </Button>
-                    </Link>
+                    <>
+                      <Link to="/enroll" onClick={() => setIsMobileMenuOpen(false)}>
+                        <Button size="sm" className="flex items-center gap-2 bg-primary text-primary-foreground">
+                          {t('nav.bookSeat') || 'احجز مقعدك'}
+                        </Button>
+                      </Link>
+                      <Link to="/auth" onClick={() => setIsMobileMenuOpen(false)}>
+                        <Button variant="outline" size="sm" className="flex items-center gap-2">
+                          <LogIn className="h-4 w-4" />
+                          {t('buttons.signIn')}
+                        </Button>
+                      </Link>
+                    </>
                   )}
                   <LanguageSwitcher />
                 </div>

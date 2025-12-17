@@ -365,6 +365,32 @@
       "answer": "نعم، ستنضم لمجتمع الخريجين وتحصل على تحديثات مجانية للمحتوى."
     }
   ],
+  "faqMoreQuestions": "هل لديك أسئلة أخرى؟",
+  "contactUs": "تواصل معنا",
+  "enrollmentBadge": "التسجيل متاح الآن",
+  "admin": {
+    "dashboard": "لوحة التحكم"
+  },
+  "nav": {
+    "bookSeat": "احجز مقعدك",
+    "myAccount": "حسابي",
+    "courseMaterials": "مواد الدورة"
+  },
+  "enrollment": {
+    "successTitle": "تم استلام طلبك بنجاح!",
+    "successMessage": "سنقوم بالتواصل معك خلال 24 ساعة لتأكيد المقعد وإتمام عملية التسجيل.",
+    "contactWhatsApp": "تواصل عبر واتساب",
+    "backHome": "العودة للرئيسية"
+  },
+  "pricingNote": "لا يوجد دفع أونلاين. بعد حجز المقعد سنتواصل معك لتأكيد التسجيل وتفاصيل الدفع.",
+  "adminStatuses": {
+    "new": "جديد",
+    "contacted": "تم التواصل",
+    "confirmed": "مؤكد",
+    "accessGranted": "لديه وصول",
+    "rejected": "مرفوض",
+    "archived": "مؤرشف"
+  },
   "metaKeywords": "دورة ذكاء اصطناعي, تعلم AI, ChatGPT, Gemini, كتابة الأوامر, prompt engineering",
   "metaOgTitle": "دورة الذكاء الاصطناعي المكثفة - تعلم استخدام AI بشكل احترافي",
   "metaOgDescription": "تعلم استخدام الذكاء الاصطناعي استخدامًا صحيحًا ووفر وقتك كل يوم. تدريب عملي مباشر خطوة بخطوة",

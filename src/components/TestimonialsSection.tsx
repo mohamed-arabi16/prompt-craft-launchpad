@@ -108,10 +108,10 @@ const TestimonialsSection = () => {
           <Carousel
             plugins={[plugin.current]}
             className="w-full"
-            opts={{ loop: true, align: "center" }}
+            opts={{ loop: true, align: "start" }}
             setApi={setApi}
           >
-            <CarouselContent>
+            <CarouselContent className="-ml-2 md:-ml-4">
             {activeTestimonials.map((testimonial, index) => {
                 const name = currentLanguage === 'ar' ? testimonial.name_ar : testimonial.name_en;
                 const role = currentLanguage === 'ar' ? testimonial.role_ar : testimonial.role_en;
@@ -119,13 +119,13 @@ const TestimonialsSection = () => {
                 const tag = testimonialTags[index % testimonialTags.length];
 
                 return (
-                  <CarouselItem key={testimonial.id} className="md:basis-full">
-                    <div className="px-2">
+                  <CarouselItem key={testimonial.id} className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/2">
+                    <div className="h-full">
                       <GlassCard
                         variant="default"
                         glow
                         interactive={false}
-                        className="p-8"
+                        className="p-6 h-full flex flex-col"
                       >
                         <div className="flex items-center justify-between mb-4">
                           <div className="flex items-center gap-1">
@@ -156,7 +156,7 @@ const TestimonialsSection = () => {
                           </span>
                         </div>
 
-                        <p className="text-foreground mb-8 leading-relaxed text-lg italic">
+                        <p className="text-foreground mb-6 leading-relaxed text-base italic flex-grow">
                           "{content}"
                         </p>
 
