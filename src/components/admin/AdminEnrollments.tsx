@@ -130,7 +130,9 @@ const AdminEnrollments = () => {
   };
 
   const getStatusBadge = (status: string) => {
-    const statusConfig = STATUS_OPTIONS.find(s => s.value === status) || STATUS_OPTIONS[0];
+    // Handle old 'pending' values as 'NEW'
+    const normalizedStatus = status === 'pending' ? 'NEW' : status;
+    const statusConfig = STATUS_OPTIONS.find(s => s.value === normalizedStatus) || STATUS_OPTIONS[0];
     return (
       <Badge className={statusConfig.color}>
         {statusConfig.label}
@@ -149,11 +151,11 @@ const AdminEnrollments = () => {
     return <Badge variant="destructive"><XCircle className="h-3 w-3 ltr:mr-1 rtl:ml-1" />لا يوجد وصول</Badge>;
   };
 
-  // Format date correctly for Arabic locale
+  // Format date in English DD/MM/YYYY format
   const formatDate = (dateString: string) => {
     try {
       const date = new Date(dateString);
-      return date.toLocaleDateString('ar-EG', {
+      return date.toLocaleDateString('en-GB', {
         year: 'numeric',
         month: '2-digit',
         day: '2-digit'
@@ -252,7 +254,7 @@ const AdminEnrollments = () => {
                       <TableCell>{enrollment.phone || '-'}</TableCell>
                       <TableCell>{enrollment.company || '-'}</TableCell>
                       <TableCell><Badge variant="outline">{enrollment.ai_experience || '-'}</Badge></TableCell>
-                      <TableCell>{formatDate(enrollment.created_at)}</TableCell>
+                      <TableCell>{formatDate(enrollment.enrollment_date)}</TableCell>
                       <TableCell>
                         <Select
                           value={enrollment.status || 'NEW'}
