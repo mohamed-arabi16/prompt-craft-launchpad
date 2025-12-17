@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronRight, ChevronLeft, CheckCircle, User, Phone, Mail, MapPin, Target, BarChart3, MessageSquare } from 'lucide-react';
 import { useTranslation } from '@/hooks/useTranslation';
@@ -137,7 +138,7 @@ export default function BookingFormModal({ isOpen, onClose }: BookingFormModalPr
     onClose();
   };
 
-  return (
+  const modalContent = (
     <AnimatePresence>
       {isOpen && (
         <motion.div
@@ -156,14 +157,14 @@ export default function BookingFormModal({ isOpen, onClose }: BookingFormModalPr
             onClick={handleClose}
           />
 
-        {/* Modal */}
-        <motion.div
-          className="relative w-full max-w-lg z-10"
-          initial={{ opacity: 0, scale: 0.95, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          transition={{ duration: 0.2 }}
-        >
+          {/* Modal */}
+          <motion.div
+            className="relative w-full max-w-lg z-10"
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            transition={{ duration: 0.2 }}
+          >
           <GlassCard variant="strong" glow className="p-6 relative">
             {/* Close button */}
             <button
@@ -466,9 +467,13 @@ export default function BookingFormModal({ isOpen, onClose }: BookingFormModalPr
               </>
             )}
           </GlassCard>
+          </motion.div>
         </motion.div>
-      </motion.div>
       )}
     </AnimatePresence>
   );
+
+  // Use portal to render modal at document body level
+  // This ensures fixed positioning works correctly regardless of parent transforms
+  return createPortal(modalContent, document.body);
 }
