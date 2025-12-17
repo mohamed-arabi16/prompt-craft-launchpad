@@ -47,7 +47,15 @@ export default function Navbar() {
       e.preventDefault();
       const element = document.querySelector(href);
       if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
+        // Calculate offset to account for fixed navbar height (80px) + padding (20px)
+        const navbarOffset = 100;
+        const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+        const offsetPosition = elementPosition - navbarOffset;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
       }
     }
   };
@@ -91,8 +99,8 @@ export default function Navbar() {
                   key={link.href}
                   href={link.href}
                   onClick={(e) => handleSmoothScroll(e, link.href)}
-                  className={`relative px-4 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer ${
-                    isActive ? 'text-primary' : 'text-foreground hover:text-primary'
+                  className={`relative px-4 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
+                    isActive ? 'text-primary' : 'text-foreground hover:text-primary hover:bg-muted/30'
                   }`}
                   whileHover={prefersReducedMotion ? {} : { scale: 1.05 }}
                   whileTap={prefersReducedMotion ? {} : { scale: 0.98 }}
@@ -102,11 +110,12 @@ export default function Navbar() {
               ) : (
                 <Link key={link.href} to={link.href}>
                   <motion.span
-                    className={`relative px-4 py-2 rounded-lg text-sm font-medium transition-colors block ${
-                      isActive ? 'text-primary' : 'text-foreground hover:text-primary'
+                    className={`relative px-4 py-2 rounded-lg text-sm font-medium transition-colors block focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
+                      isActive ? 'text-primary' : 'text-foreground hover:text-primary hover:bg-muted/30'
                     }`}
                     whileHover={prefersReducedMotion ? {} : { scale: 1.05 }}
                     whileTap={prefersReducedMotion ? {} : { scale: 0.98 }}
+                    tabIndex={0}
                   >
                     {link.label}
                     {isActive && (

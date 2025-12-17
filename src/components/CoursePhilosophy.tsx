@@ -1,14 +1,14 @@
 import { motion } from 'framer-motion';
 import { useTranslation } from "@/hooks/useTranslation";
 import { SectionReveal, GlassCard } from "./premium";
-import { Layers, Zap, ArrowRight } from "lucide-react";
+import { Layers, Zap, ArrowRight, ChevronDown } from "lucide-react";
 
 /**
  * Renders the "How the bootcamp works" section with 3 cards.
  * Replaces the old "Teaching Philosophy" section.
  */
 const CoursePhilosophy = () => {
-  const { t } = useTranslation();
+  const { t, currentLanguage } = useTranslation();
 
   const cards = [
     {
@@ -28,8 +28,21 @@ const CoursePhilosophy = () => {
     },
   ];
 
+  const scrollToCurriculum = () => {
+    const element = document.querySelector('#course-curriculum');
+    if (element) {
+      const navbarOffset = 100;
+      const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+      const offsetPosition = elementPosition - navbarOffset;
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   return (
-    <section className="py-12 bg-background relative overflow-hidden">
+    <section className="py-10 bg-background relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 -left-32 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
@@ -56,19 +69,20 @@ const CoursePhilosophy = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
+                className="h-full"
               >
                 <GlassCard
                   variant="subtle"
                   interactive
-                  className="p-5 h-full flex flex-col items-center text-center"
+                  className="p-5 h-full flex flex-col items-center text-center min-h-[180px]"
                 >
-                  <div className="p-3 rounded-xl bg-primary/10 mb-3">
+                  <div className="p-3 rounded-xl bg-primary/10 mb-3 flex-shrink-0">
                     <Icon className="h-6 w-6 text-primary" />
                   </div>
                   <h3 className="text-lg font-semibold text-foreground mb-2">
                     {card.title}
                   </h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
+                  <p className="text-sm text-muted-foreground leading-relaxed flex-grow">
                     {card.text}
                   </p>
                 </GlassCard>
@@ -76,6 +90,23 @@ const CoursePhilosophy = () => {
             );
           })}
         </div>
+
+        {/* Learn more link */}
+        <motion.div
+          className="text-center mt-6"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.4 }}
+        >
+          <button
+            onClick={scrollToCurriculum}
+            className="inline-flex items-center gap-2 text-sm text-primary hover:text-primary/80 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded px-2 py-1"
+          >
+            <span>{currentLanguage === 'ar' ? 'اعرف المزيد عن البرنامج' : 'Learn more about the program'}</span>
+            <ChevronDown className="h-4 w-4" />
+          </button>
+        </motion.div>
       </div>
     </section>
   );

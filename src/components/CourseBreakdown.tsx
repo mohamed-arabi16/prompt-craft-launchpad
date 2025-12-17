@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { ChevronDown, Clock, BookOpen, Zap, Search, Palette, Rocket, Package } from "lucide-react";
+import { ChevronDown, Clock, BookOpen, Zap, Search, Palette, Rocket, Package, MousePointer } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import DownloadButton from "./DownloadButton";
 import { SectionReveal, GlassCard } from "./premium";
@@ -11,17 +11,24 @@ import { accordionAnimation, iconRotate } from "@/lib/animations";
  */
 const CourseBreakdown = () => {
   const [expandedDay, setExpandedDay] = useState<number | null>(1);
-  const { t, tArray } = useTranslation();
+  const { t, tArray, currentLanguage } = useTranslation();
   const prefersReducedMotion = useReducedMotion();
 
-  const toggleDay = (day: number) => {
-    setExpandedDay(expandedDay === day ? null : day);
-  };
+  const toggleDay = useCallback((day: number) => {
+    setExpandedDay(prev => prev === day ? null : day);
+  }, []);
+
+  const handleKeyDown = useCallback((e: React.KeyboardEvent, day: number) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      toggleDay(day);
+    }
+  }, [toggleDay]);
 
   const dayIcons = [BookOpen, Zap, Search, Palette, Rocket];
 
   return (
-    <section id="course-curriculum" className="py-12 bg-background relative overflow-hidden">
+    <section id="course-curriculum" className="py-10 bg-background relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 -left-32 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
@@ -42,6 +49,11 @@ const CourseBreakdown = () => {
             <h2 className="text-3xl md:text-4xl font-bold text-foreground">
               {t('courseTitle')}
             </h2>
+            {/* Helper label */}
+            <p className="text-xs text-muted-foreground mt-2 flex items-center justify-center gap-1">
+              <MousePointer className="h-3 w-3" />
+              {currentLanguage === 'ar' ? 'اضغط على أي يوم لعرض التفاصيل' : 'Click any day to view details'}
+            </p>
           </div>
         </SectionReveal>
 
@@ -68,11 +80,16 @@ const CourseBreakdown = () => {
                     isExpanded ? 'border-primary/40' : 'border-border/50'
                   }`}
                 >
-                  <motion.div
-                    className="p-4 sm:p-5 cursor-pointer flex items-center justify-between hover:bg-muted/30 transition-colors rounded-t-2xl"
+                  <motion.button
+                    type="button"
+                    className="w-full p-4 sm:p-5 cursor-pointer flex items-center justify-between hover:bg-muted/30 transition-colors rounded-t-2xl text-start focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset"
                     onClick={() => toggleDay(day)}
+                    onKeyDown={(e) => handleKeyDown(e, day)}
                     whileHover={prefersReducedMotion ? {} : { x: 4 }}
                     whileTap={prefersReducedMotion ? {} : { scale: 0.99 }}
+                    aria-expanded={isExpanded}
+                    aria-controls={`day-${day}-content`}
+                    id={`day-${day}-header`}
                   >
                     <div className="flex items-center gap-3 sm:gap-4 flex-1 min-w-0">
                       <motion.div
@@ -113,11 +130,12 @@ const CourseBreakdown = () => {
                       <motion.div
                         variants={iconRotate}
                         animate={isExpanded ? 'expanded' : 'collapsed'}
+                        className="flex-shrink-0"
                       >
-                        <ChevronDown className="h-5 w-5 text-muted-foreground" />
+                        <ChevronDown className={`h-5 w-5 transition-colors ${isExpanded ? 'text-primary' : 'text-foreground/70'}`} />
                       </motion.div>
                     </div>
-                  </motion.div>
+                  </motion.button>
 
                   <AnimatePresence mode="wait">
                     {isExpanded && (
@@ -127,6 +145,9 @@ const CourseBreakdown = () => {
                         animate="expanded"
                         exit="collapsed"
                         className="overflow-hidden"
+                        id={`day-${day}-content`}
+                        role="region"
+                        aria-labelledby={`day-${day}-header`}
                       >
                         <div className="px-4 sm:px-5 pb-5 border-t border-border/50">
                           <div className="grid md:grid-cols-2 gap-6 mt-5">

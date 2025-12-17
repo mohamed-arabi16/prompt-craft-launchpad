@@ -19,7 +19,15 @@ const Footer = () => {
       e.preventDefault();
       const element = document.querySelector(href);
       if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
+        // Calculate offset to account for fixed navbar height (80px) + padding (20px)
+        const navbarOffset = 100;
+        const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+        const offsetPosition = elementPosition - navbarOffset;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
       }
     }
   };
@@ -128,6 +136,10 @@ const Footer = () => {
                 </span>
               </li>
             </ul>
+            {/* Response time expectation */}
+            <p className="text-xs text-muted-foreground/70 mt-3 italic">
+              {currentLanguage === 'ar' ? 'نرد عادة خلال 24 ساعة' : 'We usually respond within 24 hours'}
+            </p>
           </div>
         </div>
 
