@@ -95,6 +95,7 @@ const Enrollment = () => {
           ai_experience: formData.aiExperience,
           goals: formData.goals?.trim() || null,
           enrollment_completed: true,
+          status: 'NEW',
         });
 
       if (error) {
