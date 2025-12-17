@@ -1,6 +1,7 @@
 import { motion, useReducedMotion } from 'framer-motion';
 import * as LucideIcons from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
+import { useSiteContent } from "@/hooks/useSiteContent";
 import { useBenefits } from "@/hooks/useBenefits";
 import { TiltCard, SectionReveal, StaggerContainer, StaggerItem, CardSkeleton } from "./premium";
 
@@ -15,8 +16,16 @@ const DynamicIcon = ({ name, className }: { name: string; className?: string }) 
  */
 const BenefitsSection = () => {
   const { t, currentLanguage } = useTranslation();
+  const { getContent } = useSiteContent('benefits');
   const { benefits, loading } = useBenefits();
   const prefersReducedMotion = useReducedMotion();
+
+  // Helper to get content with fallback to translation
+  const getText = (key: string, fallbackKey?: string) => {
+    const dbContent = getContent(key, currentLanguage);
+    if (dbContent) return dbContent;
+    return fallbackKey ? t(fallbackKey) : '';
+  };
 
   // Filter active benefits
   const activeBenefits = benefits.filter(b => b.is_active);
@@ -57,10 +66,10 @@ const BenefitsSection = () => {
               {t('whyChooseUs')}
             </motion.span>
             <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-              {t('benefitsTitle')}
+              {getText('section_title', 'benefitsTitle')}
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              {t('benefitsSubtitle')}
+              {getText('section_subtitle', 'benefitsSubtitle')}
             </p>
           </div>
         </SectionReveal>

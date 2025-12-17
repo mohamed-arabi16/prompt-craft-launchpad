@@ -1,4 +1,5 @@
 import { useTranslation } from "@/hooks/useTranslation";
+import { useSiteContent } from "@/hooks/useSiteContent";
 import { useFAQs } from "@/hooks/useFAQs";
 import {
   Accordion,
@@ -13,7 +14,15 @@ import { Skeleton } from "@/components/ui/skeleton";
  */
 const FAQ = () => {
   const { t, currentLanguage } = useTranslation();
+  const { getContent } = useSiteContent('faq');
   const { faqs, loading } = useFAQs();
+
+  // Helper to get content with fallback to translation
+  const getText = (key: string, fallbackKey?: string) => {
+    const dbContent = getContent(key, currentLanguage);
+    if (dbContent) return dbContent;
+    return fallbackKey ? t(fallbackKey) : '';
+  };
 
   // Filter active FAQs
   const activeFaqs = faqs.filter(f => f.is_active);
@@ -50,10 +59,10 @@ const FAQ = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-foreground mb-6">
-            {t('faqTitle')}
+            {getText('section_title', 'faqTitle')}
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            {t('faqSubtitle')}
+            {getText('section_subtitle', 'faqSubtitle')}
           </p>
         </div>
 
@@ -94,14 +103,14 @@ const FAQ = () => {
         {/* Contact for more questions */}
         <div className="text-center mt-16">
           <p className="text-muted-foreground mb-4">
-            {t('faqMoreQuestions')}
+            {getText('more_questions', 'faqMoreQuestions')}
           </p>
           <a 
             href="/contact"
             className="inline-flex items-center px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors font-semibold"
             aria-label="Contact us for more questions"
           >
-            {t('contactUs')}
+            {getText('contact_us', 'contactUs')}
           </a>
         </div>
       </div>
