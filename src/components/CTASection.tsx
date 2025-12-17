@@ -1,10 +1,11 @@
+import { useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { ArrowRight, Check, Clock, Sparkles } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
-import { Link } from "react-router-dom";
 import DownloadButton from "./DownloadButton";
 import { GlassCard, MagneticButton, SectionReveal, StaggerContainer, StaggerItem } from "./premium";
 import { useCourseSettings } from "@/hooks/useCourseSettings";
+import BookingFormModal from "./BookingFormModal";
 
 /**
  * CTA section with pricing - simplified CTAs
@@ -13,6 +14,7 @@ const CTASection = () => {
   const { t, tArray, currentLanguage } = useTranslation();
   const prefersReducedMotion = useReducedMotion();
   const { getSetting } = useCourseSettings();
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
 
   // Get dynamic course settings
   const currentPriceValue = getSetting('current_price') || '150';
@@ -28,7 +30,7 @@ const CTASection = () => {
   };
 
   return (
-    <section className="py-12 bg-background relative overflow-hidden">
+    <section className="py-10 bg-background relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 -left-32 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
@@ -131,31 +133,37 @@ const CTASection = () => {
                 {t('ctaOriginalPrice')}: <span className="line-through">{formatPrice(originalPriceValue)}</span>
               </div>
               <div className="text-primary text-sm mt-1">
-                {currentLanguage === 'ar' ? `${availableSeats} مقاعد متاحة` : `${availableSeats} seats available`}
+                {currentLanguage === 'ar' ? 'مقاعد محدودة لهذه الدفعة' : 'Limited seats for this batch'}
               </div>
             </div>
 
             {/* CTAs: Primary = Book Your Seat, Secondary = Download Course Guide (PDF) */}
             <div className="flex flex-col sm:flex-row gap-3 justify-center items-stretch">
-              <Link to="/enrollment" className="w-full sm:w-auto">
-                <MagneticButton
-                  variant="primary"
-                  size="lg"
-                  className="group w-full h-12 px-6 text-base"
-                  glow
-                >
-                  {t('ctaEnrollButton')}
-                  <ArrowRight className="ltr:ml-2 rtl:mr-2 h-4 w-4 transition-transform group-hover:ltr:translate-x-1 group-hover:rtl:-translate-x-1" />
-                </MagneticButton>
-              </Link>
+              <MagneticButton
+                variant="primary"
+                size="lg"
+                className="group w-full sm:w-auto h-12 px-6 text-base"
+                glow
+                onClick={() => setIsBookingModalOpen(true)}
+              >
+                {t('ctaEnrollButton')}
+                <ArrowRight className="ltr:ml-2 rtl:mr-2 h-4 w-4 transition-transform group-hover:ltr:translate-x-1 group-hover:rtl:-translate-x-1" />
+              </MagneticButton>
               <DownloadButton
                 variant="outline"
-                className="border-primary/50 text-foreground hover:bg-primary hover:text-primary-foreground h-12 px-6 text-base backdrop-blur-sm w-full sm:w-auto"
+                className="border-primary/30 text-muted-foreground hover:bg-primary/10 hover:text-foreground hover:border-primary/50 h-12 px-6 text-base backdrop-blur-sm w-full sm:w-auto"
                 materialCategory="course_guide"
                 signInText={t('ctaDownloadButton')}
                 downloadText={t('ctaDownloadButton')}
               />
             </div>
+
+            {/* Registration info line */}
+            <p className="text-xs text-muted-foreground text-center mt-4">
+              {currentLanguage === 'ar'
+                ? 'التسجيل عبر النموذج — وسيتم التواصل معك لتأكيد المقعد.'
+                : 'Register via form — we\'ll contact you to confirm your seat.'}
+            </p>
           </GlassCard>
         </motion.div>
 
@@ -170,6 +178,12 @@ const CTASection = () => {
           {t('ctaGuarantee')}
         </motion.p>
       </div>
+
+      {/* Booking Form Modal */}
+      <BookingFormModal
+        isOpen={isBookingModalOpen}
+        onClose={() => setIsBookingModalOpen(false)}
+      />
     </section>
   );
 };

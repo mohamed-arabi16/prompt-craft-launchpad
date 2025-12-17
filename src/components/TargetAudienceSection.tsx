@@ -39,7 +39,7 @@ const TargetAudienceSection = () => {
   }
 
   return (
-    <section id="target-audience" className="py-12 bg-background relative overflow-hidden">
+    <section id="target-audience" className="py-10 bg-background relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 -left-32 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
@@ -142,6 +142,19 @@ const TargetAudienceSection = () => {
               );
             })}
           </div>
+
+          {/* Clarifying line */}
+          <motion.p
+            className="text-xs text-muted-foreground text-center mt-4 max-w-lg mx-auto"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.8 }}
+          >
+            {currentLanguage === 'ar'
+              ? 'المشروع النهائي دليل تطبيق — لكن المهارة الأساسية هي نظام عمل قابل للتكرار.'
+              : 'The final project is proof of application — but the core skill is a repeatable workflow.'}
+          </motion.p>
         </motion.div>
       </div>
     </section>

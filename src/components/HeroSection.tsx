@@ -1,17 +1,20 @@
+import { useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import { ArrowRight, Sparkles, Brain, Zap, Target, Lightbulb } from "lucide-react";
+import { ArrowRight, Sparkles, Brain, Zap, Target, Lightbulb, Info } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
-import { Link } from "react-router-dom";
 import DownloadButton from "./DownloadButton";
 import { AnimatedBackground, Floating3DElements, MagneticButton } from "./premium";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import BookingFormModal from "./BookingFormModal";
 
 /**
  * Renders the enhanced hero section with 3D floating elements and premium animations
  */
 const HeroSection = () => {
-  const { t } = useTranslation();
+  const { t, currentLanguage } = useTranslation();
   const prefersReducedMotion = useReducedMotion();
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
 
   // 3 specific chips as requested
   const chips = [
@@ -131,13 +134,39 @@ const HeroSection = () => {
           </span>
         </motion.h1>
 
-        {/* Promise Line - NEW */}
-        <motion.p
+        {/* Promise Line with tooltip for uncertainty */}
+        <motion.div
           variants={fadeInUp}
-          className="text-lg md:text-xl text-primary font-medium mb-4 max-w-3xl mx-auto"
+          className="text-lg md:text-xl text-primary font-medium mb-4 max-w-3xl mx-auto flex items-center justify-center gap-2 flex-wrap"
         >
-          {t('heroPromiseLine')}
-        </motion.p>
+          <TooltipProvider>
+            <span>
+              {currentLanguage === 'ar'
+                ? 'نتائج مُرضية من 1-3 محاولات'
+                : 'Satisfying results in 1-3 attempts'}
+            </span>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button className="inline-flex items-center justify-center p-1 rounded-full hover:bg-primary/10 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary">
+                  <Info className="h-4 w-4 text-primary/60" />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent side="bottom" className="max-w-[200px] text-center">
+                <p className="text-xs">
+                  {currentLanguage === 'ar'
+                    ? 'في معظم الحالات، يعتمد على تعقيد المهمة'
+                    : 'In most cases, depends on task complexity'}
+                </p>
+              </TooltipContent>
+            </Tooltip>
+            <span>{currentLanguage === 'ar' ? '+' : '+'}</span>
+            <span>
+              {currentLanguage === 'ar'
+                ? 'رابط مشروع جاهز للمشاركة في اليوم الخامس'
+                : 'Shareable project link by Day 5'}
+            </span>
+          </TooltipProvider>
+        </motion.div>
 
         {/* Subtitle - Updated to be practical */}
         <motion.p
@@ -150,28 +179,37 @@ const HeroSection = () => {
         {/* CTA Buttons - Primary: Book Your Seat, Secondary: Download Course Guide (PDF) */}
         <motion.div
           variants={fadeInUp}
-          className="flex flex-col sm:flex-row gap-3 justify-center items-center mb-6"
+          className="flex flex-col sm:flex-row gap-3 justify-center items-center mb-4"
         >
-          <Link to="/enrollment">
-            <MagneticButton
-              variant="primary"
-              size="lg"
-              className="group w-full sm:w-auto"
-              glow
-            >
-              <span>{t('heroEnrollButton')}</span>
-              <ArrowRight className="ltr:ml-2 rtl:mr-2 h-5 w-5 transition-transform group-hover:ltr:translate-x-1 group-hover:rtl:-translate-x-1" aria-hidden="true" />
-            </MagneticButton>
-          </Link>
+          <MagneticButton
+            variant="primary"
+            size="lg"
+            className="group w-full sm:w-auto"
+            glow
+            onClick={() => setIsBookingModalOpen(true)}
+          >
+            <span>{t('heroEnrollButton')}</span>
+            <ArrowRight className="ltr:ml-2 rtl:mr-2 h-5 w-5 transition-transform group-hover:ltr:translate-x-1 group-hover:rtl:-translate-x-1" aria-hidden="true" />
+          </MagneticButton>
 
           <DownloadButton
             variant="outline"
-            className="border-primary/50 text-foreground hover:bg-primary hover:text-primary-foreground h-14 px-8 text-lg backdrop-blur-sm"
+            className="border-primary/30 text-muted-foreground hover:bg-primary/10 hover:text-foreground hover:border-primary/50 h-12 px-6 text-base backdrop-blur-sm"
             materialCategory="course_guide"
             signInText={t('heroDownloadButton')}
             downloadText={t('heroDownloadButton')}
           />
         </motion.div>
+
+        {/* Reassurance line */}
+        <motion.p
+          variants={fadeInUp}
+          className="text-sm text-muted-foreground mb-6 max-w-xl mx-auto"
+        >
+          {currentLanguage === 'ar'
+            ? 'مباشر خلال 5 أيام • بدون خبرة تقنية • دعم عبر واتساب أثناء فترة الدورة'
+            : 'Live over 5 days • No technical experience needed • WhatsApp support during the course'}
+        </motion.p>
 
         {/* 3 Chips - Only these 3 specific ones */}
         <motion.div
@@ -220,6 +258,12 @@ const HeroSection = () => {
           />
         </motion.div>
       </motion.div>
+
+      {/* Booking Form Modal */}
+      <BookingFormModal
+        isOpen={isBookingModalOpen}
+        onClose={() => setIsBookingModalOpen(false)}
+      />
     </section>
   );
 };

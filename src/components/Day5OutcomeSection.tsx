@@ -16,7 +16,7 @@ const Day5OutcomeSection = () => {
   ];
 
   return (
-    <section className="py-12 bg-background relative overflow-hidden">
+    <section className="py-10 bg-background relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 -left-32 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />

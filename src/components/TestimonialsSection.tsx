@@ -1,5 +1,5 @@
 import { motion, useReducedMotion } from 'framer-motion';
-import { Star, Quote } from "lucide-react";
+import { Star, Quote, Tag } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useTestimonials } from "@/hooks/useTestimonials";
 import {
@@ -8,9 +8,10 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
+  type CarouselApi,
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
-import { useRef } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import { GlassCard, SectionReveal, CardSkeleton } from "./premium";
 
 /**
@@ -21,9 +22,40 @@ const TestimonialsSection = () => {
   const { testimonials, loading } = useTestimonials();
   const prefersReducedMotion = useReducedMotion();
   const plugin = useRef(Autoplay({ delay: 5000, stopOnInteraction: true }));
+  const [api, setApi] = useState<CarouselApi>();
+  const [currentSlide, setCurrentSlide] = useState(0);
 
   // Filter active testimonials
   const activeTestimonials = testimonials.filter(t => t.is_active);
+
+  // Testimonial tags (short result highlights)
+  const testimonialTags = [
+    currentLanguage === 'ar' ? 'نتائج أوضح خلال أسبوع' : 'Clearer results within a week',
+    currentLanguage === 'ar' ? 'توفير ساعات من العمل' : 'Saved hours of work',
+    currentLanguage === 'ar' ? 'إنتاجية أعلى' : 'Higher productivity',
+    currentLanguage === 'ar' ? 'قوالب قابلة للتكرار' : 'Repeatable templates',
+  ];
+
+  // Track current slide
+  useEffect(() => {
+    if (!api) return;
+
+    const onSelect = () => {
+      setCurrentSlide(api.selectedScrollSnap());
+    };
+
+    api.on('select', onSelect);
+    onSelect();
+
+    return () => {
+      api.off('select', onSelect);
+    };
+  }, [api]);
+
+  // Navigate to specific slide
+  const goToSlide = useCallback((index: number) => {
+    api?.scrollTo(index);
+  }, [api]);
 
   if (loading) {
     return (
@@ -40,7 +72,7 @@ const TestimonialsSection = () => {
   }
 
   return (
-    <section id="testimonials" className="py-12 bg-background relative overflow-hidden">
+    <section id="testimonials" className="py-10 bg-background relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 -left-32 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
@@ -77,13 +109,15 @@ const TestimonialsSection = () => {
             plugins={[plugin.current]}
             className="w-full"
             opts={{ loop: true, align: "center" }}
+            setApi={setApi}
           >
             <CarouselContent>
-            {activeTestimonials.map((testimonial) => {
+            {activeTestimonials.map((testimonial, index) => {
                 const name = currentLanguage === 'ar' ? testimonial.name_ar : testimonial.name_en;
                 const role = currentLanguage === 'ar' ? testimonial.role_ar : testimonial.role_en;
                 const content = currentLanguage === 'ar' ? testimonial.content_ar : testimonial.content_en;
-                
+                const tag = testimonialTags[index % testimonialTags.length];
+
                 return (
                   <CarouselItem key={testimonial.id} className="md:basis-full">
                     <div className="px-2">
@@ -93,7 +127,7 @@ const TestimonialsSection = () => {
                         interactive={false}
                         className="p-8"
                       >
-                        <div className="flex items-center justify-between mb-6">
+                        <div className="flex items-center justify-between mb-4">
                           <div className="flex items-center gap-1">
                             {[...Array(testimonial.rating)].map((_, i) => (
                               <motion.div
@@ -112,6 +146,14 @@ const TestimonialsSection = () => {
                           >
                             <Quote className="h-10 w-10 text-primary/20" />
                           </motion.div>
+                        </div>
+
+                        {/* Testimonial tag */}
+                        <div className="mb-4">
+                          <span className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-medium text-primary bg-primary/10 rounded-full border border-primary/20">
+                            <Tag className="h-3 w-3" />
+                            {tag}
+                          </span>
                         </div>
 
                         <p className="text-foreground mb-8 leading-relaxed text-lg italic">
@@ -140,18 +182,25 @@ const TestimonialsSection = () => {
                 );
               })}
             </CarouselContent>
-            <CarouselPrevious className="hidden md:flex -left-12 bg-card/50 backdrop-blur-sm border-border/50 hover:bg-primary hover:text-primary-foreground hover:border-primary" />
-            <CarouselNext className="hidden md:flex -right-12 bg-card/50 backdrop-blur-sm border-border/50 hover:bg-primary hover:text-primary-foreground hover:border-primary" />
+            <CarouselPrevious className="hidden md:flex -left-12 bg-card/50 backdrop-blur-sm border-border/50 hover:bg-primary hover:text-primary-foreground hover:border-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary" />
+            <CarouselNext className="hidden md:flex -right-12 bg-card/50 backdrop-blur-sm border-border/50 hover:bg-primary hover:text-primary-foreground hover:border-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary" />
           </Carousel>
         </motion.div>
 
-        {/* Carousel indicators */}
-        <div className="flex justify-center gap-3 mt-8">
+        {/* Carousel indicators - interactive dots */}
+        <div className="flex justify-center gap-3 mt-8" role="tablist" aria-label={currentLanguage === 'ar' ? 'شرائح الآراء' : 'Testimonial slides'}>
           {activeTestimonials.map((_, index) => (
-            <motion.div
+            <button
               key={index}
-              className="h-3 w-3 rounded-full border-2 transition-all duration-300 border-muted-foreground/50 hover:border-primary cursor-pointer"
-              whileHover={{ scale: 1.25, borderColor: 'hsl(var(--primary))' }}
+              onClick={() => goToSlide(index)}
+              className={`h-3 w-3 rounded-full border-2 transition-all duration-300 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
+                currentSlide === index
+                  ? 'bg-primary border-primary scale-110'
+                  : 'border-muted-foreground/50 hover:border-primary'
+              }`}
+              role="tab"
+              aria-selected={currentSlide === index}
+              aria-label={`${currentLanguage === 'ar' ? 'الشهادة' : 'Testimonial'} ${index + 1}`}
             />
           ))}
         </div>
