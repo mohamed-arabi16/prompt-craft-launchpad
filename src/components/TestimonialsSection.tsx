@@ -1,6 +1,7 @@
 import { motion, useReducedMotion } from 'framer-motion';
 import { Star, Quote, Tag } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
+import { useSiteContent } from "@/hooks/useSiteContent";
 import { useTestimonials } from "@/hooks/useTestimonials";
 import {
   Carousel,
@@ -19,11 +20,19 @@ import { GlassCard, SectionReveal, CardSkeleton } from "./premium";
  */
 const TestimonialsSection = () => {
   const { t, currentLanguage } = useTranslation();
+  const { getContent } = useSiteContent('testimonials');
   const { testimonials, loading } = useTestimonials();
   const prefersReducedMotion = useReducedMotion();
   const plugin = useRef(Autoplay({ delay: 5000, stopOnInteraction: true }));
   const [api, setApi] = useState<CarouselApi>();
   const [currentSlide, setCurrentSlide] = useState(0);
+
+  // Helper to get content with fallback to translation
+  const getText = (key: string, fallbackKey?: string) => {
+    const dbContent = getContent(key, currentLanguage);
+    if (dbContent) return dbContent;
+    return fallbackKey ? t(fallbackKey) : '';
+  };
 
   // Filter active testimonials
   const activeTestimonials = testimonials.filter(t => t.is_active);
@@ -88,13 +97,13 @@ const TestimonialsSection = () => {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
             >
-              {t('testimonialsBadge')}
+              {getText('section_badge', 'testimonialsBadge')}
             </motion.span>
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">
-              {t('testimonialsTitle')}
+              {getText('section_title', 'testimonialsTitle')}
             </h2>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              {t('testimonialsSubtitle')}
+              {getText('section_subtitle', 'testimonialsSubtitle')}
             </p>
           </div>
         </SectionReveal>
