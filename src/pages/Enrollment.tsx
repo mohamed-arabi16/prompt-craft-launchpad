@@ -8,12 +8,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { useTranslation } from '@/hooks/useTranslation';
 import { toast } from 'sonner';
 import LoadingSpinner from '@/components/LoadingSpinner';
-import { ArrowLeft, CheckCircle, User, Mail, Phone, Building, Sparkles, Rocket } from 'lucide-react';
+import { ArrowLeft, CheckCircle, User, Mail, Phone, Building, Sparkles, Rocket, MessageCircle, Home } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { enrollmentSchema, type EnrollmentFormData } from '@/lib/validations';
 import { celebrateEnrollment, emojiCelebration } from '@/lib/confetti';
 import { AnimatedBackground, GlassCard, MagneticButton } from '@/components/premium';
+import { useCourseSettings } from '@/hooks/useCourseSettings';
 
 interface FormErrors {
   firstName?: string;
@@ -31,6 +32,8 @@ interface FormErrors {
 const Enrollment = () => {
   const { t } = useTranslation();
   const prefersReducedMotion = useReducedMotion();
+  const { getSetting } = useCourseSettings();
+  const whatsappNumber = getSetting('whatsapp_number');
   const [formData, setFormData] = useState<EnrollmentFormData>({
     firstName: '',
     lastName: '',
@@ -119,6 +122,13 @@ const Enrollment = () => {
 
   // Success state with celebration
   if (isSubmitted) {
+    const handleWhatsAppContact = () => {
+      if (whatsappNumber) {
+        const cleanNumber = whatsappNumber.replace(/\D/g, '');
+        window.open(`https://wa.me/${cleanNumber}`, '_blank');
+      }
+    };
+
     return (
       <div className="min-h-screen bg-background flex items-center justify-center p-6 relative overflow-hidden">
         <AnimatedBackground variant="particles" opacity={0.3} />
@@ -146,7 +156,7 @@ const Enrollment = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
             >
-              {t('success.enrollmentComplete')}
+              {t('enrollment.successTitle') || t('success.enrollmentComplete')}
             </motion.h2>
 
             <motion.p
@@ -155,19 +165,29 @@ const Enrollment = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
             >
-              {t('success.enrollmentSubtext')}
+              {t('enrollment.successMessage') || t('success.enrollmentSubtext')}
             </motion.p>
 
             <motion.div
+              className="flex flex-col gap-3"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
             >
-              <Link to="/">
-                <MagneticButton variant="primary" className="w-full" glow>
-                  <ArrowLeft className="h-4 w-4 ltr:mr-2 rtl:ml-2" />
-                  {t('navHome')}
-                </MagneticButton>
+              {whatsappNumber && (
+                <Button
+                  onClick={handleWhatsAppContact}
+                  className="w-full bg-green-600 hover:bg-green-700 text-white"
+                >
+                  <MessageCircle className="h-4 w-4 ltr:mr-2 rtl:ml-2" />
+                  {t('enrollment.contactWhatsApp') || 'تواصل عبر واتساب'}
+                </Button>
+              )}
+              <Link to="/" className="w-full">
+                <Button variant="outline" className="w-full">
+                  <Home className="h-4 w-4 ltr:mr-2 rtl:ml-2" />
+                  {t('enrollment.backHome') || t('navHome')}
+                </Button>
               </Link>
             </motion.div>
           </GlassCard>

@@ -4,7 +4,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
-import { Users, CheckCircle, XCircle, Clock, AlertCircle, UserPlus } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Users, CheckCircle, XCircle, Clock, AlertCircle, UserPlus, Phone } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import LoadingSpinner from "@/components/LoadingSpinner";
@@ -34,6 +35,16 @@ interface CourseAccess {
   access_granted_at?: string;
   access_expires_at?: string;
 }
+
+// Status configuration
+const STATUS_OPTIONS = [
+  { value: 'NEW', label: 'جديد', labelEn: 'New', color: 'bg-blue-600' },
+  { value: 'CONTACTED', label: 'تم التواصل', labelEn: 'Contacted', color: 'bg-yellow-600' },
+  { value: 'CONFIRMED', label: 'مؤكد', labelEn: 'Confirmed', color: 'bg-green-600' },
+  { value: 'ACCESS_GRANTED', label: 'لديه وصول', labelEn: 'Access Granted', color: 'bg-primary' },
+  { value: 'REJECTED', label: 'مرفوض', labelEn: 'Rejected', color: 'bg-red-600' },
+  { value: 'ARCHIVED', label: 'مؤرشف', labelEn: 'Archived', color: 'bg-gray-600' },
+];
 
 const AdminEnrollments = () => {
   const [enrollments, setEnrollments] = useState<Enrollment[]>([]);
@@ -65,19 +76,52 @@ const AdminEnrollments = () => {
     }
   };
 
-  const handleAccessChange = async (userId: string, grantAccess: boolean) => {
+  const handleStatusChange = async (enrollmentId: string, newStatus: string) => {
     try {
       const { error } = await supabase
+        .from('enrollments')
+        .update({ status: newStatus, updated_at: new Date().toISOString() })
+        .eq('id', enrollmentId);
+
+      if (error) throw error;
+      toast.success('تم تحديث الحالة بنجاح');
+      fetchData();
+    } catch (error) {
+      console.error('Error updating status:', error);
+      toast.error('فشل في تحديث الحالة');
+    }
+  };
+
+  const handleAccessChange = async (userId: string, grantAccess: boolean, enrollmentId?: string) => {
+    try {
+      // Use upsert to handle both insert and update cases
+      const { error } = await supabase
         .from('course_access')
-        .update({ 
+        .upsert({ 
+          user_id: userId,
           has_access: grantAccess,
           access_granted_at: grantAccess ? new Date().toISOString() : null,
           updated_at: new Date().toISOString()
-        })
-        .eq('user_id', userId);
+        }, {
+          onConflict: 'user_id'
+        });
 
       if (error) throw error;
-      toast.success(grantAccess ? 'تم منح الوصول بنجاح' : 'تم إلغاء الوصول بنجاح');
+
+      // Also update enrollment status if we're granting access
+      if (enrollmentId && grantAccess) {
+        await supabase
+          .from('enrollments')
+          .update({ status: 'ACCESS_GRANTED', updated_at: new Date().toISOString() })
+          .eq('id', enrollmentId);
+      } else if (enrollmentId && !grantAccess) {
+        await supabase
+          .from('enrollments')
+          .update({ status: 'CONFIRMED', updated_at: new Date().toISOString() })
+          .eq('id', enrollmentId);
+      }
+
+      toast.success(grantAccess ? 'تم منح الوصول بنجاح ✅' : 'تم إلغاء الوصول بنجاح');
       fetchData();
     } catch (error) {
       console.error('Error updating access:', error);
@@ -85,21 +129,38 @@ const AdminEnrollments = () => {
     }
   };
 
-  const getStatusBadge = (enrollment: Enrollment) => {
-    if (enrollment.payment_completed && enrollment.enrollment_completed) {
-      return <Badge className="bg-green-600"><CheckCircle className="h-3 w-3 mr-1" />مكتمل</Badge>;
-    } else if (enrollment.enrollment_completed && !enrollment.payment_completed) {
-      return <Badge variant="secondary"><Clock className="h-3 w-3 mr-1" />بانتظار الدفع</Badge>;
-    }
-    return <Badge variant="destructive"><XCircle className="h-3 w-3 mr-1" />غير مكتمل</Badge>;
+  const getStatusBadge = (status: string) => {
+    const statusConfig = STATUS_OPTIONS.find(s => s.value === status) || STATUS_OPTIONS[0];
+    return (
+      <Badge className={statusConfig.color}>
+        {statusConfig.label}
+      </Badge>
+    );
   };
 
-  const getAccessBadge = (userId: string) => {
+  const getAccessBadge = (userId: string | null | undefined) => {
+    if (!userId) {
+      return <Badge variant="outline"><AlertCircle className="h-3 w-3 ltr:mr-1 rtl:ml-1" />لا يوجد حساب</Badge>;
+    }
     const access = courseAccess.find(a => a.user_id === userId);
     if (access?.has_access) {
-      return <Badge className="bg-green-600"><CheckCircle className="h-3 w-3 mr-1" />لديه وصول</Badge>;
+      return <Badge className="bg-green-600"><CheckCircle className="h-3 w-3 ltr:mr-1 rtl:ml-1" />لديه وصول</Badge>;
     }
-    return <Badge variant="destructive"><XCircle className="h-3 w-3 mr-1" />لا يوجد وصول</Badge>;
+    return <Badge variant="destructive"><XCircle className="h-3 w-3 ltr:mr-1 rtl:ml-1" />لا يوجد وصول</Badge>;
+  };
+
+  // Format date correctly for Arabic locale
+  const formatDate = (dateString: string) => {
+    try {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('ar-EG', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+      });
+    } catch {
+      return dateString;
+    }
   };
 
   if (loading) {
@@ -109,7 +170,7 @@ const AdminEnrollments = () => {
   return (
     <div className="space-y-6">
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">إجمالي التسجيلات</CardTitle>
@@ -121,12 +182,23 @@ const AdminEnrollments = () => {
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">التسجيلات المكتملة</CardTitle>
-            <CheckCircle className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium">جديد</CardTitle>
+            <Clock className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {enrollments.filter(e => e.enrollment_completed && e.payment_completed).length}
+              {enrollments.filter(e => e.status === 'NEW' || !e.status).length}
+            </div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">تم التواصل</CardTitle>
+            <Phone className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">
+              {enrollments.filter(e => e.status === 'CONTACTED').length}
             </div>
           </CardContent>
         </Card>
@@ -151,86 +223,110 @@ const AdminEnrollments = () => {
           <CardDescription>عرض وإدارة تسجيلات الدورة والوصول</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="overflow-x-auto">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>الاسم</TableHead>
-                  <TableHead>البريد</TableHead>
-                  <TableHead>الشركة</TableHead>
-                  <TableHead>الخبرة</TableHead>
-                  <TableHead>التاريخ</TableHead>
-                  <TableHead>الحالة</TableHead>
-                  <TableHead>الوصول</TableHead>
-                  <TableHead>الإجراءات</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {enrollments.map((enrollment) => (
-                  <TableRow key={enrollment.id}>
-                    <TableCell className="font-medium">{enrollment.first_name} {enrollment.last_name}</TableCell>
-                    <TableCell>{enrollment.email}</TableCell>
-                    <TableCell>{enrollment.company || 'غير محدد'}</TableCell>
-                    <TableCell><Badge variant="outline">{enrollment.ai_experience || 'غير محدد'}</Badge></TableCell>
-                    <TableCell>{new Date(enrollment.created_at).toLocaleDateString('ar')}</TableCell>
-                    <TableCell>{getStatusBadge(enrollment)}</TableCell>
-                    <TableCell>
-                      {enrollment.linked_user_id ? getAccessBadge(enrollment.linked_user_id) : 
-                       <Badge variant="outline"><AlertCircle className="h-3 w-3 mr-1" />لا يوجد حساب</Badge>}
-                    </TableCell>
-                    <TableCell>
-                      {enrollment.linked_user_id && (
-                        <div className="flex gap-2">
-                          <AlertDialog>
-                            <AlertDialogTrigger asChild>
-                              <Button size="sm" variant="outline" className="text-green-600 border-green-600">
-                                منح وصول
-                              </Button>
-                            </AlertDialogTrigger>
-                            <AlertDialogContent>
-                              <AlertDialogHeader>
-                                <AlertDialogTitle>منح وصول للدورة</AlertDialogTitle>
-                                <AlertDialogDescription>
-                                  هل تريد منح وصول الدورة لـ {enrollment.first_name} {enrollment.last_name}؟
-                                </AlertDialogDescription>
-                              </AlertDialogHeader>
-                              <AlertDialogFooter>
-                                <AlertDialogCancel>إلغاء</AlertDialogCancel>
-                                <AlertDialogAction onClick={() => handleAccessChange(enrollment.linked_user_id!, true)}>
-                                  منح الوصول
-                                </AlertDialogAction>
-                              </AlertDialogFooter>
-                            </AlertDialogContent>
-                          </AlertDialog>
-                          <AlertDialog>
-                            <AlertDialogTrigger asChild>
-                              <Button size="sm" variant="outline" className="text-red-600 border-red-600">
-                                إلغاء وصول
-                              </Button>
-                            </AlertDialogTrigger>
-                            <AlertDialogContent>
-                              <AlertDialogHeader>
-                                <AlertDialogTitle>إلغاء وصول الدورة</AlertDialogTitle>
-                                <AlertDialogDescription>
-                                  هل تريد إلغاء وصول الدورة لـ {enrollment.first_name} {enrollment.last_name}؟
-                                </AlertDialogDescription>
-                              </AlertDialogHeader>
-                              <AlertDialogFooter>
-                                <AlertDialogCancel>إلغاء</AlertDialogCancel>
-                                <AlertDialogAction onClick={() => handleAccessChange(enrollment.linked_user_id!, false)} className="bg-red-600 hover:bg-red-700">
-                                  إلغاء الوصول
-                                </AlertDialogAction>
-                              </AlertDialogFooter>
-                            </AlertDialogContent>
-                          </AlertDialog>
-                        </div>
-                      )}
-                    </TableCell>
+          {enrollments.length === 0 ? (
+            <div className="text-center py-12 text-muted-foreground">
+              <Users className="h-12 w-12 mx-auto mb-4 opacity-50" />
+              <p>لا توجد تسجيلات حتى الآن</p>
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>الاسم</TableHead>
+                    <TableHead>البريد</TableHead>
+                    <TableHead>الهاتف</TableHead>
+                    <TableHead>الشركة</TableHead>
+                    <TableHead>الخبرة</TableHead>
+                    <TableHead>التاريخ</TableHead>
+                    <TableHead>الحالة</TableHead>
+                    <TableHead>الوصول</TableHead>
+                    <TableHead>الإجراءات</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
+                </TableHeader>
+                <TableBody>
+                  {enrollments.map((enrollment) => (
+                    <TableRow key={enrollment.id}>
+                      <TableCell className="font-medium">{enrollment.first_name} {enrollment.last_name}</TableCell>
+                      <TableCell>{enrollment.email}</TableCell>
+                      <TableCell>{enrollment.phone || '-'}</TableCell>
+                      <TableCell>{enrollment.company || '-'}</TableCell>
+                      <TableCell><Badge variant="outline">{enrollment.ai_experience || '-'}</Badge></TableCell>
+                      <TableCell>{formatDate(enrollment.created_at)}</TableCell>
+                      <TableCell>
+                        <Select
+                          value={enrollment.status || 'NEW'}
+                          onValueChange={(value) => handleStatusChange(enrollment.id, value)}
+                        >
+                          <SelectTrigger className="w-[140px]">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {STATUS_OPTIONS.map((status) => (
+                              <SelectItem key={status.value} value={status.value}>
+                                {status.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </TableCell>
+                      <TableCell>
+                        {getAccessBadge(enrollment.linked_user_id)}
+                      </TableCell>
+                      <TableCell>
+                        {enrollment.linked_user_id && (
+                          <div className="flex gap-2">
+                            <AlertDialog>
+                              <AlertDialogTrigger asChild>
+                                <Button size="sm" variant="outline" className="text-green-600 border-green-600 hover:bg-green-600 hover:text-white">
+                                  منح وصول
+                                </Button>
+                              </AlertDialogTrigger>
+                              <AlertDialogContent>
+                                <AlertDialogHeader>
+                                  <AlertDialogTitle>منح وصول للدورة</AlertDialogTitle>
+                                  <AlertDialogDescription>
+                                    هل تريد منح وصول الدورة لـ {enrollment.first_name} {enrollment.last_name}؟
+                                  </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                  <AlertDialogCancel>إلغاء</AlertDialogCancel>
+                                  <AlertDialogAction onClick={() => handleAccessChange(enrollment.linked_user_id!, true, enrollment.id)}>
+                                    منح الوصول
+                                  </AlertDialogAction>
+                                </AlertDialogFooter>
+                              </AlertDialogContent>
+                            </AlertDialog>
+                            <AlertDialog>
+                              <AlertDialogTrigger asChild>
+                                <Button size="sm" variant="outline" className="text-red-600 border-red-600 hover:bg-red-600 hover:text-white">
+                                  إلغاء وصول
+                                </Button>
+                              </AlertDialogTrigger>
+                              <AlertDialogContent>
+                                <AlertDialogHeader>
+                                  <AlertDialogTitle>إلغاء وصول الدورة</AlertDialogTitle>
+                                  <AlertDialogDescription>
+                                    هل تريد إلغاء وصول الدورة لـ {enrollment.first_name} {enrollment.last_name}؟
+                                  </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                  <AlertDialogCancel>إلغاء</AlertDialogCancel>
+                                  <AlertDialogAction onClick={() => handleAccessChange(enrollment.linked_user_id!, false, enrollment.id)} className="bg-red-600 hover:bg-red-700">
+                                    إلغاء الوصول
+                                  </AlertDialogAction>
+                                </AlertDialogFooter>
+                              </AlertDialogContent>
+                            </AlertDialog>
+                          </div>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>

@@ -158,11 +158,11 @@ const CTASection = () => {
               />
             </div>
 
-            {/* Registration info line */}
-            <p className="text-xs text-muted-foreground text-center mt-4">
-              {currentLanguage === 'ar'
-                ? 'التسجيل عبر النموذج — وسيتم التواصل معك لتأكيد المقعد.'
-                : 'Register via form — we\'ll contact you to confirm your seat.'}
+            {/* Pricing note - no online payment */}
+            <p className="text-sm text-muted-foreground text-center mt-4 bg-muted/30 rounded-lg p-3 border border-border/50">
+              {t('pricingNote') || (currentLanguage === 'ar'
+                ? 'لا يوجد دفع أونلاين. بعد حجز المقعد سنتواصل معك لتأكيد التسجيل وتفاصيل الدفع.'
+                : 'No online payment. After booking, we\'ll contact you to confirm registration and payment details.')}
             </p>
           </GlassCard>
         </motion.div>

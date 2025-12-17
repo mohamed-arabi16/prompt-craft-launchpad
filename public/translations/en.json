@@ -365,6 +365,32 @@
       "answer": "Yes, you'll join the graduate community and receive free content updates."
     }
   ],
+  "faqMoreQuestions": "Have more questions?",
+  "contactUs": "Contact Us",
+  "enrollmentBadge": "Registration Open",
+  "admin": {
+    "dashboard": "Dashboard"
+  },
+  "nav": {
+    "bookSeat": "Book Your Seat",
+    "myAccount": "My Account",
+    "courseMaterials": "Course Materials"
+  },
+  "enrollment": {
+    "successTitle": "Your request has been received!",
+    "successMessage": "We'll contact you within 24 hours to confirm your seat and complete the registration.",
+    "contactWhatsApp": "Contact via WhatsApp",
+    "backHome": "Back to Home"
+  },
+  "pricingNote": "No online payment. After booking, we'll contact you to confirm registration and payment details.",
+  "adminStatuses": {
+    "new": "New",
+    "contacted": "Contacted",
+    "confirmed": "Confirmed",
+    "accessGranted": "Access Granted",
+    "rejected": "Rejected",
+    "archived": "Archived"
+  },
   "metaKeywords": "AI course, learn AI, ChatGPT, Gemini, prompt writing, prompt engineering",
   "metaOgTitle": "Intensive AI Course - Learn to Use AI Professionally",
   "metaOgDescription": "Learn to use AI correctly and save time every day. Step-by-step hands-on training",
