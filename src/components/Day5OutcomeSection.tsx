@@ -1,18 +1,27 @@
 import { motion } from 'framer-motion';
 import { Check, Rocket } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
+import { useSiteContent } from "@/hooks/useSiteContent";
 import { SectionReveal, GlassCard } from "./premium";
 
 /**
  * Day 5 Outcome section - shows what users will have by the end of Day 5
  */
 const Day5OutcomeSection = () => {
-  const { t } = useTranslation();
+  const { t, currentLanguage } = useTranslation();
+  const { getContent } = useSiteContent('day5_outcome');
+
+  // Helper to get content with fallback to translation
+  const getText = (key: string, fallbackKey?: string) => {
+    const dbContent = getContent(key, currentLanguage);
+    if (dbContent) return dbContent;
+    return fallbackKey ? t(fallbackKey) : '';
+  };
 
   const bullets = [
-    t('day5OutcomeBullet1'),
-    t('day5OutcomeBullet2'),
-    t('day5OutcomeBullet3'),
+    getText('bullet_1', 'day5OutcomeBullet1'),
+    getText('bullet_2', 'day5OutcomeBullet2'),
+    getText('bullet_3', 'day5OutcomeBullet3'),
   ];
 
   return (
@@ -36,7 +45,7 @@ const Day5OutcomeSection = () => {
                 <Rocket className="h-5 w-5 text-primary" />
               </div>
               <h2 className="text-xl sm:text-2xl font-bold text-foreground">
-                {t('day5OutcomeTitle')}
+                {getText('title', 'day5OutcomeTitle')}
               </h2>
             </div>
 

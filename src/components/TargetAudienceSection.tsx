@@ -1,6 +1,7 @@
 import { motion, useReducedMotion } from 'framer-motion';
 import { Check, Info, FileText, BookOpen, Briefcase, Share2 } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
+import { useSiteContent } from "@/hooks/useSiteContent";
 import { useTargetAudience } from "@/hooks/useTargetAudience";
 import { SectionReveal, GlassCard, CardSkeleton } from "./premium";
 
@@ -10,18 +11,26 @@ import { SectionReveal, GlassCard, CardSkeleton } from "./premium";
  */
 const TargetAudienceSection = () => {
   const { t, currentLanguage } = useTranslation();
+  const { getContent } = useSiteContent('target_audience');
   const { items, loading } = useTargetAudience();
   const prefersReducedMotion = useReducedMotion();
+
+  // Helper to get content with fallback to translation
+  const getText = (key: string, fallbackKey?: string) => {
+    const dbContent = getContent(key, currentLanguage);
+    if (dbContent) return dbContent;
+    return fallbackKey ? t(fallbackKey) : '';
+  };
 
   // Filter active items
   const activeItems = items.filter(i => i.is_active);
 
-  // Outputs that users will leave with
+  // Outputs that users will leave with - from database or translation
   const outputs = [
-    { icon: FileText, text: t('output1') },
-    { icon: BookOpen, text: t('output2') },
-    { icon: Briefcase, text: t('output3') },
-    { icon: Share2, text: t('output4') },
+    { icon: FileText, text: getText('output_1', 'output1') },
+    { icon: BookOpen, text: getText('output_2', 'output2') },
+    { icon: Briefcase, text: getText('output_3', 'output3') },
+    { icon: Share2, text: getText('output_4', 'output4') },
   ];
 
   if (loading) {
@@ -119,7 +128,7 @@ const TargetAudienceSection = () => {
           transition={{ delay: 0.3 }}
         >
           <h3 className="text-xl font-semibold text-foreground mb-4 text-center">
-            {t('outputsTitle')}
+            {getText('outputs_title', 'outputsTitle')}
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {outputs.map((output, index) => {
@@ -151,9 +160,9 @@ const TargetAudienceSection = () => {
             viewport={{ once: true }}
             transition={{ delay: 0.8 }}
           >
-            {currentLanguage === 'ar'
+            {getText('clarifying_note') || (currentLanguage === 'ar'
               ? 'المشروع النهائي دليل تطبيق — لكن المهارة الأساسية هي نظام عمل قابل للتكرار.'
-              : 'The final project is proof of application — but the core skill is a repeatable workflow.'}
+              : 'The final project is proof of application — but the core skill is a repeatable workflow.')}
           </motion.p>
         </motion.div>
       </div>

@@ -13,7 +13,32 @@ import { useSiteContent, SiteContent } from "@/hooks/useSiteContent";
 import { toast } from "sonner";
 import LoadingSpinner from "@/components/LoadingSpinner";
 
-const SECTION_OPTIONS = ['hero', 'philosophy', 'cta', 'target_audience', 'benefits', 'testimonials'];
+const SECTION_OPTIONS = [
+  'hero',
+  'philosophy',
+  'cta',
+  'target_audience',
+  'day5_outcome',
+  'benefits',
+  'testimonials',
+  'footer',
+  'faq',
+  'general'
+];
+
+// Human-readable section names for display
+const SECTION_LABELS: Record<string, string> = {
+  hero: 'الصفحة الرئيسية (Hero)',
+  philosophy: 'كيف تعمل الدورة (Philosophy)',
+  cta: 'التسجيل والأسعار (CTA)',
+  target_audience: 'لمن هذه الدورة (Target Audience)',
+  day5_outcome: 'مخرجات اليوم الخامس (Day 5 Outcome)',
+  benefits: 'الفوائد (Benefits)',
+  testimonials: 'آراء المشاركين (Testimonials)',
+  footer: 'التذييل (Footer)',
+  faq: 'الأسئلة الشائعة (FAQ)',
+  general: 'عام (General)'
+};
 
 const AdminSiteContent = () => {
   const { content, loading, createContent, updateContent, deleteContent } = useSiteContent();
@@ -119,7 +144,7 @@ const AdminSiteContent = () => {
                         onChange={e => setFormData({...formData, section: e.target.value})}
                       >
                         {SECTION_OPTIONS.map(section => (
-                          <option key={section} value={section}>{section}</option>
+                          <option key={section} value={section}>{SECTION_LABELS[section] || section}</option>
                         ))}
                       </select>
                     </div>
@@ -143,7 +168,7 @@ const AdminSiteContent = () => {
         {Object.entries(groupedContent).map(([section, items]) => (
           <div key={section} className="mb-6">
             <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
-              <Badge variant="outline" className="text-sm">{section}</Badge>
+              <Badge variant="outline" className="text-sm">{SECTION_LABELS[section] || section}</Badge>
             </h3>
             <Table>
               <TableHeader>

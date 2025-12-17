@@ -20,11 +20,11 @@ export const useSiteContent = (section?: string) => {
     try {
       setLoading(true);
       let query = supabase.from('site_content').select('*');
-      
+
       if (section) {
         query = query.eq('section', section);
       }
-      
+
       const { data, error } = await query.order('section').order('content_key');
 
       if (error) throw error;
@@ -36,9 +36,23 @@ export const useSiteContent = (section?: string) => {
     }
   };
 
-  const getContent = (key: string, lang: 'ar' | 'en' = 'ar') => {
+  const getContent = (key: string, lang: 'ar' | 'en' = 'ar', fallback: string = '') => {
     const item = content.find(c => c.content_key === key);
-    return item ? (lang === 'ar' ? item.content_ar : item.content_en) : '';
+    if (!item) return fallback;
+    return lang === 'ar' ? item.content_ar : item.content_en;
+  };
+
+  // Get all content items that match a prefix (e.g., 'feature_' returns feature_1, feature_2, etc.)
+  const getContentArray = (prefix: string, lang: 'ar' | 'en' = 'ar'): string[] => {
+    const items = content
+      .filter(c => c.content_key.startsWith(prefix))
+      .sort((a, b) => a.content_key.localeCompare(b.content_key));
+    return items.map(item => lang === 'ar' ? item.content_ar : item.content_en);
+  };
+
+  // Get content by section (useful when you need all content from a specific section)
+  const getContentBySection = (sectionName: string): SiteContent[] => {
+    return content.filter(c => c.section === sectionName);
   };
 
   const createContent = async (item: Omit<SiteContent, 'id' | 'created_at' | 'updated_at'>) => {
@@ -79,6 +93,8 @@ export const useSiteContent = (section?: string) => {
     loading,
     error,
     getContent,
+    getContentArray,
+    getContentBySection,
     fetchContent,
     createContent,
     updateContent,
