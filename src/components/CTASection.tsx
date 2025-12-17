@@ -57,36 +57,31 @@ const CTASection = () => {
           </p>
         </SectionReveal>
 
-        {/* CTA Features Grid - center last items when odd number */}
+        {/* CTA Features Grid - 2 columns with last item centered */}
         {(() => {
           const features = tArray('ctaFeatures');
-          const isOdd = features.length % 3 !== 0;
-          const lastRowCount = features.length % 3;
-          const lastRowStartIndex = features.length - lastRowCount;
+          const isOdd = features.length % 2 !== 0;
+          const lastIndex = features.length - 1;
 
           return (
-            <StaggerContainer className="grid md:grid-cols-3 gap-4 mb-8" staggerDelay={0.1}>
+            <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-8 max-w-2xl mx-auto" staggerDelay={0.08}>
               {features.map((feature, index) => {
-                // Determine if this item is in the last incomplete row
-                const isInLastRow = isOdd && index >= lastRowStartIndex;
-                const lastRowClass = isInLastRow && lastRowCount === 1
-                  ? 'md:col-start-2'
-                  : isInLastRow && lastRowCount === 2 && index === lastRowStartIndex
-                    ? 'md:col-start-1 md:col-span-1 md:justify-self-end md:w-full'
-                    : isInLastRow && lastRowCount === 2 && index === lastRowStartIndex + 1
-                      ? 'md:col-start-3 md:col-span-1 md:justify-self-start md:w-full'
-                      : '';
+                // Center the last item if odd number of features
+                const isLastOddItem = isOdd && index === lastIndex;
 
                 return (
-                  <StaggerItem key={index} className={lastRowClass}>
+                  <StaggerItem
+                    key={index}
+                    className={isLastOddItem ? 'md:col-span-2 md:max-w-[50%] md:mx-auto' : ''}
+                  >
                     <motion.div
-                      className="flex items-center gap-2 justify-center px-3 py-2.5 h-full min-h-[48px] rounded-xl bg-card/30 backdrop-blur-sm border border-border/50"
+                      className="flex items-center gap-3 px-4 py-3 h-full min-h-[56px] rounded-xl bg-card/40 backdrop-blur-sm border border-border/50"
                       whileHover={prefersReducedMotion ? {} : { scale: 1.02, borderColor: 'hsl(var(--primary) / 0.5)' }}
                     >
-                      <div className="flex-shrink-0 p-1 rounded-full bg-primary/20">
-                        <Check className="h-3.5 w-3.5 text-primary" />
+                      <div className="flex-shrink-0 p-1.5 rounded-full bg-primary/20">
+                        <Check className="h-4 w-4 text-primary" />
                       </div>
-                      <span className="text-sm text-foreground text-center">{feature}</span>
+                      <span className="text-sm text-foreground">{feature}</span>
                     </motion.div>
                   </StaggerItem>
                 );
