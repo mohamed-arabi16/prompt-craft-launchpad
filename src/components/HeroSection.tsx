@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { ArrowRight, Sparkles, Brain, Zap, Target, Lightbulb, Info } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
+import { useSiteContent } from "@/hooks/useSiteContent";
 import DownloadButton from "./DownloadButton";
 import { AnimatedBackground, Floating3DElements, MagneticButton } from "./premium";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
@@ -13,14 +14,22 @@ import BookingFormModal from "./BookingFormModal";
  */
 const HeroSection = () => {
   const { t, currentLanguage } = useTranslation();
+  const { getContent, loading } = useSiteContent('hero');
   const prefersReducedMotion = useReducedMotion();
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
 
-  // 3 specific chips as requested
+  // Helper to get content with fallback to translation
+  const getText = (key: string, fallbackKey?: string) => {
+    const dbContent = getContent(key, currentLanguage);
+    if (dbContent) return dbContent;
+    return fallbackKey ? t(fallbackKey) : '';
+  };
+
+  // 3 specific chips - from database or fallback to translations
   const chips = [
-    t('heroChip1'),
-    t('heroChip2'),
-    t('heroChip3'),
+    getText('chip_1', 'heroChip1'),
+    getText('chip_2', 'heroChip2'),
+    getText('chip_3', 'heroChip3'),
   ];
 
   return (
@@ -141,9 +150,7 @@ const HeroSection = () => {
         >
           <TooltipProvider>
             <span>
-              {currentLanguage === 'ar'
-                ? 'نتائج مُرضية من 1-3 محاولات'
-                : 'Satisfying results in 1-3 attempts'}
+              {getText('promise_line_1', 'heroPromiseLine')}
             </span>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -153,17 +160,17 @@ const HeroSection = () => {
               </TooltipTrigger>
               <TooltipContent side="bottom" className="max-w-[200px] text-center">
                 <p className="text-xs">
-                  {currentLanguage === 'ar'
+                  {getText('promise_tooltip') || (currentLanguage === 'ar'
                     ? 'في معظم الحالات، يعتمد على تعقيد المهمة'
-                    : 'In most cases, depends on task complexity'}
+                    : 'In most cases, depends on task complexity')}
                 </p>
               </TooltipContent>
             </Tooltip>
-            <span>{currentLanguage === 'ar' ? '+' : '+'}</span>
+            <span>+</span>
             <span>
-              {currentLanguage === 'ar'
+              {getText('promise_line_2') || (currentLanguage === 'ar'
                 ? 'رابط مشروع جاهز للمشاركة في اليوم الخامس'
-                : 'Shareable project link by Day 5'}
+                : 'Shareable project link by Day 5')}
             </span>
           </TooltipProvider>
         </motion.div>
@@ -206,9 +213,9 @@ const HeroSection = () => {
           variants={fadeInUp}
           className="text-sm text-muted-foreground mb-6 max-w-xl mx-auto"
         >
-          {currentLanguage === 'ar'
+          {getText('reassurance_line') || (currentLanguage === 'ar'
             ? 'مباشر خلال 5 أيام • بدون خبرة تقنية • دعم عبر واتساب أثناء فترة الدورة'
-            : 'Live over 5 days • No technical experience needed • WhatsApp support during the course'}
+            : 'Live over 5 days • No technical experience needed • WhatsApp support during the course')}
         </motion.p>
 
         {/* 3 Chips - Only these 3 specific ones */}

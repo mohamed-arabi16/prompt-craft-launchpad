@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { useTranslation } from "@/hooks/useTranslation";
+import { useSiteContent } from "@/hooks/useSiteContent";
 import { SectionReveal, GlassCard } from "./premium";
 import { Layers, Zap, ArrowRight, ChevronDown } from "lucide-react";
 
@@ -9,22 +10,30 @@ import { Layers, Zap, ArrowRight, ChevronDown } from "lucide-react";
  */
 const CoursePhilosophy = () => {
   const { t, currentLanguage } = useTranslation();
+  const { getContent } = useSiteContent('philosophy');
+
+  // Helper to get content with fallback to translation
+  const getText = (key: string, fallbackKey?: string) => {
+    const dbContent = getContent(key, currentLanguage);
+    if (dbContent) return dbContent;
+    return fallbackKey ? t(fallbackKey) : '';
+  };
 
   const cards = [
     {
       icon: Layers,
-      title: t('howItWorksCard1Title'),
-      text: t('howItWorksCard1Text'),
+      title: getText('card_1_title', 'howItWorksCard1Title'),
+      text: getText('card_1_text', 'howItWorksCard1Text'),
     },
     {
       icon: Zap,
-      title: t('howItWorksCard2Title'),
-      text: t('howItWorksCard2Text'),
+      title: getText('card_2_title', 'howItWorksCard2Title'),
+      text: getText('card_2_text', 'howItWorksCard2Text'),
     },
     {
       icon: ArrowRight,
-      title: t('howItWorksCard3Title'),
-      text: t('howItWorksCard3Text'),
+      title: getText('card_3_title', 'howItWorksCard3Title'),
+      text: getText('card_3_text', 'howItWorksCard3Text'),
     },
   ];
 
@@ -104,7 +113,7 @@ const CoursePhilosophy = () => {
             onClick={scrollToCurriculum}
             className="inline-flex items-center gap-2 text-sm text-primary hover:text-primary/80 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded px-2 py-1"
           >
-            <span>{currentLanguage === 'ar' ? 'اعرف المزيد عن البرنامج' : 'Learn more about the program'}</span>
+            <span>{getText('learn_more_link') || (currentLanguage === 'ar' ? 'اعرف المزيد عن البرنامج' : 'Learn more about the program')}</span>
             <ChevronDown className="h-4 w-4" />
           </button>
         </motion.div>

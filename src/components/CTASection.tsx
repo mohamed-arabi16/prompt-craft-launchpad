@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { ArrowRight, Check, Clock, Sparkles } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
+import { useSiteContent } from "@/hooks/useSiteContent";
 import DownloadButton from "./DownloadButton";
 import { GlassCard, MagneticButton, SectionReveal, StaggerContainer, StaggerItem } from "./premium";
 import { useCourseSettings } from "@/hooks/useCourseSettings";
@@ -12,9 +13,17 @@ import BookingFormModal from "./BookingFormModal";
  */
 const CTASection = () => {
   const { t, tArray, currentLanguage } = useTranslation();
+  const { getContent, getContentArray } = useSiteContent('cta');
   const prefersReducedMotion = useReducedMotion();
   const { getSetting } = useCourseSettings();
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+
+  // Helper to get content with fallback to translation
+  const getText = (key: string, fallbackKey?: string) => {
+    const dbContent = getContent(key, currentLanguage);
+    if (dbContent) return dbContent;
+    return fallbackKey ? t(fallbackKey) : '';
+  };
 
   // Get dynamic course settings
   const currentPriceValue = getSetting('current_price') || '150';
@@ -128,7 +137,7 @@ const CTASection = () => {
                 {t('ctaOriginalPrice')}: <span className="line-through">{formatPrice(originalPriceValue)}</span>
               </div>
               <div className="text-primary text-sm mt-1">
-                {currentLanguage === 'ar' ? 'مقاعد محدودة لهذه الدفعة' : 'Limited seats for this batch'}
+                {getText('limited_seats') || (currentLanguage === 'ar' ? 'مقاعد محدودة لهذه الدفعة' : 'Limited seats for this batch')}
               </div>
             </div>
 

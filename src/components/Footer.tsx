@@ -1,4 +1,5 @@
 import { useTranslation } from "@/hooks/useTranslation";
+import { useSiteContent } from "@/hooks/useSiteContent";
 import { Link } from "react-router-dom";
 import { Mail, MapPin, FileText, MessageCircle, FolderOpen, Files, BookCopy } from "lucide-react";
 import { useCourseSettings } from "@/hooks/useCourseSettings";
@@ -8,7 +9,15 @@ import { useCourseSettings } from "@/hooks/useCourseSettings";
  */
 const Footer = () => {
   const { t, currentLanguage } = useTranslation();
+  const { getContent } = useSiteContent('footer');
   const { getSetting } = useCourseSettings();
+
+  // Helper to get content with fallback to translation
+  const getText = (key: string, fallbackKey?: string) => {
+    const dbContent = getContent(key, currentLanguage);
+    if (dbContent) return dbContent;
+    return fallbackKey ? t(fallbackKey) : '';
+  };
 
   // Get dynamic contact info
   const contactEmail = getSetting('contact_email') || 'info@qobouli.com';
@@ -130,7 +139,7 @@ const Footer = () => {
                 <MapPin className="h-4 w-4 text-primary flex-shrink-0" aria-hidden="true" />
                 <span>
                   {courseLocation === 'أونلاين' || courseLocation.toLowerCase() === 'online'
-                    ? (currentLanguage === 'ar' ? 'متاح عالمياً عبر الإنترنت' : 'Available Online Worldwide')
+                    ? (getText('location_online') || (currentLanguage === 'ar' ? 'متاح عالمياً عبر الإنترنت' : 'Available Online Worldwide'))
                     : courseLocation
                   }
                 </span>
@@ -138,7 +147,7 @@ const Footer = () => {
             </ul>
             {/* Response time expectation */}
             <p className="text-xs text-muted-foreground/70 mt-3 italic">
-              {currentLanguage === 'ar' ? 'نرد عادة خلال 24 ساعة' : 'We usually respond within 24 hours'}
+              {getText('response_time') || (currentLanguage === 'ar' ? 'نرد عادة خلال 24 ساعة' : 'We usually respond within 24 hours')}
             </p>
           </div>
         </div>
