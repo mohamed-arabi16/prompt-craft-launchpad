@@ -137,24 +137,24 @@ export default function BookingFormModal({ isOpen, onClose }: BookingFormModalPr
     onClose();
   };
 
-  if (!isOpen) return null;
-
   return (
     <AnimatePresence>
-      <motion.div
-        className="fixed inset-0 z-50 flex items-center justify-center p-4"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-      >
-        {/* Backdrop */}
+      {isOpen && (
         <motion.div
-          className="absolute inset-0 bg-background/80 backdrop-blur-sm"
+          key="booking-modal"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          onClick={handleClose}
-        />
+        >
+          {/* Backdrop */}
+          <motion.div
+            className="absolute inset-0 z-0 bg-background/80 backdrop-blur-sm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={handleClose}
+          />
 
         {/* Modal */}
         <motion.div
@@ -468,6 +468,7 @@ export default function BookingFormModal({ isOpen, onClose }: BookingFormModalPr
           </GlassCard>
         </motion.div>
       </motion.div>
+      )}
     </AnimatePresence>
   );
 }
