@@ -230,6 +230,45 @@ export type Database = {
         }
         Relationships: []
       }
+      course_sessions: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          current_day: number
+          end_date: string | null
+          id: string
+          is_active: boolean
+          notes: string | null
+          session_name: string
+          start_date: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          current_day?: number
+          end_date?: string | null
+          id?: string
+          is_active?: boolean
+          notes?: string | null
+          session_name: string
+          start_date: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          current_day?: number
+          end_date?: string | null
+          id?: string
+          is_active?: boolean
+          notes?: string | null
+          session_name?: string
+          start_date?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       course_settings: {
         Row: {
           created_at: string
@@ -349,6 +388,140 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      instructor_checklist_items: {
+        Row: {
+          content_ar: string | null
+          content_en: string
+          created_at: string
+          day_number: number
+          display_order: number
+          id: string
+          is_active: boolean
+          item_key: string
+          phase: string
+          updated_at: string
+        }
+        Insert: {
+          content_ar?: string | null
+          content_en: string
+          created_at?: string
+          day_number: number
+          display_order?: number
+          id?: string
+          is_active?: boolean
+          item_key: string
+          phase: string
+          updated_at?: string
+        }
+        Update: {
+          content_ar?: string | null
+          content_en?: string
+          created_at?: string
+          day_number?: number
+          display_order?: number
+          id?: string
+          is_active?: boolean
+          item_key?: string
+          phase?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      instructor_checklist_progress: {
+        Row: {
+          checklist_item_id: string
+          completed_at: string | null
+          completed_by: string | null
+          created_at: string
+          id: string
+          is_completed: boolean
+          notes: string | null
+          session_id: string
+          updated_at: string
+        }
+        Insert: {
+          checklist_item_id: string
+          completed_at?: string | null
+          completed_by?: string | null
+          created_at?: string
+          id?: string
+          is_completed?: boolean
+          notes?: string | null
+          session_id: string
+          updated_at?: string
+        }
+        Update: {
+          checklist_item_id?: string
+          completed_at?: string | null
+          completed_by?: string | null
+          created_at?: string
+          id?: string
+          is_completed?: boolean
+          notes?: string | null
+          session_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "instructor_checklist_progress_checklist_item_id_fkey"
+            columns: ["checklist_item_id"]
+            isOneToOne: false
+            referencedRelation: "instructor_checklist_items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "instructor_checklist_progress_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "course_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      instructor_session_notes: {
+        Row: {
+          common_mistakes: string | null
+          created_at: string
+          day_number: number
+          id: string
+          improvements_for_next_time: string | null
+          learner_highlights: string | null
+          observations: string | null
+          session_id: string
+          updated_at: string
+        }
+        Insert: {
+          common_mistakes?: string | null
+          created_at?: string
+          day_number: number
+          id?: string
+          improvements_for_next_time?: string | null
+          learner_highlights?: string | null
+          observations?: string | null
+          session_id: string
+          updated_at?: string
+        }
+        Update: {
+          common_mistakes?: string | null
+          created_at?: string
+          day_number?: number
+          id?: string
+          improvements_for_next_time?: string | null
+          learner_highlights?: string | null
+          observations?: string | null
+          session_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "instructor_session_notes_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "course_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       profiles: {
         Row: {
