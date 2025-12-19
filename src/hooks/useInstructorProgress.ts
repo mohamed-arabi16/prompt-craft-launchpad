@@ -8,6 +8,11 @@ import {
   ChecklistItemWithProgress
 } from '@/types/instructorDashboard';
 
+// Helper to type-cast supabase queries for tables not yet in generated types
+const fromTable = (tableName: string) => {
+  return supabase.from(tableName as any);
+};
+
 export const useInstructorProgress = () => {
   const [sessions, setSessions] = useState<CourseSession[]>([]);
   const [activeSession, setActiveSession] = useState<CourseSession | null>(null);
@@ -20,18 +25,18 @@ export const useInstructorProgress = () => {
   // Fetch all sessions
   const fetchSessions = useCallback(async () => {
     try {
-      const { data, error } = await supabase
-        .from('course_sessions')
+      const { data, error } = await fromTable('course_sessions')
         .select('*')
         .order('start_date', { ascending: false });
 
       if (error) throw error;
-      setSessions((data || []) as CourseSession[]);
+      const sessionsData = (data as unknown as CourseSession[]) || [];
+      setSessions(sessionsData);
 
       // Set active session if exists
-      const active = data?.find(s => s.is_active);
+      const active = sessionsData.find(s => s.is_active);
       if (active) {
-        setActiveSession(active as CourseSession);
+        setActiveSession(active);
       }
     } catch (err: any) {
       setError(err.message);
@@ -41,15 +46,14 @@ export const useInstructorProgress = () => {
   // Fetch all checklist items
   const fetchChecklistItems = useCallback(async () => {
     try {
-      const { data, error } = await supabase
-        .from('instructor_checklist_items')
+      const { data, error } = await fromTable('instructor_checklist_items')
         .select('*')
         .eq('is_active', true)
         .order('day_number', { ascending: true })
         .order('display_order', { ascending: true });
 
       if (error) throw error;
-      setChecklistItems((data || []) as InstructorChecklistItem[]);
+      setChecklistItems((data as unknown as InstructorChecklistItem[]) || []);
     } catch (err: any) {
       setError(err.message);
     }
@@ -58,13 +62,12 @@ export const useInstructorProgress = () => {
   // Fetch checklist progress for active session
   const fetchChecklistProgress = useCallback(async (sessionId: string) => {
     try {
-      const { data, error } = await supabase
-        .from('instructor_checklist_progress')
+      const { data, error } = await fromTable('instructor_checklist_progress')
         .select('*')
         .eq('session_id', sessionId);
 
       if (error) throw error;
-      setChecklistProgress((data || []) as InstructorChecklistProgress[]);
+      setChecklistProgress((data as unknown as InstructorChecklistProgress[]) || []);
     } catch (err: any) {
       setError(err.message);
     }
@@ -73,13 +76,12 @@ export const useInstructorProgress = () => {
   // Fetch session notes
   const fetchSessionNotes = useCallback(async (sessionId: string) => {
     try {
-      const { data, error } = await supabase
-        .from('instructor_session_notes')
+      const { data, error } = await fromTable('instructor_session_notes')
         .select('*')
         .eq('session_id', sessionId);
 
       if (error) throw error;
-      setSessionNotes((data || []) as InstructorSessionNotes[]);
+      setSessionNotes((data as unknown as InstructorSessionNotes[]) || []);
     } catch (err: any) {
       setError(err.message);
     }
@@ -89,8 +91,7 @@ export const useInstructorProgress = () => {
   const createSession = async (session: Omit<CourseSession, 'id' | 'created_at' | 'updated_at' | 'created_by'>) => {
     const { data: userData } = await supabase.auth.getUser();
 
-    const { data, error } = await supabase
-      .from('course_sessions')
+    const { data, error } = await fromTable('course_sessions')
       .insert({
         ...session,
         created_by: userData.user?.id
@@ -100,13 +101,12 @@ export const useInstructorProgress = () => {
 
     if (error) throw error;
     await fetchSessions();
-    return data as CourseSession;
+    return data as unknown as CourseSession;
   };
 
   // Update session
   const updateSession = async (id: string, updates: Partial<CourseSession>) => {
-    const { error } = await supabase
-      .from('course_sessions')
+    const { error } = await fromTable('course_sessions')
       .update(updates)
       .eq('id', id);
 
@@ -117,14 +117,12 @@ export const useInstructorProgress = () => {
   // Set active session
   const setSessionActive = async (sessionId: string) => {
     // First, deactivate all sessions
-    await supabase
-      .from('course_sessions')
+    await fromTable('course_sessions')
       .update({ is_active: false })
       .neq('id', 'none');
 
     // Then activate the selected session
-    const { error } = await supabase
-      .from('course_sessions')
+    const { error } = await fromTable('course_sessions')
       .update({ is_active: true })
       .eq('id', sessionId);
 
@@ -134,8 +132,7 @@ export const useInstructorProgress = () => {
 
   // Update current day for session
   const updateCurrentDay = async (sessionId: string, dayNumber: number) => {
-    const { error } = await supabase
-      .from('course_sessions')
+    const { error } = await fromTable('course_sessions')
       .update({ current_day: dayNumber })
       .eq('id', sessionId);
 
@@ -153,8 +150,7 @@ export const useInstructorProgress = () => {
 
     if (existingProgress) {
       // Update existing progress
-      const { error } = await supabase
-        .from('instructor_checklist_progress')
+      const { error } = await fromTable('instructor_checklist_progress')
         .update({
           is_completed: isCompleted,
           completed_at: isCompleted ? new Date().toISOString() : null,
@@ -165,8 +161,7 @@ export const useInstructorProgress = () => {
       if (error) throw error;
     } else {
       // Create new progress entry
-      const { error } = await supabase
-        .from('instructor_checklist_progress')
+      const { error } = await fromTable('instructor_checklist_progress')
         .insert({
           session_id: sessionId,
           checklist_item_id: checklistItemId,
@@ -192,15 +187,13 @@ export const useInstructorProgress = () => {
     );
 
     if (existingNotes) {
-      const { error } = await supabase
-        .from('instructor_session_notes')
+      const { error } = await fromTable('instructor_session_notes')
         .update(notes)
         .eq('id', existingNotes.id);
 
       if (error) throw error;
     } else {
-      const { error } = await supabase
-        .from('instructor_session_notes')
+      const { error } = await fromTable('instructor_session_notes')
         .insert({
           session_id: sessionId,
           day_number: dayNumber,
