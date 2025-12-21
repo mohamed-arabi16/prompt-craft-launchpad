@@ -33,7 +33,7 @@ const HeroSection = () => {
   ];
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background" aria-label="Hero section">
+    <section className="relative min-h-screen pt-24 flex items-center justify-center overflow-hidden bg-background" aria-label="Hero section">
       {/* Premium Animated Background */}
       <AnimatedBackground variant="mesh" opacity={0.4} />
 
