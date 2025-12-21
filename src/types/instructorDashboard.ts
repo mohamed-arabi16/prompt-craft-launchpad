@@ -55,54 +55,73 @@ export interface TimelineItem {
   time: string;
   duration: string;
   title: string;
+  title_ar?: string;
   description?: string;
+  description_ar?: string;
 }
 
 export interface TalkTrackSection {
   id: string;
   title: string;
+  title_ar?: string;
   time: string;
   script: string;
+  script_ar?: string;
 }
 
 export interface Exercise {
   id: string;
   title: string;
+  title_ar?: string;
   duration: string;
   instructions: string[];
+  instructions_ar?: string[];
   expectedOutput: string;
+  expectedOutput_ar?: string;
   debriefQuestions: string[];
+  debriefQuestions_ar?: string[];
 }
 
 export interface DayOutcome {
   id: string;
   description: string;
+  description_ar?: string;
 }
 
 export interface OperatingPrinciple {
   id: string;
   title: string;
+  title_ar?: string;
   items: string[];
+  items_ar?: string[];
 }
 
 export interface TroubleshootingScenario {
   id: string;
   title: string;
+  title_ar?: string;
   symptoms: string;
+  symptoms_ar?: string;
   script: string;
+  script_ar?: string;
   fallback?: string;
+  fallback_ar?: string;
 }
 
 export interface SharedAsset {
   id: string;
   name: string;
+  name_ar?: string;
   description: string;
+  description_ar?: string;
 }
 
 export interface DayContent {
   dayNumber: number;
   title: string;
+  title_ar?: string;
   subtitle: string;
+  subtitle_ar?: string;
   sessionLength: string;
   outcomes: DayOutcome[];
   timeline: TimelineItem[];
