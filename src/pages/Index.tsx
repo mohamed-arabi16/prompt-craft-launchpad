@@ -119,7 +119,7 @@ const Index = () => {
 
   return (
     <motion.main
-      className="min-h-screen pt-20"
+      className="min-h-screen pt-24"
       role="main"
       aria-label="AI Course Landing Page"
       variants={pageTransition}
