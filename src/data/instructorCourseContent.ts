@@ -11,184 +11,279 @@ import {
 // Operating Principles (applicable all 5 days)
 export const operatingPrinciples: OperatingPrinciple[] = [
   {
-    id: 'crear',
-    title: 'CREAR Framework',
+    id: 'daily-opening',
+    title: '1.1 Daily Opening Script (45 sec)',
+    title_ar: '1.1 نص الافتتاح اليومي (45 ثانية)',
     items: [
-      'Context: what\'s happening, who it\'s for, where it will be used',
-      'Role: who the AI should act as',
-      'Examples: style reference or what "good" looks like',
-      'Action/Format: what to produce + exact structure',
-      'Refinement: small targeted tweak—not rewriting from scratch'
+      'Say this at the start of every day:',
+      'Quick reminder: we use CREAR, aim for 1–3 tries, apply the stop rule if improvement stalls, and follow tool-switching logic: ChatGPT for draft/plan, Gemini for verify (facts + sources), Lovable for build/ship.',
+      'Questions require: Prompt + Output + Intended result.'
+    ],
+    items_ar: [
+      'تقرأه حرفيًا في بداية كل يوم:',
+      'Reminder سريع: اليوم بنشتغل بـ CREAR، وبعقلية 1–3 tries. لو attempt 3–4 ما فيه تحسن واضح نطبق stop rule ونرجع نكتب foundation prompt.',
+      'وعندنا tool-switching logic: ChatGPT للـDraft/Plan، Gemini للـVerify (facts + sources)، Lovable للـBuild/Ship.',
+      'وأي سؤال لازم معه: Prompt + Output + Intended result.'
     ]
   },
   {
-    id: 'aims',
-    title: 'Goals',
+    id: 'qa-gate',
+    title: '1.2 Q&A Gate',
+    title_ar: '1.2 بوابة الأسئلة (Q&A Gate)',
     items: [
-      'Aim for satisfying output in 1–3 tries for many real tasks',
-      'Stop rule: if attempt 3–4 isn\'t improving → rewrite the foundation prompt'
+      'Before answering any question, say:',
+      '"Before I answer: show me your Prompt + Output + Intended result in one sentence… and I’ll fix it fast."',
+      'If they don\'t have it: "Cool—let’s put it in the Parking Lot and revisit in the last 10 minutes if time allows."'
+    ],
+    items_ar: [
+      'جملة ثابتة قبل الإجابة:',
+      '"قبل ما أجاوب: ورّيني Prompt + Output + Intended result بجملة… وبحلها بسرعة."',
+      'إذا ما عنده الثلاثة: "تمام، نخليها Parking Lot ونرجع لها آخر 10 دقائق لو بقي وقت."'
     ]
   },
   {
-    id: 'tools',
-    title: 'Tool Roles (Simple)',
+    id: 'coaching-rule',
+    title: '1.3 2-Minute Coaching Rule',
+    title_ar: '1.3 قاعدة الكوتشينج (2 دقيقة)',
     items: [
-      'ChatGPT = Draft/Plan',
-      'Gemini = Verify (current facts + sources)',
-      'Lovable = Build/Ship'
+      'Ask: "Goal in one sentence?"',
+      'Ask: "Who is the audience? Which platform?"',
+      'Ask: "What is the Output format?"',
+      'Fix one CREAR element or write one Refinement.',
+      'Rerun -> Move on.',
+      'End with: "We made one change and it improved. Now repeat the same logic on your next task."'
+    ],
+    items_ar: [
+      'اسأل: "Goal بجملة؟"',
+      'اسأل: "مين audience؟ وأي platform؟"',
+      'اسأل: "إيش Output format المطلوب؟"',
+      'أصلّح عنصر واحد من CREAR أو أكتب Refinement واحد -> Rerun -> انتقل.',
+      'جملة إنهاء: "نفّذنا تغيير واحد وطلع فرق. الآن كرر نفس المنطق على المهمة الثانية."'
     ]
   },
   {
-    id: 'arabic-first',
-    title: 'Teaching Arabic-First Learners',
+    id: 'time-dist',
+    title: '1.4 Time Distribution',
+    title_ar: '1.4 توزيع الوقت (قاعدة مقدّسة)',
     items: [
-      'Explain concepts in simple English + optional quick Arabic clarification',
-      'Keep prompts/templates in English ("so you can reuse anywhere")',
-      'If someone struggles, translate the instruction, not the prompt template'
-    ]
-  },
-  {
-    id: 'cohort-rules',
-    title: 'Daily Cohort Rules (30 seconds)',
-    items: [
-      '"We\'ll time-box questions so we can ship outcomes."',
-      '"If you\'re stuck, raise hand and show: your prompt + the output + what you wanted instead."',
-      '"We improve by changing one thing at a time."'
+      'Never less than 40–55 mins practice daily.',
+      'Fixed Break (5–10 mins).',
+      'Any extra time goes to "Fix Clinic", not new content.'
+    ],
+    items_ar: [
+      'لا تقل عن 40–55 دقيقة practice يوميًا.',
+      'Break ثابت (5–10 دقائق) للحفاظ على التركيز.',
+      'أي زيادة وقت تروح "Fix Clinic" وليس محتوى جديد.'
     ]
   }
 ];
 
 // Shared Assets (prepare before Day 1)
 export const sharedAssets: SharedAsset[] = [
-  { id: 'crear-template', name: 'CREAR Prompt Builder', description: 'Template for building structured prompts' },
-  { id: 'refinement-cheat', name: 'Refinement Cheat Sheet', description: 'Quick reference for refinement moves' },
-  { id: 'verification-plan', name: 'Verification Plan Template', description: 'Template for fact-checking process' },
-  { id: 'mini-prd', name: 'Mini-PRD Template', description: 'Lightweight project requirements document' },
-  { id: 'bug-report', name: 'Bug Report Template', description: 'Structured bug reporting for Lovable Day 5' },
-  { id: 'mlp-definition', name: 'Minimum Lovable Product Definition', description: 'Capstone project requirements' }
+  {
+    id: 'crear-template',
+    name: 'CREAR Prompt Builder',
+    name_ar: 'باني الـ Prompt (CREAR)',
+    description: 'Template for building structured prompts',
+    description_ar: 'قالب لبناء prompts منظمة'
+  },
+  {
+    id: 'refinement-pack',
+    name: 'Refinement Pack',
+    name_ar: 'حزمة التحسين (Refinement Pack)',
+    description: 'Ready-to-use refinement prompts',
+    description_ar: 'قوالب تحسين جاهزة للاستخدام'
+  },
+  {
+    id: 'verification-prompt',
+    name: 'Verification Prompt (Gemini)',
+    name_ar: 'أمر التحقق (Gemini)',
+    description: 'Prompt to verify facts and sources',
+    description_ar: 'أمر للتحقق من الحقائق والمصادر'
+  },
+  {
+    id: 'mini-prd',
+    name: 'Mini-PRD Template',
+    name_ar: 'قالب Mini-PRD',
+    description: 'Lightweight project requirements',
+    description_ar: 'وثيقة متطلبات المشروع المصغرة'
+  },
+  {
+    id: 'lovable-build',
+    name: 'Lovable Build Prompt Template',
+    name_ar: 'قالب البناء (Lovable)',
+    description: 'Instructions to build MLP in Lovable',
+    description_ar: 'تعليمات بناء المنتج الأولي في Lovable'
+  },
+  {
+    id: 'bug-report',
+    name: 'Bug Report Template',
+    name_ar: 'قالب تقرير الأخطاء (Bug Report)',
+    description: 'Structured bug reporting',
+    description_ar: 'نموذج منظم لالإبلاغ عن الأخطاء'
+  },
+  {
+    id: 'mlp-def',
+    name: 'Minimum Lovable Product Def',
+    name_ar: 'تعريف المنتج المحبوب الأولي',
+    description: 'Criteria for the capstone project',
+    description_ar: 'معايير مشروع التخرج'
+  }
 ];
 
 // Troubleshooting Scenarios
 export const troubleshootingScenarios: TroubleshootingScenario[] = [
   {
     id: 'low-energy',
-    title: 'Low-Energy Room',
-    symptoms: 'Silence, low participation, cameras off, slow practice',
-    script: '"Quick reset. 60 seconds: type in chat one thing you want AI to help you with this week. No perfect answers—just real tasks." Then: "Pick one and we\'ll CREAR it together."',
-    fallback: 'Do a 3-minute "bad prompt roast" (humor, no shaming): show a vague prompt and why it fails.'
+    title: '6.1 Low Energy Room',
+    title_ar: '6.1 طاقة منخفضة (Low Energy)',
+    symptoms: 'Silence, low participation',
+    symptoms_ar: 'صمت، مشاركة منخفضة',
+    script: 'Fix (60s): "Type in chat one thing you want AI to help you with this week." Then pick 1-2 and do CREAR live.',
+    script_ar: 'حل (60 ثانية): "اكتبوا في الشات: مهمة واحدة تبغوا AI يساعدكم فيها هذا الأسبوع." ثم تختار 1–2 وتعمل CREAR live.'
   },
   {
     id: 'time-overrun',
-    title: 'Time Overrun',
-    symptoms: 'Teaching eats practice; you\'re behind',
-    script: '"I\'m cutting the next section so you get practice time. Practice is where the skill forms." Then skip to exercise. Rule: never steal more than 10 minutes from practice.'
+    title: '6.2 Time Overrun',
+    title_ar: '6.2 تأخرنا في الوقت',
+    symptoms: 'Behind schedule',
+    symptoms_ar: 'متأخرين عن الجدول',
+    script: '"I will shorten this part so we don\'t lose practice." Skip to exercise.',
+    script_ar: '"أنا رح أختصر هنا عشان ما نخسر practice." اقفز مباشرة للتمرين.'
   },
   {
     id: 'confused-learner',
-    title: 'Confused Learner (Lost, Overwhelmed)',
-    symptoms: 'Learner appears lost or overwhelmed',
-    script: '"Tell me your goal in one sentence." "Who is it for?" "What format do you need?" Then paste a CREAR skeleton and fill it with them. "Let\'s not fight the output. We\'ll fix the input. We\'re going to rewrite the foundation in CREAR."'
+    title: '6.3 Confused Learner',
+    title_ar: '6.3 طالب ضايع',
+    symptoms: 'Lost',
+    symptoms_ar: 'ضائع',
+    script: '2-min rescue: "Goal in one sentence?" "Who is audience/platform?" "Output format?" -> Paste CREAR skeleton and fill with them.',
+    script_ar: 'إنقاذ دقيقتين: "قلّي Goal بجملة." "مين audience؟ وأي platform؟" "إيش Output format؟" ثم تلصق CREAR skeleton وتملأ معه.'
   },
   {
     id: 'tech-issues',
-    title: 'Tech Issues (Tool Down, Login Problems)',
-    symptoms: 'Tool is down or learner can\'t log in',
-    script: 'Pair them with someone who has access (buddy system). Or they do the same exercise on paper: Write CREAR prompt + predicted improvement + refinement line. "Don\'t lose the learning because of a login. Write the prompt structure now; you can run it later."'
+    title: '6.4 Tech Issues',
+    title_ar: '6.4 مشاكل تقنية',
+    symptoms: 'Login issues',
+    symptoms_ar: 'مشاكل دخول/تسجيل',
+    script: 'Buddy system or write prompt structure on Notes. "Don\'t lose learning because of login. Write structure now."',
+    script_ar: 'Buddy system (يشوف مع زميل) أو يكتب prompt structure على Notes. "لا نخسر التعلم بسبب login. اكتب Prompt structure الآن."'
   },
   {
     id: 'endless-tweaking',
-    title: 'Endless Tweaking (Tries 4, 5, 6...)',
-    symptoms: 'Learner keeps refining without improvement',
-    script: '"Stop. We hit the stop rule. Your foundation prompt is the problem. Rewrite using CREAR with tighter constraints."'
+    title: '6.5 Endless Tweaking',
+    title_ar: '6.5 تعديلات لا نهائية',
+    symptoms: '5+ tries without improvement',
+    symptoms_ar: 'يحاول 5 مرات بلا فائدة',
+    script: '"Stop rule now. Rewrite foundation prompt with CREAR instead of random tweaks."',
+    script_ar: '"Stop rule الآن. نعيد foundation prompt بـCREAR بدل تعديلات عشوائية."'
   },
   {
-    id: 'feature-explosion',
-    title: 'Day 5 Build Chaos (Feature Explosion)',
-    symptoms: 'Learner wants to add too many features',
-    script: '"That\'s version 2. Today we ship a working core. Put the rest in a backlog list. Ship beats perfect."'
+    id: 'day5-chaos',
+    title: '6.6 Day 5 Chaos',
+    title_ar: '6.6 فوضى اليوم الخامس (Scope Explosion)',
+    symptoms: 'Scope exploded',
+    symptoms_ar: 'السكوب انفجر',
+    script: '"That is Version 2. Today is Minimum Lovable Product only."',
+    script_ar: '"هذا Version 2. اليوم Minimum Lovable Product فقط."'
   }
 ];
 
 // Q&A Management
 export const qaManagement = {
   qaGate: {
-    title: 'The "Q&A Gate"',
-    response: '"Show me three things: your prompt, the output, what you wanted instead (one sentence). Then I can help fast."',
-    fallback: '"Cool—park it for now. After practice, we\'ll come back."'
+    title: 'Q&A Gate',
+    title_ar: 'بوابة الأسئلة',
+    response: '"Before I answer: show me your Prompt + Output + Intended result in one sentence… and I’ll fix it fast."',
+    response_ar: '"قبل ما أجاوب: ورّيني Prompt + Output + Intended result بجملة… وبحلها بسرعة."',
+    fallback: '"Cool—let’s put it in the Parking Lot and revisit in the last 10 minutes if time allows."',
+    fallback_ar: '"تمام، نخليها Parking Lot ونرجع لها آخر 10 دقائق لو بقي وقت."'
   },
   timeboxRules: [
-    'During teaching/demos: max 2 questions per section',
-    'During practice: unlimited, but handle in 2-minute coaching bursts',
-    'Pattern: diagnose → one prompt fix → rerun → move on'
+    'Teaching: 2 questions only.',
+    'Demo: 1 question only (if needed).',
+    'Practice: Unlimited, but 2 mins per person.'
   ],
-  parkingLot: 'Parking Lot (we\'ll hit if time):\n\n___\n___\n___',
-  hybridTip: 'Give online learners a keyword: "HELP:" in chat. Scan for "HELP:" only during practice blocks.'
+  timeboxRules_ar: [
+    'أثناء Teaching: سؤالين فقط ثم نكمل.',
+    'أثناء Demo: سؤال واحد فقط (لو يلزم).',
+    'أثناء Practice: أسئلة كثيرة عادي، لكن كل شخص 2 دقائق.'
+  ],
+  parkingLot: 'Parking Lot',
+  parkingLot_ar: 'موقف الانتظار (Parking Lot)',
+  hybridTip: 'Online: Type "HELP: sentence". In-person: Raise hand + open prompt/output.',
+  hybridTip_ar: 'الأونلاين: يكتبوا في الشات: HELP: ثم جملة واحدة. الموجودين بالقاعة: يرفعوا اليد + يفتحوا prompt/output جاهز.',
+  helpRule: 'I only address HELP: messages during practice blocks.',
+  helpRule_ar: 'أنا أتعامل مع رسائل HELP: فقط أثناء الـpractice blocks.'
 };
 
 // Session 0 (Free Intro Session)
 export const session0Content: DayContent = {
   dayNumber: 0,
   title: 'Session 0 — Free Intro Session',
-  subtitle: 'Convert visitors into qualified leads via form submission',
-  sessionLength: '45–60 min',
+  title_ar: 'الجلسة 0 — جلسة تعريفية مجانية',
+  subtitle: 'Convert visitors into qualified leads',
+  subtitle_ar: 'تحويل الزوار إلى عملاء محتملين عبر CREAR',
+  sessionLength: '50–60 min',
   outcomes: [
-    { id: 's0-1', description: 'Attendees understand the CREAR framework basics' },
-    { id: 's0-2', description: 'Attendees complete one mini prompt transformation' },
-    { id: 's0-3', description: 'Interested attendees submit enrollment form' }
+    { id: 's0-1', description: 'Know value of CREAR', description_ar: 'يعرفوا قيمة CREAR عمليًا' },
+    { id: 's0-2', description: 'Strong CTA to form', description_ar: 'CTA محترمة لتعبئة form (بدون hype)' }
   ],
   timeline: [
-    { time: '0–5', duration: '5 min', title: 'Welcome + who it\'s for', description: 'Introduction for non-technical adults who feel AI is generic or frustrating' },
-    { time: '5–12', duration: '7 min', title: 'The problem (no hype)', description: 'Most people don\'t get value because prompts are missing context + format' },
-    { time: '12–22', duration: '10 min', title: 'Teach CREAR in 8 minutes', description: 'Context, Role, Examples, Action/Format, Refinement' },
-    { time: '22–32', duration: '10 min', title: 'Mini demo: vague → CREAR', description: 'Show one transformation live' },
-    { time: '32–42', duration: '10 min', title: 'Mini exercise', description: 'Write one vague prompt → rewrite with CREAR → share in chat' },
-    { time: '42–48', duration: '6 min', title: 'What the 5-day bootcamp covers', description: 'Clear and grounded overview of each day' },
-    { time: '48–50', duration: '2 min', title: 'CTA (form submission)', description: 'Direct to enrollment form' }
+    { time: '00:00–00:05', duration: '5 min', title: 'Welcome + who it’s for', title_ar: 'ترحيب + لمن هذه الجلسة' },
+    { time: '00:05–00:12', duration: '7 min', title: 'The real problem', title_ar: 'المشكلة الحقيقية' },
+    { time: '00:12–00:22', duration: '10 min', title: 'Teach CREAR + example', title_ar: 'شرح CREAR + مثال' },
+    { time: '00:22–00:32', duration: '10 min', title: 'Demo: vague → CREAR', title_ar: 'ديمو: تحويل Prompt مبهم إلى CREAR' },
+    { time: '00:32–00:42', duration: '10 min', title: 'Mini exercise', title_ar: 'تمرين مصغر' },
+    { time: '00:42–00:50', duration: '8 min', title: 'What the 5 days cover', title_ar: 'ماذا تغطي الـ 5 أيام' },
+    { time: '00:50–00:55', duration: '5 min', title: 'CTA (Form)', title_ar: 'الخاتمة وتسجيل' }
   ],
   talkTracks: [
     {
       id: 's0-welcome',
       title: 'Welcome',
-      time: '0–5',
-      script: '"This intro is for non-technical adults who feel AI is generic or frustrating. Today you\'ll learn one small method you can use immediately."'
+      title_ar: 'ترحيب',
+      time: '00:00–00:05',
+      script: '"This session is for non-techies who feel AI is generic. Today you get one tool: CREAR."',
+      script_ar: '"هذه الجلسة لغير التقنيين اللي يحسون AI يطلع outputs عامة. اليوم بتطلع بأداة واحدة: CREAR."'
     },
     {
       id: 's0-problem',
-      title: 'The Problem',
-      time: '5–12',
-      script: '"Most people don\'t get value because prompts are missing context + format."'
-    },
-    {
-      id: 's0-crear',
-      title: 'Teach CREAR',
-      time: '12–22',
-      script: '"Here\'s the 5-part structure: Context, Role, Examples, Action/Format, Refinement."'
-    },
-    {
-      id: 's0-bootcamp',
-      title: 'Bootcamp Overview',
-      time: '42–48',
-      script: '"Day 1: CREAR foundations\\nDay 2: refine in 1–3 tries + stop rule\\nDay 3: verify facts fast\\nDay 4: plan your mini project\\nDay 5: build + ship a shareable link"'
+      title: 'The Real Problem',
+      title_ar: 'المشكلة الحقيقية',
+      time: '00:05–00:12',
+      script: '"The problem is usually a vague prompt, not the tool."',
+      script_ar: '"المشكلة غالبًا في prompt مبهم، مو الأداة."'
     },
     {
       id: 's0-cta',
       title: 'CTA',
-      time: '48–50',
-      script: '"If you want a hands-on cohort experience, fill the form. After you submit, the team will contact you."'
+      title_ar: 'الخاتمة',
+      time: '00:50–00:55',
+      script: '"If you want a fully hands-on cohort, fill the form. The team will contact you."',
+      script_ar: '"إذا حاب تدخل cohort عملي بالكامل، عبّي form. بعد الإرسال الفريق يتواصل معك."'
     }
   ],
   exercises: [
     {
       id: 's0-ex1',
-      title: 'Mini CREAR Exercise',
+      title: 'Mini Exercise',
+      title_ar: 'تمرين مصغر',
       duration: '10 min',
       instructions: [
-        'Write one vague prompt',
-        'Rewrite it with CREAR',
-        'Share in chat'
+        'Write a Before prompt (one line)',
+        'Rewrite it using CREAR',
+        'Run both and compare'
       ],
-      expectedOutput: 'Before/after prompt transformation shared in chat',
-      debriefQuestions: ['Who wants to share their transformation?']
+      instructions_ar: [
+        'اكتب Prompt (Before) بسطر واحد',
+        'اكتب نفس الـPrompt باستخدام CREAR (After)',
+        'شغّل الاثنين وقارن'
+      ],
+      expectedOutput: 'Before/After Comparison',
+      expectedOutput_ar: 'مقارنة قبل وبعد',
+      debriefQuestions: [],
+      debriefQuestions_ar: []
     }
   ]
 };
@@ -197,93 +292,92 @@ export const session0Content: DayContent = {
 export const day1Content: DayContent = {
   dayNumber: 1,
   title: 'Day 1 — Foundations of Effective Prompting',
+  title_ar: 'اليوم الأول — أسس التلقين الفعال',
   subtitle: 'CREAR + failure→fix',
-  sessionLength: '120 min (2 hours)',
+  subtitle_ar: 'CREAR + من الفشل إلى الإصلاح',
+  sessionLength: '120 min',
   outcomes: [
-    { id: 'd1-1', description: 'One real "before" vague prompt' },
-    { id: 'd1-2', description: 'One improved CREAR prompt' },
-    { id: 'd1-3', description: 'The improved output' },
-    { id: 'd1-4', description: 'One refinement attempt (optional if already great)' }
+    { id: 'd1-1', description: 'Prompt Before (vague)', description_ar: 'Prompt Before (مبهم)' },
+    { id: 'd1-2', description: 'Prompt After (CREAR)', description_ar: 'Prompt After مكتوب بـCREAR' },
+    { id: 'd1-3', description: 'Improved Output', description_ar: 'Output محسّن واضح' },
+    { id: 'd1-4', description: 'One Refinement (if needed)', description_ar: 'Refinement واحد (إذا احتاج)' }
   ],
   timeline: [
-    { time: '0–5', duration: '5 min', title: 'Welcome + orientation' },
-    { time: '5–10', duration: '5 min', title: 'Set rules + how the 5 days work' },
-    { time: '10–20', duration: '10 min', title: 'The frustration + why vague prompts fail' },
-    { time: '20–35', duration: '15 min', title: 'Teach CREAR (fast + concrete)' },
-    { time: '35–50', duration: '15 min', title: 'Failure→Fix demo (live prompt transformation)' },
-    { time: '50–55', duration: '5 min', title: 'Break' },
-    { time: '55–80', duration: '25 min', title: 'Exercise: Rewrite a real prompt with CREAR' },
-    { time: '80–95', duration: '15 min', title: 'Pair share + "spot the missing CREAR"' },
-    { time: '95–110', duration: '15 min', title: 'Instructor debrief (patterns + fixes)' },
-    { time: '110–120', duration: '10 min', title: 'Wrap + homework (tiny)' }
+    { time: '00:00–00:05', duration: '5 min', title: 'Opening + Frame', title_ar: 'الافتتاح + الإطار' },
+    { time: '00:05–00:10', duration: '5 min', title: 'Daily Opening Script + Q&A Rules', title_ar: 'السكريبت اليومي + قواعد الأسئلة' },
+    { time: '00:10–00:20', duration: '10 min', title: 'Problem framing: Generic in → Generic out', title_ar: 'تأطير المشكلة: مدخل عام → مخرج عام' },
+    { time: '00:20–00:35', duration: '15 min', title: 'Teach CREAR', title_ar: 'شرح CREAR' },
+    { time: '00:35–00:50', duration: '15 min', title: 'Live Demo: failure→fix', title_ar: 'ديمو حي: من الفشل للإصلاح' },
+    { time: '00:50–00:55', duration: '5 min', title: 'Break', title_ar: 'استراحة' },
+    { time: '00:55–01:20', duration: '25 min', title: 'Exercise 1: Before/After CREAR', title_ar: 'تمرين 1: قبل وبعد CREAR' },
+    { time: '01:20–01:35', duration: '15 min', title: 'Pair Share: Spot missing CREAR', title_ar: 'مشاركة ثنائية: اكتشف الناقص' },
+    { time: '01:35–01:50', duration: '15 min', title: 'Debrief: Patterns → Fixes', title_ar: 'مراجعة جماعية: الأنماط والحلول' },
+    { time: '01:50–02:00', duration: '10 min', title: 'Wrap + Homework', title_ar: 'الختام + الواجب' }
   ],
   talkTracks: [
     {
-      id: 'd1-welcome',
-      title: 'Welcome',
-      time: '0–5',
-      script: '"Welcome to the Qobouli AI Intensive. Over 5 days, we\'ll build a repeatable way to get useful results in 1–3 tries for many real tasks, and by Day 5 you\'ll ship a small working project link. No hype—just practical skill."'
+      id: 'd1-opening',
+      title: 'Opening',
+      title_ar: 'الافتتاح',
+      time: '00:00–00:05',
+      script: '"Welcome… today we lock the foundation: why outputs become generic, and how CREAR makes results clear and useful fast."',
+      script_ar: '"أهلًا… اليوم بنثبت الأساس: ليش outputs تطلع generic؟ وكيف CREAR يخلي النتائج واضحة ومفيدة بسرعة."'
     },
     {
-      id: 'd1-rules',
-      title: 'Rules + Structure',
-      time: '5–10',
-      script: '"Here\'s how we\'ll run every session: short teaching → live demo → hands-on practice.\\nTwo rules:\\n1. If you ask a question, show me your prompt + output + what you wanted instead.\\n2. We time-box Q&A so practice doesn\'t get eaten."'
-    },
-    {
-      id: 'd1-frustration',
-      title: 'Frustration + Root Cause',
-      time: '10–20',
-      script: '"Most \'bad AI\' experiences are actually missing input. AI can\'t read your mind. Generic in = generic out. Our fix is simple: we stop being vague."'
+      id: 'd1-framing',
+      title: 'Problem Framing',
+      title_ar: 'تأطير المشكلة',
+      time: '00:10–00:20',
+      script: '"AI can’t read your mind. A vague prompt forces guesses: audience, platform, goal, constraints. Today we stop guessing."',
+      script_ar: '"AI ما يقرأ ذهنك. لما تعطي Prompt عام، الأداة تضطر تخمن: الجمهور؟ المنصة؟ الهدف؟ القيود؟ إحنا اليوم بنوقف التخمين."'
     },
     {
       id: 'd1-crear',
       title: 'Teach CREAR',
-      time: '20–35',
-      script: '"CREAR is our baseline prompt structure:\\n\\n• Context: what\'s happening, who it\'s for, where it will be used\\n• Role: who the AI should act as\\n• Examples: style reference or what \'good\' looks like\\n• Action/Format: what to produce + exact structure\\n• Refinement: small targeted tweak—not rewriting from scratch\\n\\nToday you\'ll use CREAR on a real task."'
+      title_ar: 'شرح CREAR',
+      time: '00:20–00:35',
+      script: 'CREAR = Context + Role + Examples + Action/Format + Refinement.',
+      script_ar: 'CREAR = Context (سياق) + Role (دور) + Examples (أمثلة) + Action/Format (فعل/تنسيق) + Refinement (تحسين).'
     },
     {
       id: 'd1-demo',
-      title: 'Live Demo Script',
-      time: '35–50',
-      script: '"I\'m going to show the difference between a vague prompt and a CREAR prompt."\\n\\n[Type the bad prompt]\\n"Write a caption for my post."\\n\\n[Say this:]\\n"See? It could fit any post. Because I gave it nothing."\\n\\n[Type the fixed CREAR prompt:]\\n"Context: IG Reel about a workspace makeover. Audience: young professionals. Platform: Instagram.\\nRole: social media copywriter.\\nExamples: energetic, practical, max one emoji.\\nAction/Format: Write 5 captions under 120 characters, each with a clear CTA question."\\n\\n[Say this after output:]\\n"Now it\'s usable—because we specified platform, audience, tone, and format."\\n\\n[Refinement:]\\n"Refine: Make the best option 15% shorter and more specific to \'small apartments\'."'
+      title: 'Live Demo',
+      title_ar: 'ديمو حي',
+      time: '00:35–00:50',
+      script: 'Show Bad Prompt: "Write a caption for my post." -> Then show CREAR Prompt (Context, Role, Examples...). Refinement: "Make it 15% shorter."',
+      script_ar: 'Bad Prompt: "اكتب Caption لمنشوري." -> CREAR Prompt: "Context: IG Reel... Role: Copywriter...". Refinement: "Make the best option 15% shorter."'
     },
     {
-      id: 'd1-break',
-      title: 'Break',
-      time: '50–55',
-      script: '"5-minute break. When you come back, open ChatGPT and pick a real task you actually need this week."'
-    },
-    {
-      id: 'd1-debrief',
-      title: 'Debrief',
-      time: '95–110',
-      script: '"I\'m seeing the same 3 gaps: missing audience, missing format, and no examples.\\nTomorrow we\'ll focus on when the output is close but not right—how to fix fast without rewriting everything."'
-    },
-    {
-      id: 'd1-wrap',
-      title: 'Wrap + Homework',
-      time: '110–120',
-      script: '"Homework (10 minutes): Bring tomorrow one output you want to improve—something that\'s close but needs work."'
+      id: 'd1-homework',
+      title: 'Homework',
+      title_ar: 'الواجب',
+      time: '01:50–02:00',
+      script: '"Homework: bring one ‘almost good’ Output tomorrow. We’ll improve it with Refinement in 1–3 tries."',
+      script_ar: '"Homework بسيط: جيب بكرا Output ‘almost good’—قريب من المطلوب لكنه يحتاج Refinement. لا تجيب شيء من الصفر."'
     }
   ],
   exercises: [
     {
       id: 'd1-ex1',
-      title: 'Rewrite a Vague Prompt with CREAR',
+      title: 'Before/After CREAR',
+      title_ar: 'قبل وبعد CREAR',
       duration: '25 min',
       instructions: [
-        'Write your vague prompt (1 sentence)',
-        'Rewrite it using CREAR',
-        'Run both',
-        'Save: before prompt, after prompt, best output'
+        'Task: Choose a real task you need this week.',
+        'Write a one-line Prompt (Before).',
+        'Rewrite it using CREAR (After).',
+        'Run both. Save Best Output.'
       ],
-      expectedOutput: 'A mini "before/after" prompt pair + improved answer',
-      debriefQuestions: [
-        'Which CREAR element changed the result the most?',
-        'What did the AI stop guessing after you added context?',
-        'If it\'s still generic—what\'s missing?'
-      ]
+      instructions_ar: [
+        'المهمة: اختر مهمة حقيقية تحتاجها هذا الأسبوع.',
+        'اكتب Prompt (Before) بسطر واحد.',
+        'اكتب نفس الـPrompt باستخدام CREAR (After).',
+        'Run الاثنين. احفظ أفضل Output.'
+      ],
+      expectedOutput: 'Before Prompt, After Prompt (CREAR), Best Output',
+      expectedOutput_ar: 'Before Prompt + After Prompt + Best Output',
+      debriefQuestions: ['Which CREAR element changed the result the most?'],
+      debriefQuestions_ar: ['أي عنصر من CREAR غيّر النتيجة أكثر شيء؟']
     }
   ]
 };
@@ -292,87 +386,75 @@ export const day1Content: DayContent = {
 export const day2Content: DayContent = {
   dayNumber: 2,
   title: 'Day 2 — Iterating to Excellence',
+  title_ar: 'اليوم الثاني — التكرار نحو التميز',
   subtitle: 'Refinement templates + stop rule',
+  subtitle_ar: 'قوالب التحسين + قاعدة التوقف',
   sessionLength: '120 min',
   outcomes: [
-    { id: 'd2-1', description: 'One output improved through 1–2 refinements' },
-    { id: 'd2-2', description: 'A personal "refinement move" they reuse (shorter / tone / format / add example)' },
-    { id: 'd2-3', description: 'Understanding of the stop rule' }
+    { id: 'd2-1', description: 'Improved Output via Refinement #1 & #2', description_ar: 'Output محسّن عبر Refinement #1 و #2' },
+    { id: 'd2-2', description: 'Practical understanding of stop rule', description_ar: 'فهم عملي لـ stop rule' }
   ],
   timeline: [
-    { time: '0–5', duration: '5 min', title: 'Recap (1 win)' },
-    { time: '5–15', duration: '10 min', title: 'Why first drafts need work (normalize iteration)' },
-    { time: '15–30', duration: '15 min', title: 'Common output problems + fix moves' },
-    { time: '30–45', duration: '15 min', title: 'Live demo: 2 refinements to polished' },
-    { time: '45–50', duration: '5 min', title: 'Break' },
-    { time: '50–85', duration: '35 min', title: 'Exercise: Two-Try Refinement (real task)' },
-    { time: '85–100', duration: '15 min', title: 'Stop rule drill (when to rewrite)' },
-    { time: '100–115', duration: '15 min', title: 'Debrief + share best refinement prompts' },
-    { time: '115–120', duration: '5 min', title: 'Wrap' }
+    { time: '00:00–00:05', duration: '5 min', title: 'Opening', title_ar: 'الافتتاح' },
+    { time: '00:05–00:15', duration: '10 min', title: 'Why first draft is normal', title_ar: 'لماذا المسودة الأولى طبيعية' },
+    { time: '00:15–00:30', duration: '15 min', title: 'Teach Refinement Moves', title_ar: 'شرح حركات التحسين' },
+    { time: '00:30–00:45', duration: '15 min', title: 'Live Demo: Two refinements only', title_ar: 'ديمو: تحسينين فقط' },
+    { time: '00:45–00:50', duration: '5 min', title: 'Break', title_ar: 'استراحة' },
+    { time: '00:50–01:25', duration: '35 min', title: 'Exercise 1: Two-Try Refinement', title_ar: 'تمرين 1: تحسين بمحاولتين' },
+    { time: '01:25–01:40', duration: '15 min', title: 'Stop rule drill', title_ar: 'تمرين قاعدة التوقف' },
+    { time: '01:40–01:55', duration: '15 min', title: 'Debrief: Best Refinement prompts', title_ar: 'مراجعة: أفضل أوامر التحسين' },
+    { time: '01:55–02:00', duration: '5 min', title: 'Wrap', title_ar: 'الختام' }
   ],
   talkTracks: [
     {
-      id: 'd2-recap',
-      title: 'Recap',
-      time: '0–5',
-      script: '"Yesterday you learned how to ask. Today you learn how to direct. First drafts are normal. Your job is to give feedback the AI can use."'
+      id: 'd2-why-draft',
+      title: 'Why First Draft',
+      title_ar: 'لماذا المسودة الأولى',
+      time: '00:05–00:15',
+      script: '"Today we work as editors. First output is a draft. Difference is specific feedback, not ‘make it better’."',
+      script_ar: '"اليوم بنشتغل كمحررين. أول output غالبًا draft. الفرق: feedback واضح ومحدد، مش ‘make it better’."'
     },
     {
-      id: 'd2-normalize',
-      title: 'Normalize Iteration',
-      time: '5–15',
-      script: '"AI gives a draft. You\'re the editor. But \'make it better\' is not feedback. We refine with specific changes."'
-    },
-    {
-      id: 'd2-refinement-rules',
+      id: 'd2-rules',
       title: 'Refinement Rules',
-      time: '15–30',
-      script: '"Refinement rules:\\n\\n1. Change 1–2 things per try\\n2. Use measurable language: shorter by X%, bullet count, tone words\\n3. Test after each change\\n\\nAnd remember: if try 3–4 isn\'t improving, rewrite the foundation prompt."'
-    },
-    {
-      id: 'd2-demo',
-      title: 'Live Demo',
-      time: '30–45',
-      script: '"I\'ll show two refinements."\\n\\n[Run a decent but generic prompt (any topic)]\\n[Say:] "Problem: too long and too generic."\\n\\nRefinement 1: "Cut by 40%, format as 5 bullets."\\nRefinement 2: "Add one concrete example to bullet 2."\\n\\n[Say:] "Two small tweaks beat rewriting everything."'
+      title_ar: 'قواعد التحسين',
+      time: '00:15–00:30',
+      script: 'Rule: Change 1-2 things only per try. Use measurements (cut 40%, 5 bullets). If try 3-4 no good -> stop rule.',
+      script_ar: 'قاعدة Refinement: كل محاولة تغيّر 1–2 أشياء فقط. استخدم قياس: cut by 40%, 5 bullets. لو attempt 3–4 ما يتحسن: stop rule.'
     },
     {
       id: 'd2-stop-rule',
-      title: 'Stop Rule Drill',
-      time: '85–100',
-      script: '"If you\'re on attempt 4 and it\'s not improving, stop. The foundation is broken. You rewrite using CREAR."'
+      title: 'Stop Rule',
+      title_ar: 'قاعدة التوقف',
+      time: '01:25–01:40',
+      script: '"If you reach try 4 with same problem... foundation prompt is weak. Stop rule: rewrite foundation with CREAR."',
+      script_ar: '"إذا وصلت محاولة 4 ولسه نفس المشكلة… هذا دليل إن foundation prompt ناقص. stop rule: نعيد الكتابة بـCREAR."'
     }
   ],
   exercises: [
     {
       id: 'd2-ex1',
       title: 'Two-Try Refinement',
+      title_ar: 'تحسين بمحاولتين',
       duration: '35 min',
       instructions: [
-        'Start with an output you dislike (yesterday or new)',
-        'Identify the single biggest issue',
-        'Refinement #1 (format/tone)',
-        'Refinement #2 (add missing specifics)',
-        'Save final output + your two refinement prompts'
+        '1) Pick "almost good" output.',
+        '2) Write biggest problem in one sentence.',
+        '3) Refinement #1: fix one thing.',
+        '4) Refinement #2: add specificity.',
+        '5) Save.'
       ],
-      expectedOutput: 'Final version + 2 refinement prompts + note of what changed',
-      debriefQuestions: [
-        'What was your refinement #1?',
-        'What did you change in #2?',
-        'Did you stop at 2? If not, why?'
-      ]
-    },
-    {
-      id: 'd2-ex2',
-      title: 'Stop Rule Rewrite',
-      duration: '15 min',
-      instructions: [
-        'Take something that didn\'t improve after multiple tries',
-        'Rewrite the foundation prompt using CREAR'
+      instructions_ar: [
+        '1) اختر Output ‘almost good’.',
+        '2) اكتب المشكلة الأكبر بجملة واحدة.',
+        '3) Refinement #1: أصلّح شيء واحد.',
+        '4) Refinement #2: أضف specificity.',
+        '5) احفظ.'
       ],
-      expectedOutput: 'A new foundation prompt (not more refinements)',
-      debriefQuestions: [
-        'What was missing in the foundation?'
-      ]
+      expectedOutput: 'Problem, Refinement #1, Refinement #2, Final output',
+      expectedOutput_ar: 'مشكلة، Refinement #1، Refinement #2، النتيجة النهائية',
+      debriefQuestions: [],
+      debriefQuestions_ar: []
     }
   ]
 };
@@ -381,66 +463,73 @@ export const day2Content: DayContent = {
 export const day3Content: DayContent = {
   dayNumber: 3,
   title: 'Day 3 — Trust but Verify',
-  subtitle: 'Verification + tool switching',
+  title_ar: 'اليوم الثالث — ثق ولكن تحقق',
+  subtitle: 'Verification + tool-switching logic',
+  subtitle_ar: 'التحقق + منطق تبديل الأدوات',
   sessionLength: '120 min',
   outcomes: [
-    { id: 'd3-1', description: 'One verified/corrected claim (with source name)' },
-    { id: 'd3-2', description: 'A personal "verification trigger list"' },
-    { id: 'd3-3', description: 'Ability to switch: Draft → Verify → return to Draft' }
+    { id: 'd3-1', description: 'Verified claim + source name', description_ar: 'claim تم verified + source name' },
+    { id: 'd3-2', description: 'Updated output based on verification', description_ar: 'تحديث output بناءً على verification' },
+    { id: 'd3-3', description: 'Understand Draft → Verify → Update', description_ar: 'فهم Draft → Verify → Update' }
   ],
   timeline: [
-    { time: '0–5', duration: '5 min', title: 'Recap' },
-    { time: '5–20', duration: '15 min', title: 'Why AI can be confidently wrong' },
-    { time: '20–35', duration: '15 min', title: 'When to verify (triggers list)' },
-    { time: '35–50', duration: '15 min', title: 'Live demo: Draft claim → verify → update' },
-    { time: '50–55', duration: '5 min', title: 'Break' },
-    { time: '55–85', duration: '30 min', title: 'Exercise: Verify one claim' },
-    { time: '85–105', duration: '20 min', title: 'Debrief: source quality + safe phrasing' },
-    { time: '105–120', duration: '15 min', title: 'Wrap + Day 4 preview (capstone planning)' }
+    { time: '00:00–00:05', duration: '5 min', title: 'Opening', title_ar: 'الافتتاح' },
+    { time: '00:05–00:20', duration: '15 min', title: 'Why AI can be confidently wrong', title_ar: 'لماذا يخطئ الذكاء الاصطناعي بثقة' },
+    { time: '00:20–00:35', duration: '15 min', title: 'Verification triggers', title_ar: 'متى نتحقق؟' },
+    { time: '00:35–00:50', duration: '15 min', title: 'Live Demo: Draft -> Verify -> Update', title_ar: 'ديمو: مسودة -> تحقق -> تحديث' },
+    { time: '00:50–00:55', duration: '5 min', title: 'Break', title_ar: 'استراحة' },
+    { time: '00:55–01:25', duration: '30 min', title: 'Exercise: Verify one claim', title_ar: 'تمرين: تحقق من ادعاء واحد' },
+    { time: '01:25–01:45', duration: '20 min', title: 'Debrief: Source quality + safe phrasing', title_ar: 'مراجعة: جودة المصادر والصياغة الآمنة' },
+    { time: '01:45–02:00', duration: '15 min', title: 'Wrap + Day 4 preview', title_ar: 'الختام + مقدمة اليوم الرابع' }
   ],
   talkTracks: [
     {
-      id: 'd3-explain',
-      title: 'Why AI Can Be Wrong',
-      time: '5–20',
-      script: '"AI predicts likely text. It can sound confident and be wrong—especially on numbers, recent changes, and tool features."'
+      id: 'd3-wrong',
+      title: 'Confident Errors',
+      title_ar: 'أخطاء واثقة',
+      time: '00:05–00:20',
+      script: '"AI is great at phrasing, not facts. It fails on numbers, recent updates, pricing. If it causes embarrassment -> Verify."',
+      script_ar: '"AI ممتاز بالصياغة، لكن مش ضمان حقيقة. يغلط في: أرقام، تحديثات حديثة، ميزات أدوات. إذا ممكن يسبب إحراج -> لازم Verification."'
     },
     {
       id: 'd3-triggers',
       title: 'Verification Triggers',
-      time: '20–35',
-      script: '"Verify when you see:\\n\\n• Specific numbers/statistics\\n• Recent/current info\\n• Product/tool capabilities\\n• Anything legal/medical/financial or high-stakes\\n\\nWhen in doubt, verify fast."'
+      title_ar: 'محفزات التحقق',
+      time: '00:20–00:35',
+      script: 'Verify if: numbers/stats, dates/recent updates, tool features/pricing, high-stakes.',
+      script_ar: 'نعمل Verification عندما يكون عندنا: numbers/statistics, dates/recent updates, tool features/pricing, أي شيء high-stakes.'
     },
     {
       id: 'd3-demo',
       title: 'Demo Script',
-      time: '35–50',
-      script: '"I\'ll draft in ChatGPT, then verify in Gemini, then update my draft."\\n\\n[Draft:] "Write a paragraph about [topic] including a growth statistic."\\n[Say:] "This number looks confident. I don\'t trust it yet."\\n[Verify in Gemini:] "Find credible recent statistics about [topic]. Provide sources."\\n[Say:] "Now I replace the unverified line with the verified one."'
-    },
-    {
-      id: 'd3-debrief',
-      title: 'Debrief',
-      time: '85–105',
-      script: '"Two wins today:\\n\\n1. You caught a claim before it embarrassed you.\\n2. You learned how to write a safe sentence even when evidence is weak."'
+      title_ar: 'ديمو',
+      time: '00:35–00:50',
+      script: '"I will write a claim. Then ask Gemini to verify + sources. Then update the text. Goal: one verified sentence."',
+      script_ar: '"سأكتب فقرة فيها claim. بعدين أروح Gemini: verify + sources. بعدين أرجع وأحدث النص. هدفنا مش 20 رابط. هدفنا جملة واحدة verified قابلة للاستخدام."'
     }
   ],
   exercises: [
     {
       id: 'd3-ex1',
-      title: 'Verify One Claim',
+      title: 'Verify one claim',
+      title_ar: 'تحقق من ادعاء واحد',
       duration: '30 min',
       instructions: [
-        'Pick one claim from your work that might be wrong',
-        'In Gemini, search/ask for verification + sources',
-        'Capture: the corrected fact + source name',
-        'Update your original output to include only the verified info'
+        '1) Pick one claim.',
+        '2) Gemini: request verification + sources.',
+        '3) Write: original + verified replacement + source name.',
+        '4) Update final output.'
       ],
-      expectedOutput: 'Original claim, verified replacement sentence, source name, updated paragraph/post',
-      debriefQuestions: [
-        'Was the original claim correct?',
-        'What source did you trust most and why?',
-        'If evidence was unclear, what cautious phrasing did you use?'
-      ]
+      instructions_ar: [
+        '1) اختر claim واحد.',
+        '2) في Gemini: اطلب verification + sources.',
+        '3) اكتب: original claim + verified replacement + source name.',
+        '4) حدّث output النهائي.'
+      ],
+      expectedOutput: 'Original, Verified replacement, Source Name, Updated Output',
+      expectedOutput_ar: 'الأصل، البديل الموثق، اسم المصدر، النتيجة المحدثة',
+      debriefQuestions: [],
+      debriefQuestions_ar: []
     }
   ]
 };
@@ -449,75 +538,74 @@ export const day3Content: DayContent = {
 export const day4Content: DayContent = {
   dayNumber: 4,
   title: 'Day 4 — From Plan to Prep',
-  subtitle: 'Mini-PRD, scope control, assets, build prompt',
+  title_ar: 'اليوم الرابع — من التخطيط للتجهيز',
+  subtitle: 'Mini-PRD + scope control + assets + build prompt',
+  subtitle_ar: 'Mini-PRD + التحكم بالنطاق + الأصول + أمر البناء',
   sessionLength: '120 min',
   outcomes: [
-    { id: 'd4-1', description: 'Mini-PRD (must-haves ≤ 5, nice-to-haves listed separately)' },
-    { id: 'd4-2', description: 'Any key facts verified' },
-    { id: 'd4-3', description: 'At least one saved image/asset' },
-    { id: 'd4-4', description: 'A ready-to-paste Lovable build prompt' }
+    { id: 'd4-1', description: 'Complete Mini-PRD', description_ar: 'Mini-PRD كامل' },
+    { id: 'd4-2', description: 'Must-haves ≤ 5', description_ar: 'Must-haves ≤ 5' },
+    { id: 'd4-3', description: 'One Asset Ready', description_ar: 'asset واحد جاهز' },
+    { id: 'd4-4', description: 'Lovable Build Prompt Ready', description_ar: 'Lovable build prompt جاهز' }
   ],
   timeline: [
-    { time: '0–5', duration: '5 min', title: 'Recap + Plan→Verify→Build loop' },
-    { time: '5–15', duration: '10 min', title: 'Minimum Lovable Product definition' },
-    { time: '15–30', duration: '15 min', title: 'Mini-PRD template walkthrough' },
-    { time: '30–45', duration: '15 min', title: 'Live demo: mini-PRD → build prompt' },
-    { time: '45–50', duration: '5 min', title: 'Break' },
-    { time: '50–90', duration: '40 min', title: 'Exercise: Write mini-PRD + verification list' },
-    { time: '90–110', duration: '20 min', title: 'Exercise: Prep 1 asset + final build prompt' },
-    { time: '110–120', duration: '10 min', title: 'Readiness check + wrap' }
+    { time: '00:00–00:05', duration: '5 min', title: 'Opening', title_ar: 'الافتتاح' },
+    { time: '00:05–00:15', duration: '10 min', title: 'Minimum Lovable Product', title_ar: 'المنتج المحبوب الأولي' },
+    { time: '00:15–00:30', duration: '15 min', title: 'Mini-PRD walkthrough', title_ar: 'شرح Mini-PRD' },
+    { time: '00:30–00:45', duration: '15 min', title: 'Live Demo: Idea -> Mini-PRD -> Build Prompt', title_ar: 'ديمو: فكرة -> Mini-PRD -> أمر بناء' },
+    { time: '00:45–00:50', duration: '5 min', title: 'Break', title_ar: 'استراحة' },
+    { time: '00:50–01:30', duration: '40 min', title: 'Exercise 1: Write Mini-PRD + Verify List', title_ar: 'تمرين 1: كتابة Mini-PRD + قائمة التحقق' },
+    { time: '01:30–01:50', duration: '20 min', title: 'Exercise 2: Asset Prep + Final Prompt', title_ar: 'تمرين 2: تجهيز الأصول + الأمر النهائي' },
+    { time: '01:50–02:00', duration: '10 min', title: 'Readiness check', title_ar: 'فحص الجاهزية' }
   ],
   talkTracks: [
     {
       id: 'd4-mlp',
-      title: 'Minimum Lovable Product',
-      time: '5–15',
-      script: '"Your capstone is a Minimum Lovable Product:\\n\\n• Minimum: buildable in one session\\n• Lovable: one delightful feature\\n• Product: works and you can share a link\\n\\nIf it\'s more than one session, it\'s too big—cut scope."'
+      title: 'MLP Definition',
+      title_ar: 'تعريف MLP',
+      time: '00:05–00:15',
+      script: '"Capstone must be Minimum Lovable Product. Minimum: one session. Lovable: one delightful feature. Product: works + link. Anything bigger = scope cut."',
+      script_ar: '"capstone اليوم لازم يكون Minimum Lovable Product. Minimum: ينتهي بجلسة واحدة. Lovable: ميزة واحدة مبهجة. Product: شغال + shareable link."'
     },
     {
-      id: 'd4-prd-rules',
-      title: 'Mini-PRD Rules',
-      time: '15–30',
-      script: '"Your must-haves are max five. If you have six, one gets cut.\\nEverything else becomes \'version 2\'."'
+      id: 'd4-prd',
+      title: 'Mini-PRD',
+      title_ar: 'وثيقة Mini-PRD',
+      time: '00:15–00:30',
+      script: '"Mini-PRD prevents chaos. Must-haves max 5. Anything else is Nice-to-have."',
+      script_ar: '"Mini-PRD يمنع الفوضى. Must-haves خمسة فقط. أي زيادة تتحول Nice-to-haves."'
     },
     {
       id: 'd4-demo',
-      title: 'Demo Script',
-      time: '30–45',
-      script: '"I\'ll turn an idea into a mini-PRD, then into a Lovable build prompt."\\n\\n[Use any example relevant to the cohort]\\n\\nExample Qobouli site constraints:\\n• Must-have sections short/scannable\\n• Booking intent = form submission (no payment)\\n• Signed-in users see dashboard path; guests see booking path\\n• Arabic RTL spacing/typography and accessibility basics\\n• Footer includes Assets/Resources section"'
+      title: 'Demo',
+      title_ar: 'ديمو',
+      time: '00:30–00:45',
+      script: '"I convert Mini-PRD into clear build instructions for Lovable."',
+      script_ar: '"أنا الآن أحوّل الـMini-PRD إلى build instructions واضحة لـLovable."'
     }
   ],
   exercises: [
     {
       id: 'd4-ex1',
       title: 'Mini-PRD',
+      title_ar: 'Mini-PRD',
       duration: '40 min',
       instructions: [
-        'Overview (1 sentence): "This is a ___ for ___ to ___."',
-        'Must-haves (max 5)',
-        'Nice-to-haves (later)',
-        'Explicit exclusions (what we will NOT build)',
-        'Content/assets needed (text, images)',
-        'What must be verified (facts/claims)'
+        'Write Mini-PRD.',
+        'Rules: Must-haves <= 5.',
+        'Add verify list.',
+        'Add test steps.'
       ],
-      expectedOutput: 'Completed mini-PRD',
-      debriefQuestions: [
-        'Read your must-haves. If it\'s more than 5, cut now.'
-      ]
-    },
-    {
-      id: 'd4-ex2',
-      title: 'Build Prompt + Asset Prep',
-      duration: '20 min',
-      instructions: [
-        'Save 1 real image asset (logo/header/illustration)',
-        'Write the Lovable build prompt using only must-haves + style notes',
-        'Add a "test steps" line'
+      instructions_ar: [
+        'اكتب Mini-PRD لفكرة capstone الخاصة بك.',
+        'Rules: Must-haves ≤ 5.',
+        'أضف verify list لأي facts.',
+        'أضف Test steps (3 checks).'
       ],
-      expectedOutput: 'Asset saved, Final Lovable prompt ready',
-      debriefQuestions: [
-        'Show me your build prompt—does it list sections/features clearly?'
-      ]
+      expectedOutput: 'Mini-PRD, Must-haves <= 5, Verify list, Test steps',
+      expectedOutput_ar: 'Mini-PRD كامل، Must-haves 5 أو أقل، verify list، test steps',
+      debriefQuestions: [],
+      debriefQuestions_ar: []
     }
   ]
 };
@@ -526,80 +614,68 @@ export const day4Content: DayContent = {
 export const day5Content: DayContent = {
   dayNumber: 5,
   title: 'Day 5 — Build & Ship',
-  subtitle: 'Lovable build, bug reports, deploy, showcase',
+  title_ar: 'اليوم الخامس — البناء والإطلاق',
+  subtitle: 'Lovable build + iterations + deploy',
+  subtitle_ar: 'بناء Lovable + تكرار + إطلاق',
   sessionLength: '120 min',
   outcomes: [
-    { id: 'd5-1', description: 'A working project' },
-    { id: 'd5-2', description: 'A shareable link' },
-    { id: 'd5-3', description: 'Ability to iterate with specific bug reports' },
-    { id: 'd5-4', description: '30-second showcase delivery' }
+    { id: 'd5-1', description: 'Working Project', description_ar: 'مشروع شغال' },
+    { id: 'd5-2', description: 'Shareable Link', description_ar: 'رابط قابل للمشاركة' },
+    { id: 'd5-3', description: 'At least one iteration via Bug Report', description_ar: 'iteration واحد على الأقل عبر Bug Report' },
+    { id: 'd5-4', description: '30 sec Showcase', description_ar: 'showcase 30 ثانية' }
   ],
   timeline: [
-    { time: '0–10', duration: '10 min', title: 'Build rules + how we\'ll work today' },
-    { time: '10–25', duration: '15 min', title: 'Live demo: build → test → fix → deploy' },
-    { time: '25–30', duration: '5 min', title: 'Q&A (time-boxed)' },
-    { time: '30–85', duration: '55 min', title: 'Build sprint #1 (instructor circulates)' },
-    { time: '85–95', duration: '10 min', title: 'Break' },
-    { time: '95–110', duration: '15 min', title: 'Build sprint #2 (finish + deploy)' },
-    { time: '110–120', duration: '10 min', title: 'Showcase lightning round' }
+    { time: '00:00–00:10', duration: '10 min', title: 'Build rules', title_ar: 'قواعد البناء' },
+    { time: '00:10–00:25', duration: '15 min', title: 'Live Demo: build->test->bug->fix->deploy', title_ar: 'ديمو: بناء -> اختبار -> إصلاح -> إطلاق' },
+    { time: '00:25–00:30', duration: '5 min', title: 'Q&A', title_ar: 'أسئلة' },
+    { time: '00:30–01:25', duration: '55 min', title: 'Build Sprint #1', title_ar: 'جولة البناء 1' },
+    { time: '01:25–01:35', duration: '10 min', title: 'Break', title_ar: 'استراحة' },
+    { time: '01:35–01:50', duration: '15 min', title: 'Build Sprint #2: Deploy', title_ar: 'جولة البناء 2: الإطلاق' },
+    { time: '01:50–02:00', duration: '10 min', title: 'Showcase Lightning Round', title_ar: 'جولة العرض السريع' }
   ],
   talkTracks: [
     {
       id: 'd5-rules',
-      title: 'Set Build Discipline',
-      time: '0–10',
-      script: '"Today\'s goal is simple: ship something real. Not perfect. Working. Shareable.\\n\\nRules:\\n• Start with the simplest version\\n• Test after every change\\n• Fix one issue at a time\\n• No feature explosion—backlog it."'
+      title: 'Build Rules',
+      title_ar: 'قواعد البناء',
+      time: '00:00–00:10',
+      script: '"Today one goal: Ship. Not perfect. Rules: Start simple, Test after every change, Fix one thing at a time, Feature explosion = backlog."',
+      script_ar: '"اليوم هدف واحد: Ship. مش perfect. قواعد: Start simple, Test بعد كل تغيير, Fix مشكلة واحدة كل مرة, Feature explosion = backlog (Version 2)."'
     },
     {
-      id: 'd5-demo',
-      title: 'Demo Script',
-      time: '10–25',
-      script: '"I paste a clear build prompt. Then I test. Then I report one issue clearly."\\n\\nBug report template:\\n• "Steps to reproduce: …"\\n• "Expected: …"\\n• "Actual: …"\\n• "Fix only this."'
-    },
-    {
-      id: 'd5-qa',
-      title: 'Q&A Control',
-      time: '25–30',
-      script: '"I\'m going to take two questions, then we build. If you have more, drop them in chat/parking lot and I\'ll handle them during circulation."'
-    },
-    {
-      id: 'd5-showcase',
-      title: 'Showcase Script (give to learners)',
-      time: '110–120',
-      script: '"30 seconds each:\\n\\n1. \'This is a ___ for ___.\'\\n2. \'My lovable feature is ___.\'\\n3. \'One thing I learned about prompts/tools is ___.\'"'
+      id: 'd5-bug-report',
+      title: 'Bug Report',
+      title_ar: 'تقرير الأخطاء',
+      time: '00:10–00:25',
+      script: '"Without Steps to reproduce, there is no bug report. We must write the problem in a fixable way."',
+      script_ar: '"بدون Steps to reproduce ما في bug report. لازم نكتب المشكلة بطريقة قابلة للإصلاح."'
     }
   ],
   exercises: [
     {
       id: 'd5-ex1',
-      title: 'Build Sprint #1',
+      title: 'Build Sprint',
+      title_ar: 'جولة البناء',
       duration: '55 min',
       instructions: [
-        'Paste your build prompt into Lovable',
-        'Test after every change',
-        'Report bugs using the template',
-        'Focus on core functionality first'
+        'Build.',
+        'If scope is too big -> Cut to Must-haves.',
+        'If output is bad -> Go back to CREAR.',
+        'If stuck -> Use Bug Report template.'
       ],
-      expectedOutput: 'Working core features',
-      debriefQuestions: []
-    },
-    {
-      id: 'd5-ex2',
-      title: 'Build Sprint #2 + Deploy',
-      duration: '15 min',
-      instructions: [
-        'Finish any remaining must-haves',
-        'Deploy your project',
-        'Get your shareable link',
-        'Prepare 30-second showcase'
+      instructions_ar: [
+        'إذا scope كبير → تقصه فورًا إلى Must-haves فقط',
+        'إذا output سيء → رجّعه لـCREAR',
+        'إذا stuck في iteration → bug report template'
       ],
-      expectedOutput: 'Deployed project with shareable link',
-      debriefQuestions: []
+      expectedOutput: 'Working core',
+      expectedOutput_ar: 'نسخة أولية تعمل',
+      debriefQuestions: [],
+      debriefQuestions_ar: []
     }
   ]
 };
 
-// All days content
 export const allDaysContent: DayContent[] = [
   session0Content,
   day1Content,
@@ -609,87 +685,135 @@ export const allDaysContent: DayContent[] = [
   day5Content
 ];
 
-// Refinement starters (for Day 2)
-export const refinementStarters = [
-  'Cut by 40%…',
-  'Rewrite in [tone]…',
-  'Convert to [table/bullets/steps]…',
-  'Add one concrete example to point 2…'
-];
+// Templates Library
+export const templatesLibrary = {
+  crearBuilder: {
+    title: 'CREAR Prompt Builder',
+    content_en: `Context: [2–3 lines: situation + platform + audience + goal]
+Role: You are a [role].
+Examples: [style reference or small sample / what ‘good’ looks like]
+Action/Format: [exact task] + Output format: [bullets/table/steps/outline] + constraints: [length/tone]
+Refinement: After output, apply: [one measurable change]`,
+    content_ar: `Context: [اشرح الوضع بالعربي + platform + audience + goal في 2–3 أسطر]
+Role: You are a [role].
+Examples: [style reference أو sample صغير أو what ‘good’ looks like]
+Action/Format: [المطلوب بالضبط] + Output format: [bullets/table/steps/outline] + constraints: [length/tone]
+Refinement: After output, apply: [تعديل واحد measurable]`
+  },
+  refinementPack: {
+    title: 'Refinement Pack',
+    content_en: `Refinement: Cut by 40% and keep only actionable points.
+Refinement: Convert into 5 bullets with strong verbs.
+Refinement: Rewrite in a practical, confident tone. No clichés.
+Refinement: Add one concrete example to point #2.
+Refinement: Make it specific to [audience] on [platform].`,
+    content_ar: `Refinement: Cut by 40% and keep only actionable points.
+Refinement: Convert into 5 bullets with strong verbs.
+Refinement: Rewrite in a practical, confident tone. No clichés.
+Refinement: Add one concrete example to point #2.
+Refinement: Make it specific to [audience] on [platform].
+(نفس القائمة بالإنجليزية لضمان الدقة)`
+  },
+  stopRule: {
+    title: 'Stop Rule Prompt',
+    content_en: `Stop rule: attempts are not improving. Rewrite the foundation prompt using CREAR. Strengthen Context and Action/Format. Add Examples. Then generate again.`,
+    content_ar: `Stop rule: attempts are not improving. Rewrite the foundation prompt using CREAR. Strengthen Context and Action/Format. Add Examples. Then generate again.`
+  },
+  verification: {
+    title: 'Verification Prompt (Gemini)',
+    content_en: `Verify the following claim and provide credible sources (include source name and date if possible):
+Claim: ‘[claim]’
+Context: [where it will be used]
+Return: 1) verified statement, 2) sources list, 3) uncertainty notes.`,
+    content_ar: `Verify the following claim and provide credible sources (include source name and date if possible):
+Claim: ‘[اكتب الـclaim]’
+Context: [أين سيستخدم؟]
+Return: 1) verified statement, 2) sources list, 3) uncertainty notes.`
+  },
+  miniPrd: {
+    title: 'Mini-PRD Template',
+    content_en: `Overview: "This is a [product] for [audience] to [job-to-be-done]."
 
-// Safe phrasing templates (for Day 3)
-export const safePhrasing = [
-  'According to [source], …',
-  'Recent reporting suggests…',
-  'Evidence varies; a safe summary is…'
-];
+Must-haves (max 5):
+1. ...
+2. ...
+3. ...
+4. ...
+5. ...
 
-// Scope cutter phrases (for Day 4)
-export const scopeCutterPhrases = [
-  'That\'s version 2.',
-  'Cut to one core flow.',
-  'Remove login/payments/admin.'
-];
+Nice-to-haves (later): ...
+Explicit exclusions (not building): ...
+Assets needed (text/images/links): ...
+What must be verified (facts/claims): ...
 
-// Mini-PRD Template
-export const miniPrdTemplate = `## Mini-PRD Template
+Test steps (3 checks):
+Check 1: ...
+Check 2: ...
+Check 3: ...`,
+    content_ar: `Overview: "This is a [product] for [audience] to [job-to-be-done]."
 
-**Overview (1 sentence):**
-"This is a ___ for ___ to ___."
+Must-haves (max 5):
+1. ...
+2. ...
+3. ...
+4. ...
+5. ...
 
-**Must-haves (max 5):**
-1.
-2.
-3.
-4.
-5.
+Nice-to-haves (later): ...
+Explicit exclusions (not building): ...
+Assets needed (text/images/links): ...
+What must be verified (facts/claims): ...
 
-**Nice-to-haves (later):**
--
-
-**Explicit exclusions (what we will NOT build):**
--
-
-**Content/assets needed:**
-- Text:
-- Images:
-
-**What must be verified:**
-- `;
-
-// Bug Report Template
-export const bugReportTemplate = `## Bug Report
-
-**Steps to reproduce:**
-1.
-
-**Expected:**
-
-
-**Actual:**
-
-
-**Fix only this.**`;
-
-// CREAR Template
-export const crearTemplate = `## CREAR Prompt Builder
-
-**Context:**
-(What's happening, who it's for, where it will be used)
-
-
-**Role:**
-(Who the AI should act as)
-
-
-**Examples:**
-(Style reference or what "good" looks like)
-
-
-**Action/Format:**
-(What to produce + exact structure)
-
-
-**Refinement:**
-(Small targeted tweak—not rewriting from scratch)
-`;
+Test steps (3 checks):
+Check 1: ...
+Check 2: ...
+Check 3: ...`
+  },
+  lovableBuild: {
+    title: 'Lovable Build Prompt Template',
+    content_en: `Build a Minimum Lovable Product based on this Mini-PRD.
+Constraints: keep it short, scannable, consistent spacing, clear hierarchy, accessible labels and error states if forms exist.
+Must-haves:
+...
+Lovable feature (one only): ...
+Assets: [paste text + links]
+Output requirements: [pages/components]
+Test steps:
+Step 1: ... Expected: ...`,
+    content_ar: `Build a Minimum Lovable Product based on this Mini-PRD.
+Constraints: keep it short, scannable, consistent spacing, clear hierarchy, accessible labels and error states if forms exist.
+Must-haves:
+...
+Lovable feature (one only): ...
+Assets: [paste text + links]
+Output requirements: [pages/components]
+Test steps:
+Step 1: ... Expected: ...`
+  },
+  bugReport: {
+    title: 'Bug Report Template',
+    content_en: `Bug Report
+Steps to reproduce: 1) ... 2) ... 3) ...
+Expected: ...
+Actual: ...
+Fix only this: ...
+Notes: ...`,
+    content_ar: `Bug Report
+Steps to reproduce: 1) ... 2) ... 3) ...
+Expected: ...
+Actual: ...
+Fix only this: ...
+Notes: ...`
+  },
+  helpMsg: {
+    title: 'HELP Message Template',
+    content_en: `HELP:
+Prompt: [paste]
+Output: [paste]
+Intended result: [one sentence]`,
+    content_ar: `HELP:
+Prompt: [paste]
+Output: [paste]
+Intended result: [one sentence]`
+  }
+};

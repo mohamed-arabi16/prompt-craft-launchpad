@@ -7,6 +7,7 @@ import {
   InstructorSessionNotes,
   ChecklistItemWithProgress
 } from '@/types/instructorDashboard';
+import { checklistTranslations } from '@/data/checklistTranslations';
 
 // Helper to type-cast supabase queries for tables not yet in generated types
 const fromTable = (tableName: string) => {
@@ -53,7 +54,17 @@ export const useInstructorProgress = () => {
         .order('display_order', { ascending: true });
 
       if (error) throw error;
-      setChecklistItems((data as unknown as InstructorChecklistItem[]) || []);
+
+      // Enhance fetched items with Arabic translations
+      const fetchedItems = (data as unknown as InstructorChecklistItem[]) || [];
+      const enhancedItems = fetchedItems.map(item => ({
+        ...item,
+        // If content_ar is fetched (and DB has column), use it.
+        // If it's missing or null, try to map from translations by key or English content
+        content_ar: item.content_ar || checklistTranslations[item.item_key] || checklistTranslations[item.content_en] || null
+      }));
+
+      setChecklistItems(enhancedItems);
     } catch (err: any) {
       setError(err.message);
     }
