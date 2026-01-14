@@ -468,10 +468,10 @@ npm run build
 Output directory: `dist/`
 
 **Recommended Hosts:**
-- Vercel (excellent SPA support)
-- Netlify (excellent SPA support)
-- Cloudflare Pages (excellent SPA support)
-- GitHub Pages (requires 404.html configuration for SPA routing)
+- Vercel (excellent SPA support with automatic rewrites)
+- Netlify (excellent SPA support with `_redirects` file)
+- Cloudflare Pages (excellent SPA support with automatic routing)
+- GitHub Pages (requires 404.html workaround: create a 404.html that redirects to index.html for SPA routing. See [SPA GitHub Pages guide](https://github.com/rafgraph/spa-github-pages))
 
 **Environment Variables:**
 Set in hosting platform:
@@ -712,7 +712,7 @@ const { data, error, isLoading } = useQuery({
 ### Authentication Security
 
 1. **JWT Tokens**: Short-lived, auto-refreshed by Supabase, currently stored in localStorage
-2. **Secure Storage**: Consider migrating to HTTP-only cookies for enhanced security in production
+2. **Secure Storage**: Consider migrating to HTTP-only cookies for enhanced security in production. HTTP-only cookies prevent XSS attacks by making tokens inaccessible to JavaScript, while localStorage is vulnerable to XSS exploits.
 3. **HTTPS Only**: Enforce in production
 4. **CORS**: Configured in Edge Functions
 
@@ -911,9 +911,9 @@ npm install package@latest
 ### Contact
 
 For questions or issues:
-- GitHub Issues: Report bugs and feature requests
-- Pull Requests: Contribute improvements
-- Email: (Configure contact info)
+- **GitHub Issues**: Report bugs and feature requests at the project repository
+- **Pull Requests**: Contribute improvements via GitHub
+- **Project Repository**: [mohamed-arabi16/prompt-craft-launchpad](https://github.com/mohamed-arabi16/prompt-craft-launchpad)
 
 ---
 
