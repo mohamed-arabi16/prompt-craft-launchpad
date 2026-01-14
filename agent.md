@@ -468,10 +468,10 @@ npm run build
 Output directory: `dist/`
 
 **Recommended Hosts:**
-- Vercel
-- Netlify
-- Cloudflare Pages
-- GitHub Pages
+- Vercel (excellent SPA support)
+- Netlify (excellent SPA support)
+- Cloudflare Pages (excellent SPA support)
+- GitHub Pages (requires 404.html configuration for SPA routing)
 
 **Environment Variables:**
 Set in hosting platform:
@@ -711,8 +711,8 @@ const { data, error, isLoading } = useQuery({
 
 ### Authentication Security
 
-1. **JWT Tokens**: Short-lived, auto-refreshed by Supabase
-2. **HTTP-Only Cookies**: Recommended for production
+1. **JWT Tokens**: Short-lived, auto-refreshed by Supabase, currently stored in localStorage
+2. **Secure Storage**: Consider migrating to HTTP-only cookies for enhanced security in production
 3. **HTTPS Only**: Enforce in production
 4. **CORS**: Configured in Edge Functions
 
@@ -917,6 +917,6 @@ For questions or issues:
 
 ---
 
-**Last Updated**: January 2026  
+**Last Updated**: January 2025  
 **Version**: 1.0.0  
 **Maintained By**: Prompt Craft Launchpad Team
