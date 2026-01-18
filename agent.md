@@ -917,6 +917,447 @@ For questions or issues:
 
 ---
 
-**Last Updated**: January 2025  
-**Version**: 1.0.0  
+## ✨ Animations & 3D Effects
+
+This section documents all animations, 3D effects, and premium interactive components used throughout the application.
+
+### Animation Library: Framer Motion (^12.23.26)
+
+Framer Motion is the primary animation library providing:
+- Declarative animations with `motion` components
+- Spring-based physics
+- Gesture recognition (hover, tap, drag)
+- Layout animations
+- Scroll-triggered animations
+- Reduced motion support
+
+### Custom Animation Hooks (`src/hooks/useAnimations.ts`)
+
+#### 1. `useInView`
+Intersection Observer hook for scroll-triggered animations.
+```typescript
+const { ref, isInView } = useInView({ threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+```
+**Usage**: Trigger fade-in animations when elements enter viewport.
+
+#### 2. `useScrollProgress`
+Tracks page scroll progress (0-100%).
+```typescript
+const progress = useScrollProgress();
+```
+**Usage**: Scroll progress indicator, parallax calculations.
+
+#### 3. `useParallax`
+Creates parallax scrolling effects with configurable speed.
+```typescript
+const offset = useParallax(0.5); // speed factor
+```
+**Features**: Respects `prefers-reduced-motion`, passive event listeners.
+
+#### 4. `useMousePosition`
+Tracks cursor position globally.
+```typescript
+const { x, y } = useMousePosition();
+```
+**Usage**: Interactive backgrounds, cursor effects.
+
+#### 5. `useMagneticEffect`
+Magnetic pull effect for interactive elements.
+```typescript
+const { ref, position, handleMouseMove, handleMouseLeave } = useMagneticEffect(0.3);
+```
+**Features**: Configurable strength, respects reduced motion.
+
+#### 6. `useTiltEffect`
+3D tilt effect based on mouse position.
+```typescript
+const { ref, tilt, handleMouseMove, handleMouseLeave } = useTiltEffect(10);
+```
+**Features**: Configurable max tilt angle, respects reduced motion.
+
+#### 7. `useKeyboardShortcut`
+Custom keyboard shortcut handler with modifier support.
+```typescript
+useKeyboardShortcut('k', () => openSearch(), { ctrl: true, shift: false });
+```
+
+#### 8. `useSoundEnabled`
+Sound effects toggle with localStorage persistence.
+```typescript
+const { soundEnabled, toggleSound } = useSoundEnabled();
+```
+
+### Animation Presets (`src/lib/animations.ts`)
+
+#### Fade Animations
+```typescript
+fadeIn       // Simple opacity fade
+fadeInUp     // Fade + slide from bottom
+fadeInDown   // Fade + slide from top
+fadeInLeft   // Fade + slide from left (RTL-aware)
+fadeInRight  // Fade + slide from right (RTL-aware)
+```
+
+#### Scale Animations
+```typescript
+scaleIn      // Scale from 0.8 to 1
+scaleInUp    // Scale + slide from bottom
+```
+
+#### Stagger Animations
+```typescript
+staggerContainer  // Parent container for staggered children
+staggerItem       // Child item with stagger delay
+```
+
+#### Special Effects
+```typescript
+slideInFromBottom // Slide up animation
+elasticScale      // Bouncy scale effect
+rotateIn          // Rotation with fade
+```
+
+---
+
+## 🎭 Premium Components (`src/components/premium/`)
+
+### 1. TiltCard (`TiltCard.tsx`)
+
+**3D perspective card with mouse-tracking tilt and glare effect.**
+
+```typescript
+interface TiltCardProps {
+  children: React.ReactNode;
+  className?: string;
+  maxTilt?: number;      // Max tilt angle (default: 10°)
+  glare?: boolean;       // Enable glare overlay (default: true)
+  scale?: number;        // Hover scale factor (default: 1.02)
+}
+```
+
+**Technical Implementation:**
+- Uses `useMotionValue` and `useSpring` for smooth interpolation
+- `useTransform` maps mouse position to rotation values
+- Radial gradient glare follows cursor position
+- Border glow effect on hover
+- 3D perspective: `1000px`
+
+**Animation Properties:**
+- Spring config: `{ stiffness: 300, damping: 30 }`
+- Respects `prefers-reduced-motion`
+
+### 2. MagneticButton (`MagneticButton.tsx`)
+
+**Interactive button with magnetic follow effect.**
+
+```typescript
+interface MagneticButtonProps {
+  children: React.ReactNode;
+  className?: string;
+  strength?: number;     // Pull strength (default: 0.3)
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
+  size?: 'sm' | 'md' | 'lg';
+  onClick?: () => void;
+  disabled?: boolean;
+  glow?: boolean;        // Enable glow effect (default: false)
+}
+```
+
+**Technical Implementation:**
+- Motion values for x, y position and rotation
+- Calculates offset from button center
+- Rotation based on cursor distance
+- Spring-based return to origin
+- Shine effect overlay animation
+
+**Variants:**
+- `primary`: Electric lime background
+- `secondary`: Dark background with border
+- `outline`: Transparent with lime border
+- `ghost`: Transparent, text only
+
+### 3. Floating3DElements (`Floating3DElements.tsx`)
+
+**Animated floating icons with depth and parallax.**
+
+```typescript
+interface FloatingElementProps {
+  className?: string;
+  density?: number;  // Number of elements (default: 6)
+}
+```
+
+**Technical Implementation:**
+- Randomly positioned icons from Lucide (Sparkles, Zap, Star, etc.)
+- Multi-axis floating animation with keyframes
+- Varying durations (15-30s) for organic movement
+- Gradient depth orbs for atmospheric effect
+- Performance-optimized with `will-change`
+
+**Animation Keyframes:**
+```css
+@keyframes float {
+  0%, 100% { transform: translateY(0px) translateX(0px) rotate(0deg); }
+  25% { transform: translateY(-20px) translateX(10px) rotate(5deg); }
+  50% { transform: translateY(-10px) translateX(-10px) rotate(-5deg); }
+  75% { transform: translateY(-25px) translateX(5px) rotate(3deg); }
+}
+```
+
+### 4. AnimatedBackground (`AnimatedBackground.tsx`)
+
+**Dynamic gradient background with floating particles.**
+
+**Features:**
+- Radial gradient layers
+- Floating particle system
+- Smooth color transitions
+- Performance-optimized rendering
+
+### 5. GlassCard (`GlassCard.tsx`)
+
+**Glassmorphism card component.**
+
+**Styling:**
+```css
+background: rgba(255, 255, 255, 0.1);
+backdrop-filter: blur(10px);
+border: 1px solid rgba(255, 255, 255, 0.2);
+```
+
+### 6. ScrollProgress (`ScrollProgress.tsx`)
+
+**Page scroll progress indicator.**
+
+**Implementation:**
+- Fixed position at top of viewport
+- Width scales with scroll progress (0-100%)
+- Uses `useScrollProgress` hook
+- Electric lime color (`bg-primary`)
+
+### 7. ProgressRing (`ProgressRing.tsx`)
+
+**Circular progress indicator with SVG.**
+
+**Features:**
+- SVG-based ring
+- Animated stroke-dasharray
+- Configurable size and stroke width
+- Center text support
+
+### 8. CourseTimeline (`CourseTimeline.tsx`)
+
+**Interactive timeline for course days.**
+
+**Features:**
+- Vertical timeline layout
+- Day indicators with connections
+- Animated reveal on scroll
+- Current day highlighting
+
+### 9. CommandPalette (`CommandPalette.tsx`)
+
+**Keyboard-accessible command search.**
+
+**Features:**
+- Trigger: `Cmd+K` / `Ctrl+K`
+- Uses `cmdk` library
+- Search through actions/pages
+- Keyboard navigation
+
+### 10. CustomCursor (`CustomCursor.tsx`)
+
+**Custom animated cursor replacement.**
+
+**Features:**
+- Follows mouse position
+- Scale on hover states
+- Spring-based movement
+- Hidden on mobile devices
+
+### 11. SkeletonLoader (`SkeletonLoader.tsx`)
+
+**Loading skeleton animations.**
+
+**Variants:**
+- Card skeleton
+- Text line skeleton
+- Avatar skeleton
+- Custom shapes
+
+### 12. PageTransitionWrapper (`PageTransitionWrapper.tsx`)
+
+**Page transition animations.**
+
+**Transition Types:**
+- Fade in/out
+- Slide from direction
+- Scale with opacity
+
+---
+
+## 🎬 Animation Usage Examples
+
+### Scroll-Triggered Fade In
+```tsx
+import { motion } from 'framer-motion';
+import { useInView } from '@/hooks/useAnimations';
+import { fadeInUp } from '@/lib/animations';
+
+function Section() {
+  const { ref, isInView } = useInView();
+  
+  return (
+    <motion.div
+      ref={ref}
+      initial="hidden"
+      animate={isInView ? "visible" : "hidden"}
+      variants={fadeInUp}
+    >
+      Content fades in when scrolled into view
+    </motion.div>
+  );
+}
+```
+
+### Staggered Children Animation
+```tsx
+import { motion } from 'framer-motion';
+import { staggerContainer, staggerItem } from '@/lib/animations';
+
+function List() {
+  return (
+    <motion.ul variants={staggerContainer} initial="hidden" animate="visible">
+      {items.map((item) => (
+        <motion.li key={item.id} variants={staggerItem}>
+          {item.content}
+        </motion.li>
+      ))}
+    </motion.ul>
+  );
+}
+```
+
+### Interactive Tilt Card
+```tsx
+import { TiltCard } from '@/components/premium';
+
+function FeatureCard() {
+  return (
+    <TiltCard maxTilt={15} glare={true} scale={1.05}>
+      <div className="p-6">
+        <h3>Premium Feature</h3>
+        <p>Hover to see 3D tilt effect</p>
+      </div>
+    </TiltCard>
+  );
+}
+```
+
+### Magnetic Button
+```tsx
+import { MagneticButton } from '@/components/premium';
+
+function CTA() {
+  return (
+    <MagneticButton 
+      variant="primary" 
+      size="lg" 
+      strength={0.4}
+      glow
+      onClick={() => console.log('Clicked!')}
+    >
+      Enroll Now
+    </MagneticButton>
+  );
+}
+```
+
+---
+
+## 🎨 Design System Colors (HSL)
+
+### Primary Palette
+| Token | HSL Value | Hex | Usage |
+|-------|-----------|-----|-------|
+| `--background` | 0 0% 0% | #000000 | Page background |
+| `--foreground` | 0 0% 100% | #FFFFFF | Primary text |
+| `--primary` | 105 100% 50% | #39FF14 | Accent, buttons, highlights |
+| `--primary-foreground` | 0 0% 0% | #000000 | Text on primary |
+
+### Secondary Palette
+| Token | HSL Value | Usage |
+|-------|-----------|-------|
+| `--secondary` | 0 0% 10% | Secondary backgrounds |
+| `--secondary-foreground` | 0 0% 100% | Text on secondary |
+| `--muted` | 0 0% 15% | Muted backgrounds |
+| `--muted-foreground` | 0 0% 65% | Muted text |
+| `--accent` | 105 100% 50% | Accent highlights |
+
+### Semantic Colors
+| Token | HSL Value | Usage |
+|-------|-----------|-------|
+| `--destructive` | 0 84% 60% | Error states |
+| `--border` | 0 0% 20% | Borders |
+| `--ring` | 105 100% 50% | Focus rings |
+
+---
+
+## 📦 Additional Animation Libraries
+
+### canvas-confetti (^1.9.4)
+Celebration effects for user achievements.
+
+```typescript
+import confetti from 'canvas-confetti';
+
+// Usage in src/lib/confetti.ts
+confetti({
+  particleCount: 100,
+  spread: 70,
+  origin: { y: 0.6 }
+});
+```
+
+### use-sound (^5.0.0)
+Audio feedback for UI interactions.
+
+```typescript
+import useSound from 'use-sound';
+
+const [playClick] = useSound('/sounds/click.mp3');
+```
+
+---
+
+## 🔧 Performance Considerations
+
+### Animation Best Practices
+
+1. **Use `transform` and `opacity`** - GPU-accelerated properties
+2. **Respect reduced motion** - Check `prefers-reduced-motion`
+3. **Use `will-change` sparingly** - Only on animated elements
+4. **Passive event listeners** - For scroll events
+5. **Debounce mouse events** - Prevent excessive updates
+6. **Use `useCallback`** - Memoize event handlers
+
+### Example: Reduced Motion Support
+```typescript
+import { useReducedMotion } from 'framer-motion';
+
+function AnimatedComponent() {
+  const prefersReducedMotion = useReducedMotion();
+  
+  if (prefersReducedMotion) {
+    return <StaticComponent />;
+  }
+  
+  return <AnimatedVersion />;
+}
+```
+
+---
+
+**Last Updated**: January 2026  
+**Version**: 2.0.0  
 **Maintained By**: Prompt Craft Launchpad Team
