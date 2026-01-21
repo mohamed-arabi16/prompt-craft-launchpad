@@ -194,16 +194,16 @@ This document provides a comprehensive audit and step-by-step action plan to pre
 
 ### 3.1 Security Hardening
 
-- [ ] 🔴 **Task 3.1.1:** Add rate limiting for enrollment form submissions.
+- [x] 🔴 **Task 3.1.1:** Add rate limiting for enrollment form submissions.
   - **File:** `src/pages/Enrollment.tsx`
   - **Action:** Implement client-side throttling (max 1 submission per 30 seconds)
   - **Implementation:** Add state to track last submission time
 
-- [ ] 🔴 **Task 3.1.2:** Add CSRF protection tokens for form submissions.
+- [x] 🔴 **Task 3.1.2:** Add CSRF protection tokens for form submissions.
   - **Action:** Implement CSRF token generation and validation
   - **Supabase:** Use RLS policies to validate user context
 
-- [ ] 🔴 **Task 3.1.3:** Sanitize HTML content before rendering in admin panels.
+- [x] 🔴 **Task 3.1.3:** Sanitize HTML content before rendering in admin panels.
   - **Files:** All admin components that display user-submitted content
   - **Action:** Use DOMPurify for any dangerouslySetInnerHTML usage
 
