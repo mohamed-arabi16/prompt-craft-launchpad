@@ -49,26 +49,26 @@ const AnimatedRoutes = () => {
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<Index />} />
-        <Route path="/auth" element={<Auth />} />
-        <Route path="/dashboard" element={
+        <Route path="/" element={<ErrorBoundary><Index /></ErrorBoundary>} />
+        <Route path="/auth" element={<ErrorBoundary><Auth /></ErrorBoundary>} />
+        <Route path="/dashboard" element={<ErrorBoundary>
           <ProtectedRoute>
             <Dashboard />
           </ProtectedRoute>
-        } />
-        <Route path="/enrollment" element={<Enrollment />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/privacy" element={<Privacy />} />
-        <Route path="/terms" element={<Terms />} />
-        <Route path="/faq" element={<FAQPage />} />
-        <Route path="/glossary" element={<GlossaryPage />} />
-        <Route path="/admin" element={
+        </ErrorBoundary>} />
+        <Route path="/enrollment" element={<ErrorBoundary><Enrollment /></ErrorBoundary>} />
+        <Route path="/contact" element={<ErrorBoundary><Contact /></ErrorBoundary>} />
+        <Route path="/privacy" element={<ErrorBoundary><Privacy /></ErrorBoundary>} />
+        <Route path="/terms" element={<ErrorBoundary><Terms /></ErrorBoundary>} />
+        <Route path="/faq" element={<ErrorBoundary><FAQPage /></ErrorBoundary>} />
+        <Route path="/glossary" element={<ErrorBoundary><GlossaryPage /></ErrorBoundary>} />
+        <Route path="/admin" element={<ErrorBoundary>
           <ProtectedRoute requireAdmin={true}>
             <Admin />
           </ProtectedRoute>
-        } />
+        </ErrorBoundary>} />
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-        <Route path="*" element={<NotFound />} />
+        <Route path="*" element={<ErrorBoundary><NotFound /></ErrorBoundary>} />
       </Routes>
     </AnimatePresence>
   );

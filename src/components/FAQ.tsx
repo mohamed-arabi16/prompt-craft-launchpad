@@ -1,3 +1,4 @@
+import React from "react";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useSiteContent } from "@/hooks/useSiteContent";
 import { useFAQs } from "@/hooks/useFAQs";
@@ -118,4 +119,4 @@ const FAQ = () => {
   );
 };
 
-export default FAQ;
+export default React.memo(FAQ);

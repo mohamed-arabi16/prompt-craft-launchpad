@@ -36,9 +36,6 @@ export * from './radio-group';
 export * from './select';
 export * from './switch';
 export * from './textarea';
-export * from './toggle';
-export * from './toggle-group';
-export * from './slider';
 
 // Form Composition
 export * from './form';
@@ -47,15 +44,11 @@ export * from './form';
 export * from './dialog';
 export * from './drawer';
 export * from './popover';
-export * from './hover-card';
-export * from './context-menu';
 export * from './dropdown-menu';
 export * from './sheet';
 export * from './tooltip';
 
 // Navigation
-export * from './navigation-menu';
-export * from './menubar';
 export * from './pagination';
 export * from './tabs';
 
@@ -75,7 +68,6 @@ export * from './skeleton';
 
 // Media
 export * from './avatar';
-export * from './aspect-ratio';
 
 // Commands
 export * from './command';
@@ -84,6 +76,3 @@ export * from './command';
 export * from './sonner';
 export * from './toast';
 export * from './toaster';
-
-// Resizable (for layouts)
-export * from './resizable';

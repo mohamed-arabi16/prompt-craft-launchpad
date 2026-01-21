@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -46,6 +46,23 @@ const Enrollment = () => {
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [lastSubmissionTime, setLastSubmissionTime] = useState<number>(0);
+  const csrfTokenRef = useRef<string>('');
+  const RATE_LIMIT_MS = 30000; // 30 seconds
+
+  // Initialize CSRF token on component mount
+  useEffect(() => {
+    const token = sessionStorage.getItem('csrf-token') || generateCSRFToken();
+    sessionStorage.setItem('csrf-token', token);
+    csrfTokenRef.current = token;
+  }, []);
+
+  // Generate CSRF token
+  const generateCSRFToken = (): string => {
+    return Array.from(crypto.getRandomValues(new Uint8Array(32)))
+      .map(b => b.toString(16).padStart(2, '0'))
+      .join('');
+  };
 
   // Trigger confetti on successful submission
   useEffect(() => {
@@ -77,6 +94,21 @@ const Enrollment = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    // CSRF token validation
+    const storedToken = sessionStorage.getItem('csrf-token');
+    if (!storedToken || storedToken !== csrfTokenRef.current) {
+      toast.error(t('errors.securityError') || 'خطأ أمني - يرجى إعادة تحميل الصفحة');
+      return;
+    }
+
+    // Rate limiting: max 1 submission per 30 seconds
+    const now = Date.now();
+    if (now - lastSubmissionTime < RATE_LIMIT_MS) {
+      const remainingSeconds = Math.ceil((RATE_LIMIT_MS - (now - lastSubmissionTime)) / 1000);
+      toast.error(t('enrollment.rateLimitError') || `يرجى الانتظار ${remainingSeconds} ثواني قبل محاولة أخرى`);
+      return;
+    }
+
     if (!validateForm()) {
       return;
     }
@@ -102,6 +134,8 @@ const Enrollment = () => {
         throw error;
       }
 
+      // Update rate limit timestamp on successful submission
+      setLastSubmissionTime(Date.now());
       setIsSubmitted(true);
       toast.success(t('success.enrollmentComplete'));
     } catch (error) {

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
@@ -20,6 +20,9 @@ import { pageTransition } from "@/lib/animations";
  */
 const Index = () => {
   const { t, tArray } = useTranslation();
+
+  // Memoize expensive translation array operations
+  const teaches = useMemo(() => tArray('structuredDataTeaches'), [tArray]);
 
   useEffect(() => {
     // Update meta tags
@@ -45,8 +48,6 @@ const Index = () => {
     // Update enhanced structured data
     const existingScript = document.querySelector('script[type="application/ld+json"]');
     if (existingScript) existingScript.remove();
-
-    const teaches = tArray('structuredDataTeaches');
     const structuredData = [
       {
         "@context": "https://schema.org",

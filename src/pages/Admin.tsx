@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useAdmin } from "@/hooks/useAdmin";
-import AdminPanel from "@/components/AdminPanel";
+import AdminDashboard from "@/components/admin/AdminDashboard";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircle } from "lucide-react";
@@ -46,7 +46,7 @@ const Admin = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <AdminPanel />
+      <AdminDashboard />
     </div>
   );
 };
