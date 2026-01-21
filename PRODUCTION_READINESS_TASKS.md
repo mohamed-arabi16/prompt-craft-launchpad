@@ -52,7 +52,7 @@ This document provides a comprehensive audit and step-by-step action plan to pre
 
 ### 1.3 Consolidate Styles
 
-- [ ] 🟠 **Task 1.3.1:** Audit and remove unused CSS classes from `src/index.css`.
+- [x] 🟠 **Task 1.3.1:** Audit and remove unused CSS classes from `src/index.css`.
   - **File:** `src/index.css`
   - **Action:** Search codebase for each custom class (`.hero-gradient`, `.btn-ai-primary`, etc.) and remove unused ones
   - **Tools:** Use `grep -r "className-name"` to find usage

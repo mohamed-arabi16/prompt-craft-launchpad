@@ -140,65 +140,11 @@
 }
 
 @layer components {
-  /* AI Course Hero Styles */
-  .hero-gradient {
-    background: var(--gradient-hero);
-    background-size: 200% 200%;
-    animation: gradientShift 8s ease-in-out infinite;
-  }
-  
-  .card-gradient {
-    background: var(--gradient-card);
-  }
-
-  /* Modern Premium Button Variants */
-  .btn-ai-primary {
-    @apply bg-primary text-primary-foreground font-semibold px-8 py-4 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-primary/25;
-  }
-  
-  .btn-ai-secondary {
-    @apply border-2 border-primary text-primary font-semibold px-8 py-4 rounded-xl transition-all duration-300 hover:bg-primary hover:text-primary-foreground hover:scale-105;
-  }
-
   /* Modern Dark Card Styles */
   .course-card {
     @apply bg-card rounded-2xl p-6 shadow-lg border border-border transition-all duration-300 hover:shadow-2xl hover:scale-[1.02] hover:border-primary/30;
   }
-  
-  .day-card {
-    @apply bg-gradient-to-br from-card to-muted rounded-xl border border-border transition-all duration-300 hover:shadow-lg cursor-pointer hover:border-primary/40;
-  }
 
-  /* Enhanced Accordion Animations */
-  .accordion-content {
-    transition: all 0.3s ease-in-out;
-  }
-  
-  .accordion-content.expanded {
-    animation: accordionExpand 0.3s ease-out;
-  }
-  
-  .accordion-content.collapsed {
-    animation: accordionCollapse 0.3s ease-out;
-  }
-
-  /* Floating Elements */
-  .floating-element {
-    animation: float 6s ease-in-out infinite;
-  }
-  
-  .floating-element-delay-1 {
-    animation-delay: 1s;
-  }
-  
-  .floating-element-delay-2 {
-    animation-delay: 2s;
-  }
-
-  /* Pulse Animation for CTAs */
-  .pulse-glow {
-    animation: pulseGlow 2s ease-in-out infinite;
-  }
 
   /* Fixed Animation Classes */
   .fade-in-up {
@@ -229,61 +175,16 @@
     animation-delay: 0.5s;
   }
 
-  /* Fixed Slide In Animations */
-  .slide-in-right {
-    opacity: 0;
-    transform: translateX(50px);
-    animation: slideInRight 0.6s ease-out forwards;
-    animation-fill-mode: forwards;
-    will-change: opacity, transform;
-  }
-  
-  .slide-in-left {
-    opacity: 0;
-    transform: translateX(-50px);
-    animation: slideInLeft 0.6s ease-out forwards;
-    animation-fill-mode: forwards;
-    will-change: opacity, transform;
-  }
 
-  /* Visual Edits Compatibility - Separate labels from content */
-  .label {
-    @apply font-semibold text-foreground;
-  }
-  
-  .content {
-    @apply text-muted-foreground;
-  }
-  
-  .static-label {
-    @apply inline-block font-medium;
-  }
-  
-  .editable-content {
-    @apply inline-block;
-  }
 
   /* Glassmorphism Styles */
   .glass {
     @apply bg-card/50 backdrop-blur-xl border border-border/50;
   }
 
-  .glass-subtle {
-    @apply bg-card/30 backdrop-blur-md border border-border/30;
-  }
-
-  .glass-strong {
-    @apply bg-card/70 backdrop-blur-2xl border border-border/60;
-  }
-
   /* Glow Effects */
   .glow {
     @apply shadow-lg shadow-primary/20;
-  }
-
-  .glow-strong {
-    @apply shadow-xl shadow-primary/30;
-    animation: glowPulse 3s ease-in-out infinite;
   }
 
   /* Shimmer Effect */
@@ -303,115 +204,14 @@
     animation: shimmer 2s infinite;
   }
 
-  /* Premium Card Hover Effects */
-  .premium-card {
-    @apply transition-all duration-300;
-  }
 
-  .premium-card:hover {
-    @apply -translate-y-1 shadow-xl shadow-primary/10;
-  }
 
-  /* Magnetic Button Style */
-  .magnetic-btn {
-    @apply relative overflow-hidden transition-all duration-300;
-  }
-
-  .magnetic-btn::before {
-    content: '';
-    @apply absolute inset-0 bg-gradient-to-r from-primary/20 to-cyan/20 opacity-0 transition-opacity duration-300;
-  }
-
-  .magnetic-btn:hover::before {
-    @apply opacity-100;
-  }
-
-  /* Custom Cursor Styles */
-  .custom-cursor-active * {
-    cursor: none !important;
-  }
-
-  /* Scroll Progress Bar */
-  .scroll-progress {
-    @apply fixed top-0 left-0 h-1 bg-gradient-to-r from-primary to-cyan z-[100];
-  }
-
-  /* Command Palette Overlay */
-  .command-palette-overlay {
-    @apply fixed inset-0 bg-background/80 backdrop-blur-sm z-50;
-  }
-
-  /* Tilt Card 3D Effect */
-  .tilt-card {
-    transform-style: preserve-3d;
-    perspective: 1000px;
-  }
-
-  .tilt-card-content {
-    transform: translateZ(20px);
-  }
-
-  /* Premium Badge */
-  .premium-badge {
-    @apply inline-flex items-center px-3 py-1 text-xs font-medium rounded-full;
-    @apply bg-gradient-to-r from-primary/20 to-cyan/20 text-primary border border-primary/30;
-  }
-
-  /* Animated Border */
-  .animated-border {
-    @apply relative;
-  }
-
-  .animated-border::before {
-    content: '';
-    @apply absolute inset-0 rounded-2xl;
-    background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--cyan)), hsl(var(--primary)));
-    background-size: 200% 100%;
-    animation: gradientShift 3s linear infinite;
-    z-index: -1;
-    padding: 2px;
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-  }
-
-  /* Text Gradient */
-  .text-gradient {
-    @apply bg-gradient-to-r from-primary to-cyan bg-clip-text text-transparent;
-  }
-
-  /* Floating Animation Classes */
-  .float-slow {
-    animation: float 8s ease-in-out infinite;
-  }
-
-  .float-medium {
-    animation: float 6s ease-in-out infinite;
-  }
-
-  .float-fast {
-    animation: float 4s ease-in-out infinite;
-  }
 }
 
 @keyframes fadeInUp {
   to {
     opacity: 1;
     transform: translateY(0);
-  }
-}
-
-@keyframes slideInRight {
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes slideInLeft {
-  to {
-    opacity: 1;
-    transform: translateX(0);
   }
 }
 
@@ -424,47 +224,12 @@
   }
 }
 
-@keyframes accordionExpand {
-  from {
-    max-height: 0;
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    max-height: 500px;
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes accordionCollapse {
-  from {
-    max-height: 500px;
-    opacity: 1;
-    transform: translateY(0);
-  }
-  to {
-    max-height: 0;
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-}
-
 @keyframes float {
   0%, 100% {
     transform: translateY(0px);
   }
   50% {
     transform: translateY(-20px);
-  }
-}
-
-@keyframes pulseGlow {
-  0%, 100% {
-    box-shadow: 0 0 20px hsl(var(--primary) / 0.4);
-  }
-  50% {
-    box-shadow: 0 0 40px hsl(var(--primary) / 0.6);
   }
 }
 
@@ -475,22 +240,6 @@
   }
   100% {
     transform: translateX(100%);
-  }
-}
-
-/* Gradient Mesh Animation */
-@keyframes meshMove {
-  0%, 100% {
-    transform: translate(0%, 0%) scale(1);
-  }
-  25% {
-    transform: translate(5%, 5%) scale(1.1);
-  }
-  50% {
-    transform: translate(0%, 10%) scale(1);
-  }
-  75% {
-    transform: translate(-5%, 5%) scale(1.05);
   }
 }
 
@@ -507,20 +256,6 @@
   66% {
     opacity: 0.4;
     transform: translateY(5px) rotate(-2deg);
-  }
-}
-
-/* Glow Pulse Animation */
-@keyframes glowPulse {
-  0%, 100% {
-    box-shadow: 0 0 20px hsl(var(--primary) / 0.3),
-                0 0 40px hsl(var(--primary) / 0.2),
-                0 0 60px hsl(var(--primary) / 0.1);
-  }
-  50% {
-    box-shadow: 0 0 30px hsl(var(--primary) / 0.5),
-                0 0 60px hsl(var(--primary) / 0.3),
-                0 0 90px hsl(var(--primary) / 0.2);
   }
 }
 
@@ -541,18 +276,6 @@
   }
   50% {
     transform: translateY(-10px);
-  }
-}
-
-/* Cursor Trail Fade */
-@keyframes cursorFade {
-  0% {
-    opacity: 0.6;
-    transform: scale(1);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(0.5);
   }
 }
 
