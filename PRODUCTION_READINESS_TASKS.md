@@ -62,7 +62,7 @@ This document provides a comprehensive audit and step-by-step action plan to pre
   - **Action:** Keyframes like `fadeInUp`, `slideInRight`, `shimmer` should be in Tailwind config
   - **Benefit:** Single source of truth for animations
 
-- [ ] 🟡 **Task 1.3.3:** Create CSS variables for magic numbers in animations.
+- [x] 🟡 **Task 1.3.3:** Create CSS variables for magic numbers in animations.
   - **File:** `src/index.css`
   - **Action:** Replace hardcoded values like `6s`, `8s`, `20px` with CSS variables (e.g., `--animation-float-duration: 6s`)
 
