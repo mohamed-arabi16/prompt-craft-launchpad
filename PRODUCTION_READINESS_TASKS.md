@@ -207,19 +207,19 @@ This document provides a comprehensive audit and step-by-step action plan to pre
   - **Files:** All admin components that display user-submitted content
   - **Action:** Use DOMPurify for any dangerouslySetInnerHTML usage
 
-- [ ] 🟠 **Task 3.1.4:** Add input validation for all admin forms.
+- [x] 🟠 **Task 3.1.4:** Add input validation for all admin forms.
   - **Files:** `src/components/admin/AdminTestimonials.tsx`, `AdminFAQs.tsx`, etc.
   - **Action:** Add Zod schemas similar to enrollment form validation
 
-- [ ] 🟠 **Task 3.1.5:** Implement Content Security Policy headers.
+- [x] 🟠 **Task 3.1.5:** Implement Content Security Policy headers.
   - **Action:** Add CSP meta tag to `index.html` or configure via hosting platform
   - **Example:** `<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline';">`
 
-- [ ] 🟠 **Task 3.1.6:** Add secure headers configuration.
+- [x] 🟠 **Task 3.1.6:** Add secure headers configuration.
   - **File:** Create `vercel.json` or `netlify.toml`
   - **Headers:** X-Frame-Options, X-Content-Type-Options, Referrer-Policy
 
-- [ ] 🟡 **Task 3.1.7:** Validate Supabase URL and key are not exposed in client bundle.
+- [x] 🟡 **Task 3.1.7:** Validate Supabase URL and key are not exposed in client bundle.
   - **Action:** Verify environment variables are properly prefixed with `VITE_` and only public keys are used
 
 - [ ] 🟡 **Task 3.1.8:** Add session timeout handling.
