@@ -4,6 +4,25 @@ import { trackPageView, trackAction, trackEvent } from '@/lib/monitoring';
 
 /**
  * Hook for tracking analytics events in components
+ *
+ * @description Automatically tracks page views when routes change and provides
+ * methods to manually track events and actions throughout the application.
+ * Automatically initializes page view tracking on component mount.
+ *
+ * @returns {Object} Object with tracking methods
+ * @returns {Function} trackEvent - Track custom events
+ * @returns {Function} trackAction - Track user actions
+ * @returns {Function} trackPageView - Manually track page views
+ *
+ * @example
+ * ```tsx
+ * const { trackEvent, trackAction } = useAnalytics();
+ *
+ * const handleButtonClick = () => {
+ *   trackAction('button_clicked', { buttonName: 'subscribe' });
+ *   trackEvent(AnalyticsEvents.SIGN_UP_STARTED);
+ * };
+ * ```
  */
 export const useAnalytics = () => {
   const location = useLocation();
