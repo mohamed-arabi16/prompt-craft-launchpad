@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { ChevronDown, Clock, BookOpen, Zap, Search, Palette, Rocket, Package, MousePointer } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
@@ -232,4 +232,4 @@ const CourseBreakdown = () => {
   );
 };
 
-export default CourseBreakdown;
+export default React.memo(CourseBreakdown);
