@@ -89,11 +89,11 @@ This document provides a comprehensive audit and step-by-step action plan to pre
 
 ### 2.1 Remove Dead Code
 
-- [ ] 🔴 **Task 2.1.1:** Remove `lovable-tagger` from devDependencies if not used in production.
+- [x] 🔴 **Task 2.1.1:** Remove `lovable-tagger` from devDependencies if not used in production.
   - **File:** `package.json` (line 88)
   - **Action:** Check if `componentTagger()` is only used in development mode (it is), consider removing from production builds
 
-- [ ] 🟠 **Task 2.1.2:** Audit and remove unused Radix UI packages.
+- [x] 🟠 **Task 2.1.2:** Audit and remove unused Radix UI packages.
   - **File:** `package.json`
   - **Action:** Check if these packages are actually used:
     - `@radix-ui/react-aspect-ratio`
@@ -106,19 +106,19 @@ This document provides a comprehensive audit and step-by-step action plan to pre
     - `@radix-ui/react-toggle-group`
   - **Tool:** Run `grep -r "@radix-ui/react-aspect-ratio" src/` for each package
 
-- [ ] 🟠 **Task 2.1.3:** Remove unused `AdminPanel.tsx` component if it duplicates `AdminDashboard.tsx`.
+- [x] 🟠 **Task 2.1.3:** Remove unused `AdminPanel.tsx` component if it duplicates `AdminDashboard.tsx`.
   - **File:** `src/components/AdminPanel.tsx`
   - **Action:** Verify if this file is used; if `AdminDashboard.tsx` is the main admin component, remove `AdminPanel.tsx`
 
-- [ ] 🟡 **Task 2.1.4:** Remove unused `react-resizable-panels` package if not used.
+- [x] 🟡 **Task 2.1.4:** Remove unused `react-resizable-panels` package if not used.
   - **File:** `package.json` (line 63)
   - **Action:** Search for usage: `grep -r "react-resizable-panels" src/`
 
-- [ ] 🟡 **Task 2.1.5:** Remove unused `@types/canvas-confetti` if types are bundled.
+- [x] 🟡 **Task 2.1.5:** Remove unused `@types/canvas-confetti` if types are bundled.
   - **File:** `package.json` (line 47)
   - **Action:** `canvas-confetti` may have built-in types; verify and remove if redundant
 
-- [ ] 🟢 **Task 2.1.6:** Clean up commented-out code in components.
+- [x] 🟢 **Task 2.1.6:** Clean up commented-out code in components.
   - **Action:** Search for `// TODO`, `// FIXME`, `/* commented */` patterns and resolve or remove
 
 ### 2.2 Optimization
