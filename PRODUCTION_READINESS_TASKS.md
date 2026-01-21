@@ -181,10 +181,10 @@ This document provides a comprehensive audit and step-by-step action plan to pre
     motion: ['framer-motion'],
     ```
 
-- [ ] 🟡 **Task 2.3.3:** Enable tree-shaking for Lucide icons.
+- [x] 🟡 **Task 2.3.3:** Enable tree-shaking for Lucide icons.
   - **Action:** Verify imports are using named imports like `import { Icon } from 'lucide-react'` not `import * as Icons`
 
-- [ ] 🟡 **Task 2.3.4:** Add chunk naming for better debugging.
+- [x] 🟡 **Task 2.3.4:** Add chunk naming for better debugging.
   - **File:** `vite.config.ts`
   - **Action:** Add `chunkFileNames: '[name]-[hash].js'` to output options
 

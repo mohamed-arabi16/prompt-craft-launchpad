@@ -35,6 +35,8 @@ export default defineConfig(({ mode }) => ({
           ],
           query: ['@tanstack/react-query'],
         },
+        chunkFileNames: '[name]-[hash].js',
+        entryFileNames: '[name]-[hash].js',
       },
     },
     chunkSizeWarningLimit: 500,
