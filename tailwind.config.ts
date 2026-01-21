@@ -9,6 +9,20 @@ export default {
 		"./app/**/*.{ts,tsx}",
 		"./src/**/*.{ts,tsx}",
 	],
+	safelist: [
+		// RTL-specific classes to prevent purging
+		{ pattern: /^(rtl|ltr):/ },
+		// Common RTL variants
+		'rtl:mr-0', 'rtl:mr-1', 'rtl:mr-2', 'rtl:mr-3', 'rtl:mr-4',
+		'rtl:ml-0', 'rtl:ml-1', 'rtl:ml-2', 'rtl:ml-3', 'rtl:ml-4',
+		'rtl:pl-0', 'rtl:pl-2', 'rtl:pl-4', 'rtl:pl-8',
+		'rtl:pr-0', 'rtl:pr-2', 'rtl:pr-4', 'rtl:pr-8',
+		'rtl:text-right', 'rtl:text-left',
+		'rtl:float-right', 'rtl:float-left',
+		'rtl:translate-x-full', 'rtl:-translate-x-full',
+		'ltr:mr-0', 'ltr:mr-2', 'ltr:mr-4',
+		'ltr:ml-0', 'ltr:ml-2', 'ltr:ml-4',
+	],
 	prefix: "",
 	theme: {
 		container: {

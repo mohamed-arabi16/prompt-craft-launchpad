@@ -66,7 +66,7 @@ This document provides a comprehensive audit and step-by-step action plan to pre
   - **File:** `src/index.css`
   - **Action:** Replace hardcoded values like `6s`, `8s`, `20px` with CSS variables (e.g., `--animation-float-duration: 6s`)
 
-- [ ] 🟢 **Task 1.3.4:** Add missing Tailwind safelist for dynamic RTL classes.
+- [x] 🟢 **Task 1.3.4:** Add missing Tailwind safelist for dynamic RTL classes.
   - **File:** `tailwind.config.ts`
   - **Action:** Add safelist for classes like `ltr:mr-2`, `rtl:ml-2` to prevent purging
 
