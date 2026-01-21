@@ -42,7 +42,7 @@ This document provides a comprehensive audit and step-by-step action plan to pre
   - **File:** `src/hooks/useTranslation.ts`
   - **Action:** Verify it's just re-exporting from context, if so, update all imports to use `src/contexts/TranslationContext.tsx` directly or keep as barrel export but document purpose
 
-- [ ] 🟡 **Task 1.2.2:** Create an `index.ts` barrel file in `/src/hooks/` to export all hooks.
+- [x] 🟡 **Task 1.2.2:** Create an `index.ts` barrel file in `/src/hooks/` to export all hooks.
   - **File to create:** `src/hooks/index.ts`
   - **Content:** Export all hooks from the directory for cleaner imports
 
