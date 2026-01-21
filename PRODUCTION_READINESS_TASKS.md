@@ -161,7 +161,7 @@ This document provides a comprehensive audit and step-by-step action plan to pre
   - **File:** `index.html`
   - **Action:** Add `<link rel="preload" href="fonts/Cairo.woff2" as="font" type="font/woff2" crossorigin>`
 
-- [ ] 🟡 **Task 2.2.8:** Configure service worker for offline support.
+- [x] 🟡 **Task 2.2.8:** Configure service worker for offline support.
   - **Action:** Add `vite-plugin-pwa` and configure basic offline caching
 
 - [x] 🟢 **Task 2.2.9:** Add debounce to search/filter inputs in admin panels.
