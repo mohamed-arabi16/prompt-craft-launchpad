@@ -138,18 +138,7 @@
 }
   
   [dir="rtl"] .slide-in-right {
-    animation: slideInLeftRTL 0.6s ease-out forwards;
-  }
-  
-  @keyframes slideInLeftRTL {
-    from { 
-      transform: translateX(-100%);
-      opacity: 0;
-    }
-    to { 
-      transform: translateX(0);
-      opacity: 1;
-    }
+    animation: slide-in-left-rtl 0.6s ease-out forwards;
   }
 }
 
@@ -222,76 +211,6 @@
 
 }
 
-@keyframes fadeInUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes gradientShift {
-  0%, 100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-}
-
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(calc(var(--animation-float-translate-y) * -1));
-  }
-}
-
-/* Premium Shimmer Animation */
-@keyframes shimmer {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100%);
-  }
-}
-
-/* Aurora Effect Animation */
-@keyframes aurora {
-  0%, 100% {
-    opacity: 0.3;
-    transform: translateY(0) rotate(0deg);
-  }
-  33% {
-    opacity: 0.5;
-    transform: translateY(calc(var(--animation-aurora-translate-y) * -1)) rotate(var(--animation-aurora-rotate));
-  }
-  66% {
-    opacity: 0.4;
-    transform: translateY(calc(var(--animation-aurora-translate-y) / 2)) rotate(calc(var(--animation-aurora-rotate) * -1));
-  }
-}
-
-/* Spin Animation for Loading */
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* Bounce Animation */
-@keyframes bounce {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
 
 /* Smooth Scrolling */
 html {

@@ -57,7 +57,7 @@ This document provides a comprehensive audit and step-by-step action plan to pre
   - **Action:** Search codebase for each custom class (`.hero-gradient`, `.btn-ai-primary`, etc.) and remove unused ones
   - **Tools:** Use `grep -r "className-name"` to find usage
 
-- [ ] 🟡 **Task 1.3.2:** Move animation keyframes from `src/index.css` to `tailwind.config.ts` for consistency.
+- [x] 🟡 **Task 1.3.2:** Move animation keyframes from `src/index.css` to `tailwind.config.ts` for consistency.
   - **File:** `src/index.css` (lines 397-557)
   - **Action:** Keyframes like `fadeInUp`, `slideInRight`, `shimmer` should be in Tailwind config
   - **Benefit:** Single source of truth for animations

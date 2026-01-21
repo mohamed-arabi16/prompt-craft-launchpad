@@ -112,12 +112,28 @@ export default {
 						transform: 'translateY(0)'
 					}
 				},
+				'fade-in-up': {
+					to: {
+						opacity: '1',
+						transform: 'translateY(0)'
+					}
+				},
 				'slide-in-right': {
-					'0%': { 
+					'0%': {
 						transform: 'translateX(100%)',
 						opacity: '0'
 					},
-					'100%': { 
+					'100%': {
+						transform: 'translateX(0)',
+						opacity: '1'
+					}
+				},
+				'slide-in-left-rtl': {
+					from: {
+						transform: 'translateX(-100%)',
+						opacity: '0'
+					},
+					to: {
 						transform: 'translateX(0)',
 						opacity: '1'
 					}
@@ -129,14 +145,67 @@ export default {
 					'50%': {
 						'background-position': '100% 50%'
 					}
+				},
+				'float': {
+					'0%, 100%': {
+						transform: 'translateY(0px)'
+					},
+					'50%': {
+						transform: 'translateY(-20px)'
+					}
+				},
+				'shimmer': {
+					'0%': {
+						transform: 'translateX(-100%)'
+					},
+					'100%': {
+						transform: 'translateX(100%)'
+					}
+				},
+				'aurora': {
+					'0%, 100%': {
+						opacity: '0.3',
+						transform: 'translateY(0) rotate(0deg)'
+					},
+					'33%': {
+						opacity: '0.5',
+						transform: 'translateY(-10px) rotate(2deg)'
+					},
+					'66%': {
+						opacity: '0.4',
+						transform: 'translateY(5px) rotate(-2deg)'
+					}
+				},
+				'spin': {
+					from: {
+						transform: 'rotate(0deg)'
+					},
+					to: {
+						transform: 'rotate(360deg)'
+					}
+				},
+				'bounce': {
+					'0%, 100%': {
+						transform: 'translateY(0)'
+					},
+					'50%': {
+						transform: 'translateY(-10px)'
+					}
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'fade-in': 'fade-in 0.6s ease-out',
+				'fade-in-up': 'fade-in-up 0.6s ease-out forwards',
 				'slide-in-right': 'slide-in-right 0.3s ease-out',
-				'gradient-shift': 'gradient-shift 8s ease-in-out infinite'
+				'slide-in-left-rtl': 'slide-in-left-rtl 0.6s ease-out forwards',
+				'gradient-shift': 'gradient-shift 8s ease-in-out infinite',
+				'float': 'float 6s ease-in-out infinite',
+				'shimmer': 'shimmer 2s infinite',
+				'aurora': 'aurora 4s ease-in-out infinite',
+				'spin': 'spin 1s linear infinite',
+				'bounce': 'bounce 1s infinite'
 			},
 			backgroundImage: {
 				'gradient-hero': 'linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--teal) / 0.15) 50%, hsl(var(--background)) 100%)',
