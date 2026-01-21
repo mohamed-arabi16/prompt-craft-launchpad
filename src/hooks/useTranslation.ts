@@ -1,7 +1,17 @@
 /**
- * @file This file re-exports the `useTranslation` hook from the `TranslationContext`.
- * This is done to maintain backward compatibility with components that were using the old hook.
+ * @file Barrel export for the `useTranslation` hook.
+ *
+ * This file re-exports the `useTranslation` hook from the `TranslationContext`.
+ *
+ * **Purpose:** Maintain a consistent hook import pattern throughout the application.
+ * All translation functionality is implemented directly in the TranslationContext,
+ * and this file serves as a convenient re-export point for cleaner imports in components.
+ *
+ * **Usage:**
+ * ```tsx
+ * import { useTranslation } from '@/hooks/useTranslation';
+ * // or directly from context:
+ * import { useTranslation } from '@/contexts/TranslationContext';
+ * ```
  */
-// This file is refactored to use the new context-based translation hook.
-// All components importing from here will now use the global translation state.
 export { useTranslation } from '../contexts/TranslationContext';

@@ -38,7 +38,7 @@ This document provides a comprehensive audit and step-by-step action plan to pre
 
 ### 1.2 Consolidate Hooks
 
-- [ ] 🟠 **Task 1.2.1:** Remove duplicate `useTranslation.ts` hook and use context hook directly.
+- [x] 🟠 **Task 1.2.1:** Remove duplicate `useTranslation.ts` hook and use context hook directly.
   - **File:** `src/hooks/useTranslation.ts`
   - **Action:** Verify it's just re-exporting from context, if so, update all imports to use `src/contexts/TranslationContext.tsx` directly or keep as barrel export but document purpose
 
