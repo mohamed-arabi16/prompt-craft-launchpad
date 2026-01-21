@@ -1,6 +1,11 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
+
+// Session timeout configuration: 30 minutes of inactivity
+const SESSION_TIMEOUT_MS = 30 * 60 * 1000; // 30 minutes
+const WARNING_TIME_MS = 2 * 60 * 1000; // Show warning at 2 minutes remaining
 
 /**
  * The shape of the authentication context.
@@ -13,6 +18,7 @@ import { supabase } from '@/integrations/supabase/client';
  * @property {(email: string, password: string) => Promise<{ error: any }>} signIn - A function to sign in a user.
  * @property {() => Promise<{ error: any }>} signOut - A function to sign out a user.
  * @property {(email: string) => Promise<{ error: any }>} resetPassword - A function to reset a user's password.
+ * @property {() => void} resetSessionTimeout - A function to reset the session timeout timer on user activity.
  */
 interface AuthContextType {
   user: User | null;
@@ -22,6 +28,7 @@ interface AuthContextType {
   signIn: (email: string, password: string) => Promise<{ error: any }>;
   signOut: () => Promise<{ error: any }>;
   resetPassword: (email: string) => Promise<{ error: any }>;
+  resetSessionTimeout: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -51,6 +58,51 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
 
+  // Session timeout tracking
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const warningTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const hasShownWarningRef = useRef(false);
+
+  // Reset session timeout and warning on user activity
+  const resetSessionTimeout = () => {
+    // Clear existing timeouts
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    if (warningTimeoutRef.current) clearTimeout(warningTimeoutRef.current);
+    hasShownWarningRef.current = false;
+
+    // Only set timeout if user is logged in
+    if (!user) return;
+
+    // Warning timeout: show notification at 2 minutes remaining
+    warningTimeoutRef.current = setTimeout(() => {
+      if (!hasShownWarningRef.current) {
+        hasShownWarningRef.current = true;
+        toast.warning(
+          'Your session will expire in 2 minutes due to inactivity. Click anywhere to continue your session.',
+          { duration: 120000 } // Show for 2 minutes
+        );
+      }
+    }, SESSION_TIMEOUT_MS - WARNING_TIME_MS);
+
+    // Session timeout: auto-logout after inactivity
+    timeoutRef.current = setTimeout(async () => {
+      try {
+        await supabase.auth.signOut({ scope: 'global' });
+        // Clear local storage
+        Object.keys(localStorage).forEach((key) => {
+          if (key.startsWith('supabase.auth.') || key.includes('sb-')) {
+            localStorage.removeItem(key);
+          }
+        });
+        toast.info('Your session has expired. Please sign in again.', { duration: 5000 });
+        window.location.href = '/auth';
+      } catch (err) {
+        console.error('Error during session timeout logout:', err);
+      }
+    }, SESSION_TIMEOUT_MS);
+  };
+
+  // Set up auth state listener and session timeout
   useEffect(() => {
     // Set up auth state listener first
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
@@ -70,6 +122,40 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     return () => subscription.unsubscribe();
   }, []);
+
+  // Set up user activity listeners for session timeout
+  useEffect(() => {
+    if (!user) {
+      // Clear timeouts if user logs out
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      if (warningTimeoutRef.current) clearTimeout(warningTimeoutRef.current);
+      return;
+    }
+
+    // Initialize timeout on user login
+    resetSessionTimeout();
+
+    // Track user activity
+    const activityEvents = ['mousedown', 'keydown', 'scroll', 'touchstart', 'click'];
+
+    const handleActivity = () => {
+      resetSessionTimeout();
+    };
+
+    // Add event listeners
+    activityEvents.forEach(event => {
+      document.addEventListener(event, handleActivity);
+    });
+
+    // Cleanup
+    return () => {
+      activityEvents.forEach(event => {
+        document.removeEventListener(event, handleActivity);
+      });
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      if (warningTimeoutRef.current) clearTimeout(warningTimeoutRef.current);
+    };
+  }, [user]);
 
   const signUp = async (email: string, password: string, metadata?: any) => {
     try {
@@ -206,6 +292,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     signIn,
     signOut,
     resetPassword,
+    resetSessionTimeout,
   };
 
   return (

@@ -222,7 +222,7 @@ This document provides a comprehensive audit and step-by-step action plan to pre
 - [x] 🟡 **Task 3.1.7:** Validate Supabase URL and key are not exposed in client bundle.
   - **Action:** Verify environment variables are properly prefixed with `VITE_` and only public keys are used
 
-- [ ] 🟡 **Task 3.1.8:** Add session timeout handling.
+- [x] 🟡 **Task 3.1.8:** Add session timeout handling.
   - **File:** `src/contexts/AuthContext.tsx`
   - **Action:** Implement auto-logout after inactivity period
 
