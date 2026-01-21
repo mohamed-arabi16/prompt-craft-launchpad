@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 /**
  * The available languages.
@@ -49,7 +49,7 @@ const translationsData: Record<Language, () => Promise<Translations>> = {
  * @param {{ children: ReactNode }} props - The props for the component.
  * @returns {JSX.Element} The rendered translation provider.
  */
-export const TranslationProvider = ({ children }: { children: ReactNode }) => {
+export const TranslationProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [currentLanguage, setCurrentLanguage] = useState<Language>('ar');
   const [translations, setTranslations] = useState<Translations>({});
   const [englishTranslations, setEnglishTranslations] = useState<Translations>({});

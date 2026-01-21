@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback, ReactNode, useEffect } from 'react';
+import React, { createContext, useContext, useState, useCallback, ReactNode, useEffect } from 'react';
 
 interface SoundContextType {
   soundEnabled: boolean;
@@ -22,7 +22,7 @@ const sounds: Record<SoundType, { frequency: number; duration: number; type: Osc
 /**
  * Sound effects provider for the application
  */
-export const SoundProvider = ({ children }: { children: ReactNode }) => {
+export const SoundProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [soundEnabled, setSoundEnabled] = useState(() => {
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('soundEnabled');

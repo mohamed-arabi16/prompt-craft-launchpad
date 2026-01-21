@@ -32,55 +32,55 @@ This document provides a comprehensive audit and step-by-step action plan to pre
   - **Action:** Move file to `src/contexts/TranslationContext.tsx`
   - **Update imports in:** `src/App.tsx`, `src/hooks/useTranslation.ts`
 
-- [ ] 🟢 **Task 1.1.2:** Add TypeScript `React.FC` type annotations to all context providers.
+- [x] 🟢 **Task 1.1.2:** Add TypeScript `React.FC` type annotations to all context providers.
   - **Files:** `src/contexts/AuthContext.tsx`, `src/contexts/SoundContext.tsx`, `src/contexts/TranslationContext.tsx`
   - **Example:** Change `({ children }: { children: ReactNode })` to explicit `React.FC<{ children: ReactNode }>`
 
 ### 1.2 Consolidate Hooks
 
-- [ ] 🟠 **Task 1.2.1:** Remove duplicate `useTranslation.ts` hook and use context hook directly.
+- [x] 🟠 **Task 1.2.1:** Remove duplicate `useTranslation.ts` hook and use context hook directly.
   - **File:** `src/hooks/useTranslation.ts`
   - **Action:** Verify it's just re-exporting from context, if so, update all imports to use `src/contexts/TranslationContext.tsx` directly or keep as barrel export but document purpose
 
-- [ ] 🟡 **Task 1.2.2:** Create an `index.ts` barrel file in `/src/hooks/` to export all hooks.
+- [x] 🟡 **Task 1.2.2:** Create an `index.ts` barrel file in `/src/hooks/` to export all hooks.
   - **File to create:** `src/hooks/index.ts`
   - **Content:** Export all hooks from the directory for cleaner imports
 
-- [ ] 🟡 **Task 1.2.3:** Add JSDoc comments to all custom hooks that are missing documentation.
+- [x] 🟡 **Task 1.2.3:** Add JSDoc comments to all custom hooks that are missing documentation.
   - **Files:** `src/hooks/useAnalytics.ts`, `src/hooks/useAnimations.ts`, `src/hooks/useAdminMaterials.ts`
   - **Format:** Add `@description`, `@returns`, `@example` tags
 
 ### 1.3 Consolidate Styles
 
-- [ ] 🟠 **Task 1.3.1:** Audit and remove unused CSS classes from `src/index.css`.
+- [x] 🟠 **Task 1.3.1:** Audit and remove unused CSS classes from `src/index.css`.
   - **File:** `src/index.css`
   - **Action:** Search codebase for each custom class (`.hero-gradient`, `.btn-ai-primary`, etc.) and remove unused ones
   - **Tools:** Use `grep -r "className-name"` to find usage
 
-- [ ] 🟡 **Task 1.3.2:** Move animation keyframes from `src/index.css` to `tailwind.config.ts` for consistency.
+- [x] 🟡 **Task 1.3.2:** Move animation keyframes from `src/index.css` to `tailwind.config.ts` for consistency.
   - **File:** `src/index.css` (lines 397-557)
   - **Action:** Keyframes like `fadeInUp`, `slideInRight`, `shimmer` should be in Tailwind config
   - **Benefit:** Single source of truth for animations
 
-- [ ] 🟡 **Task 1.3.3:** Create CSS variables for magic numbers in animations.
+- [x] 🟡 **Task 1.3.3:** Create CSS variables for magic numbers in animations.
   - **File:** `src/index.css`
   - **Action:** Replace hardcoded values like `6s`, `8s`, `20px` with CSS variables (e.g., `--animation-float-duration: 6s`)
 
-- [ ] 🟢 **Task 1.3.4:** Add missing Tailwind safelist for dynamic RTL classes.
+- [x] 🟢 **Task 1.3.4:** Add missing Tailwind safelist for dynamic RTL classes.
   - **File:** `tailwind.config.ts`
   - **Action:** Add safelist for classes like `ltr:mr-2`, `rtl:ml-2` to prevent purging
 
 ### 1.4 Component Organization
 
-- [ ] 🟠 **Task 1.4.1:** Create `index.ts` barrel file in `/src/components/admin/`.
+- [x] 🟠 **Task 1.4.1:** Create `index.ts` barrel file in `/src/components/admin/`.
   - **File to create:** `src/components/admin/index.ts`
   - **Content:** Export all admin components
 
-- [ ] 🟡 **Task 1.4.2:** Create `index.ts` barrel file in `/src/components/ui/`.
+- [x] 🟡 **Task 1.4.2:** Create `index.ts` barrel file in `/src/components/ui/`.
   - **File to create:** `src/components/ui/index.ts`
   - **Content:** Export all UI components for easier imports
 
-- [ ] 🟡 **Task 1.4.3:** Move `BookingFormModal.tsx` to a `/src/components/modals/` folder.
+- [x] 🟡 **Task 1.4.3:** Move `BookingFormModal.tsx` to a `/src/components/modals/` folder.
   - **Action:** Create `src/components/modals/` directory and move modal components there
 
 ---
