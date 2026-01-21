@@ -130,7 +130,7 @@ This document provides a comprehensive audit and step-by-step action plan to pre
     - `src/components/FAQ.tsx`
   - **Example:** `export default React.memo(TestimonialsSection);`
 
-- [ ] 🔴 **Task 2.2.2:** Implement lazy loading for admin components.
+- [x] 🔴 **Task 2.2.2:** Implement lazy loading for admin components.
   - **File:** `src/components/admin/AdminDashboard.tsx`
   - **Action:** Lazy load each tab content:
     ```tsx
@@ -138,7 +138,7 @@ This document provides a comprehensive audit and step-by-step action plan to pre
     ```
   - **Wrap with:** `<Suspense fallback={<LoadingSpinner />}>`
 
-- [ ] 🟠 **Task 2.2.3:** Add `loading="lazy"` attribute to all images.
+- [x] 🟠 **Task 2.2.3:** Add `loading="lazy"` attribute to all images.
   - **Files:** Search for `<img` tags in all components
   - **Action:** Add `loading="lazy"` attribute to defer off-screen images
 

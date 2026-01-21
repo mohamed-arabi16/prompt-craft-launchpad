@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, lazy, Suspense } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import {
@@ -6,16 +6,26 @@ import {
   HelpCircle, Star, Target, FileText, Settings, FolderOpen, GraduationCap
 } from "lucide-react";
 import { Link } from "react-router-dom";
-import AdminEnrollments from "./AdminEnrollments";
-import AdminCourseDays from "./AdminCourseDays";
-import AdminTestimonials from "./AdminTestimonials";
-import AdminFAQs from "./AdminFAQs";
-import AdminBenefits from "./AdminBenefits";
-import AdminTargetAudience from "./AdminTargetAudience";
-import AdminSiteContent from "./AdminSiteContent";
-import AdminCourseSettings from "./AdminCourseSettings";
-import AdminMaterials from "./AdminMaterials";
-import InstructorDashboard from "./InstructorDashboard";
+import LoadingSpinner from "@/components/LoadingSpinner";
+
+// Lazy load admin components
+const AdminEnrollments = lazy(() => import("./AdminEnrollments"));
+const AdminCourseDays = lazy(() => import("./AdminCourseDays"));
+const AdminTestimonials = lazy(() => import("./AdminTestimonials"));
+const AdminFAQs = lazy(() => import("./AdminFAQs"));
+const AdminBenefits = lazy(() => import("./AdminBenefits"));
+const AdminTargetAudience = lazy(() => import("./AdminTargetAudience"));
+const AdminSiteContent = lazy(() => import("./AdminSiteContent"));
+const AdminCourseSettings = lazy(() => import("./AdminCourseSettings"));
+const AdminMaterials = lazy(() => import("./AdminMaterials"));
+const InstructorDashboard = lazy(() => import("./InstructorDashboard"));
+
+// Fallback component for loading states
+const LoadingFallback = () => (
+  <div className="min-h-96 flex items-center justify-center">
+    <LoadingSpinner size="lg" />
+  </div>
+);
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState("enrollments");
@@ -80,34 +90,54 @@ const AdminDashboard = () => {
         </TabsList>
 
         <TabsContent value="enrollments">
-          <AdminEnrollments />
+          <Suspense fallback={<LoadingFallback />}>
+            <AdminEnrollments />
+          </Suspense>
         </TabsContent>
         <TabsContent value="course-days">
-          <AdminCourseDays />
+          <Suspense fallback={<LoadingFallback />}>
+            <AdminCourseDays />
+          </Suspense>
         </TabsContent>
         <TabsContent value="materials">
-          <AdminMaterials />
+          <Suspense fallback={<LoadingFallback />}>
+            <AdminMaterials />
+          </Suspense>
         </TabsContent>
         <TabsContent value="testimonials">
-          <AdminTestimonials />
+          <Suspense fallback={<LoadingFallback />}>
+            <AdminTestimonials />
+          </Suspense>
         </TabsContent>
         <TabsContent value="faqs">
-          <AdminFAQs />
+          <Suspense fallback={<LoadingFallback />}>
+            <AdminFAQs />
+          </Suspense>
         </TabsContent>
         <TabsContent value="benefits">
-          <AdminBenefits />
+          <Suspense fallback={<LoadingFallback />}>
+            <AdminBenefits />
+          </Suspense>
         </TabsContent>
         <TabsContent value="target-audience">
-          <AdminTargetAudience />
+          <Suspense fallback={<LoadingFallback />}>
+            <AdminTargetAudience />
+          </Suspense>
         </TabsContent>
         <TabsContent value="site-content">
-          <AdminSiteContent />
+          <Suspense fallback={<LoadingFallback />}>
+            <AdminSiteContent />
+          </Suspense>
         </TabsContent>
         <TabsContent value="settings">
-          <AdminCourseSettings />
+          <Suspense fallback={<LoadingFallback />}>
+            <AdminCourseSettings />
+          </Suspense>
         </TabsContent>
         <TabsContent value="instructor">
-          <InstructorDashboard />
+          <Suspense fallback={<LoadingFallback />}>
+            <InstructorDashboard />
+          </Suspense>
         </TabsContent>
       </Tabs>
     </div>
