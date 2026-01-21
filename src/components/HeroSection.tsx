@@ -7,7 +7,7 @@ import DownloadButton from "./DownloadButton";
 import { AnimatedBackground, Floating3DElements, MagneticButton } from "./premium";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import BookingFormModal from "./BookingFormModal";
+import BookingFormModal from "./modals/BookingFormModal";
 
 /**
  * Renders the enhanced hero section with 3D floating elements and premium animations

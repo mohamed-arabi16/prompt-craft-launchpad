@@ -80,7 +80,7 @@ This document provides a comprehensive audit and step-by-step action plan to pre
   - **File to create:** `src/components/ui/index.ts`
   - **Content:** Export all UI components for easier imports
 
-- [ ] 🟡 **Task 1.4.3:** Move `BookingFormModal.tsx` to a `/src/components/modals/` folder.
+- [x] 🟡 **Task 1.4.3:** Move `BookingFormModal.tsx` to a `/src/components/modals/` folder.
   - **Action:** Create `src/components/modals/` directory and move modal components there
 
 ---

@@ -6,7 +6,7 @@ import { useSiteContent } from "@/hooks/useSiteContent";
 import DownloadButton from "./DownloadButton";
 import { GlassCard, MagneticButton, SectionReveal, StaggerContainer, StaggerItem } from "./premium";
 import { useCourseSettings } from "@/hooks/useCourseSettings";
-import BookingFormModal from "./BookingFormModal";
+import BookingFormModal from "./modals/BookingFormModal";
 
 /**
  * CTA section with pricing - simplified CTAs
