@@ -46,7 +46,7 @@ export const useAuth = () => {
  * @param {{ children: React.ReactNode }} props - The props for the component.
  * @returns {JSX.Element} The rendered authentication provider.
  */
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);

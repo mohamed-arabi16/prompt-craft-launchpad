@@ -32,7 +32,7 @@ This document provides a comprehensive audit and step-by-step action plan to pre
   - **Action:** Move file to `src/contexts/TranslationContext.tsx`
   - **Update imports in:** `src/App.tsx`, `src/hooks/useTranslation.ts`
 
-- [ ] 🟢 **Task 1.1.2:** Add TypeScript `React.FC` type annotations to all context providers.
+- [x] 🟢 **Task 1.1.2:** Add TypeScript `React.FC` type annotations to all context providers.
   - **Files:** `src/contexts/AuthContext.tsx`, `src/contexts/SoundContext.tsx`, `src/contexts/TranslationContext.tsx`
   - **Example:** Change `({ children }: { children: ReactNode })` to explicit `React.FC<{ children: ReactNode }>`
 
