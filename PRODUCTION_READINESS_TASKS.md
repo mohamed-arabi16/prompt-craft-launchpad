@@ -27,7 +27,7 @@ This document provides a comprehensive audit and step-by-step action plan to pre
 
 ### 1.1 Refactor Context Structure
 
-- [ ] 🟠 **Task 1.1.1:** Move `TranslationContext.tsx` from `/src/context/` to `/src/contexts/` to consolidate all contexts in one folder.
+- [x] 🟠 **Task 1.1.1:** Move `TranslationContext.tsx` from `/src/context/` to `/src/contexts/` to consolidate all contexts in one folder.
   - **File:** `src/context/TranslationContext.tsx`
   - **Action:** Move file to `src/contexts/TranslationContext.tsx`
   - **Update imports in:** `src/App.tsx`, `src/hooks/useTranslation.ts`

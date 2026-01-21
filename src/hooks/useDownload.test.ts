@@ -3,7 +3,7 @@ import { renderHook, act } from '@testing-library/react';
 import { useDownload } from '@/hooks/useDownload';
 import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from '@/contexts/AuthContext';
-import { TranslationProvider } from '@/context/TranslationContext';
+import { TranslationProvider } from '@/contexts/TranslationContext';
 import React, { ReactNode } from 'react';
 
 // Mock supabase
