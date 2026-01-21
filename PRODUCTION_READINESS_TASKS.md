@@ -237,7 +237,7 @@ This document provides a comprehensive audit and step-by-step action plan to pre
   - **Action:** Integrate Sentry or similar error tracking service
   - **Files:** `src/main.tsx`, `src/components/ErrorBoundary.tsx`
 
-- [ ] 🟠 **Task 3.2.3:** Add error boundaries to admin dashboard tabs.
+- [x] 🟠 **Task 3.2.3:** Add error boundaries to admin dashboard tabs.
   - **File:** `src/components/admin/AdminDashboard.tsx`
   - **Action:** Wrap each TabsContent with ErrorBoundary
 
