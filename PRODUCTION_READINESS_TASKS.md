@@ -142,11 +142,11 @@ This document provides a comprehensive audit and step-by-step action plan to pre
   - **Files:** Search for `<img` tags in all components
   - **Action:** Add `loading="lazy"` attribute to defer off-screen images
 
-- [ ] 🟠 **Task 2.2.4:** Optimize Framer Motion animations by using `layoutId` where appropriate.
+- [x] 🟠 **Task 2.2.4:** Optimize Framer Motion animations by using `layoutId` where appropriate.
   - **Files:** `src/components/premium/PageTransitionWrapper.tsx`, `src/components/HeroSection.tsx`
   - **Action:** Use `layoutId` for shared elements between pages
 
-- [ ] 🟠 **Task 2.2.5:** Add `useMemo` for expensive translation array operations.
+- [x] 🟠 **Task 2.2.5:** Add `useMemo` for expensive translation array operations.
   - **File:** `src/pages/Index.tsx` (line 49)
   - **Action:** Memoize `tArray('structuredDataTeaches')` call:
     ```tsx
