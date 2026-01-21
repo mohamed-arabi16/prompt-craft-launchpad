@@ -34,6 +34,7 @@ export default defineConfig(({ mode }) => ({
             '@radix-ui/react-tooltip',
           ],
           query: ['@tanstack/react-query'],
+          motion: ['framer-motion'],
         },
         chunkFileNames: '[name]-[hash].js',
         entryFileNames: '[name]-[hash].js',

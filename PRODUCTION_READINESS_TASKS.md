@@ -157,7 +157,7 @@ This document provides a comprehensive audit and step-by-step action plan to pre
   - **File:** `src/components/TestimonialsSection.tsx`
   - **Action:** Consider using `react-window` or Embla's built-in virtualization
 
-- [ ] 🟡 **Task 2.2.7:** Add preload hints for critical fonts.
+- [x] 🟡 **Task 2.2.7:** Add preload hints for critical fonts.
   - **File:** `index.html`
   - **Action:** Add `<link rel="preload" href="fonts/Cairo.woff2" as="font" type="font/woff2" crossorigin>`
 
@@ -174,7 +174,7 @@ This document provides a comprehensive audit and step-by-step action plan to pre
   - **Command:** `npm run build && npx vite-bundle-visualizer`
   - **Action:** Generate report and identify chunks > 200KB
 
-- [ ] 🟠 **Task 2.3.2:** Split Framer Motion into a separate chunk.
+- [x] 🟠 **Task 2.3.2:** Split Framer Motion into a separate chunk.
   - **File:** `vite.config.ts`
   - **Action:** Add to `manualChunks`:
     ```ts
