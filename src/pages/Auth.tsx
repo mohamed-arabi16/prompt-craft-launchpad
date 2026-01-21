@@ -59,6 +59,8 @@ const Auth = () => {
       if (error) {
         if (error.message.includes('Invalid login credentials')) {
           toast.error(t('auth.toast.invalidCredentials'));
+        } else if (error.message.startsWith('errors.')) {
+          toast.error(t(error.message));
         } else {
           toast.error(error.message);
         }
@@ -105,14 +107,16 @@ const Auth = () => {
       if (error) {
         if (error.message.includes('User already registered')) {
           toast.error(t('auth.toast.userExists'));
-        } else if (error.message.includes('enrollment form')) {
-          toast.error(error.message);
+        } else if (error.message === 'errors.enrollmentRequired') {
+          toast.error(t('errors.enrollmentRequired'));
           setTimeout(() => {
             window.location.href = '/enrollment';
           }, 2000);
-        } else if (error.message.includes('account has already been created')) {
-          toast.error(error.message);
+        } else if (error.message === 'errors.accountAlreadyCreated') {
+          toast.error(t('errors.accountAlreadyCreated'));
           setActiveTab('signin');
+        } else if (error.message.startsWith('errors.')) {
+          toast.error(t(error.message));
         } else {
           toast.error(error.message);
         }

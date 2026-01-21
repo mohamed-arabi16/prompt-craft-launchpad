@@ -164,15 +164,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         .rpc('check_enrollment_status', { p_email: email });
 
       if (enrollmentError) {
-        return { error: { message: 'Failed to verify enrollment status' } };
+        return { error: { message: 'errors.enrollmentVerificationFailed' } };
       }
 
       const enrollment = enrollmentData?.[0];
       if (!enrollment?.enrollment_id) {
-        return { 
-          error: { 
-            message: 'You must complete the enrollment form before creating an account. Please fill out the enrollment form first.' 
-          } 
+        return {
+          error: {
+            message: 'errors.enrollmentRequired'
+          }
         };
       }
 
@@ -184,10 +184,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         .single();
 
       if (existingEnrollment?.linked_user_id) {
-        return { 
-          error: { 
-            message: 'An account has already been created for this email address. Please sign in instead.' 
-          } 
+        return {
+          error: {
+            message: 'errors.accountAlreadyCreated'
+          }
         };
       }
 
@@ -212,7 +212,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       
       return { error };
     } catch (err) {
-      return { error: { message: 'An unexpected error occurred during signup' } };
+      return { error: { message: 'errors.signUpFailed' } };
     }
   };
 

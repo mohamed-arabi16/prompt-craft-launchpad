@@ -241,7 +241,7 @@ This document provides a comprehensive audit and step-by-step action plan to pre
   - **File:** `src/components/admin/AdminDashboard.tsx`
   - **Action:** Wrap each TabsContent with ErrorBoundary
 
-- [ ] 🟠 **Task 3.2.4:** Improve error messages in AuthContext.
+- [x] 🟠 **Task 3.2.4:** Improve error messages in AuthContext.
   - **File:** `src/contexts/AuthContext.tsx`
   - **Action:** Add user-friendly error messages with translation keys for all error cases
 
