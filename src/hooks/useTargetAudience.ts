@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 
 export interface TargetAudienceItem {
@@ -12,68 +12,78 @@ export interface TargetAudienceItem {
   updated_at: string;
 }
 
-export const useTargetAudience = () => {
-  const [items, setItems] = useState<TargetAudienceItem[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+const fetchItems = async () => {
+  const { data, error } = await supabase
+    .from('target_audience_items')
+    .select('*')
+    .order('display_order', { ascending: true });
 
-  const fetchItems = async () => {
-    try {
-      setLoading(true);
+  if (error) throw error;
+  return data || [];
+};
+
+export const useTargetAudience = () => {
+  const queryClient = useQueryClient();
+
+  // Query: Fetch target audience items with automatic retry logic from QueryClient
+  const { data: items = [], isLoading: loading, error } = useQuery({
+    queryKey: ['targetAudience'],
+    queryFn: fetchItems,
+  });
+
+  // Mutation: Create item
+  const createMutation = useMutation({
+    mutationFn: async (item: Omit<TargetAudienceItem, 'id' | 'created_at' | 'updated_at'>) => {
       const { data, error } = await supabase
         .from('target_audience_items')
-        .select('*')
-        .order('display_order', { ascending: true });
-
+        .insert(item)
+        .select()
+        .single();
       if (error) throw error;
-      setItems(data || []);
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['targetAudience'] });
+    },
+  });
 
-  const createItem = async (item: Omit<TargetAudienceItem, 'id' | 'created_at' | 'updated_at'>) => {
-    const { data, error } = await supabase
-      .from('target_audience_items')
-      .insert(item)
-      .select()
-      .single();
-    if (error) throw error;
-    await fetchItems();
-    return data;
-  };
+  // Mutation: Update item
+  const updateMutation = useMutation({
+    mutationFn: async ({ id, updates }: { id: string; updates: Partial<TargetAudienceItem> }) => {
+      const { error } = await supabase
+        .from('target_audience_items')
+        .update(updates)
+        .eq('id', id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['targetAudience'] });
+    },
+  });
 
-  const updateItem = async (id: string, updates: Partial<TargetAudienceItem>) => {
-    const { error } = await supabase
-      .from('target_audience_items')
-      .update(updates)
-      .eq('id', id);
-    if (error) throw error;
-    await fetchItems();
-  };
-
-  const deleteItem = async (id: string) => {
-    const { error } = await supabase
-      .from('target_audience_items')
-      .delete()
-      .eq('id', id);
-    if (error) throw error;
-    await fetchItems();
-  };
-
-  useEffect(() => {
-    fetchItems();
-  }, []);
+  // Mutation: Delete item
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase
+        .from('target_audience_items')
+        .delete()
+        .eq('id', id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['targetAudience'] });
+    },
+  });
 
   return {
     items,
     loading,
-    error,
-    fetchItems,
-    createItem,
-    updateItem,
-    deleteItem,
+    error: error ? (error as Error).message : null,
+    fetchItems: () => queryClient.invalidateQueries({ queryKey: ['targetAudience'] }),
+    createItem: (item: Omit<TargetAudienceItem, 'id' | 'created_at' | 'updated_at'>) =>
+      createMutation.mutateAsync(item),
+    updateItem: (id: string, updates: Partial<TargetAudienceItem>) =>
+      updateMutation.mutateAsync({ id, updates }),
+    deleteItem: (id: string) => deleteMutation.mutateAsync(id),
   };
 };

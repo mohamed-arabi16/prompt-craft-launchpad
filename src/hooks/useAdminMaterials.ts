@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import type { CourseMaterial } from './useCourseMaterials';
 
@@ -7,7 +7,7 @@ import type { CourseMaterial } from './useCourseMaterials';
  *
  * @description Provides complete CRUD operations for course materials management.
  * Handles fetching, creating, updating, and deleting materials with automatic
- * state management and error handling. Fetches materials on component mount.
+ * retry logic via React Query. Fetches materials on component mount.
  *
  * @returns {Object} Object with materials state and CRUD methods
  * @returns {CourseMaterial[]} materials - Array of course materials
@@ -37,68 +37,79 @@ import type { CourseMaterial } from './useCourseMaterials';
  * };
  * ```
  */
-export const useAdminMaterials = () => {
-  const [materials, setMaterials] = useState<CourseMaterial[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
-  const fetchMaterials = async () => {
-    try {
-      setLoading(true);
+const fetchMaterials = async () => {
+  const { data, error } = await supabase
+    .from('course_materials')
+    .select('*')
+    .order('course_day', { ascending: true, nullsFirst: true });
+
+  if (error) throw error;
+  return data || [];
+};
+
+export const useAdminMaterials = () => {
+  const queryClient = useQueryClient();
+
+  // Query: Fetch course materials with automatic retry logic from QueryClient
+  const { data: materials = [], isLoading: loading, error } = useQuery({
+    queryKey: ['adminMaterials'],
+    queryFn: fetchMaterials,
+  });
+
+  // Mutation: Create material
+  const createMutation = useMutation({
+    mutationFn: async (material: Omit<CourseMaterial, 'id' | 'created_at' | 'updated_at'>) => {
       const { data, error } = await supabase
         .from('course_materials')
-        .select('*')
-        .order('course_day', { ascending: true, nullsFirst: true });
-
+        .insert(material)
+        .select()
+        .single();
       if (error) throw error;
-      setMaterials(data || []);
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['adminMaterials'] });
+    },
+  });
 
-  const createMaterial = async (material: Omit<CourseMaterial, 'id' | 'created_at' | 'updated_at'>) => {
-    const { data, error } = await supabase
-      .from('course_materials')
-      .insert(material)
-      .select()
-      .single();
-    if (error) throw error;
-    await fetchMaterials();
-    return data;
-  };
+  // Mutation: Update material
+  const updateMutation = useMutation({
+    mutationFn: async ({ id, updates }: { id: string; updates: Partial<CourseMaterial> }) => {
+      const { error } = await supabase
+        .from('course_materials')
+        .update(updates)
+        .eq('id', id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['adminMaterials'] });
+    },
+  });
 
-  const updateMaterial = async (id: string, updates: Partial<CourseMaterial>) => {
-    const { error } = await supabase
-      .from('course_materials')
-      .update(updates)
-      .eq('id', id);
-    if (error) throw error;
-    await fetchMaterials();
-  };
-
-  const deleteMaterial = async (id: string) => {
-    const { error } = await supabase
-      .from('course_materials')
-      .delete()
-      .eq('id', id);
-    if (error) throw error;
-    await fetchMaterials();
-  };
-
-  useEffect(() => {
-    fetchMaterials();
-  }, []);
+  // Mutation: Delete material
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase
+        .from('course_materials')
+        .delete()
+        .eq('id', id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['adminMaterials'] });
+    },
+  });
 
   return {
     materials,
     loading,
-    error,
-    fetchMaterials,
-    createMaterial,
-    updateMaterial,
-    deleteMaterial,
+    error: error ? (error as Error).message : null,
+    fetchMaterials: () => queryClient.invalidateQueries({ queryKey: ['adminMaterials'] }),
+    createMaterial: (material: Omit<CourseMaterial, 'id' | 'created_at' | 'updated_at'>) =>
+      createMutation.mutateAsync(material),
+    updateMaterial: (id: string, updates: Partial<CourseMaterial>) =>
+      updateMutation.mutateAsync({ id, updates }),
+    deleteMaterial: (id: string) => deleteMutation.mutateAsync(id),
   };
 };

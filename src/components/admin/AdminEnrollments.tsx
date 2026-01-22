@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -46,58 +46,68 @@ const STATUS_OPTIONS = [
   { value: 'ARCHIVED', label: 'مؤرشف', labelEn: 'Archived', color: 'bg-gray-600' },
 ];
 
+// Fetch functions with automatic retry logic from QueryClient
+const fetchEnrollments = async () => {
+  const { data, error } = await supabase
+    .from('enrollments')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (error) throw error;
+  return data || [];
+};
+
+const fetchCourseAccess = async () => {
+  const { data, error } = await supabase
+    .from('course_access')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (error) throw error;
+  return data || [];
+};
+
 const AdminEnrollments = () => {
-  const [enrollments, setEnrollments] = useState<Enrollment[]>([]);
-  const [courseAccess, setCourseAccess] = useState<CourseAccess[]>([]);
-  const [loading, setLoading] = useState(true);
+  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  // Queries: Fetch enrollments and course access with automatic retry logic
+  const { data: enrollments = [], isLoading: loading } = useQuery({
+    queryKey: ['enrollments'],
+    queryFn: fetchEnrollments,
+  });
 
-  const fetchData = async () => {
-    try {
-      setLoading(true);
-      const [enrollmentsRes, accessRes] = await Promise.all([
-        supabase.from('enrollments').select('*').order('created_at', { ascending: false }),
-        supabase.from('course_access').select('*').order('created_at', { ascending: false })
-      ]);
+  const { data: courseAccess = [] } = useQuery({
+    queryKey: ['courseAccess'],
+    queryFn: fetchCourseAccess,
+  });
 
-      if (enrollmentsRes.error) throw enrollmentsRes.error;
-      if (accessRes.error) throw accessRes.error;
-
-      setEnrollments(enrollmentsRes.data || []);
-      setCourseAccess(accessRes.data || []);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      toast.error('فشل في تحميل البيانات');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleStatusChange = async (enrollmentId: string, newStatus: string) => {
-    try {
+  // Mutation: Update enrollment status with automatic retry logic
+  const statusMutation = useMutation({
+    mutationFn: async ({ enrollmentId, newStatus }: { enrollmentId: string; newStatus: string }) => {
       const { error } = await supabase
         .from('enrollments')
         .update({ status: newStatus, updated_at: new Date().toISOString() })
         .eq('id', enrollmentId);
 
       if (error) throw error;
+    },
+    onSuccess: () => {
       toast.success('تم تحديث الحالة بنجاح');
-      fetchData();
-    } catch (error) {
+      queryClient.invalidateQueries({ queryKey: ['enrollments'] });
+    },
+    onError: (error) => {
       console.error('Error updating status:', error);
       toast.error('فشل في تحديث الحالة');
-    }
-  };
+    },
+  });
 
-  const handleAccessChange = async (userId: string, grantAccess: boolean, enrollmentId?: string) => {
-    try {
+  // Mutation: Update course access with automatic retry logic
+  const accessMutation = useMutation({
+    mutationFn: async ({ userId, grantAccess, enrollmentId }: { userId: string; grantAccess: boolean; enrollmentId?: string }) => {
       // Use upsert to handle both insert and update cases
       const { error } = await supabase
         .from('course_access')
-        .upsert({ 
+        .upsert({
           user_id: userId,
           has_access: grantAccess,
           access_granted_at: grantAccess ? new Date().toISOString() : null,
@@ -120,13 +130,24 @@ const AdminEnrollments = () => {
           .update({ status: 'CONFIRMED', updated_at: new Date().toISOString() })
           .eq('id', enrollmentId);
       }
-
+    },
+    onSuccess: (_, { grantAccess }) => {
       toast.success(grantAccess ? 'تم منح الوصول بنجاح ✅' : 'تم إلغاء الوصول بنجاح');
-      fetchData();
-    } catch (error) {
+      queryClient.invalidateQueries({ queryKey: ['enrollments'] });
+      queryClient.invalidateQueries({ queryKey: ['courseAccess'] });
+    },
+    onError: (error) => {
       console.error('Error updating access:', error);
       toast.error('فشل في تحديث الوصول');
-    }
+    },
+  });
+
+  const handleStatusChange = (enrollmentId: string, newStatus: string) => {
+    statusMutation.mutate({ enrollmentId, newStatus });
+  };
+
+  const handleAccessChange = (userId: string, grantAccess: boolean, enrollmentId?: string) => {
+    accessMutation.mutate({ userId, grantAccess, enrollmentId });
   };
 
   const getStatusBadge = (status: string) => {

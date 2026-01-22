@@ -1,4 +1,5 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import {
   CourseSession,
@@ -14,219 +15,238 @@ const fromTable = (tableName: string) => {
   return supabase.from(tableName as any);
 };
 
+// Fetch functions with automatic retry logic from QueryClient
+const fetchSessions = async () => {
+  const { data, error } = await fromTable('course_sessions')
+    .select('*')
+    .order('start_date', { ascending: false });
+
+  if (error) throw error;
+  return (data as unknown as CourseSession[]) || [];
+};
+
+const fetchChecklistItems = async () => {
+  const { data, error } = await fromTable('instructor_checklist_items')
+    .select('*')
+    .eq('is_active', true)
+    .order('day_number', { ascending: true })
+    .order('display_order', { ascending: true });
+
+  if (error) throw error;
+
+  // Enhance fetched items with Arabic translations
+  const fetchedItems = (data as unknown as InstructorChecklistItem[]) || [];
+  const enhancedItems = fetchedItems.map(item => ({
+    ...item,
+    // If content_ar is fetched (and DB has column), use it.
+    // If it's missing or null, try to map from translations by key or English content
+    content_ar: item.content_ar || checklistTranslations[item.item_key] || checklistTranslations[item.content_en] || null
+  }));
+
+  return enhancedItems;
+};
+
+const fetchChecklistProgress = async (sessionId: string) => {
+  const { data, error } = await fromTable('instructor_checklist_progress')
+    .select('*')
+    .eq('session_id', sessionId);
+
+  if (error) throw error;
+  return (data as unknown as InstructorChecklistProgress[]) || [];
+};
+
+const fetchSessionNotes = async (sessionId: string) => {
+  const { data, error } = await fromTable('instructor_session_notes')
+    .select('*')
+    .eq('session_id', sessionId);
+
+  if (error) throw error;
+  return (data as unknown as InstructorSessionNotes[]) || [];
+};
+
 export const useInstructorProgress = () => {
-  const [sessions, setSessions] = useState<CourseSession[]>([]);
+  const queryClient = useQueryClient();
   const [activeSession, setActiveSession] = useState<CourseSession | null>(null);
-  const [checklistItems, setChecklistItems] = useState<InstructorChecklistItem[]>([]);
-  const [checklistProgress, setChecklistProgress] = useState<InstructorChecklistProgress[]>([]);
-  const [sessionNotes, setSessionNotes] = useState<InstructorSessionNotes[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
-  // Fetch all sessions
-  const fetchSessions = useCallback(async () => {
-    try {
-      const { data, error } = await fromTable('course_sessions')
-        .select('*')
-        .order('start_date', { ascending: false });
+  // Queries with automatic retry logic from QueryClient
+  const { data: sessions = [], isLoading: loading, error } = useQuery({
+    queryKey: ['instructorSessions'],
+    queryFn: fetchSessions,
+  });
 
-      if (error) throw error;
-      const sessionsData = (data as unknown as CourseSession[]) || [];
-      setSessions(sessionsData);
+  const { data: checklistItems = [] } = useQuery({
+    queryKey: ['instructorChecklistItems'],
+    queryFn: fetchChecklistItems,
+  });
 
-      // Set active session if exists
-      const active = sessionsData.find(s => s.is_active);
+  const { data: checklistProgress = [] } = useQuery({
+    queryKey: ['checklistProgress', activeSession?.id],
+    queryFn: () => fetchChecklistProgress(activeSession?.id || ''),
+    enabled: !!activeSession,
+  });
+
+  const { data: sessionNotes = [] } = useQuery({
+    queryKey: ['sessionNotes', activeSession?.id],
+    queryFn: () => fetchSessionNotes(activeSession?.id || ''),
+    enabled: !!activeSession,
+  });
+
+  // Set active session when sessions change
+  useEffect(() => {
+    if (sessions.length > 0 && !activeSession) {
+      const active = sessions.find(s => s.is_active);
       if (active) {
         setActiveSession(active);
       }
-    } catch (err: any) {
-      setError(err.message);
     }
-  }, []);
+  }, [sessions, activeSession]);
 
-  // Fetch all checklist items
-  const fetchChecklistItems = useCallback(async () => {
-    try {
-      const { data, error } = await fromTable('instructor_checklist_items')
-        .select('*')
-        .eq('is_active', true)
-        .order('day_number', { ascending: true })
-        .order('display_order', { ascending: true });
+  // Mutations with automatic retry logic from QueryClient
+  const createSessionMutation = useMutation({
+    mutationFn: async (session: Omit<CourseSession, 'id' | 'created_at' | 'updated_at' | 'created_by'>) => {
+      const { data: userData } = await supabase.auth.getUser();
 
-      if (error) throw error;
-
-      // Enhance fetched items with Arabic translations
-      const fetchedItems = (data as unknown as InstructorChecklistItem[]) || [];
-      const enhancedItems = fetchedItems.map(item => ({
-        ...item,
-        // If content_ar is fetched (and DB has column), use it.
-        // If it's missing or null, try to map from translations by key or English content
-        content_ar: item.content_ar || checklistTranslations[item.item_key] || checklistTranslations[item.content_en] || null
-      }));
-
-      setChecklistItems(enhancedItems);
-    } catch (err: any) {
-      setError(err.message);
-    }
-  }, []);
-
-  // Fetch checklist progress for active session
-  const fetchChecklistProgress = useCallback(async (sessionId: string) => {
-    try {
-      const { data, error } = await fromTable('instructor_checklist_progress')
-        .select('*')
-        .eq('session_id', sessionId);
-
-      if (error) throw error;
-      setChecklistProgress((data as unknown as InstructorChecklistProgress[]) || []);
-    } catch (err: any) {
-      setError(err.message);
-    }
-  }, []);
-
-  // Fetch session notes
-  const fetchSessionNotes = useCallback(async (sessionId: string) => {
-    try {
-      const { data, error } = await fromTable('instructor_session_notes')
-        .select('*')
-        .eq('session_id', sessionId);
-
-      if (error) throw error;
-      setSessionNotes((data as unknown as InstructorSessionNotes[]) || []);
-    } catch (err: any) {
-      setError(err.message);
-    }
-  }, []);
-
-  // Create a new session
-  const createSession = async (session: Omit<CourseSession, 'id' | 'created_at' | 'updated_at' | 'created_by'>) => {
-    const { data: userData } = await supabase.auth.getUser();
-
-    const { data, error } = await fromTable('course_sessions')
-      .insert({
-        ...session,
-        created_by: userData.user?.id
-      })
-      .select()
-      .single();
-
-    if (error) throw error;
-    await fetchSessions();
-    return data as unknown as CourseSession;
-  };
-
-  // Update session
-  const updateSession = async (id: string, updates: Partial<CourseSession>) => {
-    const { error } = await fromTable('course_sessions')
-      .update(updates)
-      .eq('id', id);
-
-    if (error) throw error;
-    await fetchSessions();
-  };
-
-  // Set active session
-  const setSessionActive = async (sessionId: string) => {
-    // First, deactivate all sessions
-    await fromTable('course_sessions')
-      .update({ is_active: false })
-      .neq('id', 'none');
-
-    // Then activate the selected session
-    const { error } = await fromTable('course_sessions')
-      .update({ is_active: true })
-      .eq('id', sessionId);
-
-    if (error) throw error;
-    await fetchSessions();
-  };
-
-  // Update current day for session
-  const updateCurrentDay = async (sessionId: string, dayNumber: number) => {
-    const { error } = await fromTable('course_sessions')
-      .update({ current_day: dayNumber })
-      .eq('id', sessionId);
-
-    if (error) throw error;
-    await fetchSessions();
-  };
-
-  // Toggle checklist item completion
-  const toggleChecklistItem = async (sessionId: string, checklistItemId: string, isCompleted: boolean) => {
-    const { data: userData } = await supabase.auth.getUser();
-
-    const existingProgress = checklistProgress.find(
-      p => p.session_id === sessionId && p.checklist_item_id === checklistItemId
-    );
-
-    if (existingProgress) {
-      // Update existing progress
-      const { error } = await fromTable('instructor_checklist_progress')
-        .update({
-          is_completed: isCompleted,
-          completed_at: isCompleted ? new Date().toISOString() : null,
-          completed_by: isCompleted ? userData.user?.id : null
+      const { data, error } = await fromTable('course_sessions')
+        .insert({
+          ...session,
+          created_by: userData.user?.id
         })
-        .eq('id', existingProgress.id);
+        .select()
+        .single();
 
       if (error) throw error;
-    } else {
-      // Create new progress entry
-      const { error } = await fromTable('instructor_checklist_progress')
-        .insert({
-          session_id: sessionId,
-          checklist_item_id: checklistItemId,
-          is_completed: isCompleted,
-          completed_at: isCompleted ? new Date().toISOString() : null,
-          completed_by: isCompleted ? userData.user?.id : null
-        });
+      return data as unknown as CourseSession;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['instructorSessions'] });
+    },
+  });
+
+  const updateSessionMutation = useMutation({
+    mutationFn: async ({ id, updates }: { id: string; updates: Partial<CourseSession> }) => {
+      const { error } = await fromTable('course_sessions')
+        .update(updates)
+        .eq('id', id);
 
       if (error) throw error;
-    }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['instructorSessions'] });
+    },
+  });
 
-    await fetchChecklistProgress(sessionId);
-  };
+  const setSessionActiveMutation = useMutation({
+    mutationFn: async (sessionId: string) => {
+      // First, deactivate all sessions
+      await fromTable('course_sessions')
+        .update({ is_active: false })
+        .neq('id', 'none');
 
-  // Save session notes for a day
-  const saveSessionNotes = async (
-    sessionId: string,
-    dayNumber: number,
-    notes: Partial<Omit<InstructorSessionNotes, 'id' | 'session_id' | 'day_number' | 'created_at' | 'updated_at'>>
-  ) => {
-    const existingNotes = sessionNotes.find(
-      n => n.session_id === sessionId && n.day_number === dayNumber
-    );
-
-    if (existingNotes) {
-      const { error } = await fromTable('instructor_session_notes')
-        .update(notes)
-        .eq('id', existingNotes.id);
+      // Then activate the selected session
+      const { error } = await fromTable('course_sessions')
+        .update({ is_active: true })
+        .eq('id', sessionId);
 
       if (error) throw error;
-    } else {
-      const { error } = await fromTable('instructor_session_notes')
-        .insert({
-          session_id: sessionId,
-          day_number: dayNumber,
-          ...notes
-        });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['instructorSessions'] });
+    },
+  });
+
+  const updateCurrentDayMutation = useMutation({
+    mutationFn: async ({ sessionId, dayNumber }: { sessionId: string; dayNumber: number }) => {
+      const { error } = await fromTable('course_sessions')
+        .update({ current_day: dayNumber })
+        .eq('id', sessionId);
 
       if (error) throw error;
-    }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['instructorSessions'] });
+    },
+  });
 
-    await fetchSessionNotes(sessionId);
-  };
+  const toggleChecklistItemMutation = useMutation({
+    mutationFn: async ({ sessionId, checklistItemId, isCompleted }: { sessionId: string; checklistItemId: string; isCompleted: boolean }) => {
+      const { data: userData } = await supabase.auth.getUser();
 
-  // Get checklist items with progress for a specific day and phase
+      const existingProgress = checklistProgress.find(
+        p => p.session_id === sessionId && p.checklist_item_id === checklistItemId
+      );
+
+      if (existingProgress) {
+        // Update existing progress
+        const { error } = await fromTable('instructor_checklist_progress')
+          .update({
+            is_completed: isCompleted,
+            completed_at: isCompleted ? new Date().toISOString() : null,
+            completed_by: isCompleted ? userData.user?.id : null
+          })
+          .eq('id', existingProgress.id);
+
+        if (error) throw error;
+      } else {
+        // Create new progress entry
+        const { error } = await fromTable('instructor_checklist_progress')
+          .insert({
+            session_id: sessionId,
+            checklist_item_id: checklistItemId,
+            is_completed: isCompleted,
+            completed_at: isCompleted ? new Date().toISOString() : null,
+            completed_by: isCompleted ? userData.user?.id : null
+          });
+
+        if (error) throw error;
+      }
+    },
+    onSuccess: () => {
+      if (activeSession) {
+        queryClient.invalidateQueries({ queryKey: ['checklistProgress', activeSession.id] });
+      }
+    },
+  });
+
+  const saveSessionNotesMutation = useMutation({
+    mutationFn: async ({ sessionId, dayNumber, notes }: { sessionId: string; dayNumber: number; notes: Partial<Omit<InstructorSessionNotes, 'id' | 'session_id' | 'day_number' | 'created_at' | 'updated_at'>> }) => {
+      const existingNotes = sessionNotes.find(
+        n => n.session_id === sessionId && n.day_number === dayNumber
+      );
+
+      if (existingNotes) {
+        const { error } = await fromTable('instructor_session_notes')
+          .update(notes)
+          .eq('id', existingNotes.id);
+
+        if (error) throw error;
+      } else {
+        const { error } = await fromTable('instructor_session_notes')
+          .insert({
+            session_id: sessionId,
+            day_number: dayNumber,
+            ...notes
+          });
+
+        if (error) throw error;
+      }
+    },
+    onSuccess: () => {
+      if (activeSession) {
+        queryClient.invalidateQueries({ queryKey: ['sessionNotes', activeSession.id] });
+      }
+    },
+  });
+
+  // Helper functions
   const getChecklistItemsWithProgress = (dayNumber: number, phase?: 'pre' | 'during' | 'after'): ChecklistItemWithProgress[] => {
-    let items = checklistItems.filter(item => item.day_number === dayNumber);
+    let items = (checklistItems as InstructorChecklistItem[]).filter(item => item.day_number === dayNumber);
 
     if (phase) {
       items = items.filter(item => item.phase === phase);
     }
 
     return items.map(item => {
-      const progress = checklistProgress.find(p => p.checklist_item_id === item.id);
+      const progress = (checklistProgress as InstructorChecklistProgress[]).find(p => p.checklist_item_id === item.id);
       return {
         ...item,
         progress
@@ -234,46 +254,40 @@ export const useInstructorProgress = () => {
     });
   };
 
-  // Get notes for a specific day
   const getNotesForDay = (sessionId: string, dayNumber: number): InstructorSessionNotes | undefined => {
-    return sessionNotes.find(n => n.session_id === sessionId && n.day_number === dayNumber);
+    return (sessionNotes as InstructorSessionNotes[]).find(n => n.session_id === sessionId && n.day_number === dayNumber);
   };
 
-  // Calculate progress percentage for a day
   const getDayProgress = (dayNumber: number): number => {
-    const dayItems = checklistItems.filter(item => item.day_number === dayNumber);
+    const dayItems = (checklistItems as InstructorChecklistItem[]).filter(item => item.day_number === dayNumber);
     if (dayItems.length === 0) return 0;
 
     const completedItems = dayItems.filter(item => {
-      const progress = checklistProgress.find(p => p.checklist_item_id === item.id);
+      const progress = (checklistProgress as InstructorChecklistProgress[]).find(p => p.checklist_item_id === item.id);
       return progress?.is_completed;
     });
 
     return Math.round((completedItems.length / dayItems.length) * 100);
   };
 
-  // Initial data fetch
-  useEffect(() => {
-    const loadData = async () => {
-      setLoading(true);
-      try {
-        await Promise.all([fetchSessions(), fetchChecklistItems()]);
-      } catch (err: any) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    loadData();
-  }, [fetchSessions, fetchChecklistItems]);
+  // Wrapper functions for mutations
+  const createSession = (session: Omit<CourseSession, 'id' | 'created_at' | 'updated_at' | 'created_by'>) =>
+    createSessionMutation.mutateAsync(session);
 
-  // Fetch progress when active session changes
-  useEffect(() => {
-    if (activeSession) {
-      fetchChecklistProgress(activeSession.id);
-      fetchSessionNotes(activeSession.id);
-    }
-  }, [activeSession, fetchChecklistProgress, fetchSessionNotes]);
+  const updateSession = (id: string, updates: Partial<CourseSession>) =>
+    updateSessionMutation.mutateAsync({ id, updates });
+
+  const setSessionActiveAction = (sessionId: string) =>
+    setSessionActiveMutation.mutateAsync(sessionId);
+
+  const updateCurrentDay = (sessionId: string, dayNumber: number) =>
+    updateCurrentDayMutation.mutateAsync({ sessionId, dayNumber });
+
+  const toggleChecklistItem = (sessionId: string, checklistItemId: string, isCompleted: boolean) =>
+    toggleChecklistItemMutation.mutateAsync({ sessionId, checklistItemId, isCompleted });
+
+  const saveSessionNotes = (sessionId: string, dayNumber: number, notes: Partial<Omit<InstructorSessionNotes, 'id' | 'session_id' | 'day_number' | 'created_at' | 'updated_at'>>) =>
+    saveSessionNotesMutation.mutateAsync({ sessionId, dayNumber, notes });
 
   return {
     // State
@@ -283,14 +297,12 @@ export const useInstructorProgress = () => {
     checklistProgress,
     sessionNotes,
     loading,
-    error,
+    error: error ? (error as Error).message : null,
 
     // Actions
-    fetchSessions,
-    fetchChecklistItems,
     createSession,
     updateSession,
-    setSessionActive,
+    setSessionActive: setSessionActiveAction,
     updateCurrentDay,
     toggleChecklistItem,
     saveSessionNotes,

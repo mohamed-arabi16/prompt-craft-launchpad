@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 
 export interface FAQ {
@@ -13,68 +13,78 @@ export interface FAQ {
   updated_at: string;
 }
 
-export const useFAQs = () => {
-  const [faqs, setFaqs] = useState<FAQ[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+const fetchFAQs = async () => {
+  const { data, error } = await supabase
+    .from('faqs')
+    .select('*')
+    .order('display_order', { ascending: true });
 
-  const fetchFAQs = async () => {
-    try {
-      setLoading(true);
+  if (error) throw error;
+  return data || [];
+};
+
+export const useFAQs = () => {
+  const queryClient = useQueryClient();
+
+  // Query: Fetch FAQs with automatic retry logic from QueryClient
+  const { data: faqs = [], isLoading: loading, error } = useQuery({
+    queryKey: ['faqs'],
+    queryFn: fetchFAQs,
+  });
+
+  // Mutation: Create FAQ
+  const createMutation = useMutation({
+    mutationFn: async (faq: Omit<FAQ, 'id' | 'created_at' | 'updated_at'>) => {
       const { data, error } = await supabase
         .from('faqs')
-        .select('*')
-        .order('display_order', { ascending: true });
-
+        .insert(faq)
+        .select()
+        .single();
       if (error) throw error;
-      setFaqs(data || []);
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['faqs'] });
+    },
+  });
 
-  const createFAQ = async (faq: Omit<FAQ, 'id' | 'created_at' | 'updated_at'>) => {
-    const { data, error } = await supabase
-      .from('faqs')
-      .insert(faq)
-      .select()
-      .single();
-    if (error) throw error;
-    await fetchFAQs();
-    return data;
-  };
+  // Mutation: Update FAQ
+  const updateMutation = useMutation({
+    mutationFn: async ({ id, updates }: { id: string; updates: Partial<FAQ> }) => {
+      const { error } = await supabase
+        .from('faqs')
+        .update(updates)
+        .eq('id', id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['faqs'] });
+    },
+  });
 
-  const updateFAQ = async (id: string, updates: Partial<FAQ>) => {
-    const { error } = await supabase
-      .from('faqs')
-      .update(updates)
-      .eq('id', id);
-    if (error) throw error;
-    await fetchFAQs();
-  };
-
-  const deleteFAQ = async (id: string) => {
-    const { error } = await supabase
-      .from('faqs')
-      .delete()
-      .eq('id', id);
-    if (error) throw error;
-    await fetchFAQs();
-  };
-
-  useEffect(() => {
-    fetchFAQs();
-  }, []);
+  // Mutation: Delete FAQ
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase
+        .from('faqs')
+        .delete()
+        .eq('id', id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['faqs'] });
+    },
+  });
 
   return {
     faqs,
     loading,
-    error,
-    fetchFAQs,
-    createFAQ,
-    updateFAQ,
-    deleteFAQ,
+    error: error ? (error as Error).message : null,
+    fetchFAQs: () => queryClient.invalidateQueries({ queryKey: ['faqs'] }),
+    createFAQ: (faq: Omit<FAQ, 'id' | 'created_at' | 'updated_at'>) =>
+      createMutation.mutateAsync(faq),
+    updateFAQ: (id: string, updates: Partial<FAQ>) =>
+      updateMutation.mutateAsync({ id, updates }),
+    deleteFAQ: (id: string) => deleteMutation.mutateAsync(id),
   };
 };

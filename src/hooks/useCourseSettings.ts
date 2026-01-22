@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 
 export interface CourseSetting {
@@ -11,30 +11,27 @@ export interface CourseSetting {
   updated_at: string;
 }
 
+const fetchSettings = async () => {
+  const { data, error } = await supabase
+    .from('course_settings')
+    .select('*')
+    .order('setting_key');
+
+  if (error) throw error;
+  return data || [];
+};
+
 export const useCourseSettings = () => {
-  const [settings, setSettings] = useState<CourseSetting[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const queryClient = useQueryClient();
 
-  const fetchSettings = async () => {
-    try {
-      setLoading(true);
-      const { data, error } = await supabase
-        .from('course_settings')
-        .select('*')
-        .order('setting_key');
-
-      if (error) throw error;
-      setSettings(data || []);
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+  // Query: Fetch course settings with automatic retry logic from QueryClient
+  const { data: settings = [], isLoading: loading, error } = useQuery({
+    queryKey: ['courseSettings'],
+    queryFn: fetchSettings,
+  });
 
   const getSetting = (key: string): string => {
-    const setting = settings.find(s => s.setting_key === key);
+    const setting = (settings as CourseSetting[]).find(s => s.setting_key === key);
     return setting?.setting_value || '';
   };
 
@@ -46,49 +43,62 @@ export const useCourseSettings = () => {
     return getSetting(key) === 'true';
   };
 
-  const createSetting = async (setting: Omit<CourseSetting, 'id' | 'created_at' | 'updated_at'>) => {
-    const { data, error } = await supabase
-      .from('course_settings')
-      .insert(setting)
-      .select()
-      .single();
-    if (error) throw error;
-    await fetchSettings();
-    return data;
-  };
+  // Mutation: Create setting
+  const createMutation = useMutation({
+    mutationFn: async (setting: Omit<CourseSetting, 'id' | 'created_at' | 'updated_at'>) => {
+      const { data, error } = await supabase
+        .from('course_settings')
+        .insert(setting)
+        .select()
+        .single();
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['courseSettings'] });
+    },
+  });
 
-  const updateSetting = async (key: string, value: string) => {
-    const { error } = await supabase
-      .from('course_settings')
-      .update({ setting_value: value })
-      .eq('setting_key', key);
-    if (error) throw error;
-    await fetchSettings();
-  };
+  // Mutation: Update setting
+  const updateMutation = useMutation({
+    mutationFn: async ({ key, value }: { key: string; value: string }) => {
+      const { error } = await supabase
+        .from('course_settings')
+        .update({ setting_value: value })
+        .eq('setting_key', key);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['courseSettings'] });
+    },
+  });
 
-  const deleteSetting = async (id: string) => {
-    const { error } = await supabase
-      .from('course_settings')
-      .delete()
-      .eq('id', id);
-    if (error) throw error;
-    await fetchSettings();
-  };
-
-  useEffect(() => {
-    fetchSettings();
-  }, []);
+  // Mutation: Delete setting
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase
+        .from('course_settings')
+        .delete()
+        .eq('id', id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['courseSettings'] });
+    },
+  });
 
   return {
     settings,
     loading,
-    error,
+    error: error ? (error as Error).message : null,
     getSetting,
     getSettingAsNumber,
     getSettingAsBoolean,
-    fetchSettings,
-    createSetting,
-    updateSetting,
-    deleteSetting,
+    fetchSettings: () => queryClient.invalidateQueries({ queryKey: ['courseSettings'] }),
+    createSetting: (setting: Omit<CourseSetting, 'id' | 'created_at' | 'updated_at'>) =>
+      createMutation.mutateAsync(setting),
+    updateSetting: (key: string, value: string) =>
+      updateMutation.mutateAsync({ key, value }),
+    deleteSetting: (id: string) => deleteMutation.mutateAsync(id),
   };
 };

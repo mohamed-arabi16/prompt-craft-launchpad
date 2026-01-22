@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronRight, ChevronLeft, CheckCircle, User, Phone, Mail, MapPin, Target, BarChart3, MessageSquare } from 'lucide-react';
+import { useMutation } from '@tanstack/react-query';
 import { useTranslation } from '@/hooks/useTranslation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -52,8 +53,31 @@ export default function BookingFormModal({ isOpen, onClose }: BookingFormModalPr
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [errors, setErrors] = useState<Partial<FormData>>({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+
+  // Mutation: Submit booking form with automatic retry logic from QueryClient
+  const submitMutation = useMutation({
+    mutationFn: async (data: FormData) => {
+      const { error } = await supabase.from('enrollments').insert({
+        first_name: data.fullName.split(' ')[0] || data.fullName,
+        last_name: data.fullName.split(' ').slice(1).join(' ') || '',
+        email: data.email || null,
+        phone: data.whatsapp,
+        company: data.city || null,
+        ai_experience: data.currentLevel || 'beginner',
+        goals: `الهدف: ${data.primaryGoal || 'غير محدد'} | الحضور: ${data.attendance} | رسالة: ${data.message || 'لا يوجد'}`,
+      });
+
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      setIsSuccess(true);
+    },
+    onError: (error) => {
+      console.error('Submission error:', error);
+      toast.error(currentLanguage === 'ar' ? 'حدث خطأ، يرجى المحاولة مرة أخرى' : 'An error occurred, please try again');
+    },
+  });
 
   const updateField = (field: keyof FormData, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -106,28 +130,8 @@ export default function BookingFormModal({ isOpen, onClose }: BookingFormModalPr
       return;
     }
 
-    setIsSubmitting(true);
-
-    try {
-      const { error } = await supabase.from('enrollments').insert({
-        first_name: formData.fullName.split(' ')[0] || formData.fullName,
-        last_name: formData.fullName.split(' ').slice(1).join(' ') || '',
-        email: formData.email || null,
-        phone: formData.whatsapp,
-        company: formData.city || null,
-        ai_experience: formData.currentLevel || 'beginner',
-        goals: `الهدف: ${formData.primaryGoal || 'غير محدد'} | الحضور: ${formData.attendance} | رسالة: ${formData.message || 'لا يوجد'}`,
-      });
-
-      if (error) throw error;
-
-      setIsSuccess(true);
-    } catch (error) {
-      console.error('Submission error:', error);
-      toast.error(currentLanguage === 'ar' ? 'حدث خطأ، يرجى المحاولة مرة أخرى' : 'An error occurred, please try again');
-    } finally {
-      setIsSubmitting(false);
-    }
+    // Use mutation to submit (automatic retry via QueryClient)
+    submitMutation.mutate(formData);
   };
 
   const handleClose = () => {
@@ -448,10 +452,10 @@ export default function BookingFormModal({ isOpen, onClose }: BookingFormModalPr
                         </Button>
                         <Button
                           onClick={handleSubmit}
-                          disabled={isSubmitting}
+                          disabled={submitMutation.isPending}
                           className="flex-1 bg-primary hover:bg-primary/90"
                         >
-                          {isSubmitting
+                          {submitMutation.isPending
                             ? (currentLanguage === 'ar' ? 'جاري الإرسال...' : 'Submitting...')
                             : (currentLanguage === 'ar' ? 'إرسال الطلب' : 'Submit')}
                         </Button>

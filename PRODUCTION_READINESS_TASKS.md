@@ -245,7 +245,7 @@ This document provides a comprehensive audit and step-by-step action plan to pre
   - **File:** `src/contexts/AuthContext.tsx`
   - **Action:** Add user-friendly error messages with translation keys for all error cases
 
-- [ ] 🟡 **Task 3.2.5:** Add retry logic for failed Supabase queries.
+- [x] 🟡 **Task 3.2.5:** Add retry logic for failed Supabase queries.
   - **Files:** All hooks using `supabase.from()`
   - **Action:** Implement exponential backoff retry (already configured in QueryClient, verify hooks use it)
 

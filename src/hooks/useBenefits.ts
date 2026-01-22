@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 
 export interface Benefit {
@@ -14,68 +14,78 @@ export interface Benefit {
   updated_at: string;
 }
 
-export const useBenefits = () => {
-  const [benefits, setBenefits] = useState<Benefit[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+const fetchBenefits = async () => {
+  const { data, error } = await supabase
+    .from('benefits')
+    .select('*')
+    .order('display_order', { ascending: true });
 
-  const fetchBenefits = async () => {
-    try {
-      setLoading(true);
+  if (error) throw error;
+  return data || [];
+};
+
+export const useBenefits = () => {
+  const queryClient = useQueryClient();
+
+  // Query: Fetch benefits with automatic retry logic from QueryClient
+  const { data: benefits = [], isLoading: loading, error } = useQuery({
+    queryKey: ['benefits'],
+    queryFn: fetchBenefits,
+  });
+
+  // Mutation: Create benefit
+  const createMutation = useMutation({
+    mutationFn: async (benefit: Omit<Benefit, 'id' | 'created_at' | 'updated_at'>) => {
       const { data, error } = await supabase
         .from('benefits')
-        .select('*')
-        .order('display_order', { ascending: true });
-
+        .insert(benefit)
+        .select()
+        .single();
       if (error) throw error;
-      setBenefits(data || []);
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['benefits'] });
+    },
+  });
 
-  const createBenefit = async (benefit: Omit<Benefit, 'id' | 'created_at' | 'updated_at'>) => {
-    const { data, error } = await supabase
-      .from('benefits')
-      .insert(benefit)
-      .select()
-      .single();
-    if (error) throw error;
-    await fetchBenefits();
-    return data;
-  };
+  // Mutation: Update benefit
+  const updateMutation = useMutation({
+    mutationFn: async ({ id, updates }: { id: string; updates: Partial<Benefit> }) => {
+      const { error } = await supabase
+        .from('benefits')
+        .update(updates)
+        .eq('id', id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['benefits'] });
+    },
+  });
 
-  const updateBenefit = async (id: string, updates: Partial<Benefit>) => {
-    const { error } = await supabase
-      .from('benefits')
-      .update(updates)
-      .eq('id', id);
-    if (error) throw error;
-    await fetchBenefits();
-  };
-
-  const deleteBenefit = async (id: string) => {
-    const { error } = await supabase
-      .from('benefits')
-      .delete()
-      .eq('id', id);
-    if (error) throw error;
-    await fetchBenefits();
-  };
-
-  useEffect(() => {
-    fetchBenefits();
-  }, []);
+  // Mutation: Delete benefit
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase
+        .from('benefits')
+        .delete()
+        .eq('id', id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['benefits'] });
+    },
+  });
 
   return {
     benefits,
     loading,
-    error,
-    fetchBenefits,
-    createBenefit,
-    updateBenefit,
-    deleteBenefit,
+    error: error ? (error as Error).message : null,
+    fetchBenefits: () => queryClient.invalidateQueries({ queryKey: ['benefits'] }),
+    createBenefit: (benefit: Omit<Benefit, 'id' | 'created_at' | 'updated_at'>) =>
+      createMutation.mutateAsync(benefit),
+    updateBenefit: (id: string, updates: Partial<Benefit>) =>
+      updateMutation.mutateAsync({ id, updates }),
+    deleteBenefit: (id: string) => deleteMutation.mutateAsync(id),
   };
 };

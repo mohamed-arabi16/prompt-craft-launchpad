@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
@@ -22,53 +22,43 @@ export interface CourseMaterial {
   updated_at: string;
 }
 
+const fetchCourseMaterials = async () => {
+  const { data, error: fetchError } = await supabase
+    .from('course_materials')
+    .select('*')
+    .eq('is_active', true)
+    .order('course_day', { ascending: true });
+
+  if (fetchError) throw fetchError;
+  return data || [];
+};
+
 export const useCourseMaterials = () => {
-  const [materials, setMaterials] = useState<CourseMaterial[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const { user, session } = useAuth();
+  const { user } = useAuth();
   const { t } = useTranslation();
 
-  useEffect(() => {
-    if (user) {
-      fetchMaterials();
-    } else {
-      setLoading(false);
-    }
-  }, [user]);
+  // Query: Fetch course materials with automatic retry logic from QueryClient
+  // Only fetch if user is authenticated
+  const {
+    data: materials = [],
+    isLoading: loading,
+    error
+  } = useQuery({
+    queryKey: ['courseMaterials', user?.id],
+    queryFn: fetchCourseMaterials,
+    enabled: !!user, // Only fetch when user is authenticated
+  });
 
-  const fetchMaterials = async () => {
-    try {
-      setLoading(true);
-      setError(null);
+  // Mutation: Download material (already includes retry in toast UI)
+  const downloadMutation = useMutation({
+    mutationFn: async (
+      { materialId, requiresAuth }: { materialId: string; requiresAuth?: boolean }
+    ): Promise<boolean> => {
+      if (requiresAuth && !user) {
+        toast.error(t('errors.signInRequired') || 'Please sign in to download course materials');
+        return false;
+      }
 
-      const { data, error: fetchError } = await supabase
-        .from('course_materials')
-        .select('*')
-        .eq('is_active', true)
-        .order('course_day', { ascending: true });
-
-      if (fetchError) throw fetchError;
-
-      setMaterials(data || []);
-    } catch (err) {
-      console.error('Error fetching course materials:', err);
-      setError(err instanceof Error ? err.message : 'Failed to fetch materials');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  /**
-   * Downloads a material using the secure edge function
-   */
-  const downloadMaterial = async (materialId: string, requiresAuth = true): Promise<boolean> => {
-    if (requiresAuth && !user) {
-      toast.error(t('errors.signInRequired') || 'Please sign in to download course materials');
-      return false;
-    }
-
-    try {
       // Get material details first for filename
       const material = materials.find(m => m.id === materialId);
       if (!material) {
@@ -90,7 +80,7 @@ export const useCourseMaterials = () => {
         // Handle specific error messages
         if (data.error === 'Course access required') {
           toast.error(
-            t('errors.courseAccessRequired') || 
+            t('errors.courseAccessRequired') ||
             'You need to complete enrollment and payment to access course materials.',
             {
               duration: 6000,
@@ -102,7 +92,7 @@ export const useCourseMaterials = () => {
           );
         } else if (data.error === 'Access expired') {
           toast.error(
-            t('errors.accessExpired') || 
+            t('errors.accessExpired') ||
             'Your course access has expired. Please contact support to renew.',
             { duration: 6000 }
           );
@@ -128,18 +118,8 @@ export const useCourseMaterials = () => {
 
       toast.error(t('errors.downloadFailed') || 'Failed to generate download link');
       return false;
-
-    } catch (err) {
-      console.error('Download error:', err);
-      toast.error(t('errors.downloadFailed') || 'Failed to download material', {
-        action: {
-          label: t('buttons.retry') || 'Retry',
-          onClick: () => downloadMaterial(materialId, requiresAuth)
-        }
-      });
-      return false;
-    }
-  };
+    },
+  });
 
   const getMaterialByType = (type: string) => {
     return materials.filter(m => m.file_type === type);
@@ -156,11 +136,12 @@ export const useCourseMaterials = () => {
   return {
     materials,
     loading,
-    error,
-    downloadMaterial,
+    error: error ? (error as Error).message : null,
+    downloadMaterial: (materialId: string, requiresAuth = true): Promise<boolean> =>
+      downloadMutation.mutateAsync({ materialId, requiresAuth }),
     getMaterialByType,
     getMaterialByDay,
     getCourseGuide,
-    refetch: fetchMaterials
+    refetch: () => {} // Handled by React Query invalidation
   };
 };
