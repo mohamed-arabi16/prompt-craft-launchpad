@@ -95,7 +95,14 @@
     "networkError": "Network error. Please check your connection.",
     "genericError": "An error occurred. Please try again.",
     "fileNotAvailable": "The file is not yet available. Please check back later.",
-    "sendMessageFailed": "Failed to send message. Please try again."
+    "sendMessageFailed": "Failed to send message. Please try again.",
+    "enrollmentRequired": "You must complete the enrollment form before creating an account. Please fill out the enrollment form first.",
+    "accountAlreadyCreated": "An account has already been created for this email address. Please sign in instead.",
+    "enrollmentVerificationFailed": "Failed to verify your enrollment status. Please try again or contact support.",
+    "sessionTimeout": "Your session has expired. Please sign in again.",
+    "signUpFailed": "Failed to create your account. Please try again.",
+    "signInFailed": "Failed to sign in. Please check your credentials and try again.",
+    "passwordResetFailed": "Failed to send password reset email. Please try again."
   },
   "loading": {
     "submitting": "Submitting...",

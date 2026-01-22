@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import LoadingSpinner from "@/components/LoadingSpinner";
+import ErrorBoundary from "@/components/ErrorBoundary";
 
 // Lazy load admin components
 const AdminEnrollments = lazy(() => import("./AdminEnrollments"));
@@ -90,54 +91,74 @@ const AdminDashboard = () => {
         </TabsList>
 
         <TabsContent value="enrollments">
-          <Suspense fallback={<LoadingFallback />}>
-            <AdminEnrollments />
-          </Suspense>
+          <ErrorBoundary name="enrollments-tab">
+            <Suspense fallback={<LoadingFallback />}>
+              <AdminEnrollments />
+            </Suspense>
+          </ErrorBoundary>
         </TabsContent>
         <TabsContent value="course-days">
-          <Suspense fallback={<LoadingFallback />}>
-            <AdminCourseDays />
-          </Suspense>
+          <ErrorBoundary name="course-days-tab">
+            <Suspense fallback={<LoadingFallback />}>
+              <AdminCourseDays />
+            </Suspense>
+          </ErrorBoundary>
         </TabsContent>
         <TabsContent value="materials">
-          <Suspense fallback={<LoadingFallback />}>
-            <AdminMaterials />
-          </Suspense>
+          <ErrorBoundary name="materials-tab">
+            <Suspense fallback={<LoadingFallback />}>
+              <AdminMaterials />
+            </Suspense>
+          </ErrorBoundary>
         </TabsContent>
         <TabsContent value="testimonials">
-          <Suspense fallback={<LoadingFallback />}>
-            <AdminTestimonials />
-          </Suspense>
+          <ErrorBoundary name="testimonials-tab">
+            <Suspense fallback={<LoadingFallback />}>
+              <AdminTestimonials />
+            </Suspense>
+          </ErrorBoundary>
         </TabsContent>
         <TabsContent value="faqs">
-          <Suspense fallback={<LoadingFallback />}>
-            <AdminFAQs />
-          </Suspense>
+          <ErrorBoundary name="faqs-tab">
+            <Suspense fallback={<LoadingFallback />}>
+              <AdminFAQs />
+            </Suspense>
+          </ErrorBoundary>
         </TabsContent>
         <TabsContent value="benefits">
-          <Suspense fallback={<LoadingFallback />}>
-            <AdminBenefits />
-          </Suspense>
+          <ErrorBoundary name="benefits-tab">
+            <Suspense fallback={<LoadingFallback />}>
+              <AdminBenefits />
+            </Suspense>
+          </ErrorBoundary>
         </TabsContent>
         <TabsContent value="target-audience">
-          <Suspense fallback={<LoadingFallback />}>
-            <AdminTargetAudience />
-          </Suspense>
+          <ErrorBoundary name="target-audience-tab">
+            <Suspense fallback={<LoadingFallback />}>
+              <AdminTargetAudience />
+            </Suspense>
+          </ErrorBoundary>
         </TabsContent>
         <TabsContent value="site-content">
-          <Suspense fallback={<LoadingFallback />}>
-            <AdminSiteContent />
-          </Suspense>
+          <ErrorBoundary name="site-content-tab">
+            <Suspense fallback={<LoadingFallback />}>
+              <AdminSiteContent />
+            </Suspense>
+          </ErrorBoundary>
         </TabsContent>
         <TabsContent value="settings">
-          <Suspense fallback={<LoadingFallback />}>
-            <AdminCourseSettings />
-          </Suspense>
+          <ErrorBoundary name="settings-tab">
+            <Suspense fallback={<LoadingFallback />}>
+              <AdminCourseSettings />
+            </Suspense>
+          </ErrorBoundary>
         </TabsContent>
         <TabsContent value="instructor">
-          <Suspense fallback={<LoadingFallback />}>
-            <InstructorDashboard />
-          </Suspense>
+          <ErrorBoundary name="instructor-tab">
+            <Suspense fallback={<LoadingFallback />}>
+              <InstructorDashboard />
+            </Suspense>
+          </ErrorBoundary>
         </TabsContent>
       </Tabs>
     </div>

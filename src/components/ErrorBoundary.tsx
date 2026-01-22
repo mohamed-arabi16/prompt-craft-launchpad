@@ -1,4 +1,5 @@
 import React, { Component, ErrorInfo, ReactNode } from 'react';
+import * as Sentry from '@sentry/react';
 import { Button } from '@/components/ui/button';
 import { AlertTriangle, RefreshCw } from 'lucide-react';
 
@@ -6,10 +7,12 @@ import { AlertTriangle, RefreshCw } from 'lucide-react';
  * @interface Props
  * @property {ReactNode} children - The child components to render.
  * @property {ReactNode} [fallback] - An optional fallback component to render on error.
+ * @property {string} [name] - Optional name for error tracking context.
  */
 interface Props {
   children: ReactNode;
   fallback?: ReactNode;
+  name?: string;
 }
 
 /**
@@ -44,13 +47,26 @@ class ErrorBoundary extends Component<Props, State> {
   }
 
   /**
-   * Logs the error to an error reporting service.
+   * Logs the error to Sentry and console for debugging.
    *
    * @param {Error} error - The error that was caught.
    * @param {ErrorInfo} errorInfo - An object with a `componentStack` key.
    */
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error('Uncaught error:', error, errorInfo);
+
+    // Report to Sentry with additional context
+    Sentry.captureException(error, {
+      tags: {
+        boundary: this.props.name || 'general',
+        errorType: 'ErrorBoundary',
+      },
+      contexts: {
+        react: {
+          componentStack: errorInfo.componentStack,
+        },
+      },
+    });
   }
 
   /**
@@ -112,4 +128,8 @@ class ErrorBoundary extends Component<Props, State> {
   }
 }
 
+// Export the custom error boundary component
 export default ErrorBoundary;
+
+// Also export Sentry's error boundary for use in routing/layout level
+export const SentryErrorBoundary = Sentry.ErrorBoundary;

@@ -161,7 +161,7 @@ This document provides a comprehensive audit and step-by-step action plan to pre
   - **File:** `index.html`
   - **Action:** Add `<link rel="preload" href="fonts/Cairo.woff2" as="font" type="font/woff2" crossorigin>`
 
-- [ ] 🟡 **Task 2.2.8:** Configure service worker for offline support.
+- [x] 🟡 **Task 2.2.8:** Configure service worker for offline support.
   - **Action:** Add `vite-plugin-pwa` and configure basic offline caching
 
 - [x] 🟢 **Task 2.2.9:** Add debounce to search/filter inputs in admin panels.
@@ -222,7 +222,7 @@ This document provides a comprehensive audit and step-by-step action plan to pre
 - [x] 🟡 **Task 3.1.7:** Validate Supabase URL and key are not exposed in client bundle.
   - **Action:** Verify environment variables are properly prefixed with `VITE_` and only public keys are used
 
-- [ ] 🟡 **Task 3.1.8:** Add session timeout handling.
+- [x] 🟡 **Task 3.1.8:** Add session timeout handling.
   - **File:** `src/contexts/AuthContext.tsx`
   - **Action:** Implement auto-logout after inactivity period
 
@@ -233,15 +233,15 @@ This document provides a comprehensive audit and step-by-step action plan to pre
   - **Action:** Wrap each Route component with individual ErrorBoundary
   - **Benefit:** Prevents entire app crash on single page error
 
-- [ ] 🔴 **Task 3.2.2:** Implement global error tracking/reporting.
+- [x] 🔴 **Task 3.2.2:** Implement global error tracking/reporting.
   - **Action:** Integrate Sentry or similar error tracking service
   - **Files:** `src/main.tsx`, `src/components/ErrorBoundary.tsx`
 
-- [ ] 🟠 **Task 3.2.3:** Add error boundaries to admin dashboard tabs.
+- [x] 🟠 **Task 3.2.3:** Add error boundaries to admin dashboard tabs.
   - **File:** `src/components/admin/AdminDashboard.tsx`
   - **Action:** Wrap each TabsContent with ErrorBoundary
 
-- [ ] 🟠 **Task 3.2.4:** Improve error messages in AuthContext.
+- [x] 🟠 **Task 3.2.4:** Improve error messages in AuthContext.
   - **File:** `src/contexts/AuthContext.tsx`
   - **Action:** Add user-friendly error messages with translation keys for all error cases
 
