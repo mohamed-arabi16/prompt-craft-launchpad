@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Json } from '@/integrations/supabase/types';
 
@@ -26,90 +26,100 @@ const parseJsonArray = (arr: Json[] | null | undefined): string[] => {
   return arr.map(item => String(item));
 };
 
-export const useCourseDays = () => {
-  const [days, setDays] = useState<CourseDay[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+const fetchDays = async () => {
+  const { data, error } = await supabase
+    .from('course_days')
+    .select('*')
+    .order('day_number', { ascending: true });
 
-  const fetchDays = async () => {
-    try {
-      setLoading(true);
+  if (error) throw error;
+
+  // Parse JSONB arrays
+  const parsedData: CourseDay[] = (data || []).map(day => ({
+    ...day,
+    topics_ar: parseJsonArray(day.topics_ar as Json[]),
+    topics_en: parseJsonArray(day.topics_en as Json[]),
+    techniques_ar: parseJsonArray(day.techniques_ar as Json[]),
+    techniques_en: parseJsonArray(day.techniques_en as Json[]),
+  }));
+
+  return parsedData;
+};
+
+export const useCourseDays = () => {
+  const queryClient = useQueryClient();
+
+  // Query: Fetch course days with automatic retry logic from QueryClient
+  const { data: days = [], isLoading: loading, error } = useQuery({
+    queryKey: ['courseDays'],
+    queryFn: fetchDays,
+  });
+
+  // Mutation: Create day
+  const createMutation = useMutation({
+    mutationFn: async (day: Omit<CourseDay, 'id' | 'created_at' | 'updated_at'>) => {
       const { data, error } = await supabase
         .from('course_days')
-        .select('*')
-        .order('day_number', { ascending: true });
-
+        .insert({
+          ...day,
+          topics_ar: day.topics_ar as unknown as Json[],
+          topics_en: day.topics_en as unknown as Json[],
+          techniques_ar: day.techniques_ar as unknown as Json[],
+          techniques_en: day.techniques_en as unknown as Json[],
+        })
+        .select()
+        .single();
       if (error) throw error;
-      
-      // Parse JSONB arrays
-      const parsedData: CourseDay[] = (data || []).map(day => ({
-        ...day,
-        topics_ar: parseJsonArray(day.topics_ar as Json[]),
-        topics_en: parseJsonArray(day.topics_en as Json[]),
-        techniques_ar: parseJsonArray(day.techniques_ar as Json[]),
-        techniques_en: parseJsonArray(day.techniques_en as Json[]),
-      }));
-      
-      setDays(parsedData);
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['courseDays'] });
+    },
+  });
 
-  const createDay = async (day: Omit<CourseDay, 'id' | 'created_at' | 'updated_at'>) => {
-    const { data, error } = await supabase
-      .from('course_days')
-      .insert({
-        ...day,
-        topics_ar: day.topics_ar as unknown as Json[],
-        topics_en: day.topics_en as unknown as Json[],
-        techniques_ar: day.techniques_ar as unknown as Json[],
-        techniques_en: day.techniques_en as unknown as Json[],
-      })
-      .select()
-      .single();
-    if (error) throw error;
-    await fetchDays();
-    return data;
-  };
+  // Mutation: Update day
+  const updateMutation = useMutation({
+    mutationFn: async ({ id, updates }: { id: string; updates: Partial<CourseDay> }) => {
+      const updateData: any = { ...updates };
+      if (updates.topics_ar) updateData.topics_ar = updates.topics_ar as unknown as Json[];
+      if (updates.topics_en) updateData.topics_en = updates.topics_en as unknown as Json[];
+      if (updates.techniques_ar) updateData.techniques_ar = updates.techniques_ar as unknown as Json[];
+      if (updates.techniques_en) updateData.techniques_en = updates.techniques_en as unknown as Json[];
 
-  const updateDay = async (id: string, updates: Partial<CourseDay>) => {
-    const updateData: any = { ...updates };
-    if (updates.topics_ar) updateData.topics_ar = updates.topics_ar as unknown as Json[];
-    if (updates.topics_en) updateData.topics_en = updates.topics_en as unknown as Json[];
-    if (updates.techniques_ar) updateData.techniques_ar = updates.techniques_ar as unknown as Json[];
-    if (updates.techniques_en) updateData.techniques_en = updates.techniques_en as unknown as Json[];
-    
-    const { error } = await supabase
-      .from('course_days')
-      .update(updateData)
-      .eq('id', id);
-    if (error) throw error;
-    await fetchDays();
-  };
+      const { error } = await supabase
+        .from('course_days')
+        .update(updateData)
+        .eq('id', id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['courseDays'] });
+    },
+  });
 
-  const deleteDay = async (id: string) => {
-    const { error } = await supabase
-      .from('course_days')
-      .delete()
-      .eq('id', id);
-    if (error) throw error;
-    await fetchDays();
-  };
-
-  useEffect(() => {
-    fetchDays();
-  }, []);
+  // Mutation: Delete day
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase
+        .from('course_days')
+        .delete()
+        .eq('id', id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['courseDays'] });
+    },
+  });
 
   return {
     days,
     loading,
-    error,
-    fetchDays,
-    createDay,
-    updateDay,
-    deleteDay,
+    error: error ? (error as Error).message : null,
+    fetchDays: () => queryClient.invalidateQueries({ queryKey: ['courseDays'] }),
+    createDay: (day: Omit<CourseDay, 'id' | 'created_at' | 'updated_at'>) =>
+      createMutation.mutateAsync(day),
+    updateDay: (id: string, updates: Partial<CourseDay>) =>
+      updateMutation.mutateAsync({ id, updates }),
+    deleteDay: (id: string) => deleteMutation.mutateAsync(id),
   };
 };

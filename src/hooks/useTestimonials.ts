@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 
 export interface Testimonial {
@@ -16,68 +16,78 @@ export interface Testimonial {
   updated_at: string;
 }
 
-export const useTestimonials = () => {
-  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+const fetchTestimonials = async () => {
+  const { data, error } = await supabase
+    .from('testimonials')
+    .select('*')
+    .order('display_order', { ascending: true });
 
-  const fetchTestimonials = async () => {
-    try {
-      setLoading(true);
+  if (error) throw error;
+  return data || [];
+};
+
+export const useTestimonials = () => {
+  const queryClient = useQueryClient();
+
+  // Query: Fetch testimonials with automatic retry logic from QueryClient
+  const { data: testimonials = [], isLoading: loading, error } = useQuery({
+    queryKey: ['testimonials'],
+    queryFn: fetchTestimonials,
+  });
+
+  // Mutation: Create testimonial
+  const createMutation = useMutation({
+    mutationFn: async (testimonial: Omit<Testimonial, 'id' | 'created_at' | 'updated_at'>) => {
       const { data, error } = await supabase
         .from('testimonials')
-        .select('*')
-        .order('display_order', { ascending: true });
-
+        .insert(testimonial)
+        .select()
+        .single();
       if (error) throw error;
-      setTestimonials(data || []);
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['testimonials'] });
+    },
+  });
 
-  const createTestimonial = async (testimonial: Omit<Testimonial, 'id' | 'created_at' | 'updated_at'>) => {
-    const { data, error } = await supabase
-      .from('testimonials')
-      .insert(testimonial)
-      .select()
-      .single();
-    if (error) throw error;
-    await fetchTestimonials();
-    return data;
-  };
+  // Mutation: Update testimonial
+  const updateMutation = useMutation({
+    mutationFn: async ({ id, updates }: { id: string; updates: Partial<Testimonial> }) => {
+      const { error } = await supabase
+        .from('testimonials')
+        .update(updates)
+        .eq('id', id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['testimonials'] });
+    },
+  });
 
-  const updateTestimonial = async (id: string, updates: Partial<Testimonial>) => {
-    const { error } = await supabase
-      .from('testimonials')
-      .update(updates)
-      .eq('id', id);
-    if (error) throw error;
-    await fetchTestimonials();
-  };
-
-  const deleteTestimonial = async (id: string) => {
-    const { error } = await supabase
-      .from('testimonials')
-      .delete()
-      .eq('id', id);
-    if (error) throw error;
-    await fetchTestimonials();
-  };
-
-  useEffect(() => {
-    fetchTestimonials();
-  }, []);
+  // Mutation: Delete testimonial
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase
+        .from('testimonials')
+        .delete()
+        .eq('id', id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['testimonials'] });
+    },
+  });
 
   return {
     testimonials,
     loading,
-    error,
-    fetchTestimonials,
-    createTestimonial,
-    updateTestimonial,
-    deleteTestimonial,
+    error: error ? (error as Error).message : null,
+    fetchTestimonials: () => queryClient.invalidateQueries({ queryKey: ['testimonials'] }),
+    createTestimonial: (testimonial: Omit<Testimonial, 'id' | 'created_at' | 'updated_at'>) =>
+      createMutation.mutateAsync(testimonial),
+    updateTestimonial: (id: string, updates: Partial<Testimonial>) =>
+      updateMutation.mutateAsync({ id, updates }),
+    deleteTestimonial: (id: string) => deleteMutation.mutateAsync(id),
   };
 };
